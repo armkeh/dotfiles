@@ -1,12 +1,17 @@
 #+Title: My literate Emacs initialisation file
-#+Description: My (so far only semi-) literate emacs initialisation file.
+#+Description: My literate emacs initialisation file.
 #+Startup: indent
 
-* Intro
+* Introduction
 
-Following Musa's guide: https://alhassy.github.io/init/
+This is my ~emacs~ initialisation code, documented for my own understanding
+in the future and for sharing with others.
 
-Create a symbolic link to this file in =~/.emacs.d/=,
+I'm following [[https://alhassy.github.io/init/][Musa's]] example using an ~org~ file for this.
+
+** Setting up ~.emacs~ to use this code
+
+Create a symbolic link to this file in =~/.emacs.d/~,
 then add to the bottom of =~/.emacs= these lines:
 #+BEGIN_EXAMPLE emacs-lisp
 ;; BEGIN my edits
@@ -22,9 +27,10 @@ then add to the bottom of =~/.emacs= these lines:
 ;; END my edits
 #+END_EXAMPLE
 
-* Other packages
+* Packages
+** General
 
-** Add package repositories
+*** Add package repositories
 
  #+begin_src emacs-lisp
  (require 'package)
@@ -35,7 +41,7 @@ then add to the bottom of =~/.emacs= these lines:
  (package-initialize)
  #+end_src
 
-** COMMENT Set the load path for manually downloaded packages
+*** COMMENT Set the load path for manually downloaded packages
 
 (Currently I don't use manually downloaded packages)
 
@@ -43,7 +49,7 @@ then add to the bottom of =~/.emacs= these lines:
  (add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
  #+end_src
 
-* ~agda~ mode
+** ~agda~ mode
 
 We need Emacs to locate Agda mode. This command is put in ~.emacs~
 
@@ -57,7 +63,7 @@ We need Emacs to locate Agda mode. This command is put in ~.emacs~
 (require 'agda2-highlight)
 #+end_src
 
-** Alternative problem highlighting
+*** Alternative problem highlighting
 
 I find the background coloring used by Agda for incomplete pattern matching,
 redundant clauses and clauses which do not hold definitionally hard to read
@@ -86,9 +92,9 @@ So I use set other indicators instead.
 )
 #+end_src
 
-** Add unicode characters to Agda's translations
+*** Add unicode characters to Agda's translations
 
-*** Punctuation
+**** Punctuation
 
 #+begin_src emacs-lisp
 (add-to-list 'agda-input-user-translations '(";;" "﹔"))
@@ -97,13 +103,13 @@ So I use set other indicators instead.
 (add-to-list 'agda-input-user-translations '("st" "•"))
 #+end_src
 
-*** Activate the new additions
+**** Activate the new additions
 
 #+begin_src emacs-lisp
 (agda-input-setup)
 #+end_src
 
-** Activate Agda input mode in ~text~ and ~prog~ modes
+*** Activate Agda input mode in ~text~ and ~prog~ modes
 
 #+begin_src emacs-lisp
 (require 'agda-input)
@@ -113,88 +119,88 @@ So I use set other indicators instead.
        (lambda () (set-input-method "Agda")))
 #+end_src
 
-* ~org~ mode
+** ~org~ mode
 
  #+begin_src emacs-lisp
  (require 'org)
  #+end_src
 
-** Hide emphasis markers by default
+*** Hide emphasis markers by default
 
 #+begin_src emacs-lisp
 (setq org-hide-emphasis-markers t)
 #+end_src
 
-** Source code block colouring
+*** Source code block colouring
 
 #+begin_src emacs-lisp
 (require 'htmlize)
 #+end_src
 
-** Allow for ignoring headlines (but not their contents) on export
+*** Allow for ignoring headlines (but not their contents) on export
 
 #+begin_src emacs-lisp
 (require 'ox-extra)
 (ox-extras-activate '(ignore-headlines))
 #+end_src
 
-** COMMENT Template expansion (<s Tab, etc.)
+*** COMMENT Template expansion (<s Tab, etc.)
 
  #+begin_src emacs-lisp
  (require 'org-tempo)
  #+end_src
 
-*** Emacs Lisp source template: <el
+**** Emacs Lisp source template: <el
 
 #+begin_src emacs-lisp
 (add-to-list 'org-structure-template-alist
      '("el" . "src emacs-lisp"))
 #+end_src
 
-*** (Org) Agda source template: <ag
+**** (Org) Agda source template: <ag
 
 #+begin_src emacs-lisp
 (add-to-list 'org-structure-template-alist
      '("ag" . "src org-agda"))
 #+end_src
 
-*** Interactive Way to C source template: <ic
+**** Interactive Way to C source template: <ic
 
 #+begin_src emacs-lisp
  (add-to-list 'org-structure-template-alist
       '("ic" . "src c :tangle (currently-working-with \"name\")"))
 #+end_src
 
-*** Interactive Way to C header template: <ich
+**** Interactive Way to C header template: <ich
 
 #+begin_src emacs-lisp
  (add-to-list 'org-structure-template-alist
       '("ich" . "src c :tangle (currently-working-with-header \"name\")"))
 #+end_src
 
-*** Verbatim template: <ver
+**** Verbatim template: <ver
 
  #+begin_src emacs-lisp
  (add-to-list 'org-structure-template-alist
       '("ver" . "verbatim"))
  #+end_src
 
-*** Answer template: <ans
+**** Answer template: <ans
 
  #+begin_src emacs-lisp
  (add-to-list 'org-structure-template-alist
       '("ans" . "answer"))
  #+end_src
 
-** Highlight math mode blocks
+*** Highlight math mode blocks
 
  #+begin_src emacs-lisp
  (setq org-highlight-latex-and-related '(latex))
  #+end_src
 
-** LaTeX specific
+*** LaTeX specific
 
-*** ~org-latex-pdf-process~ (set to use ~latexmk~ with ~-lualatex~)
+**** ~org-latex-pdf-process~ (set to use ~latexmk~ with ~-lualatex~)
 
 #+begin_src emacs-lisp
 (setq org-latex-pdf-process
@@ -204,7 +210,7 @@ So I use set other indicators instead.
 ~-f~ to “force continued processing past errors”
 ~%f~ for the (relative) file name
 
-*** Document classes (customising outermost structure)
+**** Document classes (customising outermost structure)
 
 #+begin_src emacs-lisp
 (add-to-list
@@ -218,33 +224,33 @@ So I use set other indicators instead.
       ("\\paragraph{%s}" . "\\paragraph*{%s}")
       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 #+end_src
-** Export in the background
+*** Export in the background
 
 #+begin_src emacs-lisp
 (setq org-export-in-background t)
 #+end_src
-* ~pdf-tools~
+** ~pdf-tools~
 
 Need to “install” it each time emacs starts
 #+begin_src emacs-lisp
 (pdf-tools-install)
 #+end_src
 
-** COMMENT Default to midnight mode
+*** COMMENT Default to midnight mode
 
 #+begin_src emacs-lisp
 (add-hook 'pdf-tools-enabled-hook 'pdf-view-midnight-minor-mode)
 #+end_src
 
-* ~yasnippet~
+** ~yasnippet~
 
 #+begin_src emacs-lisp
 (require 'yasnippet)
-(setq yas-snippet-dirs "~/Dropbox/Organisation/emacs/snippets")
+(setq yas-snippet-dirs "~/Dropbox/Organisation/setup/emacs/snippets")
 (yas-global-mode 1)
 #+end_src
 
-** Make ~org~ mode “play nice” with ~yasnippets~
+*** Make ~org~ mode “play nice” with ~yasnippets~
 
 #+begin_src emacs-lisp
 (add-hook 'org-mode-hook
@@ -575,7 +581,7 @@ I had manually downloaded this package previously.
 
 * Other
 
-** Run my custom “dropbox start” command to ensure dropbox is running
+** Run my custom “dropbox start” command to ensure dropbox is running on the system
 
 #+begin_src emacs-lisp
 (start-process-shell-command "dropbox-start"
