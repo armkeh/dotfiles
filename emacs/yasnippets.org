@@ -1,0 +1,201 @@
+#+Title: My literate ~yasnippets~ file
+#+Description: A literate file which generates my collection of snippets for yasnippets.
+#+Startup: indent
+
+* COMMENT Tangle and reload
+
+After adding or modifying snippets herein, execute
+#+begin_src emacs-lisp :tangle no
+(progn (org-babel-tangle) (yas-reload-all))
+#+end_src
+
+* Introduction
+
+~yasnippets~ wants the description of each snippet in a separate file.
+
+That seems like a bit of work to maintain, so let's generate those
+files from a literate ~org~ file instead!
+
+I use ~org~ like ~key~'s for my snippets, e.g. ~<el~.
+
+For adding snippets, the snippet ~<yas~ defined in
+[[A ~yasnippet~ template snippet]] is extremely useful.
+
+* ~org~ mode snippets
+
+** Including ~#+begin~ and ~#+end~ inside ~org~ blocks?!
+
+Obviously the definitions of the snippets for org blocks cannot,
+themselves, contain ~#+end_⋯~, and it would look odd even to use ~#+begin_⋯~,
+so herein we use ~noweb~ references in place of ~#+begin~ and ~#+end~;
+see the [[https://orgmode.org/manual/Noweb-reference-syntax.html#Noweb-reference-syntax][manual]].
+
+#+name: begin-block
+#+begin_src text
+#+begin
+#+end_src
+
+#+name: end-block
+#+begin_src text
+#+end
+#+end_src
+
+** Programming languages
+
+*** Emacs lisp
+
+#+begin_src text :tangle snippets/org-mode/elisp :noweb yes :mkdirp yes
+# name: elisp
+# key: <el
+# --
+<<begin-block>>_src emacs-lisp
+$0
+<<end-block>>_src
+#+end_src
+
+*** Agda
+
+~org-agda~ mode [[https://alhassy.github.io/literate/][developed]] by Musa Al-hassy.
+
+#+begin_src text :tangle snippets/org-mode/org-agda :noweb yes :mkdirp yes
+# name: org-agda
+# key: <ag
+# --
+<<begin-block>>_src org-agda
+$0
+<<end-block>>_src
+#+end_src
+
+*** Interactive C
+
+These snippets are for the [[https://alhassy.github.io/InteractiveWayToC/][Interactive Way To C]] developed by Musa Al-hassy and
+used for the 2019 course =Computer Science 3ea3= at McMaster University.
+
+#+begin_src text :tangle snippets/org-mode/interactive-c :noweb yes :mkdirp yes
+# name: interactive-c
+# key: <ic
+# --
+<<begin-block>>_src c :tangle (currently-working-with "${2:generated}")
+$1$0
+<<end-block>>_src
+#+end_src
+
+#+begin_src text :tangle snippets/org-mode/interactive-c-not-working :noweb yes :mkdirp yes
+# name: interactive-c-not-working
+# key: <icn
+# --
+<<begin-block>>_src c :tangle (not-currently-working-with "${2:generated}")
+$1$0
+<<end-block>>_src
+#+end_src
+
+#+begin_src text :tangle snippets/org-mode/interactive-c-header :noweb yes :mkdirp yes
+# name: interactive-c-header
+# key: <ich
+# --
+<<begin-block>>_src c :tangle (currently-working-with-header "${2:generated}")
+$1$0
+<<end-block>>_src
+#+end_src
+
+** LaTeX
+
+#+begin_src text :tangle snippets/org-mode/latex :noweb yes :mkdirp yes
+# name: latex
+# key: l
+# --
+<<begin-block>>_src latex
+$0
+<<end-block>>_src
+#+end_src
+
+** Other
+
+*** Plain ~src~ block
+
+#+begin_src text :noweb yes :tangle snippets/org-mode/generic-src
+# name: generic-src
+# key: <src
+# --
+<<begin-block>>_src$2
+$1$0
+<<end-block>>_src
+#+end_src
+
+*** A ~yasnippet~ template snippet
+
+#+begin_src text :noweb yes :tangle snippets/org-mode/yasnippet-template
+# name: yassnippet-templae
+# key: <yas
+# --
+<<begin-block>>_src text :noweb yes :tangle snippets/$1
+# name: $2
+# key: $3
+# --
+$0
+<<end-block>>_src
+#+end_src
+
+* ~agda~ mode snippets
+
+** Blocks for literate files
+
+#+begin_src text :tangle snippets/agda2-mode/code-block :noweb yes :mkdirp yes
+# name: code-block
+# key: <ag
+# --
+\begin{code}
+$0
+\end{code}
+#+end_src
+
+** Level and set arguments
+
+We commonly want to take a ~Set~, parameterised by a ~Level~, as argument.
+
+#+begin_src text :noweb yes :tangle snippets/agda2-mode/setl
+# name: setl
+# key: <setl
+# --
+{$1 : Level} → ($2 : Set $1) → $0
+#+end_src
+
+Sometimes the ~Set~ should be an implicit argument.
+
+#+begin_src text :noweb yes :tangle snippets/agda2-mode/setli
+# name: setli
+# key: <setli
+# --
+{${1:ℓ} : Level} → {${2:A} : Set $1} → $0
+#+end_src
+
+Often enough we want two different ~Level~'s.
+
+#+begin_src text :noweb yes :tangle snippets/agda2-mode/setl2
+# name: setl2
+# key: <setl2
+# --
+{$1 $2 : Level} → ($3 : Set $1) → ($4 : Set $2) → $0
+#+end_src
+
+And again we might want the ~Set~'s to be implicit.
+
+#+begin_src text :noweb yes :tangle snippets/agda2-mode/setl2i
+# name: setl2i
+# key: <setl2i
+# --
+{$1 $2 : Level} → {$3 : Set $1} → {$4 : Set $2} → $0
+#+end_src
+
+* COMMENT Scratch
+
+A convenient place to test new (~org~ mode) snippets.
+
+#+begin_src text :noweb yes :tangle snippets/
+# name: 
+# key: 
+# --
+
+#+end_src
+
+
