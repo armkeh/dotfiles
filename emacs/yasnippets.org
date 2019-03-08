@@ -100,7 +100,7 @@ $1$0
 
 *** Plaintext
 
-#+begin_src text :tangle snippets/org/text :noweb yes :mkdirp yes
+#+begin_src text :tangle snippets/org-mode/text :noweb yes :mkdirp yes
 # name: text
 # key: <t
 # --
