@@ -98,6 +98,17 @@ $1$0
 <<end-block>>_src
 #+end_src
 
+*** Plaintext
+
+#+begin_src text :tangle snippets/org/text :noweb yes :mkdirp yes
+# name: text
+# key: <t
+# --
+<<begin-block>>_src text
+$0
+<<end-block>>_src
+#+end_src
+
 ** LaTeX
 
 #+begin_src text :tangle snippets/org-mode/latex :noweb yes :mkdirp yes
@@ -111,7 +122,9 @@ $0
 
 ** Other
 
-*** Plain ~src~ block
+*** Classic ~org~ shortcuts
+
+**** Plain ~src~ block
 
 #+begin_src text :noweb yes :tangle snippets/org-mode/generic-src
 # name: generic-src
@@ -122,13 +135,35 @@ $1$0
 <<end-block>>_src
 #+end_src
 
+**** Center
+
+#+begin_src text :noweb yes :tangle snippets/org-mode/center
+# name: center
+# key: <c
+# --
+<<begin-block>>_center
+$0
+<<end-block>>_center
+#+end_src
+
+**** Quote
+
+#+begin_src text :noweb yes :tangle snippets/org-mode/quote
+# name: quote
+# key: <q
+# --
+<<begin-block>>_quote
+$0
+<<end-block>>_quote
+#+end_src
+
 *** A ~yasnippet~ template snippet
 
 #+begin_src text :noweb yes :tangle snippets/org-mode/yasnippet-template
 # name: yassnippet-templae
 # key: <yas
 # --
-<<begin-block>>_src text :noweb yes :tangle snippets/$1
+<<begin-block>>_src text :tangle snippets/$1 :noweb yes :mkdirp yes
 # name: $2
 # key: $3
 # --

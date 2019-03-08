@@ -29,6 +29,7 @@ then add to the bottom of =~/.emacs= these lines:
 #+END_EXAMPLE
 
 * Packages
+
 ** General
 
 *** Add package repositories
@@ -395,9 +396,17 @@ Setting it globally would conflict with ~pdf-tools~.
 (setq dired-listing-switches "--group-directories-first -al")
 #+end_src
 
-** COMMENT Show ruler at 80 characters (fill-column.el)
+** Show ruler at 80 characters for (for ~text~ and ~prog~ mode)
 
-I had manually downloaded this package previously.
+#+begin_src emacs-lisp
+(require 'fill-column-indicator)
+(add-hook 'text-mode-hook 'fci-mode)
+(add-hook 'prog-mode-hook 'fci-mode)
+#+end_src
+
+*** COMMENT Alternative code to activate it globally
+
+From https://www.emacswiki.org/emacs/FillColumnIndicator
 
  #+begin_src emacs-lisp
  (require 'fill-column-indicator)
@@ -405,7 +414,20 @@ I had manually downloaded this package previously.
  (global-fci-mode t)
  #+end_src
 
-** COMMENT Use only one buffer for Dired (joseph-single-dired.el)
+** Use a single buffer for Dired
+
+#+begin_src emacs-lisp
+(require 'dired-single)
+#+end_src
+
+*** Give the single buffer the name ~*Dired*~
+
+#+begin_src emacs-lisp
+(setq dired-single-use-magic-buffer t)
+(setq dired-single-magic-buffer-name "*Dired*")
+#+end_src
+
+*** COMMENT Obsolete
 
 I had manually downloaded this package previously.
 
@@ -427,6 +449,12 @@ I had manually downloaded this package previously.
 (find-file "~/Dropbox/Organisation/setup/emacs/tips-and-tricks.org")
 #+end_src
 
+*** Yasnippets file
+
+#+begin_src emacs-lisp
+(find-file "~/Dropbox/Organisation/setup/emacs/yasnippets.org")
+#+end_src
+
 *** My phone log
 
 #+begin_src emacs-lisp
@@ -440,6 +468,7 @@ I had manually downloaded this package previously.
 #+end_src
 
 * Shortcuts
+
 ** Textual insert shortcuts
 
 *** “⋯”
@@ -480,6 +509,10 @@ I had manually downloaded this package previously.
                 (lambda () (interactive) (insert "\\begin{code}\n\n\\end{code}")
                                          (previous-line)))
 #+end_src
+
+** Emacs lisp commands
+
+TODO: describe-symbol, describe-symbol-at-point, describe-key
 
 ** Org mode shortcuts
 *** Moving subtrees
