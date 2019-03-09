@@ -19,6 +19,9 @@ then add to the bottom of =~/.emacs= these lines:
 
 ;; I've set up an init file following Musa's guide: https://alhassy.github.io/init/
 
+;; Enable Emacs VC on symlinked files
+(setq vc-follow-symlinks t)
+
 ;; Evaluate my init file.
 (org-babel-load-file "~/.emacs.d/emacs-init.org")
 
@@ -28,7 +31,15 @@ then add to the bottom of =~/.emacs= these lines:
 ;; END my edits
 #+END_EXAMPLE
 
-* Packages
+*** Why set ~vc-follow-symlinks~ here?
+
+It's a setting I want anyway (it ensures Emacs's version control
+works correctly on the target file), but why set it in ~.emacs~?
+
+Since ~.emacs~ uses a symlink to this version controlled file,
+having Emacs prompt me every time is annoying and slows my start up.
+
+* Major packages
 
 ** General
 
@@ -74,24 +85,28 @@ in general, and usually unreadable with different themes.
 So I use set other indicators instead.
 
 #+begin_src emacs-lisp
-(set-face-attribute
-  'agda2-highlight-coverage-problem-face
-  nil ;; all frames
-  :background nil
-  :underline "dark red"
+(defun my-agda-highlighting ()
+  (set-face-attribute
+    'agda2-highlight-coverage-problem-face
+    nil ;; all frames
+    :background nil
+    :underline "dark red"
+  )
+  (set-face-attribute
+    'agda2-highlight-reachability-problem-face
+    nil ;; all frames
+    :background nil
+    :strike-through t
+  )
+  (set-face-attribute
+    'agda2-highlight-catchall-clause-face
+    nil ;; all frames
+    :background nil
+    :slant 'italic
+  )
 )
-(set-face-attribute
-  'agda2-highlight-reachability-problem-face
-  nil ;; all frames
-  :background nil
-  :strike-through t
-)
-(set-face-attribute
-  'agda2-highlight-catchall-clause-face
-  nil ;; all frames
-  :background nil
-  :slant 'italic
-)
+
+(add-hook 'agda2-mode-hook 'my-agda-highlighting)
 #+end_src
 
 *** Add unicode characters to Agda's translations
@@ -414,7 +429,9 @@ From https://www.emacswiki.org/emacs/FillColumnIndicator
  (global-fci-mode t)
  #+end_src
 
-** Use a single buffer for Dired
+** TODO Use a single buffer for Dired
+
+Currently not working (at least as I intend). Have to look into.
 
 #+begin_src emacs-lisp
 (require 'dired-single)
@@ -423,6 +440,7 @@ From https://www.emacswiki.org/emacs/FillColumnIndicator
 *** Give the single buffer the name ~*Dired*~
 
 #+begin_src emacs-lisp
+
 (setq dired-single-use-magic-buffer t)
 (setq dired-single-magic-buffer-name "*Dired*")
 #+end_src
