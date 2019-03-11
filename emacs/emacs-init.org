@@ -404,10 +404,25 @@ Setting it globally would conflict with ~pdf-tools~.
 (custom-set-variables '(show-trailing-whitespace t))
 #+end_src
 
-** Display directories first in Dired
+** Display preferences for ~dired~
+
+~dired~ makes use of switches for ~ls~.
+
+I like the following switches:
+| ~--group-directories-first~ | group directories before files                             |
+| ~-a~                        | do not ignore entries starting with .                      |
+| ~-B~                        | do not list implied entries ending with ~                  |
+| ~-g~                        | long listing format, but do not list owner                 |
+| ~-G~                        | in a long listing, don't print group names                 |
+| ~-h~                        | print human readable size                                  |
+| ~-L~                        | show information for /references/ rather than symbolic links |
+|                           |                                                            |
+
+-group-directories-first~   “group directories before files”
+  - ~-a~ “do not ignore entries”
 
 #+begin_src emacs-lisp
-(setq dired-listing-switches "--group-directories-first -al")
+(setq dired-listing-switches "--group-directories-first -aBgGhL")
 #+end_src
 
 ** Show ruler at 80 characters for (for ~text~ and ~prog~ mode)
