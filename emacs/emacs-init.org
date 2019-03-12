@@ -218,6 +218,15 @@ So I use set other indicators instead.
 
 **** ~org-latex-pdf-process~ (set to use ~latexmk~ with ~-lualatex~)
 
+I use a lot of unicode, and I find ~xelatex~ and ~lualatex~
+handle that more easily than ~pdflatex~.
+
+From my experience so far, they seem pretty interchangable
+for my purposes, so the decision of which to use is arbitrary.
+
+Based on [[https://tex.stackexchange.com/questions/36/differences-between-luatex-context-and-xetex][this discussion on Stack Exchange]], LuaTeX seems the more
+“up and coming” engine, so I'm using it at least until something breaks.
+
 #+begin_src emacs-lisp
 (setq org-latex-pdf-process
       '("latexmk -lualatex -f %f"))
@@ -227,6 +236,9 @@ So I use set other indicators instead.
 ~%f~ for the (relative) file name
 
 **** Document classes (customising outermost structure)
+
+I want a ~report~ class that begins with ~chapter~'s, rather than
+~part~'s.
 
 #+begin_src emacs-lisp
 (add-to-list
