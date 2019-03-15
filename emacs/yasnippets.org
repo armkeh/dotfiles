@@ -109,6 +109,17 @@ $0
 <<end-block>>_src
 #+end_src
 
+*** Shell
+
+#+begin_src text :tangle snippets/org-mode/shell :noweb yes :mkdirp yes
+# name: text
+# key: <sh
+# --
+<<begin-block>>_src shell
+$0
+<<end-block>>_src
+#+end_src
+
 ** LaTeX
 
 #+begin_src text :tangle snippets/org-mode/latex :noweb yes :mkdirp yes
@@ -225,12 +236,3 @@ And again we might want the ~Set~'s to be implicit.
 * COMMENT Scratch
 
 A convenient place to test new (~org~ mode) snippets.
-
-#+begin_src text :noweb yes :tangle snippets/
-# name: 
-# key: 
-# --
-
-#+end_src
-
-
