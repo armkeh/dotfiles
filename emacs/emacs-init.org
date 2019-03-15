@@ -137,27 +137,15 @@ So I use set other indicators instead.
 
 ** ~org~ mode
 
- #+begin_src emacs-lisp
- (require 'org)
- #+end_src
+#+begin_src emacs-lisp
+(require 'org)
+(require 'ox-extra)
+#+end_src
 
 *** Hide emphasis markers by default
 
 #+begin_src emacs-lisp
 (setq org-hide-emphasis-markers t)
-#+end_src
-
-*** Source code block colouring
-
-#+begin_src emacs-lisp
-(require 'htmlize)
-#+end_src
-
-*** Allow for ignoring headlines (but not their contents) on export
-
-#+begin_src emacs-lisp
-(require 'ox-extra)
-(ox-extras-activate '(ignore-headlines))
 #+end_src
 
 *** COMMENT Template expansion (<s Tab, etc.)
@@ -214,9 +202,50 @@ So I use set other indicators instead.
  (setq org-highlight-latex-and-related '(latex))
  #+end_src
 
-*** LaTeX specific
+*** Exporting
 
-**** ~org-latex-pdf-process~ (set to use ~latexmk~ with ~-lualatex~)
+**** Allow for ignoring headlines and/or subtrees
+
+Use the ~:ignore:~ tag on headlines to omit the headline when
+exporting, but keep its contents.
+
+#+begin_src emacs-lisp
+(ox-extras-activate '(ignore-headlines))
+#+end_src
+
+Alternatively, use the ~:noexport:~ tag to omit the headline
+/and/ its contents.
+
+#+begin_src emacs-lisp
+;;;; noexport is in the list by default
+;; (add-to-list 'org-export-exclude-tags "noexport")
+#+end_src
+
+**** Source code block indentation and colouring
+
+I want to preserve my indentation for source code during export.
+#+begin_src emacs-lisp
+(setq org-src-preserve-indentation t)
+#+end_src
+
+The ~htmlize~ package preserves source code colouring on export to html.
+(And presumably does a lot more I am not fully aware of).
+#+begin_src emacs-lisp
+(require 'htmlize)
+#+end_src
+
+**** Export in the background
+
+Using ~latex-mk~, the export process takes a bit of time.
+Tying up emacs during that time is annoying, so set the
+export to happen in the background.
+
+#+begin_src emacs-lisp
+(setq org-export-in-background t)
+#+end_src
+**** LaTeX specific
+
+***** Default LaTeX compiler
 
 I use a lot of unicode, and I find ~xelatex~ and ~lualatex~
 handle that more easily than ~pdflatex~.
@@ -228,14 +257,28 @@ Based on [[https://tex.stackexchange.com/questions/36/differences-between-luatex
 “up and coming” engine, so I'm using it at least until something breaks.
 
 #+begin_src emacs-lisp
-(setq org-latex-pdf-process
-      '("latexmk -lualatex -f %f"))
+(setq org-latex-compiler "lualatex")
 #+end_src
 
-~-f~ to “force continued processing past errors”
-~%f~ for the (relative) file name
+***** LaTeX compilation process
 
-**** Document classes (customising outermost structure)
+I use ~latexmk~ to automatically run as many passes as needed
+to resolve references, etc.
+
+#+begin_src emacs-lisp
+(setq org-latex-pdf-process
+      '("latexmk -%latex -f %f"))
+#+end_src
+
+The flags/format specifiers are
+| ~%latex~        | stands in for the latex compiler (defaults to the setting above) |
+| ~-f~            | force continued processing past errors                           |
+| ~%f~            | stands in for the (relative) filename                            |
+
+Other flags/format specifiers I may wish to add later include
+| ~-shell-escape~ | necessary to use ~minted~ |
+
+***** Custom document classes (customising outermost structure)
 
 I want a ~report~ class that begins with ~chapter~'s, rather than
 ~part~'s.
@@ -252,11 +295,52 @@ I want a ~report~ class that begins with ~chapter~'s, rather than
       ("\\paragraph{%s}" . "\\paragraph*{%s}")
       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 #+end_src
-*** Export in the background
+
+***** Source code colouring in LaTeX exports
+
+We can use ~minted~ for source code colouring on export to LaTeX.
+
+Currently this breaks things with my literate Agda process,
+a problem I should resolve. For the moment, if I want to use
+~minted~, I can do so on a file-by-file basis.
+
+⟪ ~pygments~ (also called ~python-pygments~) must be installed on the
+  system for this to work. ⟫
 
 #+begin_src emacs-lisp
-(setq org-export-in-background t)
+;;(setq org-latex-listings 'minted
+;;      org-latex-packages-alist '(("" "minted")))
 #+end_src
+*** Evaluating code
+
+By default, Emacs will query whether we /actually/ want to
+execute code when we evaluate a code block. Also, it seems to
+just /not/ execute code marked for execution during export in an
+~org~ file. So, I remove the safety.
+#+begin_src emacs-lisp
+(setq org-confirm-babel-evaluate nil)
+#+end_src
+
+Loading the following languages with ~require~ allows code blocks
+in them to be evaluated.
+
+By default only emacs lisp can be evaluated.
+
+Documentation [[https://orgmode.org/manual/Languages.html][here]].
+
+#+begin_src emacs-lisp
+(require 'ob-C)
+(require 'ob-haskell)
+(require 'ob-latex)
+(require 'ob-shell)
+#+end_src
+
+For shell code, we need to initialise via this function.
+See [[https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-function-definition-is-void-org-babel-get-header][here]].
+#+begin_src emacs-lisp
+(org-babel-shell-initialize)
+#+end_src
+
 ** ~pdf-tools~
 
 Need to “install” it each time emacs starts
