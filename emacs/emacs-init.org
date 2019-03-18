@@ -766,6 +766,16 @@ local variable to store the command to invoke ~dired~ with.
 
 ** General
 
+*** Dad jokes
+
+I love the package ~dad-joke~.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-c d j")
+                '(lambda () (interactive)
+                         (dad-joke)))
+#+end_src
+
 *** Go to top/bottom of buffer (~M-<~, ~M->~ replacements)
 
 #+begin_src emacs-lisp
