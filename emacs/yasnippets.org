@@ -156,7 +156,7 @@ $0
 *** Shell
 
 #+begin_src text :tangle snippets/org-mode/shell :noweb yes :mkdirp yes
-# name: text
+# name: shell
 # key: <sh
 # --
 <<begin-block>>_src shell
