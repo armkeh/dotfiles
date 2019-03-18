@@ -21,6 +21,50 @@ I use ~org~ like ~key~'s for my snippets, e.g. ~<el~.
 For adding snippets, the snippet ~<yas~ defined in
 [[A ~yasnippet~ template snippet]] is extremely useful.
 
+* Snippet inheritence
+
+The ~yasnippets~ directories are organised based on modes.
+
+For each mode, you can include a ~.yas-parents~ file to inherit
+snippets from another mode.
+
+The code blocks here set up the inheritences I like.
+
+** ~text-mode~ snippets are also available in ~prog-mode~
+
+#+begin_src text :tangle snippets/prog-mode/.yas-parents :noweb yes :mkdirp yes
+text-mode
+#+end_src
+
+** ~latex~ blocks are also available in ~org-mode~
+
+#+begin_src text :tangle snippets/org-mode/.yasparents :noweb yes :mkdirp yes
+tex-mode
+#+end_src
+
+* Quotes, parentheses, etc.
+
+#+begin_src text :tangle snippets/text-mode/double-quotes :noweb yes :mkdirp yes
+# name: double-quotes
+# key: <dq
+# --
+“$1” $0
+#+end_src
+
+#+begin_src text :tangle snippets/text-mode/cardinality :noweb yes :mkdirp yes
+# name: cardinality
+# key: <card
+# --
+|$1| $0
+#+end_src
+
+#+begin_src text :tangle snippets/text-mode/cardinality-alt :noweb yes :mkdirp yes
+# name: cardinality-alt
+# key: <card'
+# --
+∣$1∣ $0
+#+end_src
+
 * ~org~ mode snippets
 
 ** Including ~#+begin~ and ~#+end~ inside ~org~ blocks?!
