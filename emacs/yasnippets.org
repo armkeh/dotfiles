@@ -119,8 +119,8 @@ used for the 2019 course =Computer Science 3ea3= at McMaster University.
 # name: interactive-c
 # key: <ic
 # --
-<<begin-block>>_src c :tangle (currently-working-with "${2:generated}")
-$1$0
+<<begin-block>>_src c :tangle (currently-working-with "${1:generated}")
+$0
 <<end-block>>_src
 #+end_src
 
@@ -128,8 +128,8 @@ $1$0
 # name: interactive-c-not-working
 # key: <icn
 # --
-<<begin-block>>_src c :tangle (not-currently-working-with "${2:generated}")
-$1$0
+<<begin-block>>_src c :tangle (not-currently-working-with "${1:generated}")
+$0
 <<end-block>>_src
 #+end_src
 
@@ -137,8 +137,8 @@ $1$0
 # name: interactive-c-header
 # key: <ich
 # --
-<<begin-block>>_src c :tangle (currently-working-with-header "${2:generated}")
-$1$0
+<<begin-block>>_src c :tangle (currently-working-with-header "${1:generated}")
+$0
 <<end-block>>_src
 #+end_src
 
