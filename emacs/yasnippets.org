@@ -185,8 +185,8 @@ $0
 # name: generic-src
 # key: <src
 # --
-<<begin-block>>_src$2
-$1$0
+<<begin-block>>_src $1
+$0
 <<end-block>>_src
 #+end_src
 
