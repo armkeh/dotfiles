@@ -239,6 +239,17 @@ $0
 \end{code}
 #+end_src
 
+** Expand ~?~ into an actual hole
+
+This prevents having to load right away.
+
+#+begin_src text :tangle snippets/agda2-mode/hole :noweb yes :mkdirp yes
+# name: hole
+# key: ?
+# --
+{!$0!}
+#+end_src
+
 ** Level and set arguments
 
 We commonly want to take a ~Set~, parameterised by a ~Level~, as argument.
@@ -275,6 +286,16 @@ And again we might want the ~Set~'s to be implicit.
 # key: <setl2i
 # --
 {$1 $2 : Level} → {$3 : Set $1} → {$4 : Set $2} → $0
+#+end_src
+
+** ~with~
+
+#+begin_src text :tangle snippets/agda2-mode/with :noweb yes :mkdirp yes
+# name: with
+# key: <w
+# --
+with $1
+... | $2 = {!$0!}
 #+end_src
 
 * COMMENT Scratch
