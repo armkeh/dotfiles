@@ -379,12 +379,60 @@ Need to “install” it each time emacs starts
 (add-hook 'pdf-tools-enabled-hook 'pdf-view-midnight-minor-mode)
 #+end_src
 
+** ~yankpad~
+
+#+begin_src emacs-lisp
+(require 'yankpad)
+(setq yankpad-file "~/Dropbox/Organisation/setup/emacs/yankpad.org")
+#+end_src
+
+I expand snippet keywords with ~C-c e~ (at least until yankpad
+has smart tab expansion).
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-c e") 'yankpad-expand)
+#+end_src
+
+Alternatively, ~C-c y m~ invokes ~yankpad-map~, which brings up a
+keymap of the last tags of snippets.
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-c y m") 'yankpad-map)
+#+end_src
+
+Changes to the yankpad file require ~yankpad-refresh~ to be run
+to re-cache the snippets. For the moment, it seems like there is
+separate caching for each buffer, meaning this command has to be
+run in every buffer where I want changes to be picked up.
+So, I have a shortcut key.
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-c y r") 'yankpad-reload)
+#+end_src
+
 ** ~yasnippet~
 
 #+begin_src emacs-lisp
 (require 'yasnippet)
-(setq yas-snippet-dirs "~/Dropbox/Organisation/setup/emacs/snippets")
-(yas-global-mode 1)
+;;(setq yas-snippet-dirs "~/Dropbox/Organisation/setup/emacs/snippets")
+(yas-global-mode t)
+#+end_src
+
+~yas-wrap-around-region~ controls what is inserted for a snippet's
+~$0~ field.
+
+A non-nil, non-character setting has it insert the current region's
+contents (i.e. if we highlight a region and invoke a snippet,
+the region will be wrapped).
+
+#+begin_src emacs-lisp
+(setq yas-wrap-around-region t)
+#+end_src
+
+*** Don't add a final newline when editing snippet files
+
+~yasnippets~ will insert the final newline when expanding a snippet,
+so snippet files generally shouldn't include a final newline.
+
+#+begin_src emacs-lisp
+(add-hook 'snippet-mode-hook (setq require-final-newline nil))
 #+end_src
 
 *** Make ~org~ mode “play nice” with ~yasnippets~
