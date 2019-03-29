@@ -1,0 +1,274 @@
+#+Title: My literate ~yankpad~ file
+#+Description: A literate file which generates my collection of snippets for yankpad (with yasnippets).
+#+Startup: indent
+
+* Description
+
+This ~org-mode~ file contains commonly repeated snippets of text
+which I expand using ~yankpad~ along with ~yasnippets~.
+
+Specifically, ~yankpad~ caches the snippets defined in this file,
+and allows them to be expanded from a keyword with ~yankpad-expand~
+or selected from a keymap with ~yankpad-map~.
+
+With ~yasnippets~ installed (and its minor-mode active),
+the contents of the snippets are actually executed using ~yasnippets~,
+which provides a great deal of functionality, including tab fields
+and arbitrary lisp code execution.
+
+The outmost headings of this file separate it into /categories/;
+headings inside those categories contain individual snippets.
+
+Snippets in a category named after a mode are available
+for yanking when that mode is active.
+Other category's snippets can be made available by switching to that
+category with ~yankpad-set-category~.
+Snippets in categories marked ~:global:~ are always available.
+
+Headings of snippets have the form ~expandkeys: Name :settings:key:~,
+where
+- ~expandkeys~ is a ~:~ separated list of keys for the snippet
+  which can be expanded with ~yankpad-expand~,
+- ~Name~ is the name of the snippet,
+- ~settings~ is ~:~ separated list of settings for the snippets,
+  possibly including
+  - ~src~, which marks the snippet as being literate; only the
+    contents of code blocks in such snippets are inserted.
+  - ~func~, which marks the snippet as a function. In this case
+    no text is inserted; instead the code blocks of the snippet are
+    executed.
+  - ~results~, which acts like ~func~, but in this case, the /results/
+    of the code blocks inside the snippet
+    are inserted.
+
+Most of my snippets are marked ~:src:~, since this /is/ a literate file.
+
+Documentation: [[https://github.com/Kungsgeten/yankpad][yankpad]] and [[https://github.com/joaotavora/yasnippet][yasnippets]] (and [[https://orgmode.org/][org-mode]] for good measure).
+
+* org-mode
+:properties:
+:include: agda2-mode|tex-mode
+:end:
+
+Note the ~src~ blocks are not well documented,
+because I can't tag them with ~:src:~
+(I haven't thought of a way to have a ~#+begin_src … #+end_src~
+/inside/ a ~#+begin_src … #+end_src~ block.
+I used ~noweb~ references to achieve this with ~yasnippets~;
+that could work here /if/ ~yankpad~ is exporting this file,
+but I doubt that).
+
+Thankfully not much explanation is needed for such blocks.
+
+Also note that the spacing is strict, again because of not using ~:src:~.
+
+One note about the generic source block: its key cannot be ~src~, because
+that tag is special to yankpad (as seen in my use of it elsewhere to
+make literate snippets).
+
+** src: Generic source block                                        :source:
+#+begin_src $1
+$0
+#+end_src
+** el: Emacs lisp block                                                 :el:
+#+begin_src emacs-lisp
+$0
+#+end_src
+** txt: Plaintext                                                      :txt:
+#+begin_src text
+$0
+#+end_src
+** sh: Shell                                                            :sh:
+#+begin_src shell
+$0
+#+end_src
+** ag: Agda code block                                                  :ag:
+#+begin_src org-agda
+$0
+#+end_src
+** icc: “Interactive” C block                                          :icc:
+#+begin_src c :tangle (currently-working-with "${1:generated}")
+$0
+#+end_src
+** icn: Inactive “Interactive” C block                                 :icn:
+#+begin_src c :tangle (not-currently-working-with "${1:generated}")
+$0
+#+end_src
+** ich: “Interactive” C header block                                   :ich:
+#+begin_src c :tangle (currently-working-with-header "${1:generated}")
+$0
+#+end_src
+* Punctuation, parentheses, etc.                                     :global:
+
+** dq: Double quotes                                                :src:dq:
+
+#+begin_src text
+“$1”$0
+#+end_src
+
+** card: Cardinality                                              :src:card:
+
+#+begin_src text
+∣$1∣$0
+#+end_src
+
+* Words                                                              :global:
+
+** det: deterministic                                              :src:det:
+
+#+begin_src text
+deterministic
+#+end_src
+
+** ndet: non-deterministic                                        :src:ndet:
+
+#+begin_src text
+non-deterministic
+#+end_src
+
+* Other global                                                       :global:
+
+** thisfile: Name of the current file (buffer)             :global:thisfile:
+
+#+begin_src text
+`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`
+#+end_src
+
+Credit: the [[http://joaotavora.github.io/yasnippet/snippet-development.html#orgcde188c][yasnippet tutorial]].
+
+** dasht: A “title” surrouned by dashes                          :src:dasht:
+
+#+begin_src text
+${1:$(make-string (string-width yas-text) ?\-)}
+${1:Title}
+${1:$(make-string (string-width yas-text) ?\-)}
+$0
+#+end_src
+
+Credit: the [[http://joaotavora.github.io/yasnippet/snippet-development.html#orge2c1f71][yasnippet tutorial
+
+** dj: Get a dad joke                                               :src:dj:
+#+begin_src text
+`(dad-joke)`
+#+end_src
+
+** yas: Yasnippet template                                         :src:yas:
+
+This should really move to a specialised category.
+#+begin_src text
+# name: $1
+# key: $2
+# --
+$0
+#+end_src
+
+* agda2-mode
+
+** ag: Literate code block                                           :src:ag:
+
+#+begin_src text
+\begin{code}
+$0
+\end{code}
+#+end_src
+
+** ga: Break up a literate code block                               :src:ga:
+
+#+begin_src text
+\end{code}
+$0
+\begin{code}
+#+end_src
+
+** tag: Catch-file-between-tags                                    :src:tag:
+
+#+begin_src text
+%<*$1>
+$0
+%</$1>
+#+end_src
+
+** fun: Function declaration with type signature                   :src:fun:
+
+#+begin_src text
+$1 : $0
+$1 = ?
+#+end_src
+
+** setl: ~Set~ arguments parameterised by a ~Level~                   :src:setl:
+
+#+begin_src text
+{${1:a} : Level} → (${2:A} : Set $1) → $0
+#+end_src
+
+** isetl: /Implicit/ ~Set~ arguments parameterised by a ~Level~        :src:isetl:
+
+#+begin_src text
+{${1:a} : Level} → {${2:A} : Set $1} → $0
+#+end_src
+
+** 2setl: ~Set~ arguments parameterised by two ~Level's~             :src:2setl:
+
+#+begin_src text
+{${1:a} ${2:b} : Level} → (${3:A} : Set $1) → (${4:B} : Set $1) → $0
+#+end_src
+
+** i2setl: /Implicit/ ~Set~ arguments parameterised by two ~Level's~ :src:i2setl:
+
+#+begin_src text
+{${1:a} ${2:b} : Level} → {${3:A} : Set $1} → {${4:B} : Set $1} → $0
+#+end_src
+** with: ~with~ pattern                                             :src:with:
+
+#+begin_src text
+with $1
+... | ${2:thing} = $0
+#+end_src
+
+** eqr: Start a ~≡-Reasoning~ block                                  :src:eqr:
+
+#+begin_src text
+begin
+  ?$0
+≡⟨ ${1:?} ⟩
+  ?
+∎
+#+end_src
+
+** eqs: Insert a step in a ~≡-Reasoning~ block                       :src:eqs:
+
+#+begin_src text
+≡⟨ ${1:?} ⟩
+  $0
+#+end_src
+* tex-mode
+
+** leg: General LaTeX environment                                  :src:leg:
+
+#+begin_src text
+\begin{$1}
+$0
+\end{$1}
+#+end_src
+
+** lei: LaTeX itemize                                              :src:lei:
+
+#+begin_src text
+\begin{itemize}
+$0
+\end{itemize}
+#+end_src
+
+** lec: LaTeX center                                               :src:lec:
+
+#+begin_src text
+\begin{center}
+$0
+\end{center}
+#+end_src
+
+** li: LaTeX item                                                   :src:li:
+
+#+begin_src text
+\item $0
+#+end_src
