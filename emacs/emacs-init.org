@@ -452,17 +452,26 @@ so snippet files generally shouldn't include a final newline.
 (setq confirm-kill-emacs 'yes-or-no-p)
 #+end_src
 
-** Disable the splash screen
+** Remove unnecessary interface elements
 
- #+begin_src emacs-lisp
- (setq inhibit-splash-screen t)
- #+end_src
+Emacs usually shows a splash screen on startup,
+which doesn't interest me.
 
-** Disable the tool bar
+#+begin_src emacs-lisp
+(setq inhibit-splash-screen t)
+#+end_src
 
- #+begin_src emacs-lisp
- (tool-bar-mode -1)
- #+end_src
+I don't use the tool bar (icons below the menu bar).
+
+#+begin_src emacs-lisp
+(tool-bar-mode ())
+#+end_src
+
+I also don't use the menu bar.
+
+#+begin_src emacs-lisp
+(menu-bar-mode ())
+#+end_src
 
 ** Themes
 
@@ -521,29 +530,31 @@ Make it “play nice” with ~org~
 (doom-themes-org-config)
 #+end_src
 
-** Flash on error
+** Information in the mode line
 
+The doom themes package comes with a function to make
+the mode line flash on error.
 #+begin_src emacs-lisp
 (doom-themes-visual-bell-config)
 #+end_src
 
+I'd previously just used ~visible-bell~, but it's a bit nosier
+than necessary.
 #+begin_src emacs-lisp
-;;(setq visible-bell 1)
+;;(setq visible-bell t)
 #+end_src
 
-** Display date and time
-
- #+begin_src emacs-lisp
- (setq display-time-day-and-date t)
- (setq display-time-24h-format t)
- (display-time)
- #+end_src
-
-** Show the line and column numbers in the minibuffer
-
+I also like the mode line to show the data and time.
 #+begin_src emacs-lisp
-(line-number-mode 1)
-(column-number-mode 1)
+(setq display-time-day-and-date t)
+(setq display-time-24h-format t)
+(display-time)
+#+end_src
+
+It's also useful to see the line number and column number.
+#+begin_src emacs-lisp
+(line-number-mode t)
+(column-number-mode t)
 #+end_src
  
 ** Show line numbers on left (for ~text~ and ~prog~ mode)
