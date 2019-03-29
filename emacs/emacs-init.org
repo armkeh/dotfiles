@@ -76,6 +76,28 @@ We need Emacs to locate Agda mode. This command is put in ~.emacs~
 (require 'agda2-highlight)
 #+end_src
 
+*** Command line arguments
+
+Dr. Wolfram Kahl has recommended the following settings.
+
+(I'm not setting them right somehow...)
+
+#+begin_src emacs-lisp
+;;(setq agda2-program-args (quote ("RTS" "-M4G" "-H4G" "-A128M" "-RTS")))
+#+end_src
+
+These arguments specify
+| ~+RTS~, ~-RTS~ | Flags between these are arguments to the ~ghc~ runtime |
+| ~-M[size]~   | Maximum heap size                                    |
+| ~-H[size]~   | Suggested heap size                                  |
+| ~-A[size]~   | Allocation area size used by the garbage collector   |
+
+Full documentation for the ~ghc~ runtime argumentscan be found [[https://downloads.haskell.org/~ghc/7.8.4/docs/html/users_guide/runtime-control.html][here]].
+
+Additional arguments that may be useful include
+| ~-S[file]~ | Produces information about “each and every garbage collection” |
+|          | - Outputs to ~stderr~ by default                               |
+
 *** Alternative problem highlighting
 
 I find the background coloring used by Agda for incomplete pattern matching,
@@ -86,6 +108,7 @@ So I use set other indicators instead.
 
 #+begin_src emacs-lisp
 (defun my-agda-highlighting ()
+  "Set face attributes to replace Agda highlighting I find annoying."
   (set-face-attribute
     'agda2-highlight-coverage-problem-face
     nil ;; all frames
@@ -111,13 +134,15 @@ So I use set other indicators instead.
 
 *** Add unicode characters to Agda's translations
 
-**** Punctuation
+**** Punctuation and parentheses
 
 #+begin_src emacs-lisp
 (add-to-list 'agda-input-user-translations '(";;" "﹔"))
 (add-to-list 'agda-input-user-translations '(";;" "⨾"))
 (add-to-list 'agda-input-user-translations '("|" "❙"))
 (add-to-list 'agda-input-user-translations '("st" "•"))
+(add-to-list 'agda-input-user-translations '("{" "｛"))
+(add-to-list 'agda-input-user-translations '("}" "｝"))
 #+end_src
 
 **** Activate the new additions
