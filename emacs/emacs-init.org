@@ -167,6 +167,20 @@ So I use set other indicators instead.
 (require 'ox-extra)
 #+end_src
 
+*** Speed keys
+
+Speed keys are single keystrokes which execute commands in an
+~org~ file when the cursor is at the start of a headline.
+
+#+begin_src emacs-lisp
+(setq org-use-speed-commands t)
+#+end_src
+
+To see the commands available, execute
+#+begin_example emacs-lisp
+(org-speed-command-help)
+#+end_example
+
 *** Hide emphasis markers by default
 
 #+begin_src emacs-lisp
