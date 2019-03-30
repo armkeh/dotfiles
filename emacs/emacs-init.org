@@ -189,6 +189,9 @@ To see the commands available, execute
 
 *** COMMENT Template expansion (<s Tab, etc.)
 
+These settings are deprecated since I use ~yasnippet~ and
+~yankpad~ now.
+
  #+begin_src emacs-lisp
  (require 'org-tempo)
  #+end_src
@@ -476,15 +479,17 @@ which doesn't interest me.
 #+end_src
 
 I don't use the tool bar (icons below the menu bar).
+(This setting must be ~-1~, not ~()~).
 
 #+begin_src emacs-lisp
-(tool-bar-mode ())
+(tool-bar-mode -1)
 #+end_src
 
 I also don't use the menu bar.
+(Again, this must be ~-1~, not ~()~).
 
 #+begin_src emacs-lisp
-(menu-bar-mode ())
+(menu-bar-mode -1)
 #+end_src
 
 ** Themes
@@ -643,6 +648,12 @@ From https://www.emacswiki.org/emacs/FillColumnIndicator
 (global-visual-line-mode t)
 #+end_src
 
+** Automatically revert unchanged files which change on the disk
+
+#+begin_src emacs-lisp
+(global-auto-revert-mode t)
+#+end_src
+
 ** TODO Use ~wordsmith~ for English syntax highlighting
 
 #+begin_src emacs-lisp
@@ -697,6 +708,11 @@ I had manually downloaded this package previously.
 
 ** Buffers to open upon startup
 
+Note that this portion of the file should be /after/ any settings
+that would affect these buffers.
+
+Otherwise those settings will not apply in these buffers.
+
 *** Emacs init (this file)
 
 #+begin_src emacs-lisp
@@ -713,6 +729,18 @@ I had manually downloaded this package previously.
 
 #+begin_src emacs-lisp
 (find-file "~/Dropbox/Organisation/setup/emacs/yasnippets.org")
+#+end_src
+
+*** Yankpad file
+
+#+begin_src emacs-lisp
+(find-file "~/Dropbox/Organisation/setup/emacs/yankpad.org")
+#+end_src
+
+*** My Agda scratch file
+
+#+begin_src emacs-lisp
+(find-file "~/Dropbox/McMaster/Agda/scratch.agda")
 #+end_src
 
 *** My phone log
@@ -855,6 +883,13 @@ local variable to store the command to invoke ~dired~ with.
                 (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/3ea3")))
 #+end_src
 
+*** Projects ~p~
+
+#+begin_src emacs-lisp
+(global-set-key (kbd (concat my-dired-shortcut-prefix "p"))
+                (lambda () (interactive) (my-dired-invocation "~/Dropbox/Projects")))
+#+end_src
+
 ** ~magit~ shortcuts
 
 #+begin_src emacs-lisp
@@ -921,3 +956,9 @@ I love the package ~dad-joke~.
 #+end_src
 
 * Scratch
+* TODO Ideas for additions
+
+- ~C-c n l~ - Move remainder of line to the line below
+  (insert newline at point and remove newline at end of the resulting line)
+
+- ~C-c c l~ - Copy some number of lines before point
