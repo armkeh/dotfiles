@@ -4,6 +4,8 @@
 
 * Description
 
+** Introduction
+
 This ~org-mode~ file contains commonly repeated snippets of text
 which I expand using ~yankpad~ along with ~yasnippets~.
 
@@ -16,14 +18,17 @@ the contents of the snippets are actually executed using ~yasnippets~,
 which provides a great deal of functionality, including tab fields
 and arbitrary lisp code execution.
 
-The outmost headings of this file separate it into /categories/;
-headings inside those categories contain individual snippets.
+** Organisation notes
 
+The outermost headings of this file separate it into /categories/.
 Snippets in a category named after a mode are available
 for yanking when that mode is active.
 Other category's snippets can be made available by switching to that
 category with ~yankpad-set-category~.
 Snippets in categories marked ~:global:~ are always available.
+
+Inside categories, I use subheadings to organise snippets.
+The /lowest level/ headings define individual snippets.
 
 Headings of snippets have the form ~expandkeys: Name :settings:key:~,
 where
@@ -41,102 +46,178 @@ where
     of the code blocks inside the snippet
     are inserted.
 
-Most of my snippets are marked ~:src:~, since this /is/ a literate file.
+Most of my snippets are marked ~:src:~, since this /is/ a literate file
+(and I don't tend to use snippets for executing code).
 
-Documentation: [[https://github.com/Kungsgeten/yankpad][yankpad]] and [[https://github.com/joaotavora/yasnippet][yasnippets]] (and [[https://orgmode.org/][org-mode]] for good measure).
+** Documentation links
+
+- [[https://github.com/Kungsgeten/yankpad][yankpad]]
+- [[https://github.com/joaotavora/yasnippet][yasnippets]]
+- [[https://orgmode.org/][org-mode]] (for good measure)
+
+** Caveats
+
+Sometimes snippets seem to act oddly in this file;
+specifically snippets from lower in the file won't
+expand higher in the file (sometimes).
+
+For that reason, the ~org~ mode snippets come first,
+as they are useful for adding to this file.
 
 * org-mode
 :properties:
 :include: agda2-mode|tex-mode
 :end:
 
-Note the ~src~ blocks are not well documented,
-because I can't tag them with ~:src:~
-(I haven't thought of a way to have a ~#+begin_src … #+end_src~
-/inside/ a ~#+begin_src … #+end_src~ block.
-I used ~noweb~ references to achieve this with ~yasnippets~;
-that could work here /if/ ~yankpad~ is exporting this file,
-but I doubt that).
+I use ~org~ all the time, so you'll note in the ~:properties:~ drawer
+that I include snippets from lots of other modes, since I often
+write code from other modes in ~org~.
 
-Thankfully not much explanation is needed for such blocks.
+** ~org~ blocks
 
-Also note that the spacing is strict, again because of not using ~:src:~.
+*** ~src~ blocks
 
-One note about the generic source block: its key cannot be ~src~, because
-that tag is special to yankpad (as seen in my use of it elsewhere to
-make literate snippets).
+Note that the ~,#~ expands to the ~org~ “comment” character ~#~.
 
-** src: Generic source block                                        :source:
+This is needed to have a ~#+end_src~ /inside/ a ~src~ block.
+
+**** src: Generic source block                                :src:orgsrc:
+
+#+begin_src text
 #+begin_src $1
 $0
+,#+end_src
 #+end_src
-** el: Emacs lisp block                                                 :el:
+
+**** el: Emacs lisp block                                      :src:orgel:
+
+#+begin_src text
 #+begin_src emacs-lisp
 $0
+,#+end_src
 #+end_src
-** txt: Plaintext                                                      :txt:
+
+**** t: Plaintext                                               :src:orgt:
+
+#+begin_src text
 #+begin_src text
 $0
+,#+end_src
 #+end_src
-** sh: Shell                                                            :sh:
+
+**** sh: Shell                                                 :src:orgsh:
+
+#+begin_src text
 #+begin_src shell
 $0
+,#+end_src
 #+end_src
-** ag: Agda code block                                                  :ag:
+
+**** ag: Agda code block                                       :src:orgag:
+
+#+begin_src text
 #+begin_src org-agda
 $0
+,#+end_src
 #+end_src
-** icc: “Interactive” C block                                          :icc:
+
+**** ic: “Interactive” C block                                :src:orgicc:
+
+#+begin_src text
 #+begin_src c :tangle (currently-working-with "${1:generated}")
 $0
+,#+end_src
 #+end_src
-** icn: Inactive “Interactive” C block                                 :icn:
+
+**** icn: Inactive “Interactive” C block                      :src:orgicn:
+
+#+begin_src text
 #+begin_src c :tangle (not-currently-working-with "${1:generated}")
 $0
+,#+end_src
 #+end_src
-** ich: “Interactive” C header block                                   :ich:
+
+**** ich: “Interactive” C header block                        :src:orgich:
+
+#+begin_src text
 #+begin_src c :tangle (currently-working-with-header "${1:generated}")
 $0
+,#+end_src
 #+end_src
-* Punctuation, parentheses, etc.                                     :global:
 
-** dq: Double quotes                                                :src:dq:
+*** Others
+
+**** e: Example                                                 :src:orge:
+
+#+begin_src emacs-lisp
+#+begin_example $1
+$0
+#+end_example
+#+end_src
+
+**** quot: Quote                                             :src:orgquot:
+
+#+begin_src emacs-lisp
+#+begin_quote
+$0
+#+end_quote
+#+end_src
+
+**** ques: Question                                          :src:orgques:
+
+#+begin_src emacs-lisp
+#+begin_example $1
+$0
+#+end_example
+#+end_src
+
+**** ans: Answer                                                :src:organs:
+
+#+begin_src emacs-lisp
+#+begin_example $1
+$0
+#+end_example
+#+end_src
+
+* Global snippets                                                    :global:
+
+** Punctuation, parentheses, etc.
+
+*** dq: Double quotes                                              :src:dq:
 
 #+begin_src text
 “$1”$0
 #+end_src
 
-** card: Cardinality                                              :src:card:
+*** card: Cardinality                                            :src:card:
 
 #+begin_src text
 ∣$1∣$0
 #+end_src
 
-* Words                                                              :global:
+** Words
 
-** det: deterministic                                              :src:det:
+*** det: deterministic                                                :src:
 
 #+begin_src text
 deterministic
 #+end_src
 
-** ndet: non-deterministic                                        :src:ndet:
+*** ndet: non-deterministic                                           :src:
 
 #+begin_src text
 non-deterministic
 #+end_src
 
-* Other global                                                       :global:
+** Other global
 
-** thisfile: Name of the current file (buffer)             :global:thisfile:
+*** thisfile: Name of the current file (buffer)              :src:thisfile:
 
 #+begin_src text
-`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`
+`(buffer-name)`
 #+end_src
 
-Credit: the [[http://joaotavora.github.io/yasnippet/snippet-development.html#orgcde188c][yasnippet tutorial]].
-
-** dasht: A “title” surrouned by dashes                          :src:dasht:
+*** dasht: A “title” surrouned by dashes                        :src:dasht:
 
 #+begin_src text
 ${1:$(make-string (string-width yas-text) ?\-)}
@@ -147,12 +228,12 @@ $0
 
 Credit: the [[http://joaotavora.github.io/yasnippet/snippet-development.html#orge2c1f71][yasnippet tutorial
 
-** dj: Get a dad joke                                               :src:dj:
+*** dj: Get a dad joke                                             :src:dj:
 #+begin_src text
 `(dad-joke)`
 #+end_src
 
-** yas: Yasnippet template                                         :src:yas:
+*** yas: Yasnippet template                                       :src:yas:
 
 This should really move to a specialised category.
 #+begin_src text
