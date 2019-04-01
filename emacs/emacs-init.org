@@ -573,7 +573,10 @@ so snippet files generally shouldn't include a final newline.
 (add-hook 'snippet-mode-hook (setq require-final-newline nil))
 #+end_src
 
-*** Make ~org~ mode “play nice” with ~yasnippets~
+*** COMMENT Make ~org~ mode “play nice” with ~yasnippets~
+
+This is deprecated, since I use ~yankpad~ as a front end to ~yasnippets~
+now.
 
 #+begin_src emacs-lisp
 (add-hook 'org-mode-hook
@@ -876,7 +879,9 @@ Otherwise those settings will not apply in these buffers.
 (setq initial-buffer-choice "~/Dropbox/Organisation/log/log.org")
 #+end_src
 
-* Shortcuts
+* COMMENT Shortcuts
+
+Note this is deprecated, since I use ~general~ now.
 
 ** Textual insert shortcuts
 
