@@ -616,6 +616,12 @@ I also don't use the menu bar.
 (menu-bar-mode -1)
 #+end_src
 
+I also disable the scroll bars.
+
+#+begin_src emacs-lisp
+(scroll-bar-mode -1)
+#+end_src
+
 ** Themes
 
 I use the ~doom-nord~ themes,
