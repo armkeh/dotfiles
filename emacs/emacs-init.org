@@ -60,6 +60,128 @@ having Emacs prompt me every time is annoying and slows my start up.
 ;;(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
 #+end_src
 
+** ~general~
+
+I use ~general~ to organise my custom keybindings.
+
+#+begin_src emacs-lisp
+(require 'general)
+#+end_src
+
+*** Prefixes
+
+You can use ~general-define-key~ directly to define shortcuts,
+ideally using the keyword argument ~:prefix~ to avoid repeating
+prefixes, but if you are (even only possibly)
+using a prefix several times,
+it's better to create a custom function to use instead of
+~general-define-key~.
+
+Setting ~:keymaps~ to ~'override~ ensures that no package will
+override my shortcuts.
+
+For the moment, I'm experimenting with using ~s~-key (“super”-key)
+combinations as prefixes. I have my caps lock bound to super
+(on my Chromebook's internal keyboard it's bound to that by
+default), and I think if I restrict the combination keys to
+those on the left side of the keyboard, I can avoid “Emacs pinky”.
+
+So far I have three categories of shortcuts:
+- My main shortcuts, those that don't fall into another category.
+- Shortcuts to navigate around the current buffer.
+- Shortcuts to open a ~dired~ buffer for a certain folder.
+
+#+begin_src emacs-lisp
+(general-create-definer general-main-define-key
+  :prefix "s-a"
+  :keymaps 'override)
+
+(general-create-definer general-buf-nav-define-key
+  :prefix "s-w"
+  :keymaps 'override)
+
+(general-create-definer general-dired-define-key
+  :prefix "s-d"
+  :keymaps 'override)
+#+end_src
+
+*** ~yankpad~
+
+I use a non-prefixed shortcut for snippet expansion, since
+I do it all the time.
+(at least until yankpad has smart tab expansion).
+#+begin_src emacs-lisp
+(general-define-key
+  "s-f" 'yankpad-expand)
+#+end_src
+
+Alternatively, ~y m~ invokes ~yankpad-map~, which brings up a
+keymap of the last tags of snippets.
+#+begin_src emacs-lisp
+(general-main-define-key
+  "y m" 'yankpad-map)
+#+end_src
+
+Changes to the yankpad file require ~yankpad-reload~ to be run
+to re-cache the snippets. For the moment, it seems like there is
+separate caching for each buffer, meaning this command has to be
+run in every buffer where I want changes to be picked up.
+So, I have a shortcut key.
+#+begin_src emacs-lisp
+(general-main-define-key
+  "y r" 'yankpad-reload)
+#+end_src
+
+*** ~dired~
+
+I use shortcuts to jump to frequently used directories in ~dired~
+(from any buffer, not just while in ~dired~).
+
+As seen in ~Cosmetics~, I use ~dired-single~ in order to only have one
+~dired~ buffer at a time. In case this changes, I define another
+local variable to store the command to invoke ~dired~ with.
+#+begin_src emacs-lisp
+(defun my-dired-invocation (directory) (dired-single-magic-buffer directory))
+#+end_src
+
+#+begin_src emacs-lisp
+(general-dired-define-key
+  "h" (lambda () (interactive) (my-dired-invocation "~"))
+  "o" (lambda () (interactive) (my-dired-invocation "~/Dropbox/Organisation/"))
+  "p" (lambda () (interactive) (my-dired-invocation "~/Dropbox/Projects/"))
+  "m" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/"))
+  "t" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/Agda/thesis/"))
+  "c e" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/3ea3/"))
+)
+#+end_src
+
+*** Buffer navigation
+
+#+begin_src emacs-lisp
+(general-buf-nav-define-key
+  "r" (lambda () (interactive) (revert-buffer () t ()))
+  "b" (lambda () (interactive) (beginning-of-buffer))
+  "e" (lambda () (interactive) (end-of-buffer))
+  "t t" (lambda () (interactive) (toggle-my-themes))
+  "t c" (lambda () (interactive) (disable-all-custom-themes))
+)
+#+end_src
+
+*** ~magit~
+
+#+begin_src emacs-lisp
+(general-main-define-key
+  "g" 'magit-status
+)
+#+end_src
+
+*** Other
+
+#+begin_src emacs-lisp
+(general-main-define-key
+  "j" 'dad-joke
+)
+#+end_src
 
 ** ~agda~ mode
 
