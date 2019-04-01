@@ -1073,7 +1073,7 @@ This code generates a ~README.md~ file for my Emacs repo,
 including this file and other relevant files.
 
 #+name: readme-generate
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results none
 (with-temp-buffer
   (insert
     "#+EXPORT_FILE_NAME: README.md
@@ -1085,7 +1085,7 @@ including this file and other relevant files.
      For the moment, that is my (literate) Emacs initialisation file
      and my ~yankpad~ file.
 
-     #+TOC: 1
+     #+TOC: headlines 2
 
      * Emacs initialisation
 
@@ -1103,5 +1103,5 @@ including this file and other relevant files.
 * COMMENT Footer
 
 # Local Variables:
-# eval: (progn (org-babel-goto-named-src-block "readme-generate") (org-babel-execute-src-block))
+# eval: (progn (org-babel-goto-named-src-block "readme-generate") (org-babel-execute-src-block) (outline-hide-sublevels 1))
 # End:

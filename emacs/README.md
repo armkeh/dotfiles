@@ -3,8 +3,42 @@ This repository contains the files that make up my Emacs setup.
 For the moment, that is my (literate) Emacs initialisation file
 and my `yankpad` file.
 
+
+# Table of Contents
+
+1.  [Introduction](#org1dfdbce)
+    1.  [Setting up `.emacs` to use this code](#orga739776)
+2.  [Major packages](#org50c0efe)
+    1.  [Package repositories](#org24d2399)
+    2.  [`general`](#orgfcb17bc)
+    3.  [`agda` mode](#org04616c9)
+    4.  [`org` mode](#org9c9bd13)
+    5.  [`pdf-tools`](#org371af97)
+    6.  [`yankpad` and `yasnippets`](#org8ae9340)
+3.  [Cosmetics](#org88692e1)
+    1.  [Always confirm before closing Emacs](#org02cbd24)
+    2.  [Remove unnecessary interface elements](#org31ae006)
+    3.  [Themes](#org99f2a1e)
+    4.  [Information in the mode line](#org26e4e4d)
+    5.  [Show line numbers on left (for `text` and `prog` mode)](#org066d0c6)
+    6.  [Highlight matching parenthesis when cursor is near](#org6506f45)
+    7.  [Show trailing whitespace](#org555538a)
+    8.  [Display preferences for `dired`](#orgaca95b2)
+    9.  [Show ruler at 80 characters for (for `text` and `prog` mode)](#org9a364a9)
+    10. [Wrap lines](#org8843939)
+    11. [Automatically revert unchanged files which change on the disk](#orgb902398)
+    12. [Use `wordsmith` for English syntax highlighting](#orgfd1e5f3)
+    13. [Show possible completions as I type shortcuts](#orgbec038d)
+    14. [Use a single buffer for `dired`](#org387e15c)
+    15. [Buffers to open upon startup](#org2453f68)
+4.  [Other](#orgdf7a6a0)
+    1.  [Run my custom “dropbox start” command to ensure dropbox is running on the system](#org2e21196)
+5.  [Generating the README.md for my Emacs repo](#orgb614ffb)
+
 -   Emacs initialisation
 
+
+<a id="org1dfdbce"></a>
 
 # Introduction
 
@@ -13,6 +47,8 @@ in the future and for sharing with others.
 
 I'm following [Musa's](https://alhassy.github.io/init/) example using an `org` file for this.
 
+
+<a id="orga739776"></a>
 
 ## Setting up `.emacs` to use this code
 
@@ -44,8 +80,12 @@ Since `.emacs` uses a symlink to this version controlled file,
 having Emacs prompt me every time is annoying and slows my start up.
 
 
+<a id="org50c0efe"></a>
+
 # Major packages
 
+
+<a id="org24d2399"></a>
 
 ## Package repositories
 
@@ -63,6 +103,8 @@ having Emacs prompt me every time is annoying and slows my start up.
 
     ;;(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
 
+
+<a id="orgfcb17bc"></a>
 
 ## `general`
 
@@ -178,6 +220,8 @@ local variable to store the command to invoke `dired` with.
       "j" 'dad-joke
     )
 
+
+<a id="org04616c9"></a>
 
 ## `agda` mode
 
@@ -317,6 +361,8 @@ So I use set other indicators instead.
     (add-hook 'prog-mode-hook
            (lambda () (set-input-method "Agda")))
 
+
+<a id="org9c9bd13"></a>
 
 ## `org` mode
 
@@ -509,12 +555,16 @@ See [here](https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-fu
     (org-babel-shell-initialize)
 
 
+<a id="org371af97"></a>
+
 ## `pdf-tools`
 
 Need to “install” it each time emacs starts
 
     (pdf-tools-install)
 
+
+<a id="org8ae9340"></a>
 
 ## `yankpad` and `yasnippets`
 
@@ -543,13 +593,19 @@ so snippet files generally shouldn't include a final newline.
     (add-hook 'snippet-mode-hook (setq require-final-newline nil))
 
 
+<a id="org88692e1"></a>
+
 # Cosmetics
 
+
+<a id="org02cbd24"></a>
 
 ## Always confirm before closing Emacs
 
     (setq confirm-kill-emacs 'yes-or-no-p)
 
+
+<a id="org31ae006"></a>
 
 ## Remove unnecessary interface elements
 
@@ -572,6 +628,8 @@ I also disable the scroll bars.
 
     (scroll-bar-mode -1)
 
+
+<a id="org99f2a1e"></a>
 
 ## Themes
 
@@ -627,6 +685,8 @@ Make it “play nice” with `org`
     (doom-themes-org-config)
 
 
+<a id="org26e4e4d"></a>
+
 ## Information in the mode line
 
 The doom themes package comes with a function to make
@@ -651,6 +711,8 @@ It's also useful to see the line number and column number.
     (column-number-mode t)
 
 
+<a id="org066d0c6"></a>
+
 ## Show line numbers on left (for `text` and `prog` mode)
 
     (add-hook 'text-mode-hook 'linum-mode)
@@ -661,6 +723,8 @@ Setting it globally would conflict with `pdf-tools`.
     ;; (global-linum-mode t)
 
 
+<a id="org6506f45"></a>
+
 ## Highlight matching parenthesis when cursor is near
 
     (load-library "paren")
@@ -669,10 +733,14 @@ Setting it globally would conflict with `pdf-tools`.
     (require 'paren)
 
 
+<a id="org555538a"></a>
+
 ## Show trailing whitespace
 
     (custom-set-variables '(show-trailing-whitespace t))
 
+
+<a id="orgaca95b2"></a>
 
 ## Display preferences for `dired`
 
@@ -745,6 +813,8 @@ I like the following switches:
     (setq dired-listing-switches "--group-directories-first -aBgGhL")
 
 
+<a id="org9a364a9"></a>
+
 ## Show ruler at 80 characters for (for `text` and `prog` mode)
 
     (require 'fill-column-indicator)
@@ -752,25 +822,35 @@ I like the following switches:
     (add-hook 'prog-mode-hook 'fci-mode)
 
 
+<a id="org8843939"></a>
+
 ## Wrap lines
 
     (global-visual-line-mode t)
 
+
+<a id="orgb902398"></a>
 
 ## Automatically revert unchanged files which change on the disk
 
     (global-auto-revert-mode t)
 
 
+<a id="orgfd1e5f3"></a>
+
 ## TODO Use `wordsmith` for English syntax highlighting
 
     (require 'wordsmith-mode)
 
 
+<a id="orgbec038d"></a>
+
 ## Show possible completions as I type shortcuts
 
     (require 'which-key)
 
+
+<a id="org387e15c"></a>
 
 ## Use a single buffer for `dired`
 
@@ -804,6 +884,8 @@ is taken directly from the `dired-single` [GitHub readme](https://github.com/cro
       ;; it's not loaded yet, so add our bindings to the load-hook
       (add-hook 'dired-load-hook 'my-dired-init))
 
+
+<a id="org2453f68"></a>
 
 ## Buffers to open upon startup
 
@@ -848,8 +930,12 @@ Otherwise those settings will not apply in these buffers.
     (setq initial-buffer-choice "~/Dropbox/Organisation/log/log.org")
 
 
+<a id="orgdf7a6a0"></a>
+
 # Other
 
+
+<a id="org2e21196"></a>
 
 ## Run my custom “dropbox start” command to ensure dropbox is running on the system
 
@@ -857,6 +943,8 @@ Otherwise those settings will not apply in these buffers.
                                  "*dropbox-start*"
                                  "/opt/dropbox-filesystem-fix/dropbox_start.py")
 
+
+<a id="orgb614ffb"></a>
 
 # Generating the README.md for my Emacs repo
 
@@ -874,10 +962,10 @@ including this file and other relevant files.
          For the moment, that is my (literate) Emacs initialisation file
          and my ~yankpad~ file.
     
-         #+TOC: 1
+         #+TOC: headlines 2
     
          * Emacs initialisation
-         
+    
          #+INCLUDE: emacs-init.org
     
          * ~yankpad~
