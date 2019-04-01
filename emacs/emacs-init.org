@@ -41,26 +41,25 @@ having Emacs prompt me every time is annoying and slows my start up.
 
 * Major packages
 
-** General
+** Package repositories
 
-*** Add package repositories
+#+begin_src emacs-lisp
+(require 'package)
+(setq package-archives
+   '(("melpa" . "https://melpa.org/packages/")
+     ("gnu" . "https://elpa.gnu.org/packages/")
+     ("org" . "http://orgmode.org/elpa/")))
+(package-initialize)
+#+end_src
 
- #+begin_src emacs-lisp
- (require 'package)
- (setq package-archives
-    '(("melpa" . "https://melpa.org/packages/")
-      ("gnu" . "https://elpa.gnu.org/packages/")
-      ("org" . "http://orgmode.org/elpa/")))
- (package-initialize)
- #+end_src
-
-*** COMMENT Set the load path for manually downloaded packages
+*** Set the load path for manually downloaded packages
 
 (Currently I don't use manually downloaded packages)
 
- #+begin_src emacs-lisp
- (add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
- #+end_src
+#+begin_src emacs-lisp
+;;(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
+#+end_src
+
 
 ** ~agda~ mode
 
