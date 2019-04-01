@@ -179,20 +179,38 @@ $0
 #+end_example
 #+end_src
 
-* Global snippets                                                    :global:
+* Default                                                            :global:
+
+The category “Default” will be used if there is no category for the
+current major mode.
+
+I make these snippets available everywhere else as well by marking
+the category as ~:global:~.
 
 ** Punctuation, parentheses, etc.
 
 *** dq: Double quotes                                              :src:dq:
 
 #+begin_src text
-“$1”$0
+“$1” $0
 #+end_src
 
 *** card: Cardinality                                            :src:card:
 
 #+begin_src text
-∣$1∣$0
+∣$1∣ $0
+#+end_src
+
+*** enc: Encoding                                                 :src:enc:
+
+#+begin_src emacs-lisp
+⌜$1⌝ $0
+#+end_src
+
+*** denc: Decoding                                               :src:denc:
+
+#+begin_src emacs-lisp
+⟦$1⟧ $0
 #+end_src
 
 ** Words
