@@ -6,41 +6,75 @@ and my `yankpad` file.
 
 # Table of Contents
 
-1.  [Introduction](#org1dfdbce)
-    1.  [Setting up `.emacs` to use this code](#orga739776)
-2.  [Major packages](#org50c0efe)
-    1.  [Package repositories](#org24d2399)
-    2.  [`general`](#orgfcb17bc)
-    3.  [`agda` mode](#org04616c9)
-    4.  [`org` mode](#org9c9bd13)
-    5.  [`pdf-tools`](#org371af97)
-    6.  [`yankpad` and `yasnippets`](#org8ae9340)
-3.  [Cosmetics](#org88692e1)
-    1.  [Always confirm before closing Emacs](#org02cbd24)
-    2.  [Remove unnecessary interface elements](#org31ae006)
-    3.  [Themes](#org99f2a1e)
-    4.  [Information in the mode line](#org26e4e4d)
-    5.  [Show line numbers on left (for `text` and `prog` mode)](#org066d0c6)
-    6.  [Highlight matching parenthesis when cursor is near](#org6506f45)
-    7.  [Show trailing whitespace](#org555538a)
-    8.  [Display preferences for `dired`](#orgaca95b2)
-    9.  [Show ruler at 80 characters for (for `text` and `prog` mode)](#org9a364a9)
-    10. [Wrap lines](#org8843939)
-    11. [Automatically revert unchanged files which change on the disk](#orgb902398)
-    12. [Use `wordsmith` for English syntax highlighting](#orgfd1e5f3)
-    13. [Show possible completions as I type shortcuts](#orgbec038d)
-    14. [Use a single buffer for `dired`](#org387e15c)
-    15. [Buffers to open upon startup](#org2453f68)
-4.  [Other](#orgdf7a6a0)
-    1.  [Run my custom “dropbox start” command to ensure dropbox is running on the system](#org2e21196)
-5.  [Generating the README.md for my Emacs repo](#orgb614ffb)
+1.  [`emacs-init.org`](#org9ead4b5)
+    1.  [Introduction](#org29a5e1e)
+        1.  [Setting up `.emacs` to use this code](#orgaedad9b)
+    2.  [Major packages](#org18a1afa)
+        1.  [Package repositories](#org28925fb)
+        2.  [`general`](#org84c582d)
+        3.  [`agda` mode](#org964a712)
+        4.  [`org` mode](#org36c59be)
+        5.  [`pdf-tools`](#org523f1c3)
+        6.  [`yankpad` and `yasnippets`](#orgb997f14)
+    3.  [Cosmetics](#orgd6e65c6)
+        1.  [Always confirm before closing Emacs](#org24e310c)
+        2.  [Remove unnecessary interface elements](#orgf0cb489)
+        3.  [Themes](#org832f7d7)
+        4.  [Information in the mode line](#org8de9864)
+        5.  [Show line numbers on left (for `text` and `prog` mode)](#orgbadff46)
+        6.  [Highlight matching parenthesis when cursor is near](#org6147186)
+        7.  [Show trailing whitespace](#orga22467c)
+        8.  [Display preferences for `dired`](#org52b497a)
+        9.  [Show ruler at 80 characters for (for `text` and `prog` mode)](#org8f8fb1c)
+        10. [Wrap lines](#orgb9259e3)
+        11. [Automatically revert unchanged files which change on the disk](#orgab8906a)
+        12. [Use `wordsmith` for English syntax highlighting](#orgdfdf862)
+        13. [Show possible completions as I type shortcuts](#orgc875fd7)
+        14. [Use a single buffer for `dired`](#org4942458)
+        15. [Buffers to open upon startup](#org186421a)
+    4.  [Other](#org261fdc4)
+        1.  [Run my custom “dropbox start” command to ensure dropbox is running on the system](#org23794d7)
+    5.  [Generating the README.md for my Emacs repo](#org5a497e8)
+2.  [`yankpad.org`](#org40e75a3)
+    1.  [Description](#org0480dd1)
+        1.  [Introduction](#org4003a12)
+        2.  [Organisation notes](#org465d51a)
+        3.  [Documentation links](#orge1ccbfa)
+        4.  [Caveats](#org87a849e)
+    2.  [org-mode](#org13b3d55)
+        1.  [`org` blocks](#orge3e336c)
+    3.  [Default](#orgef6fbe3):global:
+        1.  [Punctuation, parentheses, etc.](#orgf18f73d)
+        2.  [Words](#orgba0b059)
+        3.  [Other global](#org6ff3ccd)
+    4.  [agda2-mode](#org8feda1a)
+        1.  [ag: Literate code block](#orgbbb2ecd):src:ag:
+        2.  [ga: Break up a literate code block](#orgfba4cd5):src:ga:
+        3.  [tag: Catch-file-between-tags](#orgcb2b7fc):src:tag:
+        4.  [fun: Function declaration with type signature](#orgb12f7e0):src:fun:
+        5.  [setl: `Set` arguments parameterised by a `Level`](#orgece1df9):src:setl:
+        6.  [isetl: *Implicit* `Set` arguments parameterised by a `Level`](#orge1e098c):src:isetl:
+        7.  [2setl: `Set` arguments parameterised by two `Level's`](#org935e861):src:2setl:
+        8.  [i2setl: *Implicit* `Set` arguments parameterised by two `Level's`](#org18f683f):src:i2setl:
+        9.  [with: `with` pattern](#org62c7135):src:with:
+        10. [eqr: Start a `≡-Reasoning` block](#org4393fe1):src:eqr:
+        11. [eqs: Insert a step in a `≡-Reasoning` block](#org639e679):src:eqs:
+    5.  [tex-mode](#orgb54fad8)
+        1.  [leg: General LaTeX environment](#orgb0417f0):src:leg:
+        2.  [lei: LaTeX itemize](#org5653c5f):src:lei:
+        3.  [lec: LaTeX center](#org508d840):src:lec:
+        4.  [li: LaTeX item](#org87aef83):src:li:
 
--   Emacs initialisation
+
+<a id="org9ead4b5"></a>
+
+# `emacs-init.org`
 
 
-<a id="org1dfdbce"></a>
 
-# Introduction
+<a id="org29a5e1e"></a>
+
+## Introduction
 
 This is my `emacs` initialisation code, documented for my own understanding
 in the future and for sharing with others.
@@ -48,9 +82,9 @@ in the future and for sharing with others.
 I'm following [Musa's](https://alhassy.github.io/init/) example using an `org` file for this.
 
 
-<a id="orga739776"></a>
+<a id="orgaedad9b"></a>
 
-## Setting up `.emacs` to use this code
+### Setting up `.emacs` to use this code
 
 Create a symbolic link to this file in `~/.emacs.d/~,
 then add to the bottom of =~/.emacs` these lines:
@@ -70,24 +104,23 @@ then add to the bottom of =~/.emacs` these lines:
     
     ;; END my edits
 
+1.  Why set `vc-follow-symlinks` here?
 
-### Why set `vc-follow-symlinks` here?
-
-It's a setting I want anyway (it ensures Emacs's version control
-works correctly on the target file), but why set it in `.emacs`?
-
-Since `.emacs` uses a symlink to this version controlled file,
-having Emacs prompt me every time is annoying and slows my start up.
-
-
-<a id="org50c0efe"></a>
-
-# Major packages
+    It's a setting I want anyway (it ensures Emacs's version control
+    works correctly on the target file), but why set it in `.emacs`?
+    
+    Since `.emacs` uses a symlink to this version controlled file,
+    having Emacs prompt me every time is annoying and slows my start up.
 
 
-<a id="org24d2399"></a>
+<a id="org18a1afa"></a>
 
-## Package repositories
+## Major packages
+
+
+<a id="org28925fb"></a>
+
+### Package repositories
 
     (require 'package)
     (setq package-archives
@@ -96,134 +129,127 @@ having Emacs prompt me every time is annoying and slows my start up.
          ("org" . "http://orgmode.org/elpa/")))
     (package-initialize)
 
+1.  Set the load path for manually downloaded packages
 
-### Set the load path for manually downloaded packages
-
-(Currently I don't use manually downloaded packages)
-
-    ;;(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
+    (Currently I don't use manually downloaded packages)
+    
+        ;;(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
 
 
-<a id="orgfcb17bc"></a>
+<a id="org84c582d"></a>
 
-## `general`
+### `general`
 
 I use `general` to organise my custom keybindings.
 
     (require 'general)
 
+1.  Prefixes
 
-### Prefixes
-
-You can use `general-define-key` directly to define shortcuts,
-ideally using the keyword argument `:prefix` to avoid repeating
-prefixes, but if you are (even only possibly)
-using a prefix several times,
-it's better to create a custom function to use instead of
-`general-define-key`.
-
-Setting `:keymaps` to `'override` ensures that no package will
-override my shortcuts.
-
-For the moment, I'm experimenting with using `s`-key (“super”-key)
-combinations as prefixes. I have my caps lock bound to super
-(on my Chromebook's internal keyboard it's bound to that by
-default), and I think if I restrict the combination keys to
-those on the left side of the keyboard, I can avoid “Emacs pinky”.
-
-So far I have three categories of shortcuts:
-
--   My main shortcuts, those that don't fall into another category.
--   Shortcuts to navigate around the current buffer.
--   Shortcuts to open a `dired` buffer for a certain folder.
-
-    (general-create-definer general-main-define-key
-      :prefix "s-a"
-      :keymaps 'override)
+    You can use `general-define-key` directly to define shortcuts,
+    ideally using the keyword argument `:prefix` to avoid repeating
+    prefixes, but if you are (even only possibly)
+    using a prefix several times,
+    it's better to create a custom function to use instead of
+    `general-define-key`.
     
-    (general-create-definer general-buf-nav-define-key
-      :prefix "s-w"
-      :keymaps 'override)
+    Setting `:keymaps` to `'override` ensures that no package will
+    override my shortcuts.
     
-    (general-create-definer general-dired-define-key
-      :prefix "s-d"
-      :keymaps 'override)
+    For the moment, I'm experimenting with using `s`-key (“super”-key)
+    combinations as prefixes. I have my caps lock bound to super
+    (on my Chromebook's internal keyboard it's bound to that by
+    default), and I think if I restrict the combination keys to
+    those on the left side of the keyboard, I can avoid “Emacs pinky”.
+    
+    So far I have three categories of shortcuts:
+    
+    -   My main shortcuts, those that don't fall into another category.
+    -   Shortcuts to navigate around the current buffer.
+    -   Shortcuts to open a `dired` buffer for a certain folder.
+    
+        (general-create-definer general-main-define-key
+          :prefix "s-a"
+          :keymaps 'override)
+        
+        (general-create-definer general-buf-nav-define-key
+          :prefix "s-w"
+          :keymaps 'override)
+        
+        (general-create-definer general-dired-define-key
+          :prefix "s-d"
+          :keymaps 'override)
+
+2.  `yankpad`
+
+    I use a non-prefixed shortcut for snippet expansion, since
+    I do it all the time.
+    (at least until yankpad has smart tab expansion).
+    
+        (general-define-key
+          "s-f" 'yankpad-expand)
+    
+    Alternatively, `y m` invokes `yankpad-map`, which brings up a
+    keymap of the last tags of snippets.
+    
+        (general-main-define-key
+          "y m" 'yankpad-map)
+    
+    Changes to the yankpad file require `yankpad-reload` to be run
+    to re-cache the snippets. For the moment, it seems like there is
+    separate caching for each buffer, meaning this command has to be
+    run in every buffer where I want changes to be picked up.
+    So, I have a shortcut key.
+    
+        (general-main-define-key
+          "y r" 'yankpad-reload)
+
+3.  `dired`
+
+    I use shortcuts to jump to frequently used directories in `dired`
+    (from any buffer, not just while in `dired`).
+    
+    As seen in `Cosmetics`, I use `dired-single` in order to only have one
+    `dired` buffer at a time. In case this changes, I define another
+    local variable to store the command to invoke `dired` with.
+    
+        (defun my-dired-invocation (directory) (dired-single-magic-buffer directory))
+    
+        (general-dired-define-key
+          "h" (lambda () (interactive) (my-dired-invocation "~"))
+          "o" (lambda () (interactive) (my-dired-invocation "~/Dropbox/Organisation/"))
+          "p" (lambda () (interactive) (my-dired-invocation "~/Dropbox/Projects/"))
+          "m" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/"))
+          "t" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/Agda/thesis/"))
+          "c e" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/3ea3/"))
+        )
+
+4.  Buffer navigation
+
+        (general-buf-nav-define-key
+          "r" (lambda () (interactive) (revert-buffer () t ()))
+          "b" (lambda () (interactive) (beginning-of-buffer))
+          "e" (lambda () (interactive) (end-of-buffer))
+          "t t" (lambda () (interactive) (toggle-my-themes))
+          "t c" (lambda () (interactive) (disable-all-custom-themes))
+        )
+
+5.  `magit`
+
+        (general-main-define-key
+          "g" 'magit-status
+        )
+
+6.  Other
+
+        (general-main-define-key
+          "j" 'dad-joke
+        )
 
 
-### `yankpad`
+<a id="org964a712"></a>
 
-I use a non-prefixed shortcut for snippet expansion, since
-I do it all the time.
-(at least until yankpad has smart tab expansion).
-
-    (general-define-key
-      "s-f" 'yankpad-expand)
-
-Alternatively, `y m` invokes `yankpad-map`, which brings up a
-keymap of the last tags of snippets.
-
-    (general-main-define-key
-      "y m" 'yankpad-map)
-
-Changes to the yankpad file require `yankpad-reload` to be run
-to re-cache the snippets. For the moment, it seems like there is
-separate caching for each buffer, meaning this command has to be
-run in every buffer where I want changes to be picked up.
-So, I have a shortcut key.
-
-    (general-main-define-key
-      "y r" 'yankpad-reload)
-
-
-### `dired`
-
-I use shortcuts to jump to frequently used directories in `dired`
-(from any buffer, not just while in `dired`).
-
-As seen in `Cosmetics`, I use `dired-single` in order to only have one
-`dired` buffer at a time. In case this changes, I define another
-local variable to store the command to invoke `dired` with.
-
-    (defun my-dired-invocation (directory) (dired-single-magic-buffer directory))
-
-    (general-dired-define-key
-      "h" (lambda () (interactive) (my-dired-invocation "~"))
-      "o" (lambda () (interactive) (my-dired-invocation "~/Dropbox/Organisation/"))
-      "p" (lambda () (interactive) (my-dired-invocation "~/Dropbox/Projects/"))
-      "m" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/"))
-      "t" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/Agda/thesis/"))
-      "c e" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/3ea3/"))
-    )
-
-
-### Buffer navigation
-
-    (general-buf-nav-define-key
-      "r" (lambda () (interactive) (revert-buffer () t ()))
-      "b" (lambda () (interactive) (beginning-of-buffer))
-      "e" (lambda () (interactive) (end-of-buffer))
-      "t t" (lambda () (interactive) (toggle-my-themes))
-      "t c" (lambda () (interactive) (disable-all-custom-themes))
-    )
-
-
-### `magit`
-
-    (general-main-define-key
-      "g" 'magit-status
-    )
-
-
-### Other
-
-    (general-main-define-key
-      "j" 'dad-joke
-    )
-
-
-<a id="org04616c9"></a>
-
-## `agda` mode
+### `agda` mode
 
 We need Emacs to locate Agda mode. This command is put in `.emacs`
 
@@ -233,340 +259,331 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
     (require 'agda-input)
     (require 'agda2-highlight)
 
+1.  Command line arguments
 
-### Command line arguments
-
-Dr. Wolfram Kahl has recommended the following settings.
-
-(I'm not setting them right somehow&#x2026;)
-
-    ;;(setq agda2-program-args (quote ("RTS" "-M4G" "-H4G" "-A128M" "-RTS")))
-
-These arguments specify
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">`+RTS`, `-RTS`</td>
-<td class="org-left">Flags between these are arguments to the `ghc` runtime</td>
-</tr>
-
-
-<tr>
-<td class="org-left">`-M[size]`</td>
-<td class="org-left">Maximum heap size</td>
-</tr>
-
-
-<tr>
-<td class="org-left">`-H[size]`</td>
-<td class="org-left">Suggested heap size</td>
-</tr>
-
-
-<tr>
-<td class="org-left">`-A[size]`</td>
-<td class="org-left">Allocation area size used by the garbage collector</td>
-</tr>
-</tbody>
-</table>
-
-Full documentation for the `ghc` runtime argumentscan be found [here](https://downloads.haskell.org/~ghc/7.8.4/docs/html/users_guide/runtime-control.html).
-
-Additional arguments that may be useful include
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">`-S[file]`</td>
-<td class="org-left">Produces information about “each and every garbage collection”</td>
-</tr>
-
-
-<tr>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">- Outputs to `stderr` by default</td>
-</tr>
-</tbody>
-</table>
-
-
-### Alternative problem highlighting
-
-I find the background coloring used by Agda for incomplete pattern matching,
-redundant clauses and clauses which do not hold definitionally hard to read
-in general, and usually unreadable with different themes.
-
-So I use set other indicators instead.
-
-    (defun my-agda-highlighting ()
-      "Set face attributes to replace Agda highlighting I find annoying."
-      (set-face-attribute
-        'agda2-highlight-coverage-problem-face
-        nil ;; all frames
-        :background nil
-        :underline "dark red"
-      )
-      (set-face-attribute
-        'agda2-highlight-reachability-problem-face
-        nil ;; all frames
-        :background nil
-        :strike-through t
-      )
-      (set-face-attribute
-        'agda2-highlight-catchall-clause-face
-        nil ;; all frames
-        :background nil
-        :slant 'italic
-      )
-    )
+    Dr. Wolfram Kahl has recommended the following settings.
     
-    (add-hook 'agda2-mode-hook 'my-agda-highlighting)
+    (I'm not setting them right somehow&#x2026;)
+    
+        ;;(setq agda2-program-args (quote ("RTS" "-M4G" "-H4G" "-A128M" "-RTS")))
+    
+    These arguments specify
+    
+    <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+    
+    
+    <colgroup>
+    <col  class="org-left" />
+    
+    <col  class="org-left" />
+    </colgroup>
+    <tbody>
+    <tr>
+    <td class="org-left">`+RTS`, `-RTS`</td>
+    <td class="org-left">Flags between these are arguments to the `ghc` runtime</td>
+    </tr>
+    
+    
+    <tr>
+    <td class="org-left">`-M[size]`</td>
+    <td class="org-left">Maximum heap size</td>
+    </tr>
+    
+    
+    <tr>
+    <td class="org-left">`-H[size]`</td>
+    <td class="org-left">Suggested heap size</td>
+    </tr>
+    
+    
+    <tr>
+    <td class="org-left">`-A[size]`</td>
+    <td class="org-left">Allocation area size used by the garbage collector</td>
+    </tr>
+    </tbody>
+    </table>
+    
+    Full documentation for the `ghc` runtime argumentscan be found [here](https://downloads.haskell.org/~ghc/7.8.4/docs/html/users_guide/runtime-control.html).
+    
+    Additional arguments that may be useful include
+    
+    <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+    
+    
+    <colgroup>
+    <col  class="org-left" />
+    
+    <col  class="org-left" />
+    </colgroup>
+    <tbody>
+    <tr>
+    <td class="org-left">`-S[file]`</td>
+    <td class="org-left">Produces information about “each and every garbage collection”</td>
+    </tr>
+    
+    
+    <tr>
+    <td class="org-left">&#xa0;</td>
+    <td class="org-left">- Outputs to `stderr` by default</td>
+    </tr>
+    </tbody>
+    </table>
+
+2.  Alternative problem highlighting
+
+    I find the background coloring used by Agda for incomplete pattern matching,
+    redundant clauses and clauses which do not hold definitionally hard to read
+    in general, and usually unreadable with different themes.
+    
+    So I use set other indicators instead.
+    
+        (defun my-agda-highlighting ()
+          "Set face attributes to replace Agda highlighting I find annoying."
+          (set-face-attribute
+            'agda2-highlight-coverage-problem-face
+            nil ;; all frames
+            :background nil
+            :underline "dark red"
+          )
+          (set-face-attribute
+            'agda2-highlight-reachability-problem-face
+            nil ;; all frames
+            :background nil
+            :strike-through t
+          )
+          (set-face-attribute
+            'agda2-highlight-catchall-clause-face
+            nil ;; all frames
+            :background nil
+            :slant 'italic
+          )
+        )
+        
+        (add-hook 'agda2-mode-hook 'my-agda-highlighting)
+
+3.  Add unicode characters to Agda's translations
+
+    1.  Punctuation and parentheses
+    
+            (add-to-list 'agda-input-user-translations '(";;" "﹔"))
+            (add-to-list 'agda-input-user-translations '(";;" "⨾"))
+            (add-to-list 'agda-input-user-translations '("|" "❙"))
+            (add-to-list 'agda-input-user-translations '("st" "•"))
+            (add-to-list 'agda-input-user-translations '("{" "｛"))
+            (add-to-list 'agda-input-user-translations '("}" "｝"))
+    
+    2.  Activate the new additions
+    
+            (agda-input-setup)
+
+4.  Activate Agda input mode in `text` and `prog` modes
+
+        (add-hook 'text-mode-hook
+               (lambda () (set-input-method "Agda")))
+        (add-hook 'prog-mode-hook
+               (lambda () (set-input-method "Agda")))
 
 
-### Add unicode characters to Agda's translations
+<a id="org36c59be"></a>
 
-1.  Punctuation and parentheses
-
-        (add-to-list 'agda-input-user-translations '(";;" "﹔"))
-        (add-to-list 'agda-input-user-translations '(";;" "⨾"))
-        (add-to-list 'agda-input-user-translations '("|" "❙"))
-        (add-to-list 'agda-input-user-translations '("st" "•"))
-        (add-to-list 'agda-input-user-translations '("{" "｛"))
-        (add-to-list 'agda-input-user-translations '("}" "｝"))
-
-2.  Activate the new additions
-
-        (agda-input-setup)
-
-
-### Activate Agda input mode in `text` and `prog` modes
-
-    (add-hook 'text-mode-hook
-           (lambda () (set-input-method "Agda")))
-    (add-hook 'prog-mode-hook
-           (lambda () (set-input-method "Agda")))
-
-
-<a id="org9c9bd13"></a>
-
-## `org` mode
+### `org` mode
 
     (require 'org)
     (require 'ox-extra)
 
+1.  Speed keys
 
-### Speed keys
-
-Speed keys are single keystrokes which execute commands in an
-`org` file when the cursor is at the start of a headline.
-
-    (setq org-use-speed-commands t)
-
-To see the commands available, execute
-
-    (org-speed-command-help)
-
-
-### Hide emphasis markers by default
-
-    (setq org-hide-emphasis-markers t)
-
-
-### Highlight math mode blocks
-
-    (setq org-highlight-latex-and-related '(latex))
-
-
-### Exporting
-
-1.  Allow for ignoring headlines and/or subtrees
-
-    Use the `:ignore:` tag on headlines to omit the headline when
-    exporting, but keep its contents.
+    Speed keys are single keystrokes which execute commands in an
+    `org` file when the cursor is at the start of a headline.
     
-        (ox-extras-activate '(ignore-headlines))
+        (setq org-use-speed-commands t)
     
-    Alternatively, use the `:noexport:` tag to omit the headline
-    *and* its contents.
+    To see the commands available, execute
     
-        ;;;; noexport is in the list by default
-        ;; (add-to-list 'org-export-exclude-tags "noexport")
+        (org-speed-command-help)
 
-2.  Source code block indentation and colouring
+2.  Hide emphasis markers by default
 
-    I want to preserve my indentation for source code during export.
+        (setq org-hide-emphasis-markers t)
+
+3.  Highlight math mode blocks
+
+        (setq org-highlight-latex-and-related '(latex))
+
+4.  Exporting
+
+    1.  Allow for ignoring headlines and/or subtrees
     
-        (setq org-src-preserve-indentation t)
+        Use the `:ignore:` tag on headlines to omit the headline when
+        exporting, but keep its contents.
+        
+            (ox-extras-activate '(ignore-headlines))
+        
+        Alternatively, use the `:noexport:` tag to omit the headline
+        *and* its contents.
+        
+            ;;;; noexport is in the list by default
+            ;; (add-to-list 'org-export-exclude-tags "noexport")
     
-    The `htmlize` package preserves source code colouring on export to html.
-    (And presumably does a lot more I am not fully aware of).
+    2.  Source code block indentation and colouring
     
-        (require 'htmlize)
-
-3.  Export in the background
-
-    Using `latex-mk`, the export process takes a bit of time.
-    Tying up emacs during that time is annoying, so set the
-    export to happen in the background.
+        I want to preserve my indentation for source code during export.
+        
+            (setq org-src-preserve-indentation t)
+        
+        The `htmlize` package preserves source code colouring on export to html.
+        (And presumably does a lot more I am not fully aware of).
+        
+            (require 'htmlize)
     
-        (setq org-export-in-background t)
-
-4.  LaTeX specific
-
-    1.  Default LaTeX compiler
+    3.  Export in the background
     
-        I use a lot of unicode, and I find `xelatex` and `lualatex`
-        handle that more easily than `pdflatex`.
+        Using `latex-mk`, the export process takes a bit of time.
+        Tying up emacs during that time is annoying, so set the
+        export to happen in the background.
         
-        From my experience so far, they seem pretty interchangable
-        for my purposes, so the decision of which to use is arbitrary.
-        
-        Based on [this discussion on Stack Exchange](https://tex.stackexchange.com/questions/36/differences-between-luatex-context-and-xetex), LuaTeX seems the more
-        “up and coming” engine, so I'm using it at least until something breaks.
-        
-            (setq org-latex-compiler "lualatex")
+            (setq org-export-in-background t)
     
-    2.  LaTeX compilation process
+    4.  LaTeX specific
     
-        I use `latexmk` to automatically run as many passes as needed
-        to resolve references, etc.
+        1.  Default LaTeX compiler
         
-            (setq org-latex-pdf-process
-                  '("latexmk -%latex -f %f"))
+            I use a lot of unicode, and I find `xelatex` and `lualatex`
+            handle that more easily than `pdflatex`.
+            
+            From my experience so far, they seem pretty interchangable
+            for my purposes, so the decision of which to use is arbitrary.
+            
+            Based on [this discussion on Stack Exchange](https://tex.stackexchange.com/questions/36/differences-between-luatex-context-and-xetex), LuaTeX seems the more
+            “up and coming” engine, so I'm using it at least until something breaks.
+            
+                (setq org-latex-compiler "lualatex")
         
-        The flags/format specifiers are
+        2.  LaTeX compilation process
         
-        <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+            I use `latexmk` to automatically run as many passes as needed
+            to resolve references, etc.
+            
+                (setq org-latex-pdf-process
+                      '("latexmk -%latex -f %f"))
+            
+            The flags/format specifiers are
+            
+            <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+            
+            
+            <colgroup>
+            <col  class="org-left" />
+            
+            <col  class="org-left" />
+            </colgroup>
+            <tbody>
+            <tr>
+            <td class="org-left">`%latex`</td>
+            <td class="org-left">stands in for the latex compiler (defaults to the setting above)</td>
+            </tr>
+            
+            
+            <tr>
+            <td class="org-left">`-f`</td>
+            <td class="org-left">force continued processing past errors</td>
+            </tr>
+            
+            
+            <tr>
+            <td class="org-left">`%f`</td>
+            <td class="org-left">stands in for the (relative) filename</td>
+            </tr>
+            </tbody>
+            </table>
+            
+            Other flags/format specifiers I may wish to add later include
+            
+            <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+            
+            
+            <colgroup>
+            <col  class="org-left" />
+            
+            <col  class="org-left" />
+            </colgroup>
+            <tbody>
+            <tr>
+            <td class="org-left">`-shell-escape`</td>
+            <td class="org-left">necessary to use `minted`</td>
+            </tr>
+            </tbody>
+            </table>
         
+        3.  Custom document classes (customising outermost structure)
         
-        <colgroup>
-        <col  class="org-left" />
+            I want a `report` class that begins with `chapter`'s, rather than
+            `part`'s.
+            
+                (add-to-list
+                  'org-latex-classes
+                    '("report-noparts"
+                      "\\documentclass{report}"
+                      ("\\chapter{%s}" . "\\chapter*{%s}")
+                      ("\\section{%s}" . "\\section*{%s}")
+                      ("\\subsection{%s}" . "\\subsection*{%s}")
+                      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                      ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                      ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
         
-        <col  class="org-left" />
-        </colgroup>
-        <tbody>
-        <tr>
-        <td class="org-left">`%latex`</td>
-        <td class="org-left">stands in for the latex compiler (defaults to the setting above)</td>
-        </tr>
+        4.  Source code colouring in LaTeX exports
         
-        
-        <tr>
-        <td class="org-left">`-f`</td>
-        <td class="org-left">force continued processing past errors</td>
-        </tr>
-        
-        
-        <tr>
-        <td class="org-left">`%f`</td>
-        <td class="org-left">stands in for the (relative) filename</td>
-        </tr>
-        </tbody>
-        </table>
-        
-        Other flags/format specifiers I may wish to add later include
-        
-        <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-        
-        
-        <colgroup>
-        <col  class="org-left" />
-        
-        <col  class="org-left" />
-        </colgroup>
-        <tbody>
-        <tr>
-        <td class="org-left">`-shell-escape`</td>
-        <td class="org-left">necessary to use `minted`</td>
-        </tr>
-        </tbody>
-        </table>
+            We can use `minted` for source code colouring on export to LaTeX.
+            
+            Currently this breaks things with my literate Agda process,
+            a problem I should resolve. For the moment, if I want to use
+            `minted`, I can do so on a file-by-file basis.
+            
+            ⟪ `pygments` (also called `python-pygments`) must be installed on the
+              system for this to work. ⟫
+            
+                ;;(setq org-latex-listings 'minted
+                ;;      org-latex-packages-alist '(("" "minted")))
+
+5.  Evaluating code
+
+    By default, Emacs will query whether we *actually* want to
+    execute code when we evaluate a code block. Also, it seems to
+    just *not* execute code marked for execution during export in an
+    `org` file. So, I remove the safety.
     
-    3.  Custom document classes (customising outermost structure)
+        (setq org-confirm-babel-evaluate nil)
     
-        I want a `report` class that begins with `chapter`'s, rather than
-        `part`'s.
-        
-            (add-to-list
-              'org-latex-classes
-                '("report-noparts"
-                  "\\documentclass{report}"
-                  ("\\chapter{%s}" . "\\chapter*{%s}")
-                  ("\\section{%s}" . "\\section*{%s}")
-                  ("\\subsection{%s}" . "\\subsection*{%s}")
-                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+    Loading the following languages with `require` allows code blocks
+    in them to be evaluated.
     
-    4.  Source code colouring in LaTeX exports
+    By default only emacs lisp can be evaluated.
     
-        We can use `minted` for source code colouring on export to LaTeX.
-        
-        Currently this breaks things with my literate Agda process,
-        a problem I should resolve. For the moment, if I want to use
-        `minted`, I can do so on a file-by-file basis.
-        
-        ⟪ `pygments` (also called `python-pygments`) must be installed on the
-          system for this to work. ⟫
-        
-            ;;(setq org-latex-listings 'minted
-            ;;      org-latex-packages-alist '(("" "minted")))
+    Documentation [here](https://orgmode.org/manual/Languages.html).
+    
+        (require 'ob-C)
+        (require 'ob-haskell)
+        (require 'ob-latex)
+        (require 'ob-shell)
+    
+    For shell code, we need to initialise via this function.
+    See [here](https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-function-definition-is-void-org-babel-get-header).
+    
+        (org-babel-shell-initialize)
 
 
-### Evaluating code
+<a id="org523f1c3"></a>
 
-By default, Emacs will query whether we *actually* want to
-execute code when we evaluate a code block. Also, it seems to
-just *not* execute code marked for execution during export in an
-`org` file. So, I remove the safety.
-
-    (setq org-confirm-babel-evaluate nil)
-
-Loading the following languages with `require` allows code blocks
-in them to be evaluated.
-
-By default only emacs lisp can be evaluated.
-
-Documentation [here](https://orgmode.org/manual/Languages.html).
-
-    (require 'ob-C)
-    (require 'ob-haskell)
-    (require 'ob-latex)
-    (require 'ob-shell)
-
-For shell code, we need to initialise via this function.
-See [here](https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-function-definition-is-void-org-babel-get-header).
-
-    (org-babel-shell-initialize)
-
-
-<a id="org371af97"></a>
-
-## `pdf-tools`
+### `pdf-tools`
 
 Need to “install” it each time emacs starts
 
     (pdf-tools-install)
 
 
-<a id="org8ae9340"></a>
+<a id="orgb997f14"></a>
 
-## `yankpad` and `yasnippets`
+### `yankpad` and `yasnippets`
 
 I use `yasnippets` for text expansion, and `yankpad` to organise my
 snippets.
@@ -584,30 +601,29 @@ invoke a snippet, the region will be wrapped).
 
     (setq yas-wrap-around-region t)
 
+1.  Don't add a final newline when editing snippet files
 
-### Don't add a final newline when editing snippet files
-
-`yasnippets` will insert the final newline when expanding a snippet,
-so snippet files generally shouldn't include a final newline.
-
-    (add-hook 'snippet-mode-hook (setq require-final-newline nil))
-
-
-<a id="org88692e1"></a>
-
-# Cosmetics
+    `yasnippets` will insert the final newline when expanding a snippet,
+    so snippet files generally shouldn't include a final newline.
+    
+        (add-hook 'snippet-mode-hook (setq require-final-newline nil))
 
 
-<a id="org02cbd24"></a>
+<a id="orgd6e65c6"></a>
 
-## Always confirm before closing Emacs
+## Cosmetics
+
+
+<a id="org24e310c"></a>
+
+### Always confirm before closing Emacs
 
     (setq confirm-kill-emacs 'yes-or-no-p)
 
 
-<a id="org31ae006"></a>
+<a id="orgf0cb489"></a>
 
-## Remove unnecessary interface elements
+### Remove unnecessary interface elements
 
 Emacs usually shows a splash screen on startup,
 which doesn't interest me.
@@ -629,9 +645,9 @@ I also disable the scroll bars.
     (scroll-bar-mode -1)
 
 
-<a id="org99f2a1e"></a>
+<a id="org832f7d7"></a>
 
-## Themes
+### Themes
 
 I use the `doom-nord` themes,
 and toggle between the non-`light` and `light` variants.
@@ -685,9 +701,9 @@ Make it “play nice” with `org`
     (doom-themes-org-config)
 
 
-<a id="org26e4e4d"></a>
+<a id="org8de9864"></a>
 
-## Information in the mode line
+### Information in the mode line
 
 The doom themes package comes with a function to make
 the mode line flash on error.
@@ -711,9 +727,9 @@ It's also useful to see the line number and column number.
     (column-number-mode t)
 
 
-<a id="org066d0c6"></a>
+<a id="orgbadff46"></a>
 
-## Show line numbers on left (for `text` and `prog` mode)
+### Show line numbers on left (for `text` and `prog` mode)
 
     (add-hook 'text-mode-hook 'linum-mode)
     (add-hook 'prog-mode-hook 'linum-mode)
@@ -723,9 +739,9 @@ Setting it globally would conflict with `pdf-tools`.
     ;; (global-linum-mode t)
 
 
-<a id="org6506f45"></a>
+<a id="org6147186"></a>
 
-## Highlight matching parenthesis when cursor is near
+### Highlight matching parenthesis when cursor is near
 
     (load-library "paren")
     (show-paren-mode 1)
@@ -733,16 +749,16 @@ Setting it globally would conflict with `pdf-tools`.
     (require 'paren)
 
 
-<a id="org555538a"></a>
+<a id="orga22467c"></a>
 
-## Show trailing whitespace
+### Show trailing whitespace
 
     (custom-set-variables '(show-trailing-whitespace t))
 
 
-<a id="orgaca95b2"></a>
+<a id="org52b497a"></a>
 
-## Display preferences for `dired`
+### Display preferences for `dired`
 
 `dired` makes use of switches for `ls`.
 
@@ -813,46 +829,46 @@ I like the following switches:
     (setq dired-listing-switches "--group-directories-first -aBgGhL")
 
 
-<a id="org9a364a9"></a>
+<a id="org8f8fb1c"></a>
 
-## Show ruler at 80 characters for (for `text` and `prog` mode)
+### Show ruler at 80 characters for (for `text` and `prog` mode)
 
     (require 'fill-column-indicator)
     (add-hook 'text-mode-hook 'fci-mode)
     (add-hook 'prog-mode-hook 'fci-mode)
 
 
-<a id="org8843939"></a>
+<a id="orgb9259e3"></a>
 
-## Wrap lines
+### Wrap lines
 
     (global-visual-line-mode t)
 
 
-<a id="orgb902398"></a>
+<a id="orgab8906a"></a>
 
-## Automatically revert unchanged files which change on the disk
+### Automatically revert unchanged files which change on the disk
 
     (global-auto-revert-mode t)
 
 
-<a id="orgfd1e5f3"></a>
+<a id="orgdfdf862"></a>
 
-## TODO Use `wordsmith` for English syntax highlighting
+### TODO Use `wordsmith` for English syntax highlighting
 
     (require 'wordsmith-mode)
 
 
-<a id="orgbec038d"></a>
+<a id="orgc875fd7"></a>
 
-## Show possible completions as I type shortcuts
+### Show possible completions as I type shortcuts
 
     (require 'which-key)
 
 
-<a id="org387e15c"></a>
+<a id="org4942458"></a>
 
-## Use a single buffer for `dired`
+### Use a single buffer for `dired`
 
 I use `dired-single` to avoid `dired` opening a new buffer
 for every directory visited.
@@ -885,94 +901,468 @@ is taken directly from the `dired-single` [GitHub readme](https://github.com/cro
       (add-hook 'dired-load-hook 'my-dired-init))
 
 
-<a id="org2453f68"></a>
+<a id="org186421a"></a>
 
-## Buffers to open upon startup
+### Buffers to open upon startup
 
 Note that this portion of the file should be *after* any settings
 that would affect these buffers.
 
 Otherwise those settings will not apply in these buffers.
 
+1.  Emacs init (this file)
 
-### Emacs init (this file)
+        (find-file "~/Dropbox/Organisation/setup/emacs/emacs-init.org")
 
-    (find-file "~/Dropbox/Organisation/setup/emacs/emacs-init.org")
+2.  Emacs tips and tricks
 
+        (find-file "~/Dropbox/Organisation/setup/emacs/tips-and-tricks.org")
 
-### Emacs tips and tricks
+3.  Yasnippets file
 
-    (find-file "~/Dropbox/Organisation/setup/emacs/tips-and-tricks.org")
+        (find-file "~/Dropbox/Organisation/setup/emacs/yasnippets.org")
 
+4.  Yankpad file
 
-### Yasnippets file
+        (find-file "~/Dropbox/Organisation/setup/emacs/yankpad.org")
 
-    (find-file "~/Dropbox/Organisation/setup/emacs/yasnippets.org")
+5.  My Agda scratch file
 
+        (find-file "~/Dropbox/McMaster/Agda/scratch.agda")
 
-### Yankpad file
+6.  My phone log
 
-    (find-file "~/Dropbox/Organisation/setup/emacs/yankpad.org")
+        (find-file "~/Dropbox/Organisation/log/phone-log.org")
 
+7.  My log (as the initial buffer)
 
-### My Agda scratch file
-
-    (find-file "~/Dropbox/McMaster/Agda/scratch.agda")
-
-
-### My phone log
-
-    (find-file "~/Dropbox/Organisation/log/phone-log.org")
+        (setq initial-buffer-choice "~/Dropbox/Organisation/log/log.org")
 
 
-### My log (as the initial buffer)
+<a id="org261fdc4"></a>
 
-    (setq initial-buffer-choice "~/Dropbox/Organisation/log/log.org")
-
-
-<a id="orgdf7a6a0"></a>
-
-# Other
+## Other
 
 
-<a id="org2e21196"></a>
+<a id="org23794d7"></a>
 
-## Run my custom “dropbox start” command to ensure dropbox is running on the system
+### Run my custom “dropbox start” command to ensure dropbox is running on the system
 
     (start-process-shell-command "dropbox-start"
                                  "*dropbox-start*"
                                  "/opt/dropbox-filesystem-fix/dropbox_start.py")
 
 
-<a id="orgb614ffb"></a>
+<a id="org5a497e8"></a>
 
-# Generating the README.md for my Emacs repo
+## Generating the README.md for my Emacs repo
 
 This code generates a `README.md` file for my Emacs repo,
 including this file and other relevant files.
 
     (with-temp-buffer
-      (insert
-        "#+EXPORT_FILE_NAME: README.md
-         #+TITLE: My Emacs setup
-         #+OPTIONS: toc:nil
+      (insert "#+EXPORT_FILE_NAME: README.md
+               #+TITLE: My Emacs setup
+               #+OPTIONS: toc:nil
+               This repository contains the files that make up my Emacs setup.
     
-         This repository contains the files that make up my Emacs setup.
+               For the moment, that is my (literate) Emacs initialisation file
+               and my ~yankpad~ file.
     
-         For the moment, that is my (literate) Emacs initialisation file
-         and my ~yankpad~ file.
-    
-         #+TOC: headlines 2
-    
-         * Emacs initialisation
-    
-         #+INCLUDE: emacs-init.org
-    
-         * ~yankpad~
-    
-         #+INCLUDE: yankpad.org
-      ")
+               #+TOC: headlines 3\n")
+      (insert "* ~emacs-init.org~\n")
+      (insert "#+INCLUDE: emacs-init.org\n")
+      (insert "* ~yankpad.org~\n")
+      (insert "#+INCLUDE: yankpad.org\n")
       (org-mode)
       (org-md-export-to-markdown)
     )
+
+
+<a id="org40e75a3"></a>
+
+# `yankpad.org`
+
+
+
+<a id="org0480dd1"></a>
+
+## Description
+
+
+<a id="org4003a12"></a>
+
+### Introduction
+
+This `org-mode` file contains commonly repeated snippets of text
+which I expand using `yankpad` along with `yasnippets`.
+
+Specifically, `yankpad` caches the snippets defined in this file,
+and allows them to be expanded from a keyword with `yankpad-expand`
+or selected from a keymap with `yankpad-map`.
+
+With `yasnippets` installed (and its minor-mode active),
+the contents of the snippets are actually executed using `yasnippets`,
+which provides a great deal of functionality, including tab fields
+and arbitrary lisp code execution.
+
+
+<a id="org465d51a"></a>
+
+### Organisation notes
+
+The outermost headings of this file separate it into *categories*.
+Snippets in a category named after a mode are available
+for yanking when that mode is active.
+Other category's snippets can be made available by switching to that
+category with `yankpad-set-category`.
+Snippets in categories marked `:global:` are always available.
+
+Inside categories, I use subheadings to organise snippets.
+The *lowest level* headings define individual snippets.
+
+Headings of snippets have the form `expandkeys: Name :settings:key:`,
+where
+
+-   `expandkeys` is a `:` separated list of keys for the snippet
+    which can be expanded with `yankpad-expand`,
+-   `Name` is the name of the snippet,
+-   `settings` is `:` separated list of settings for the snippets,
+    possibly including
+    -   `src`, which marks the snippet as being literate; only the
+        contents of code blocks in such snippets are inserted.
+    -   `func`, which marks the snippet as a function. In this case
+        no text is inserted; instead the code blocks of the snippet are
+        executed.
+    -   `results`, which acts like `func`, but in this case, the *results*
+        of the code blocks inside the snippet
+        are inserted.
+
+Most of my snippets are marked `:src:`, since this *is* a literate file
+(and I don't tend to use snippets for executing code).
+
+
+<a id="orge1ccbfa"></a>
+
+### Documentation links
+
+-   [yankpad](https://github.com/Kungsgeten/yankpad)
+-   [yasnippets](https://github.com/joaotavora/yasnippet)
+-   [org-mode](https://orgmode.org/) (for good measure)
+
+
+<a id="org87a849e"></a>
+
+### Caveats
+
+Sometimes snippets seem to act oddly in this file;
+specifically snippets from lower in the file won't
+expand higher in the file (sometimes).
+
+For that reason, the `org` mode snippets come first,
+as they are useful for adding to this file.
+
+
+<a id="org13b3d55"></a>
+
+## org-mode
+
+I use `org` all the time, so you'll note in the `:properties:` drawer
+that I include snippets from lots of other modes, since I often
+write code from other modes in `org`.
+
+
+<a id="orge3e336c"></a>
+
+### `org` blocks
+
+1.  `src` blocks
+
+    Note that the `,#` expands to the `org` “comment” character `#`.
+    
+    This is needed to have a `#+end_src` *inside* a `src` block.
+    
+    1.  src: Generic source block     :src:orgsrc:
+    
+            #+begin_src $1
+            $0
+            #+end_src
+    
+    2.  el: Emacs lisp block     :src:orgel:
+    
+            #+begin_src emacs-lisp
+            $0
+            #+end_src
+    
+    3.  t: Plaintext     :src:orgt:
+    
+            #+begin_src text
+            $0
+            #+end_src
+    
+    4.  sh: Shell     :src:orgsh:
+    
+            #+begin_src shell
+            $0
+            #+end_src
+    
+    5.  ag: Agda code block     :src:orgag:
+    
+            #+begin_src org-agda
+            $0
+            #+end_src
+    
+    6.  ic: “Interactive” C block     :src:orgicc:
+    
+            #+begin_src c :tangle (currently-working-with "${1:generated}")
+            $0
+            #+end_src
+    
+    7.  icn: Inactive “Interactive” C block     :src:orgicn:
+    
+            #+begin_src c :tangle (not-currently-working-with "${1:generated}")
+            $0
+            #+end_src
+    
+    8.  ich: “Interactive” C header block     :src:orgich:
+    
+            #+begin_src c :tangle (currently-working-with-header "${1:generated}")
+            $0
+            #+end_src
+
+2.  Others
+
+    1.  e: Example     :src:orge:
+    
+            #+begin_example $1
+            $0
+            #+end_example
+    
+    2.  quot: Quote     :src:orgquot:
+    
+            #+begin_quote
+            $0
+            #+end_quote
+    
+    3.  ques: Question     :src:orgques:
+    
+            #+begin_example $1
+            $0
+            #+end_example
+    
+    4.  ans: Answer     :src:organs:
+    
+            #+begin_example $1
+            $0
+            #+end_example
+
+
+<a id="orgef6fbe3"></a>
+
+## Default     :global:
+
+The category “Default” will be used if there is no category for the
+current major mode.
+
+I make these snippets available everywhere else as well by marking
+the category as `:global:`.
+
+
+<a id="orgf18f73d"></a>
+
+### Punctuation, parentheses, etc.
+
+1.  dq: Double quotes     :src:dq:
+
+        “$1” $0
+
+2.  card: Cardinality     :src:card:
+
+        ∣$1∣ $0
+
+3.  enc: Encoding     :src:enc:
+
+        ⌜$1⌝ $0
+
+4.  denc: Decoding     :src:denc:
+
+        ⟦$1⟧ $0
+
+
+<a id="orgba0b059"></a>
+
+### Words
+
+1.  det: deterministic     :src:
+
+        deterministic
+
+2.  ndet: non-deterministic     :src:
+
+        non-deterministic
+
+
+<a id="org6ff3ccd"></a>
+
+### Other global
+
+1.  thisfile: Name of the current file (buffer)     :src:thisfile:
+
+        `(buffer-name)`
+
+2.  dasht: A “title” surrouned by dashes     :src:dasht:
+
+        ${1:$(make-string (string-width yas-text) ?\-)}
+        ${1:Title}
+        ${1:$(make-string (string-width yas-text) ?\-)}
+        $0
+    
+    Credit: the [[<http://joaotavora.github.io/yasnippet/snippet-development.html#orge2c1f71>][yasnippet tutorial
+
+3.  dj: Get a dad joke     :src:dj:
+
+        `(dad-joke)`
+
+4.  yas: Yasnippet template     :src:yas:
+
+    This should really move to a specialised category.
+    
+        # name: $1
+        # key: $2
+        # --
+        $0
+
+
+<a id="org8feda1a"></a>
+
+## agda2-mode
+
+
+<a id="orgbbb2ecd"></a>
+
+### ag: Literate code block     :src:ag:
+
+    \begin{code}
+    $0
+    \end{code}
+
+
+<a id="orgfba4cd5"></a>
+
+### ga: Break up a literate code block     :src:ga:
+
+    \end{code}
+    $0
+    \begin{code}
+
+
+<a id="orgcb2b7fc"></a>
+
+### tag: Catch-file-between-tags     :src:tag:
+
+    %<*$1>
+    $0
+    %</$1>
+
+
+<a id="orgb12f7e0"></a>
+
+### fun: Function declaration with type signature     :src:fun:
+
+    $1 : $0
+    $1 = ?
+
+
+<a id="orgece1df9"></a>
+
+### setl: `Set` arguments parameterised by a `Level`     :src:setl:
+
+    {${1:a} : Level} → (${2:A} : Set $1) → $0
+
+
+<a id="orge1e098c"></a>
+
+### isetl: *Implicit* `Set` arguments parameterised by a `Level`     :src:isetl:
+
+    {${1:a} : Level} → {${2:A} : Set $1} → $0
+
+
+<a id="org935e861"></a>
+
+### 2setl: `Set` arguments parameterised by two `Level's`     :src:2setl:
+
+    {${1:a} ${2:b} : Level} → (${3:A} : Set $1) → (${4:B} : Set $1) → $0
+
+
+<a id="org18f683f"></a>
+
+### i2setl: *Implicit* `Set` arguments parameterised by two `Level's`     :src:i2setl:
+
+    {${1:a} ${2:b} : Level} → {${3:A} : Set $1} → {${4:B} : Set $1} → $0
+
+
+<a id="org62c7135"></a>
+
+### with: `with` pattern     :src:with:
+
+    with $1
+    ... | ${2:thing} = $0
+
+
+<a id="org4393fe1"></a>
+
+### eqr: Start a `≡-Reasoning` block     :src:eqr:
+
+    begin
+      ?$0
+    ≡⟨ ${1:?} ⟩
+      ?
+    ∎
+
+
+<a id="org639e679"></a>
+
+### eqs: Insert a step in a `≡-Reasoning` block     :src:eqs:
+
+    ≡⟨ ${1:?} ⟩
+      $0
+
+
+<a id="orgb54fad8"></a>
+
+## tex-mode
+
+
+<a id="orgb0417f0"></a>
+
+### leg: General LaTeX environment     :src:leg:
+
+    \begin{$1}
+    $0
+    \end{$1}
+
+
+<a id="org5653c5f"></a>
+
+### lei: LaTeX itemize     :src:lei:
+
+    \begin{itemize}
+    $0
+    \end{itemize}
+
+
+<a id="org508d840"></a>
+
+### lec: LaTeX center     :src:lec:
+
+    \begin{center}
+    $0
+    \end{center}
+
+
+<a id="org87aef83"></a>
+
+### li: LaTeX item     :src:li:
+
+    \item $0
 

@@ -1075,26 +1075,19 @@ including this file and other relevant files.
 #+name: readme-generate
 #+begin_src emacs-lisp :results none
 (with-temp-buffer
-  (insert
-    "#+EXPORT_FILE_NAME: README.md
-     #+TITLE: My Emacs setup
-     #+OPTIONS: toc:nil
+  (insert "#+EXPORT_FILE_NAME: README.md
+           #+TITLE: My Emacs setup
+           #+OPTIONS: toc:nil
+           This repository contains the files that make up my Emacs setup.
 
-     This repository contains the files that make up my Emacs setup.
+           For the moment, that is my (literate) Emacs initialisation file
+           and my ~yankpad~ file.
 
-     For the moment, that is my (literate) Emacs initialisation file
-     and my ~yankpad~ file.
-
-     #+TOC: headlines 2
-
-     * Emacs initialisation
-
-     #+INCLUDE: emacs-init.org
-
-     * ~yankpad~
-
-     #+INCLUDE: yankpad.org
-  ")
+           #+TOC: headlines 3\n")
+  (insert "* ~emacs-init.org~\n")
+  (insert "#+INCLUDE: emacs-init.org\n")
+  (insert "* ~yankpad.org~\n")
+  (insert "#+INCLUDE: yankpad.org\n")
   (org-mode)
   (org-md-export-to-markdown)
 )
