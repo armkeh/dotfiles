@@ -9,73 +9,73 @@ and my `yankpad` file.
 
 # Table of Contents
 
-1.  [`emacs-init.org`](#org8409776)
-    1.  [Introduction](#org11c2e1f)
-        1.  [Setting up `.emacs` to use this code](#org1795195)
-    2.  [Major packages](#org03b2581)
-        1.  [Package repositories](#org82cd7a3)
-        2.  [`general`](#org84c91f7)
-        3.  [`agda` mode](#orgdcde89a)
-        4.  [`org` mode](#org3356197)
-        5.  [`pdf-tools`](#orgd43e567)
-        6.  [`yankpad` and `yasnippets`](#org66bc7aa)
-    3.  [Cosmetics](#org41b04c0)
-        1.  [Always confirm before closing Emacs](#org5862a57)
-        2.  [Remove unnecessary interface elements](#org4c934c0)
-        3.  [Themes](#org14ff1d5)
-        4.  [Information in the mode line](#org8d6db54)
-        5.  [Show line numbers on left (for `text` and `prog` mode)](#orge6f122f)
-        6.  [Highlight matching parenthesis when cursor is near](#org4578923)
-        7.  [Show trailing whitespace](#orgc6fa5aa)
-        8.  [Display preferences for `dired`](#orgfc72908)
-        9.  [Show ruler at 80 characters for (for `text` and `prog` mode)](#orgcabab5f)
-        10. [Wrap lines](#org83b72a7)
-        11. [Automatically revert unchanged files which change on the disk](#org5666005)
-        12. [Use `wordsmith` for English syntax highlighting](#org9663482)
-        13. [Show possible completions as I type shortcuts](#orge93f788)
-        14. [Use a single buffer for `dired`](#org81f8477)
-        15. [Buffers to open upon startup](#orgf20b764)
-    4.  [Other](#org10488a6)
-        1.  [Run my custom “dropbox start” command to ensure dropbox is running on the system](#org259596e)
-    5.  [Generating the README.md for my Emacs repo](#org7e2d9d8)
-2.  [`yankpad.org`](#orgaeb94b0)
-    1.  [Description](#org6b6600a)
-        1.  [Introduction](#orgbff940e)
-        2.  [Organisation notes](#orge699e7b)
-        3.  [Documentation links](#org5ce62c0)
-        4.  [Caveats](#org393b1c4)
-    2.  [org-mode](#orgd4e964e)
-        1.  [`org` blocks](#orge38e3a0)
-    3.  [Default](#orgbcf150c):global:
-        1.  [Punctuation, parentheses, etc.](#org5e32e5c)
-        2.  [Words](#orgc236fc8)
-        3.  [Other global](#org5d33d8b)
-    4.  [agda2-mode](#orgb9112af)
-        1.  [ag: Literate code block](#org568d243):src:ag:
-        2.  [ga: Break up a literate code block](#org485d806):src:ga:
-        3.  [tag: Catch-file-between-tags](#orgea3f03a):src:tag:
-        4.  [fun: Function declaration with type signature](#org8a07d20):src:fun:
-        5.  [setl: `Set` arguments parameterised by a `Level`](#orgd3b95ce):src:setl:
-        6.  [isetl: *Implicit* `Set` arguments parameterised by a `Level`](#orgad8bb2a):src:isetl:
-        7.  [2setl: `Set` arguments parameterised by two `Level's`](#orgd2d9096):src:2setl:
-        8.  [i2setl: *Implicit* `Set` arguments parameterised by two `Level's`](#orgdfed0a0):src:i2setl:
-        9.  [with: `with` pattern](#orgbabd2a0):src:with:
-        10. [eqr: Start a `≡-Reasoning` block](#org2347cf7):src:eqr:
-        11. [eqs: Insert a step in a `≡-Reasoning` block](#org3471c38):src:eqs:
-    5.  [tex-mode](#org57023e2)
-        1.  [leg: General LaTeX environment](#org1375f6d):src:leg:
-        2.  [lei: LaTeX itemize](#org63fbc4b):src:lei:
-        3.  [lec: LaTeX center](#org837cbd9):src:lec:
-        4.  [li: LaTeX item](#org5f701cb):src:li:
+1.  [`emacs-init.org`](#org5e47f33)
+    1.  [Introduction](#org1ba93f4)
+        1.  [Setting up `.emacs` to use this code](#orge945b09)
+    2.  [Major packages](#orgb21212b)
+        1.  [Package repositories](#org698d082)
+        2.  [`general`](#org073a620)
+        3.  [`agda` mode](#orgc6ee8c6)
+        4.  [`org` mode](#orgc0b0393)
+        5.  [`pdf-tools`](#org3461579)
+        6.  [`yankpad` and `yasnippets`](#org1b17b7b)
+    3.  [Cosmetics](#org32b806a)
+        1.  [Always confirm before closing Emacs](#org6085da1)
+        2.  [Remove unnecessary interface elements](#orgb4157b2)
+        3.  [Themes](#org81bea39)
+        4.  [Information in the mode line](#org2e2cb25)
+        5.  [Show line numbers on left (for `text` and `prog` mode)](#orgdfcc226)
+        6.  [Highlight matching parenthesis when cursor is near](#orgf8493e4)
+        7.  [Show trailing whitespace](#orgc202f94)
+        8.  [Display preferences for `dired`](#org5af77d0)
+        9.  [Show ruler at 80 characters for (for `text` and `prog` mode)](#orge6e6701)
+        10. [Wrap lines](#orga01b429)
+        11. [Automatically revert unchanged files which change on the disk](#org73d8169)
+        12. [Use `wordsmith` for English syntax highlighting](#org0d9ebde)
+        13. [Show possible completions as I type shortcuts](#org02a30e7)
+        14. [Use a single buffer for `dired`](#org2850ad6)
+        15. [Buffers to open upon startup](#org43adeab)
+    4.  [Other](#orgb03473c)
+        1.  [Run my custom “dropbox start” command to ensure dropbox is running on the system](#org05f0258)
+    5.  [Generating the README.md for my Emacs repo](#org6500e04)
+2.  [`yankpad.org`](#orgbc309f5)
+    1.  [Description](#orgc9ada21)
+        1.  [Introduction](#org45ad7dd)
+        2.  [Organisation notes](#orgd810e83)
+        3.  [Documentation links](#org567f792)
+        4.  [Caveats](#org3dbaf88)
+    2.  [org-mode](#orgce225a0)
+        1.  [`org` blocks](#org8e34c8c)
+    3.  [Default](#org3102c2f):global:
+        1.  [Punctuation, parentheses, etc.](#orge107c86)
+        2.  [Words](#orgeb6fca5)
+        3.  [Other global](#org17f337a)
+    4.  [agda2-mode](#org61ce81d)
+        1.  [ag: Literate code block](#org0ca5a4a):src:ag:
+        2.  [ga: Break up a literate code block](#orgc10fbc4):src:ga:
+        3.  [tag: Catch-file-between-tags](#orgfbcb3c7):src:tag:
+        4.  [fun: Function declaration with type signature](#org54486d1):src:fun:
+        5.  [setl: `Set` arguments parameterised by a `Level`](#org5bd8284):src:setl:
+        6.  [isetl: *Implicit* `Set` arguments parameterised by a `Level`](#org46f9e6b):src:isetl:
+        7.  [2setl: `Set` arguments parameterised by two `Level's`](#org758c8aa):src:2setl:
+        8.  [i2setl: *Implicit* `Set` arguments parameterised by two `Level's`](#org7c0d839):src:i2setl:
+        9.  [with: `with` pattern](#orgccfe482):src:with:
+        10. [eqr: Start a `≡-Reasoning` block](#orga59df92):src:eqr:
+        11. [eqs: Insert a step in a `≡-Reasoning` block](#orgd8972c3):src:eqs:
+    5.  [tex-mode](#orgd48f04b)
+        1.  [leg: General LaTeX environment](#org8963dab):src:leg:
+        2.  [lei: LaTeX itemize](#org224d11f):src:lei:
+        3.  [lec: LaTeX center](#org429867c):src:lec:
+        4.  [li: LaTeX item](#org33b72f1):src:li:
 
 
-<a id="org8409776"></a>
+<a id="org5e47f33"></a>
 
 # `emacs-init.org`
 
 
 
-<a id="org11c2e1f"></a>
+<a id="org1ba93f4"></a>
 
 ## Introduction
 
@@ -85,7 +85,7 @@ in the future and for sharing with others.
 I'm following [Musa's](https://alhassy.github.io/init/) example using an `org` file for this.
 
 
-<a id="org1795195"></a>
+<a id="orge945b09"></a>
 
 ### Setting up `.emacs` to use this code
 
@@ -116,12 +116,12 @@ then add to the bottom of =~/.emacs` these lines:
     having Emacs prompt me every time is annoying and slows my start up.
 
 
-<a id="org03b2581"></a>
+<a id="orgb21212b"></a>
 
 ## Major packages
 
 
-<a id="org82cd7a3"></a>
+<a id="org698d082"></a>
 
 ### Package repositories
 
@@ -139,7 +139,7 @@ then add to the bottom of =~/.emacs` these lines:
         ;;(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
 
 
-<a id="org84c91f7"></a>
+<a id="org073a620"></a>
 
 ### `general`
 
@@ -250,7 +250,7 @@ I use `general` to organise my custom keybindings.
         )
 
 
-<a id="orgdcde89a"></a>
+<a id="orgc6ee8c6"></a>
 
 ### `agda` mode
 
@@ -387,7 +387,7 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
                (lambda () (set-input-method "Agda")))
 
 
-<a id="org3356197"></a>
+<a id="orgc0b0393"></a>
 
 ### `org` mode
 
@@ -575,7 +575,7 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
         (org-babel-shell-initialize)
 
 
-<a id="orgd43e567"></a>
+<a id="org3461579"></a>
 
 ### `pdf-tools`
 
@@ -584,7 +584,7 @@ Need to “install” it each time emacs starts
     (pdf-tools-install)
 
 
-<a id="org66bc7aa"></a>
+<a id="org1b17b7b"></a>
 
 ### `yankpad` and `yasnippets`
 
@@ -612,19 +612,19 @@ invoke a snippet, the region will be wrapped).
         (add-hook 'snippet-mode-hook (setq require-final-newline nil))
 
 
-<a id="org41b04c0"></a>
+<a id="org32b806a"></a>
 
 ## Cosmetics
 
 
-<a id="org5862a57"></a>
+<a id="org6085da1"></a>
 
 ### Always confirm before closing Emacs
 
     (setq confirm-kill-emacs 'yes-or-no-p)
 
 
-<a id="org4c934c0"></a>
+<a id="orgb4157b2"></a>
 
 ### Remove unnecessary interface elements
 
@@ -648,7 +648,7 @@ I also disable the scroll bars.
     (scroll-bar-mode -1)
 
 
-<a id="org14ff1d5"></a>
+<a id="org81bea39"></a>
 
 ### Themes
 
@@ -704,7 +704,7 @@ Make it “play nice” with `org`
     (doom-themes-org-config)
 
 
-<a id="org8d6db54"></a>
+<a id="org2e2cb25"></a>
 
 ### Information in the mode line
 
@@ -730,7 +730,7 @@ It's also useful to see the line number and column number.
     (column-number-mode t)
 
 
-<a id="orge6f122f"></a>
+<a id="orgdfcc226"></a>
 
 ### Show line numbers on left (for `text` and `prog` mode)
 
@@ -742,7 +742,7 @@ Setting it globally would conflict with `pdf-tools`.
     ;; (global-linum-mode t)
 
 
-<a id="org4578923"></a>
+<a id="orgf8493e4"></a>
 
 ### Highlight matching parenthesis when cursor is near
 
@@ -752,14 +752,14 @@ Setting it globally would conflict with `pdf-tools`.
     (require 'paren)
 
 
-<a id="orgc6fa5aa"></a>
+<a id="orgc202f94"></a>
 
 ### Show trailing whitespace
 
     (custom-set-variables '(show-trailing-whitespace t))
 
 
-<a id="orgfc72908"></a>
+<a id="org5af77d0"></a>
 
 ### Display preferences for `dired`
 
@@ -832,7 +832,7 @@ I like the following switches:
     (setq dired-listing-switches "--group-directories-first -aBgGhL")
 
 
-<a id="orgcabab5f"></a>
+<a id="orge6e6701"></a>
 
 ### Show ruler at 80 characters for (for `text` and `prog` mode)
 
@@ -841,35 +841,36 @@ I like the following switches:
     (add-hook 'prog-mode-hook 'fci-mode)
 
 
-<a id="org83b72a7"></a>
+<a id="orga01b429"></a>
 
 ### Wrap lines
 
     (global-visual-line-mode t)
 
 
-<a id="org5666005"></a>
+<a id="org73d8169"></a>
 
 ### Automatically revert unchanged files which change on the disk
 
     (global-auto-revert-mode t)
 
 
-<a id="org9663482"></a>
+<a id="org0d9ebde"></a>
 
 ### TODO Use `wordsmith` for English syntax highlighting
 
     (require 'wordsmith-mode)
 
 
-<a id="orge93f788"></a>
+<a id="org02a30e7"></a>
 
 ### Show possible completions as I type shortcuts
 
     (require 'which-key)
+    (which-key-mode)
 
 
-<a id="org81f8477"></a>
+<a id="org2850ad6"></a>
 
 ### Use a single buffer for `dired`
 
@@ -904,7 +905,7 @@ is taken directly from the `dired-single` [GitHub readme](https://github.com/cro
       (add-hook 'dired-load-hook 'my-dired-init))
 
 
-<a id="orgf20b764"></a>
+<a id="org43adeab"></a>
 
 ### Buffers to open upon startup
 
@@ -942,12 +943,12 @@ Otherwise those settings will not apply in these buffers.
         (setq initial-buffer-choice "~/Dropbox/Organisation/log/log.org")
 
 
-<a id="org10488a6"></a>
+<a id="orgb03473c"></a>
 
 ## Other
 
 
-<a id="org259596e"></a>
+<a id="org05f0258"></a>
 
 ### Run my custom “dropbox start” command to ensure dropbox is running on the system
 
@@ -956,7 +957,7 @@ Otherwise those settings will not apply in these buffers.
                                  "/opt/dropbox-filesystem-fix/dropbox_start.py")
 
 
-<a id="org7e2d9d8"></a>
+<a id="org6500e04"></a>
 
 ## Generating the README.md for my Emacs repo
 
@@ -986,18 +987,18 @@ including this file and other relevant files.
     )
 
 
-<a id="orgaeb94b0"></a>
+<a id="orgbc309f5"></a>
 
 # `yankpad.org`
 
 
 
-<a id="org6b6600a"></a>
+<a id="orgc9ada21"></a>
 
 ## Description
 
 
-<a id="orgbff940e"></a>
+<a id="org45ad7dd"></a>
 
 ### Introduction
 
@@ -1014,7 +1015,7 @@ which provides a great deal of functionality, including tab fields
 and arbitrary lisp code execution.
 
 
-<a id="orge699e7b"></a>
+<a id="orgd810e83"></a>
 
 ### Organisation notes
 
@@ -1049,7 +1050,7 @@ Most of my snippets are marked `:src:`, since this *is* a literate file
 (and I don't tend to use snippets for executing code).
 
 
-<a id="org5ce62c0"></a>
+<a id="org567f792"></a>
 
 ### Documentation links
 
@@ -1058,7 +1059,7 @@ Most of my snippets are marked `:src:`, since this *is* a literate file
 -   [org-mode](https://orgmode.org/) (for good measure)
 
 
-<a id="org393b1c4"></a>
+<a id="org3dbaf88"></a>
 
 ### Caveats
 
@@ -1070,7 +1071,7 @@ For that reason, the `org` mode snippets come first,
 as they are useful for adding to this file.
 
 
-<a id="orgd4e964e"></a>
+<a id="orgce225a0"></a>
 
 ## org-mode
 
@@ -1079,7 +1080,7 @@ that I include snippets from lots of other modes, since I often
 write code from other modes in `org`.
 
 
-<a id="orge38e3a0"></a>
+<a id="org8e34c8c"></a>
 
 ### `org` blocks
 
@@ -1164,7 +1165,7 @@ write code from other modes in `org`.
             #+end_example
 
 
-<a id="orgbcf150c"></a>
+<a id="org3102c2f"></a>
 
 ## Default     :global:
 
@@ -1175,7 +1176,7 @@ I make these snippets available everywhere else as well by marking
 the category as `:global:`.
 
 
-<a id="org5e32e5c"></a>
+<a id="orge107c86"></a>
 
 ### Punctuation, parentheses, etc.
 
@@ -1196,7 +1197,7 @@ the category as `:global:`.
         ⟦$1⟧ $0
 
 
-<a id="orgc236fc8"></a>
+<a id="orgeb6fca5"></a>
 
 ### Words
 
@@ -1209,7 +1210,7 @@ the category as `:global:`.
         non-deterministic
 
 
-<a id="org5d33d8b"></a>
+<a id="org17f337a"></a>
 
 ### Other global
 
@@ -1240,12 +1241,12 @@ the category as `:global:`.
         $0
 
 
-<a id="orgb9112af"></a>
+<a id="org61ce81d"></a>
 
 ## agda2-mode
 
 
-<a id="org568d243"></a>
+<a id="org0ca5a4a"></a>
 
 ### ag: Literate code block     :src:ag:
 
@@ -1254,7 +1255,7 @@ the category as `:global:`.
     \end{code}
 
 
-<a id="org485d806"></a>
+<a id="orgc10fbc4"></a>
 
 ### ga: Break up a literate code block     :src:ga:
 
@@ -1263,7 +1264,7 @@ the category as `:global:`.
     \begin{code}
 
 
-<a id="orgea3f03a"></a>
+<a id="orgfbcb3c7"></a>
 
 ### tag: Catch-file-between-tags     :src:tag:
 
@@ -1272,7 +1273,7 @@ the category as `:global:`.
     %</$1>
 
 
-<a id="org8a07d20"></a>
+<a id="org54486d1"></a>
 
 ### fun: Function declaration with type signature     :src:fun:
 
@@ -1280,35 +1281,35 @@ the category as `:global:`.
     $1 = ?
 
 
-<a id="orgd3b95ce"></a>
+<a id="org5bd8284"></a>
 
 ### setl: `Set` arguments parameterised by a `Level`     :src:setl:
 
     {${1:a} : Level} → (${2:A} : Set $1) → $0
 
 
-<a id="orgad8bb2a"></a>
+<a id="org46f9e6b"></a>
 
 ### isetl: *Implicit* `Set` arguments parameterised by a `Level`     :src:isetl:
 
     {${1:a} : Level} → {${2:A} : Set $1} → $0
 
 
-<a id="orgd2d9096"></a>
+<a id="org758c8aa"></a>
 
 ### 2setl: `Set` arguments parameterised by two `Level's`     :src:2setl:
 
     {${1:a} ${2:b} : Level} → (${3:A} : Set $1) → (${4:B} : Set $1) → $0
 
 
-<a id="orgdfed0a0"></a>
+<a id="org7c0d839"></a>
 
 ### i2setl: *Implicit* `Set` arguments parameterised by two `Level's`     :src:i2setl:
 
     {${1:a} ${2:b} : Level} → {${3:A} : Set $1} → {${4:B} : Set $1} → $0
 
 
-<a id="orgbabd2a0"></a>
+<a id="orgccfe482"></a>
 
 ### with: `with` pattern     :src:with:
 
@@ -1316,7 +1317,7 @@ the category as `:global:`.
     ... | ${2:thing} = $0
 
 
-<a id="org2347cf7"></a>
+<a id="orga59df92"></a>
 
 ### eqr: Start a `≡-Reasoning` block     :src:eqr:
 
@@ -1327,7 +1328,7 @@ the category as `:global:`.
     ∎
 
 
-<a id="org3471c38"></a>
+<a id="orgd8972c3"></a>
 
 ### eqs: Insert a step in a `≡-Reasoning` block     :src:eqs:
 
@@ -1335,12 +1336,12 @@ the category as `:global:`.
       $0
 
 
-<a id="org57023e2"></a>
+<a id="orgd48f04b"></a>
 
 ## tex-mode
 
 
-<a id="org1375f6d"></a>
+<a id="org8963dab"></a>
 
 ### leg: General LaTeX environment     :src:leg:
 
@@ -1349,7 +1350,7 @@ the category as `:global:`.
     \end{$1}
 
 
-<a id="org63fbc4b"></a>
+<a id="org224d11f"></a>
 
 ### lei: LaTeX itemize     :src:lei:
 
@@ -1358,7 +1359,7 @@ the category as `:global:`.
     \end{itemize}
 
 
-<a id="org837cbd9"></a>
+<a id="org429867c"></a>
 
 ### lec: LaTeX center     :src:lec:
 
@@ -1367,7 +1368,7 @@ the category as `:global:`.
     \end{center}
 
 
-<a id="org5f701cb"></a>
+<a id="org33b72f1"></a>
 
 ### li: LaTeX item     :src:li:
 
