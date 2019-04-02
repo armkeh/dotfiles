@@ -764,6 +764,13 @@ From https://www.emacswiki.org/emacs/FillColumnIndicator
 (require 'wordsmith-mode)
 #+end_src
 
+** Show possible completions as I type shortcuts
+
+#+begin_src emacs-lisp
+(require 'which-key)
+(which-key-mode)
+#+end_src
+
 ** Use a single buffer for ~dired~
 
 I use ~dired-single~ to avoid ~dired~ opening a new buffer
