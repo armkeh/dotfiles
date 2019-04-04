@@ -10,73 +10,66 @@ and my `yankpad` file.
 
 # Table of Contents
 
-1.  [`emacs-init.org`](#org5d89e3f)
-    1.  [Introduction](#org12b2c88)
-        1.  [Setting up `.emacs` to use this code](#orged31887)
-    2.  [Major packages](#orgf90d559)
-        1.  [Package repositories](#orgc583e8e)
-        2.  [`general`](#org98dc32e)
-        3.  [`agda` mode](#orge329daa)
-        4.  [`org` mode](#orge1cde48)
-        5.  [`pdf-tools`](#orgccd7da5)
-        6.  [`yankpad` and `yasnippets`](#org82035a2)
-    3.  [Cosmetics](#orgf68eae0)
-        1.  [Always confirm before closing Emacs](#orgc82b210)
-        2.  [Remove unnecessary interface elements](#orgba6f32b)
-        3.  [Themes](#org4c42e44)
-        4.  [Information in the mode line](#org5ea9dcd)
-        5.  [Show line numbers on left (for `text` and `prog` mode)](#org90a3096)
-        6.  [Highlight matching parenthesis when cursor is near](#orgc2473ed)
-        7.  [Show trailing whitespace](#orge86c198)
-        8.  [Display preferences for `dired`](#org3622a64)
-        9.  [Show ruler at 80 characters for (for `text` and `prog` mode)](#org7b99142)
-        10. [Wrap lines](#orgae9563a)
-        11. [Automatically revert unchanged files which change on the disk](#org735c6d8)
-        12. [Use `wordsmith` for English syntax highlighting](#orge4f42e3)
-        13. [Show possible completions as I type shortcuts](#org5fb2887)
-        14. [Use a single buffer for `dired`](#orgfc0240b)
-        15. [Buffers to open upon startup](#org37d3fb8)
-    4.  [Other](#orgb95c0b1)
-        1.  [Run my custom “dropbox start” command to ensure dropbox is running on the system](#orga5171bc)
-    5.  [Generating the README.md for my Emacs repo](#org7ae0cf2)
-2.  [`yankpad.org`](#org6f03e2d)
-    1.  [Description](#orgf9553be)
-        1.  [Introduction](#org263b731)
-        2.  [Organisation notes](#orgad69062)
-        3.  [Documentation links](#org2bed49b)
-        4.  [Caveats](#org0faa70d)
-    2.  [org-mode](#org062e7d1)
-        1.  [`org` blocks](#org390f007)
-    3.  [Default](#org2da6147):global:
-        1.  [Punctuation, parentheses, etc.](#org41bc89b)
-        2.  [Words](#orgdd80821)
-        3.  [Other global](#org403a5e4)
-    4.  [agda2-mode](#orga506b26)
-        1.  [ag: Literate code block](#org9f0f523):src:ag:
-        2.  [ga: Break up a literate code block](#orgab93f5e):src:ga:
-        3.  [tag: Catch-file-between-tags](#org736a609):src:tag:
-        4.  [fun: Function declaration with type signature](#org63f0286):src:fun:
-        5.  [setl: `Set` arguments parameterised by a `Level`](#orgbd0899f):src:setl:
-        6.  [isetl: *Implicit* `Set` arguments parameterised by a `Level`](#org6680d7b):src:isetl:
-        7.  [2setl: `Set` arguments parameterised by two `Level's`](#orgcdeadde):src:2setl:
-        8.  [i2setl: *Implicit* `Set` arguments parameterised by two `Level's`](#org644732a):src:i2setl:
-        9.  [with: `with` pattern](#orga277504):src:with:
-        10. [eqr: Start a `≡-Reasoning` block](#orge02b873):src:eqr:
-        11. [eqs: Insert a step in a `≡-Reasoning` block](#org1b46d45):src:eqs:
-    5.  [tex-mode](#orgd46d7fd)
-        1.  [leg: General LaTeX environment](#org1a05339):src:leg:
-        2.  [lei: LaTeX itemize](#org6ab1afe):src:lei:
-        3.  [lec: LaTeX center](#orgd705601):src:lec:
-        4.  [li: LaTeX item](#orgcf6d750):src:li:
+1.  [`emacs-init.org`](#org6a1f839)
+    1.  [Introduction](#orge9d6ad7)
+        1.  [Setting up `.emacs` to use this code](#org8125636)
+    2.  [Major packages](#org9a33a60)
+        1.  [Package repositories](#org99f1244)
+        2.  [`general`](#org2bc9a1d)
+        3.  [`agda` mode](#orgdb79072)
+        4.  [`org` mode](#orge8e206e)
+        5.  [`pdf-tools`](#org3137f01)
+        6.  [`yankpad` and `yasnippets`](#org4f53d13)
+        7.  [`dired`](#org8095e60)
+    3.  [Cosmetics](#org65dcf9b)
+        1.  [Displaying/removing information and interface elements](#org8b98282)
+        2.  [Themes](#org7e45fa7)
+        3.  [Automatically revert unchanged files which change on the disk](#org991de16)
+        4.  [Use `wordsmith` for English syntax highlighting](#org76aa30d)
+        5.  [Show possible completions as I type shortcuts](#orgb2d6b35)
+        6.  [Provide a visualisation of my undo tree](#org62c79af)
+        7.  [Buffers to open upon startup](#org40b583d)
+    4.  [Other](#org65e7349)
+        1.  [Run my custom “dropbox start” command to ensure dropbox is running on the system](#org4da10dc)
+    5.  [Generating the README.md for my Emacs repo](#orga0062cb)
+2.  [`yankpad.org`](#org006bf44)
+    1.  [Description](#orgc170acf)
+        1.  [Introduction](#orgcacab3e)
+        2.  [Organisation notes](#orgfd512e6)
+        3.  [Documentation links](#org07993be)
+        4.  [Caveats](#org2795561)
+    2.  [org-mode](#org660e6fd)
+        1.  [`org` blocks](#orgacd9b9c)
+    3.  [Default](#org9ad6c8d):global:
+        1.  [Punctuation, parentheses, etc.](#org0af5749)
+        2.  [Words](#org705bd5a)
+        3.  [Other global](#orgb4acc6a)
+    4.  [agda2-mode](#orgbfd565c)
+        1.  [ag: Literate code block](#org6af5f68):src:ag:
+        2.  [ga: Break up a literate code block](#org0774c4f):src:ga:
+        3.  [tag: Catch-file-between-tags](#orgbee415a):src:tag:
+        4.  [fun: Function declaration with type signature](#orgc34d03d):src:fun:
+        5.  [setl: `Set` arguments parameterised by a `Level`](#org369544c):src:setl:
+        6.  [isetl: *Implicit* `Set` arguments parameterised by a `Level`](#orgad8c292):src:isetl:
+        7.  [2setl: `Set` arguments parameterised by two `Level's`](#orgd4d1fd6):src:2setl:
+        8.  [i2setl: *Implicit* `Set` arguments parameterised by two `Level's`](#org81c3de6):src:i2setl:
+        9.  [with: `with` pattern](#org0ac22eb):src:with:
+        10. [eqr: Start a `≡-Reasoning` block](#org995c06d):src:eqr:
+        11. [eqs: Insert a step in a `≡-Reasoning` block](#orgc5760aa):src:eqs:
+    5.  [tex-mode](#orgdd29f43)
+        1.  [leg: General LaTeX environment](#org55e7605):src:leg:
+        2.  [lei: LaTeX itemize](#org52abd9a):src:lei:
+        3.  [lec: LaTeX center](#org3d2bc8d):src:lec:
+        4.  [li: LaTeX item](#org428ef12):src:li:
 
 
-<a id="org5d89e3f"></a>
+<a id="org6a1f839"></a>
 
 # `emacs-init.org`
 
 
 
-<a id="org12b2c88"></a>
+<a id="orge9d6ad7"></a>
 
 ## Introduction
 
@@ -86,7 +79,7 @@ in the future and for sharing with others.
 I'm following [Musa's](https://alhassy.github.io/init/) example using an `org` file for this.
 
 
-<a id="orged31887"></a>
+<a id="org8125636"></a>
 
 ### Setting up `.emacs` to use this code
 
@@ -117,12 +110,12 @@ then add to the bottom of =~/.emacs` these lines:
     having Emacs prompt me every time is annoying and slows my start up.
 
 
-<a id="orgf90d559"></a>
+<a id="org9a33a60"></a>
 
 ## Major packages
 
 
-<a id="orgc583e8e"></a>
+<a id="org99f1244"></a>
 
 ### Package repositories
 
@@ -140,7 +133,7 @@ then add to the bottom of =~/.emacs` these lines:
         ;;(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
 
 
-<a id="org98dc32e"></a>
+<a id="org2bc9a1d"></a>
 
 ### `general`
 
@@ -232,6 +225,7 @@ I use `general` to organise my custom keybindings.
 
         (general-buf-nav-define-key
           "r" (lambda () (interactive) (revert-buffer () t ()))
+          "u" (lambda () (interactive) (undo-tree-visualize))
           "b" (lambda () (interactive) (beginning-of-buffer))
           "e" (lambda () (interactive) (end-of-buffer))
           "t t" (lambda () (interactive) (toggle-my-themes))
@@ -251,7 +245,7 @@ I use `general` to organise my custom keybindings.
         )
 
 
-<a id="orge329daa"></a>
+<a id="orgdb79072"></a>
 
 ### `agda` mode
 
@@ -350,7 +344,7 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
             :underline "dark red"
           )
           (set-face-attribute
-            'agda2-highlight-reachability-problem-face
+            'agda2-highlight-deadcode-face
             nil ;; all frames
             :background nil
             :strike-through t
@@ -388,7 +382,7 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
                (lambda () (set-input-method "Agda")))
 
 
-<a id="orge1cde48"></a>
+<a id="orge8e206e"></a>
 
 ### `org` mode
 
@@ -576,7 +570,7 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
         (org-babel-shell-initialize)
 
 
-<a id="orgccd7da5"></a>
+<a id="org3137f01"></a>
 
 ### `pdf-tools`
 
@@ -585,7 +579,7 @@ Need to “install” it each time emacs starts
     (pdf-tools-install)
 
 
-<a id="org82035a2"></a>
+<a id="org4f53d13"></a>
 
 ### `yankpad` and `yasnippets`
 
@@ -613,43 +607,259 @@ invoke a snippet, the region will be wrapped).
         (add-hook 'snippet-mode-hook (setq require-final-newline nil))
 
 
-<a id="orgf68eae0"></a>
+<a id="org8095e60"></a>
+
+### `dired`
+
+I use `dired` for browsing directories; it's simple, and with
+the right configuration, very easy to use.
+
+1.  Display preferences
+
+    `dired` makes use of switches for `ls`.
+    
+    I like the following switches:
+    
+    <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+    
+    
+    <colgroup>
+    <col  class="org-left" />
+    
+    <col  class="org-left" />
+    </colgroup>
+    <tbody>
+    <tr>
+    <td class="org-left">`--group-directories-first`</td>
+    <td class="org-left">group directories before files</td>
+    </tr>
+    
+    
+    <tr>
+    <td class="org-left">`-a`</td>
+    <td class="org-left">do not ignore entries starting with .</td>
+    </tr>
+    
+    
+    <tr>
+    <td class="org-left">`-B`</td>
+    <td class="org-left">do not list implied entries ending with ~</td>
+    </tr>
+    
+    
+    <tr>
+    <td class="org-left">`-g`</td>
+    <td class="org-left">long listing format, but do not list owner</td>
+    </tr>
+    
+    
+    <tr>
+    <td class="org-left">`-G`</td>
+    <td class="org-left">in a long listing, don't print group names</td>
+    </tr>
+    
+    
+    <tr>
+    <td class="org-left">`-h`</td>
+    <td class="org-left">print human readable size</td>
+    </tr>
+    
+    
+    <tr>
+    <td class="org-left">`-L`</td>
+    <td class="org-left">show information for *references* rather than symbolic links</td>
+    </tr>
+    </tbody>
+    </table>
+    
+        (setq dired-listing-switches "--group-directories-first -aBgGhL")
+
+2.  Use only one buffer for `dired`
+
+    I use `dired-single` to avoid `dired` opening a new buffer
+    for every directory visited.
+    
+        (require 'dired-single)
+    
+    I use a “magic” buffer with the name `*Dired*`, to avoid the single
+    `dired` buffer being named after whatever directory I first visit.
+    
+        (setq dired-single-use-magic-buffer t)
+        (setq dired-single-magic-buffer-name "*Dired*")
+    
+    The below code, which rebinds keys to use `dired-single` rather than `dired`,
+    is taken directly from the `dired-single` [GitHub readme](https://github.com/crocket/dired-single).
+    
+        (defun my-dired-init ()
+          "Bunch of stuff to run for dired, either immediately or when it's
+           loaded."
+          ;; <add other stuff here>
+          (define-key dired-mode-map [return] 'dired-single-buffer)
+          (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
+          (define-key dired-mode-map "." 'dired-single-up-directory)
+        )
+        
+        ;; if dired's already loaded, then the keymap will be bound
+        (if (boundp 'dired-mode-map)
+                ;; we're good to go; just add our bindings
+                (my-dired-init)
+          ;; it's not loaded yet, so add our bindings to the load-hook
+          (add-hook 'dired-load-hook 'my-dired-init))
+
+
+<a id="org65dcf9b"></a>
 
 ## Cosmetics
 
 
-<a id="orgc82b210"></a>
+<a id="org8b98282"></a>
 
-### Always confirm before closing Emacs
+### Displaying/removing information and interface elements
 
-    (setq confirm-kill-emacs 'yes-or-no-p)
+There are several tweaks I like to display important information
+and hide unimportant information or interfact elements.
+
+1.  Remove unnecessary interface elements
+
+    Emacs usually shows a splash screen on startup,
+    which doesn't interest me.
+    
+        (setq inhibit-splash-screen t)
+    
+    I don't use the tool bar (icons below the menu bar).
+    (This setting must be `-1`, not `()`).
+    
+        (tool-bar-mode -1)
+    
+    I also don't use the menu bar.
+    (Again, this must be `-1`, not `()`).
+    
+        (menu-bar-mode -1)
+    
+    I also disable the scroll bars.
+    
+        (scroll-bar-mode -1)
+
+2.  Prompts for important things
+
+    I rarely *actually* want to close Emacs, so it should always
+    prompt if I accidentally ask to close.
+    
+        (setq confirm-kill-emacs 'yes-or-no-p)
+
+3.  Information in the mode line
+
+    The doom themes package comes with a function to make
+    the mode line flash on error.
+    
+        (doom-themes-visual-bell-config)
+    
+    I'd previously just used `visible-bell`, but it's a bit nosier
+    than necessary.
+    
+        ;;(setq visible-bell t)
+    
+    I also like the mode line to show the data and time.
+    
+        (setq display-time-day-and-date t)
+        (setq display-time-24h-format t)
+        (display-time)
+    
+    It's also useful to see the line number and column number.
+    
+        (line-number-mode t)
+        (column-number-mode t)
+    
+    1.  Diminish minor mode names
+    
+        I use a lot of minor modes, so the mode list takes up a lot
+        of space on the mode line.
+        
+        `diminish-mode` alleviates this by allowing us to hide modes
+        or give them shorter names.
+        
+            (require 'diminish)
+        
+        I don't need to see that these modes are active.
+        
+            (diminish 'yas-minor-mode)
+            (diminish 'undo-tree-mode)
+            (diminish 'which-key-mode)
+            (diminish 'org-indent-mode)
+        
+        If later I want to rename modes, just add a string argument
+        to the above form with a (presumably shorter) name.
+
+4.  Show line numbers on left (for `text` and `prog` mode)
+
+    I like to have line numbers displayed, but `linum-mode`
+    conflicts with `pdf-tools`. So instead of `global-linum-mode`,
+    I enable it for `text` and `prog` modes.
+    
+        (add-hook 'text-mode-hook 'linum-mode)
+        (add-hook 'prog-mode-hook 'linum-mode)
+
+5.  Highlight matching parenthesis when cursor is near
+
+        (load-library "paren")
+        (show-paren-mode 1)
+        (transient-mark-mode t)
+        (require 'paren)
+
+6.  Show trailing whitespace
+
+    It's good style not to have trailing whitespace.
+    `show-trailing-whitespace` will colour any trailing whitespace.
+    
+        (setq show-trailing-whitespace t)
+    
+    This can be a little annoying, so I should add a way to turn
+    it off.
+    
+    1.  TODO toggle show-trailing-whitespace
+
+7.  Show ruler at 80 characters for (for `text` and `prog` mode)
+
+    It's also good style to keep lines under 80 characters wide.
+    `fill-column-indicator` will display a line (by default at 70 characters)
+    
+    One thing worth noting is that with `org-indent-mode`,
+    the line will be off by the length of the indentation
+    (i.e. it will be at line 68 if indented 2 characters,
+    66 if indented 4, etc.).
+    
+    The code to make it a global mode is from the [Emacs wiki](https://www.emacswiki.org/emacs/FillColumnIndicator).
+    
+        (require 'fill-column-indicator)
+        (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode t)))
+        (global-fci-mode t)
+    
+    If I later need it enabled only for certain modes,
+    this code could be of use.
+    
+        ;; (require 'fill-column-indicator)
+        ;; (add-hook 'text-mode-hook 'fci-mode)
+        ;; (add-hook 'prog-mode-hook 'fci-mode)
+
+8.  Wrap lines
+
+    Since I make an effort to keep my lines under 80 characters,
+    I usually won't have lines too long for the window.
+    
+    If there are such lines, though, horizontally scrolling is
+    annoying (or at least I find it so in Emacs).
+    
+    `visual-line-mode` will “wrap” lines which are too long.
+    
+        (global-visual-line-mode t)
+    
+    This can be annoying if working with a file with lots of long
+    lines, so I should add a way to turn it off.
+    
+    1.  TODO toggle visual-line-mode
 
 
-<a id="orgba6f32b"></a>
-
-### Remove unnecessary interface elements
-
-Emacs usually shows a splash screen on startup,
-which doesn't interest me.
-
-    (setq inhibit-splash-screen t)
-
-I don't use the tool bar (icons below the menu bar).
-(This setting must be `-1`, not `()`).
-
-    (tool-bar-mode -1)
-
-I also don't use the menu bar.
-(Again, this must be `-1`, not `()`).
-
-    (menu-bar-mode -1)
-
-I also disable the scroll bars.
-
-    (scroll-bar-mode -1)
-
-
-<a id="org4c42e44"></a>
+<a id="org7e45fa7"></a>
 
 ### Themes
 
@@ -705,165 +915,21 @@ Make it “play nice” with `org`
     (doom-themes-org-config)
 
 
-<a id="org5ea9dcd"></a>
-
-### Information in the mode line
-
-The doom themes package comes with a function to make
-the mode line flash on error.
-
-    (doom-themes-visual-bell-config)
-
-I'd previously just used `visible-bell`, but it's a bit nosier
-than necessary.
-
-    ;;(setq visible-bell t)
-
-I also like the mode line to show the data and time.
-
-    (setq display-time-day-and-date t)
-    (setq display-time-24h-format t)
-    (display-time)
-
-It's also useful to see the line number and column number.
-
-    (line-number-mode t)
-    (column-number-mode t)
-
-
-<a id="org90a3096"></a>
-
-### Show line numbers on left (for `text` and `prog` mode)
-
-    (add-hook 'text-mode-hook 'linum-mode)
-    (add-hook 'prog-mode-hook 'linum-mode)
-
-Setting it globally would conflict with `pdf-tools`.
-
-    ;; (global-linum-mode t)
-
-
-<a id="orgc2473ed"></a>
-
-### Highlight matching parenthesis when cursor is near
-
-    (load-library "paren")
-    (show-paren-mode 1)
-    (transient-mark-mode t)
-    (require 'paren)
-
-
-<a id="orge86c198"></a>
-
-### Show trailing whitespace
-
-    (custom-set-variables '(show-trailing-whitespace t))
-
-
-<a id="org3622a64"></a>
-
-### Display preferences for `dired`
-
-`dired` makes use of switches for `ls`.
-
-I like the following switches:
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">`--group-directories-first`</td>
-<td class="org-left">group directories before files</td>
-</tr>
-
-
-<tr>
-<td class="org-left">`-a`</td>
-<td class="org-left">do not ignore entries starting with .</td>
-</tr>
-
-
-<tr>
-<td class="org-left">`-B`</td>
-<td class="org-left">do not list implied entries ending with ~</td>
-</tr>
-
-
-<tr>
-<td class="org-left">`-g`</td>
-<td class="org-left">long listing format, but do not list owner</td>
-</tr>
-
-
-<tr>
-<td class="org-left">`-G`</td>
-<td class="org-left">in a long listing, don't print group names</td>
-</tr>
-
-
-<tr>
-<td class="org-left">`-h`</td>
-<td class="org-left">print human readable size</td>
-</tr>
-
-
-<tr>
-<td class="org-left">`-L`</td>
-<td class="org-left">show information for *references* rather than symbolic links</td>
-</tr>
-
-
-<tr>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-
--group-directories-first~   “group directories before files”
-
--   `-a` “do not ignore entries”
-
-    (setq dired-listing-switches "--group-directories-first -aBgGhL")
-
-
-<a id="org7b99142"></a>
-
-### Show ruler at 80 characters for (for `text` and `prog` mode)
-
-    (require 'fill-column-indicator)
-    (add-hook 'text-mode-hook 'fci-mode)
-    (add-hook 'prog-mode-hook 'fci-mode)
-
-
-<a id="orgae9563a"></a>
-
-### Wrap lines
-
-    (global-visual-line-mode t)
-
-
-<a id="org735c6d8"></a>
+<a id="org991de16"></a>
 
 ### Automatically revert unchanged files which change on the disk
 
     (global-auto-revert-mode t)
 
 
-<a id="orge4f42e3"></a>
+<a id="org76aa30d"></a>
 
 ### TODO Use `wordsmith` for English syntax highlighting
 
     (require 'wordsmith-mode)
 
 
-<a id="org5fb2887"></a>
+<a id="orgb2d6b35"></a>
 
 ### Show possible completions as I type shortcuts
 
@@ -871,42 +937,42 @@ I like the following switches:
     (which-key-mode)
 
 
-<a id="orgfc0240b"></a>
+<a id="org62c79af"></a>
 
-### Use a single buffer for `dired`
+### Provide a visualisation of my undo tree
 
-I use `dired-single` to avoid `dired` opening a new buffer
-for every directory visited.
+In Emacs, changes to a buffer are stored using a tree,
+rather than a stack.
 
-    (require 'dired-single)
+In most editors if we revert to an earlier state using “undo”
+and then make some changes, we can no longer reach the
+state *before* the “undo”, because it was popped of the stack
+and is now lost (the “redo” stack was lost when we made changes).
 
-I use a “magic” buffer with the name `*Dired*`, to avoid the single
-`dired` buffer being named after whatever directory I first visit.
+This doesn't happen with an “undo tree”!
 
-    (setq dired-single-use-magic-buffer t)
-    (setq dired-single-magic-buffer-name "*Dired*")
+I like to think of the undo tree as “extemely local” version control.
 
-The below code, which rebinds keys to use `dired-single` rather than `dired`,
-is taken directly from the `dired-single` [GitHub readme](https://github.com/crocket/dired-single).
+The package `undo-tree` provides a visualisation of the undo tree.
 
-    (defun my-dired-init ()
-      "Bunch of stuff to run for dired, either immediately or when it's
-       loaded."
-      ;; <add other stuff here>
-      (define-key dired-mode-map [return] 'dired-single-buffer)
-      (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
-      (define-key dired-mode-map "^" 'dired-single-up-directory)
-    )
-    
-    ;; if dired's already loaded, then the keymap will be bound
-    (if (boundp 'dired-mode-map)
-            ;; we're good to go; just add our bindings
-            (my-dired-init)
-      ;; it's not loaded yet, so add our bindings to the load-hook
-      (add-hook 'dired-load-hook 'my-dired-init))
+    (require 'undo-tree)
+    (global-undo-tree-mode)
+
+I like each node in the undo tree to have a timestamp;
+it helps identify the node I want to return to.
+
+    (setq undo-tree-visualizer-timestamps t)
+
+We can have a “diff” window display the changes made at each
+node in the undo tree.
+
+Unfortunately this seems to introduce a fair amount of lag
+on my system.
+
+    ;;(setq undo-tree-visualizer-diff ())
 
 
-<a id="org37d3fb8"></a>
+<a id="org40b583d"></a>
 
 ### Buffers to open upon startup
 
@@ -944,12 +1010,12 @@ Otherwise those settings will not apply in these buffers.
         (setq initial-buffer-choice "~/Dropbox/Organisation/log/log.org")
 
 
-<a id="orgb95c0b1"></a>
+<a id="org65e7349"></a>
 
 ## Other
 
 
-<a id="orga5171bc"></a>
+<a id="org4da10dc"></a>
 
 ### Run my custom “dropbox start” command to ensure dropbox is running on the system
 
@@ -958,7 +1024,7 @@ Otherwise those settings will not apply in these buffers.
                                  "/opt/dropbox-filesystem-fix/dropbox_start.py")
 
 
-<a id="org7ae0cf2"></a>
+<a id="orga0062cb"></a>
 
 ## Generating the README.md for my Emacs repo
 
@@ -990,18 +1056,18 @@ including this file and other relevant files.
     )
 
 
-<a id="org6f03e2d"></a>
+<a id="org006bf44"></a>
 
 # `yankpad.org`
 
 
 
-<a id="orgf9553be"></a>
+<a id="orgc170acf"></a>
 
 ## Description
 
 
-<a id="org263b731"></a>
+<a id="orgcacab3e"></a>
 
 ### Introduction
 
@@ -1018,7 +1084,7 @@ which provides a great deal of functionality, including tab fields
 and arbitrary lisp code execution.
 
 
-<a id="orgad69062"></a>
+<a id="orgfd512e6"></a>
 
 ### Organisation notes
 
@@ -1053,7 +1119,7 @@ Most of my snippets are marked `:src:`, since this *is* a literate file
 (and I don't tend to use snippets for executing code).
 
 
-<a id="org2bed49b"></a>
+<a id="org07993be"></a>
 
 ### Documentation links
 
@@ -1062,7 +1128,7 @@ Most of my snippets are marked `:src:`, since this *is* a literate file
 -   [org-mode](https://orgmode.org/) (for good measure)
 
 
-<a id="org0faa70d"></a>
+<a id="org2795561"></a>
 
 ### Caveats
 
@@ -1074,7 +1140,7 @@ For that reason, the `org` mode snippets come first,
 as they are useful for adding to this file.
 
 
-<a id="org062e7d1"></a>
+<a id="org660e6fd"></a>
 
 ## org-mode
 
@@ -1083,7 +1149,7 @@ that I include snippets from lots of other modes, since I often
 write code from other modes in `org`.
 
 
-<a id="org390f007"></a>
+<a id="orgacd9b9c"></a>
 
 ### `org` blocks
 
@@ -1168,7 +1234,7 @@ write code from other modes in `org`.
             #+end_example
 
 
-<a id="org2da6147"></a>
+<a id="org9ad6c8d"></a>
 
 ## Default     :global:
 
@@ -1179,7 +1245,7 @@ I make these snippets available everywhere else as well by marking
 the category as `:global:`.
 
 
-<a id="org41bc89b"></a>
+<a id="org0af5749"></a>
 
 ### Punctuation, parentheses, etc.
 
@@ -1200,7 +1266,7 @@ the category as `:global:`.
         ⟦$1⟧ $0
 
 
-<a id="orgdd80821"></a>
+<a id="org705bd5a"></a>
 
 ### Words
 
@@ -1213,7 +1279,7 @@ the category as `:global:`.
         non-deterministic
 
 
-<a id="org403a5e4"></a>
+<a id="orgb4acc6a"></a>
 
 ### Other global
 
@@ -1244,12 +1310,12 @@ the category as `:global:`.
         $0
 
 
-<a id="orga506b26"></a>
+<a id="orgbfd565c"></a>
 
 ## agda2-mode
 
 
-<a id="org9f0f523"></a>
+<a id="org6af5f68"></a>
 
 ### ag: Literate code block     :src:ag:
 
@@ -1258,7 +1324,7 @@ the category as `:global:`.
     \end{code}
 
 
-<a id="orgab93f5e"></a>
+<a id="org0774c4f"></a>
 
 ### ga: Break up a literate code block     :src:ga:
 
@@ -1267,7 +1333,7 @@ the category as `:global:`.
     \begin{code}
 
 
-<a id="org736a609"></a>
+<a id="orgbee415a"></a>
 
 ### tag: Catch-file-between-tags     :src:tag:
 
@@ -1276,7 +1342,7 @@ the category as `:global:`.
     %</$1>
 
 
-<a id="org63f0286"></a>
+<a id="orgc34d03d"></a>
 
 ### fun: Function declaration with type signature     :src:fun:
 
@@ -1284,35 +1350,35 @@ the category as `:global:`.
     $1 = ?
 
 
-<a id="orgbd0899f"></a>
+<a id="org369544c"></a>
 
 ### setl: `Set` arguments parameterised by a `Level`     :src:setl:
 
     {${1:a} : Level} → (${2:A} : Set $1) → $0
 
 
-<a id="org6680d7b"></a>
+<a id="orgad8c292"></a>
 
 ### isetl: *Implicit* `Set` arguments parameterised by a `Level`     :src:isetl:
 
     {${1:a} : Level} → {${2:A} : Set $1} → $0
 
 
-<a id="orgcdeadde"></a>
+<a id="orgd4d1fd6"></a>
 
 ### 2setl: `Set` arguments parameterised by two `Level's`     :src:2setl:
 
     {${1:a} ${2:b} : Level} → (${3:A} : Set $1) → (${4:B} : Set $1) → $0
 
 
-<a id="org644732a"></a>
+<a id="org81c3de6"></a>
 
 ### i2setl: *Implicit* `Set` arguments parameterised by two `Level's`     :src:i2setl:
 
     {${1:a} ${2:b} : Level} → {${3:A} : Set $1} → {${4:B} : Set $1} → $0
 
 
-<a id="orga277504"></a>
+<a id="org0ac22eb"></a>
 
 ### with: `with` pattern     :src:with:
 
@@ -1320,7 +1386,7 @@ the category as `:global:`.
     ... | ${2:thing} = $0
 
 
-<a id="orge02b873"></a>
+<a id="org995c06d"></a>
 
 ### eqr: Start a `≡-Reasoning` block     :src:eqr:
 
@@ -1331,7 +1397,7 @@ the category as `:global:`.
     ∎
 
 
-<a id="org1b46d45"></a>
+<a id="orgc5760aa"></a>
 
 ### eqs: Insert a step in a `≡-Reasoning` block     :src:eqs:
 
@@ -1339,12 +1405,12 @@ the category as `:global:`.
       $0
 
 
-<a id="orgd46d7fd"></a>
+<a id="orgdd29f43"></a>
 
 ## tex-mode
 
 
-<a id="org1a05339"></a>
+<a id="org55e7605"></a>
 
 ### leg: General LaTeX environment     :src:leg:
 
@@ -1353,7 +1419,7 @@ the category as `:global:`.
     \end{$1}
 
 
-<a id="org6ab1afe"></a>
+<a id="org52abd9a"></a>
 
 ### lei: LaTeX itemize     :src:lei:
 
@@ -1362,7 +1428,7 @@ the category as `:global:`.
     \end{itemize}
 
 
-<a id="orgd705601"></a>
+<a id="org3d2bc8d"></a>
 
 ### lec: LaTeX center     :src:lec:
 
@@ -1371,7 +1437,7 @@ the category as `:global:`.
     \end{center}
 
 
-<a id="orgcf6d750"></a>
+<a id="org428ef12"></a>
 
 ### li: LaTeX item     :src:li:
 
