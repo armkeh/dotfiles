@@ -237,7 +237,7 @@ So I use set other indicators instead.
     :underline "dark red"
   )
   (set-face-attribute
-    'agda2-highlight-reachability-problem-face
+    'agda2-highlight-deadcode-face
     nil ;; all frames
     :background nil
     :strike-through t
