@@ -154,7 +154,7 @@ local variable to store the command to invoke ~dired~ with.
 )
 #+end_src
 
-*** Buffer navigation
+*** Navigation
 
 #+begin_src emacs-lisp
 (general-buf-nav-define-key
@@ -164,6 +164,10 @@ local variable to store the command to invoke ~dired~ with.
   "e" (lambda () (interactive) (end-of-buffer))
   "t t" (lambda () (interactive) (toggle-my-themes))
   "t c" (lambda () (interactive) (disable-all-custom-themes))
+  "<right>" (lambda () (interactive) (windmove-right))
+  "<left>" (lambda () (interactive) (windmove-left))
+  "<up>" (lambda () (interactive) (windmove-up))
+  "<down>" (lambda () (interactive) (windmove-down))
 )
 #+end_src
 
@@ -622,7 +626,28 @@ is taken directly from the ~dired-single~ [[https://github.com/crocket/dired-sin
 
 * Navigation
 
+** Jump between windows using ~windmove~
 
+The package ~windmove~ lets us jump between windows in a frame.
+
+#+begin_src emacs-lisp
+(require 'windmove)
+#+end_src
+
+For the uninitiated, a /window/ in Emacs is not the same as
+the OS window. Each OS window is a /frame/, and each pane within
+a frame is called a /window/. (Emacs predates modern terminology).
+
+~windmove~ lets us move between windows with the arrow keys
+while holding a key; by default, the key is ~shift~.
+That conflicts with ~org~ though, so we could use
+~windmove-default-keybindings~ to change it.
+
+Unfortunately, on my system, all the other possibilities seem
+to be taken with system shortcuts (which I cannot modify in ChromeOS),
+or otherwise taken in Emacs.
+
+So instead I've define shortcuts using ~general~ above.
 
 * Cosmetics
 
