@@ -560,15 +560,78 @@ now.
             (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
 #+end_src
 
-* Cosmetics
+** ~dired~
 
-** Always confirm before closing Emacs
+I use ~dired~ for browsing directories; it's simple, and with
+the right configuration, very easy to use.
+
+*** Display preferences
+
+~dired~ makes use of switches for ~ls~.
+
+I like the following switches:
+| ~--group-directories-first~ | group directories before files                             |
+| ~-a~                        | do not ignore entries starting with .                      |
+| ~-B~                        | do not list implied entries ending with ~                  |
+| ~-g~                        | long listing format, but do not list owner                 |
+| ~-G~                        | in a long listing, don't print group names                 |
+| ~-h~                        | print human readable size                                  |
+| ~-L~                        | show information for /references/ rather than symbolic links |
 
 #+begin_src emacs-lisp
-(setq confirm-kill-emacs 'yes-or-no-p)
+(setq dired-listing-switches "--group-directories-first -aBgGhL")
 #+end_src
 
-** Remove unnecessary interface elements
+*** Use only one buffer for ~dired~
+
+I use ~dired-single~ to avoid ~dired~ opening a new buffer
+for every directory visited.
+
+#+begin_src emacs-lisp
+(require 'dired-single)
+#+end_src
+
+I use a “magic” buffer with the name ~*Dired*~, to avoid the single
+~dired~ buffer being named after whatever directory I first visit.
+
+#+begin_src emacs-lisp
+(setq dired-single-use-magic-buffer t)
+(setq dired-single-magic-buffer-name "*Dired*")
+#+end_src
+
+The below code, which rebinds keys to use ~dired-single~ rather than ~dired~,
+is taken directly from the ~dired-single~ [[https://github.com/crocket/dired-single][GitHub readme]].
+
+#+begin_src emacs-lisp
+(defun my-dired-init ()
+  "Bunch of stuff to run for dired, either immediately or when it's
+   loaded."
+  ;; <add other stuff here>
+  (define-key dired-mode-map [return] 'dired-single-buffer)
+  (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
+  (define-key dired-mode-map "." 'dired-single-up-directory)
+)
+
+;; if dired's already loaded, then the keymap will be bound
+(if (boundp 'dired-mode-map)
+        ;; we're good to go; just add our bindings
+        (my-dired-init)
+  ;; it's not loaded yet, so add our bindings to the load-hook
+  (add-hook 'dired-load-hook 'my-dired-init))
+#+end_src
+
+* Navigation
+
+
+
+* Cosmetics
+
+** Displaying/removing information and interface elements
+
+There are several tweaks I like to display important information
+and hide unimportant information or interfact elements.
+
+*** Remove unnecessary interface elements
 
 Emacs usually shows a splash screen on startup,
 which doesn't interest me.
@@ -596,6 +659,144 @@ I also disable the scroll bars.
 #+begin_src emacs-lisp
 (scroll-bar-mode -1)
 #+end_src
+
+*** Prompts for important things
+
+I rarely /actually/ want to close Emacs, so it should always
+prompt if I accidentally ask to close.
+
+#+begin_src emacs-lisp
+(setq confirm-kill-emacs 'yes-or-no-p)
+#+end_src
+
+*** Information in the mode line
+
+The doom themes package comes with a function to make
+the mode line flash on error.
+#+begin_src emacs-lisp
+(doom-themes-visual-bell-config)
+#+end_src
+
+I'd previously just used ~visible-bell~, but it's a bit nosier
+than necessary.
+#+begin_src emacs-lisp
+;;(setq visible-bell t)
+#+end_src
+
+I also like the mode line to show the data and time.
+#+begin_src emacs-lisp
+(setq display-time-day-and-date t)
+(setq display-time-24h-format t)
+(display-time)
+#+end_src
+
+It's also useful to see the line number and column number.
+#+begin_src emacs-lisp
+(line-number-mode t)
+(column-number-mode t)
+#+end_src
+
+**** Diminish minor mode names
+
+I use a lot of minor modes, so the mode list takes up a lot
+of space on the mode line.
+
+~diminish-mode~ alleviates this by allowing us to hide modes
+or give them shorter names.
+
+#+begin_src emacs-lisp
+(require 'diminish)
+#+end_src
+
+I don't need to see that these modes are active.
+#+begin_src emacs-lisp
+(diminish 'yas-minor-mode)
+(diminish 'undo-tree-mode)
+(diminish 'which-key-mode)
+(diminish 'org-indent-mode)
+#+end_src
+
+If later I want to rename modes, just add a string argument
+to the above form with a (presumably shorter) name.
+
+*** Show line numbers on left (for ~text~ and ~prog~ mode)
+
+I like to have line numbers displayed, but ~linum-mode~
+conflicts with ~pdf-tools~. So instead of ~global-linum-mode~,
+I enable it for ~text~ and ~prog~ modes.
+
+#+begin_src emacs-lisp
+(add-hook 'text-mode-hook 'linum-mode)
+(add-hook 'prog-mode-hook 'linum-mode)
+#+end_src
+
+*** Highlight matching parenthesis when cursor is near
+
+ #+begin_src emacs-lisp
+ (load-library "paren")
+ (show-paren-mode 1)
+ (transient-mark-mode t)
+ (require 'paren)
+ #+end_src
+
+*** Show trailing whitespace
+
+It's good style not to have trailing whitespace.
+~show-trailing-whitespace~ will colour any trailing whitespace.
+
+#+begin_src emacs-lisp
+(setq show-trailing-whitespace t)
+#+end_src
+
+This can be a little annoying, so I should add a way to turn
+it off.
+
+**** TODO toggle show-trailing-whitespace
+
+*** Show ruler at 80 characters for (for ~text~ and ~prog~ mode)
+
+It's also good style to keep lines under 80 characters wide.
+~fill-column-indicator~ will display a line (by default at 70 characters)
+
+One thing worth noting is that with ~org-indent-mode~,
+the line will be off by the length of the indentation
+(i.e. it will be at line 68 if indented 2 characters,
+66 if indented 4, etc.).
+
+The code to make it a global mode is from the [[https://www.emacswiki.org/emacs/FillColumnIndicator][Emacs wiki]].
+
+#+begin_src emacs-lisp
+(require 'fill-column-indicator)
+(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode t)))
+(global-fci-mode t)
+#+end_src
+
+If I later need it enabled only for certain modes,
+this code could be of use.
+#+begin_src emacs-lisp
+;; (require 'fill-column-indicator)
+;; (add-hook 'text-mode-hook 'fci-mode)
+;; (add-hook 'prog-mode-hook 'fci-mode)
+#+end_src
+
+*** Wrap lines
+
+Since I make an effort to keep my lines under 80 characters,
+I usually won't have lines too long for the window.
+
+If there are such lines, though, horizontally scrolling is
+annoying (or at least I find it so in Emacs).
+
+~visual-line-mode~ will “wrap” lines which are too long.
+
+#+begin_src emacs-lisp
+(global-visual-line-mode t)
+#+end_src
+
+This can be annoying if working with a file with lots of long
+lines, so I should add a way to turn it off.
+
+**** TODO toggle visual-line-mode
 
 ** Themes
 
@@ -654,105 +855,6 @@ Make it “play nice” with ~org~
 (doom-themes-org-config)
 #+end_src
 
-** Information in the mode line
-
-The doom themes package comes with a function to make
-the mode line flash on error.
-#+begin_src emacs-lisp
-(doom-themes-visual-bell-config)
-#+end_src
-
-I'd previously just used ~visible-bell~, but it's a bit nosier
-than necessary.
-#+begin_src emacs-lisp
-;;(setq visible-bell t)
-#+end_src
-
-I also like the mode line to show the data and time.
-#+begin_src emacs-lisp
-(setq display-time-day-and-date t)
-(setq display-time-24h-format t)
-(display-time)
-#+end_src
-
-It's also useful to see the line number and column number.
-#+begin_src emacs-lisp
-(line-number-mode t)
-(column-number-mode t)
-#+end_src
- 
-** Show line numbers on left (for ~text~ and ~prog~ mode)
-
-#+begin_src emacs-lisp
-(add-hook 'text-mode-hook 'linum-mode)
-(add-hook 'prog-mode-hook 'linum-mode)
-#+end_src
-
-Setting it globally would conflict with ~pdf-tools~.
-#+begin_src emacs-lisp
-;; (global-linum-mode t)
-#+end_src
-
-** Highlight matching parenthesis when cursor is near
-
- #+begin_src emacs-lisp
- (load-library "paren")
- (show-paren-mode 1)
- (transient-mark-mode t)
- (require 'paren)
- #+end_src
-
-** Show trailing whitespace
-
-#+begin_src emacs-lisp
-(custom-set-variables '(show-trailing-whitespace t))
-#+end_src
-
-** Display preferences for ~dired~
-
-~dired~ makes use of switches for ~ls~.
-
-I like the following switches:
-| ~--group-directories-first~ | group directories before files                             |
-| ~-a~                        | do not ignore entries starting with .                      |
-| ~-B~                        | do not list implied entries ending with ~                  |
-| ~-g~                        | long listing format, but do not list owner                 |
-| ~-G~                        | in a long listing, don't print group names                 |
-| ~-h~                        | print human readable size                                  |
-| ~-L~                        | show information for /references/ rather than symbolic links |
-|                           |                                                            |
-
--group-directories-first~   “group directories before files”
-  - ~-a~ “do not ignore entries”
-
-#+begin_src emacs-lisp
-(setq dired-listing-switches "--group-directories-first -aBgGhL")
-#+end_src
-
-** Show ruler at 80 characters for (for ~text~ and ~prog~ mode)
-
-#+begin_src emacs-lisp
-(require 'fill-column-indicator)
-(add-hook 'text-mode-hook 'fci-mode)
-(add-hook 'prog-mode-hook 'fci-mode)
-#+end_src
-
-*** COMMENT Alternative code to activate it globally
-
-From https://www.emacswiki.org/emacs/FillColumnIndicator
-
- #+begin_src emacs-lisp
- (require 'fill-column-indicator)
- (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode t)))
- (global-fci-mode t)
- #+end_src
-
-** Wrap lines
-
-#+begin_src emacs-lisp
-(global-visual-line-mode t)
-#+end_src
-
 ** Automatically revert unchanged files which change on the disk
 
 #+begin_src emacs-lisp
@@ -772,50 +874,42 @@ From https://www.emacswiki.org/emacs/FillColumnIndicator
 (which-key-mode)
 #+end_src
 
-** Use a single buffer for ~dired~
+** Provide a visualisation of my undo tree
 
-I use ~dired-single~ to avoid ~dired~ opening a new buffer
-for every directory visited.
+In Emacs, changes to a buffer are stored using a tree,
+rather than a stack.
+
+In most editors if we revert to an earlier state using “undo”
+and then make some changes, we can no longer reach the
+state /before/ the “undo”, because it was popped of the stack
+and is now lost (the “redo” stack was lost when we made changes).
+
+This doesn't happen with an “undo tree”!
+
+I like to think of the undo tree as “extemely local” version control.
+
+The package ~undo-tree~ provides a visualisation of the undo tree.
 
 #+begin_src emacs-lisp
-(require 'dired-single)
+(require 'undo-tree)
+(global-undo-tree-mode)
 #+end_src
 
-I use a “magic” buffer with the name ~*Dired*~, to avoid the single
-~dired~ buffer being named after whatever directory I first visit.
+I like each node in the undo tree to have a timestamp;
+it helps identify the node I want to return to.
 
 #+begin_src emacs-lisp
-(setq dired-single-use-magic-buffer t)
-(setq dired-single-magic-buffer-name "*Dired*")
+(setq undo-tree-visualizer-timestamps t)
 #+end_src
 
-The below code, which rebinds keys to use ~dired-single~ rather than ~dired~,
-is taken directly from the ~dired-single~ [[https://github.com/crocket/dired-single][GitHub readme]].
+We can have a “diff” window display the changes made at each
+node in the undo tree.
+
+Unfortunately this seems to introduce a fair amount of lag
+on my system.
 
 #+begin_src emacs-lisp
-(defun my-dired-init ()
-  "Bunch of stuff to run for dired, either immediately or when it's
-   loaded."
-  ;; <add other stuff here>
-  (define-key dired-mode-map [return] 'dired-single-buffer)
-  (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
-  (define-key dired-mode-map "^" 'dired-single-up-directory)
-)
-
-;; if dired's already loaded, then the keymap will be bound
-(if (boundp 'dired-mode-map)
-        ;; we're good to go; just add our bindings
-        (my-dired-init)
-  ;; it's not loaded yet, so add our bindings to the load-hook
-  (add-hook 'dired-load-hook 'my-dired-init))
-#+end_src
-
-*** COMMENT Obsolete
-
-I had manually downloaded this package previously.
-
-#+begin_src emacs-lisp
-(eval-after-load 'dired '(progn (require 'joseph-single-dired)))
+;;(setq undo-tree-visualizer-diff ())
 #+end_src
 
 ** Buffers to open upon startup
