@@ -159,6 +159,7 @@ local variable to store the command to invoke ~dired~ with.
 #+begin_src emacs-lisp
 (general-buf-nav-define-key
   "r" (lambda () (interactive) (revert-buffer () t ()))
+  "u" (lambda () (interactive) (undo-tree-visualize))
   "b" (lambda () (interactive) (beginning-of-buffer))
   "e" (lambda () (interactive) (end-of-buffer))
   "t t" (lambda () (interactive) (toggle-my-themes))
