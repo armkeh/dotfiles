@@ -145,9 +145,28 @@ $0
 ,#+end_src
 #+end_src
 
+*** Blocks for LaTeX exports
+
+**** ldisc: Discussion                                         :src:ldisc:
+
+#+begin_src emacs-lisp
+#+attr_LaTeX: :options [$1]
+#+begin_discussion
+$0
+#+end_discussion
+#+end_src
+
 *** Others
 
-**** e: Example                                                 :src:orge:
+**** c: Center                                               :src:orgcntr:
+
+#+begin_src emacs-lisp
+#+begin_center
+$0
+#+end_center
+#+end_src
+
+**** e: Example                                                :src:orgex:
 
 #+begin_src emacs-lisp
 #+begin_example $1
