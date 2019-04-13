@@ -217,7 +217,7 @@ the category as ~:global:~.
 *** card: Cardinality                                            :src:card:
 
 #+begin_src text
-∣$1∣ $0
+|$1| $0
 #+end_src
 
 *** enc: Encoding                                                 :src:enc:
