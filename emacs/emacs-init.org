@@ -358,18 +358,6 @@ To see the commands available, execute
 (org-speed-command-help)
 #+end_example
 
-*** Hide emphasis markers by default
-
-#+begin_src emacs-lisp
-(setq org-hide-emphasis-markers t)
-#+end_src
-
-*** Highlight math mode blocks
-
- #+begin_src emacs-lisp
- (setq org-highlight-latex-and-related '(latex))
- #+end_src
-
 *** Exporting
 
 **** Allow for ignoring headlines and/or subtrees
@@ -522,6 +510,26 @@ See [[https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-functio
 #+begin_src emacs-lisp
 (org-babel-shell-initialize)
 #+end_src
+
+*** Cosmetics
+
+**** Indent text based on heading
+
+#+begin_src emacs-lisp
+(setq org-indent-mode t)
+#+end_src
+
+**** Hide emphasis markers by default
+
+#+begin_src emacs-lisp
+(setq org-hide-emphasis-markers t)
+#+end_src
+
+**** Highlight math mode blocks
+
+ #+begin_src emacs-lisp
+ (setq org-highlight-latex-and-related '(latex))
+ #+end_src
 
 ** ~pdf-tools~
 
