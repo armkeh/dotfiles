@@ -292,8 +292,13 @@ $0
 
 ** ga: Break up a literate code block                               :src:ga:
 
+Often we need to break up code blocks somewhere in the middle.
+
+The ~\end{code}~ here is an Elisp string so that it's not mistaken
+as ending a LaTeX code environment in /this/ document.
+
 #+begin_src text
-\end{code}
+`"\\end{code}"`
 $0
 \begin{code}
 #+end_src
@@ -311,6 +316,13 @@ $0
 #+begin_src text
 $1 : $0
 $1 = ?
+#+end_src
+
+** dt: Datatype declaration                                         :src:dt:
+
+#+begin_src text
+data $1 : Set where
+  $2 : $1
 #+end_src
 
 ** setl: ~Set~ arguments parameterised by a ~Level~                   :src:setl:
