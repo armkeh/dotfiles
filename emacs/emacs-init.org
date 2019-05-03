@@ -59,7 +59,7 @@ having Emacs prompt me every time is annoying and slows my start up.
 ;;(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
 #+end_src
 
-** ~general~
+** ~general~ (shortcuts)
 
 I use ~general~ to organise my custom keybindings.
 
