@@ -673,6 +673,22 @@ or otherwise taken in Emacs.
 
 So instead I've define shortcuts using ~general~ above.
 
+** Change scrolling (shortcut) behaviour
+
+I find the scrolling shortcuts ~scroll-up-command~ (~C-v~)
+and ~scroll-down-command~ (~M-v~) “too aggressive”.
+They scroll the screen by nearly the whole window height,
+by default leaving visible only 2 lines which were visible.
+
+I find adjusting this upwards makes it easier to follow along
+with a document as scrolling.
+#+begin_src emacs-lisp
+(setq next-screen-context-lines 16)
+#+end_src
+
+Keep in mind ~recenter~ (~C-l~) when scrolling this way to recenter
+the screen on the current line.
+
 * Cosmetics
 
 ** Displaying/removing information and interface elements
