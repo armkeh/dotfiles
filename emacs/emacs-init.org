@@ -446,7 +446,7 @@ The flags/format specifiers are
 Other flags/format specifiers I may wish to add later include
 | ~-shell-escape~ | necessary to use ~minted~ |
 
-***** Custom document classes (customising outermost structure)
+***** Custom document classes
 
 I want a ~report~ class that begins with ~chapter~'s, rather than
 ~part~'s.
@@ -462,6 +462,19 @@ I want a ~report~ class that begins with ~chapter~'s, rather than
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
       ("\\paragraph{%s}" . "\\paragraph*{%s}")
       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+#+end_src
+
+Sometimes, for creating slides, ~beamer~ is useful.
+(Though I try to avoid it now; it feels low level to me).
+
+#+begin_src emacs-lisp
+(add-to-list
+  'org-latex-classes
+    '("beamer"
+      "\\documentclass[presentation]{beamer}"
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
 #+end_src
 
 ***** Source code colouring in LaTeX exports
@@ -501,6 +514,7 @@ Documentation [[https://orgmode.org/manual/Languages.html][here]].
 (require 'ob-haskell)
 (require 'ob-latex)
 (require 'ob-shell)
+(require 'ob-ruby)
 #+end_src
 
 For shell code, we need to initialise via this function.
