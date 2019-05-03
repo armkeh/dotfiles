@@ -322,6 +322,28 @@ subscripts and superscripts; these translations account for that.
 (require 'ox-extra)
 #+end_src
 
+*** Capture
+
+I'm beginning to use ~org-capture~ to enable me to log
+ideas/TODO items from anywhere in Emacs in my log file.
+
+#+begin_src emacs-lisp
+(setq org-default-notes-file "~/Dropbox/Organisation/log/log.org")
+#+end_src
+
+Currently I just use the default capture template,
+and manually organise ideas later.
+Once I use this system for a while,
+I should ideally set up other templates to automate some of this.
+
+*** Agenda
+
+My log file is my agenda.
+
+#+begin_src emacs-lisp
+(setq org-agenda-files '("~/Dropbox/Organisation/log/log.org"))
+#+end_src
+
 *** Speed keys
 
 Speed keys are single keystrokes which execute commands in an
