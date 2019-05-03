@@ -775,10 +775,11 @@ or give them shorter names.
 
 I don't need to see that these modes are active.
 #+begin_src emacs-lisp
-(diminish 'yas-minor-mode)
-(diminish 'undo-tree-mode)
-(diminish 'which-key-mode)
-(diminish 'org-indent-mode)
+(eval-after-load "yas-minor-mode" '(diminish 'yas-minor-mode))
+(eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
+(eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
+(eval-after-load "which-key" '(diminish 'which-key-mode))
+(eval-after-load "org-indent" '(diminish 'org-indent-mode))
 #+end_src
 
 If later I want to rename modes, just add a string argument
