@@ -558,6 +558,15 @@ invoke a snippet, the region will be wrapped).
 (setq yas-wrap-around-region t)
 #+end_src
 
+~yas-indent-line~ controls how inserted snippets are inserted.
+~fixed~ indicates the snippet should be indented to the column at point.
+~auto~ instead causes each line to be indented using ~indent-according-to-mode~.
+I set it to fixed because this is usually what I want; I know best, not the mode.
+
+#+begin_src emacs-lisp
+(setq yas-indent-line 'fixed)
+#+end_src
+
 *** Don't add a final newline when editing snippet files
 
 ~yasnippets~ will insert the final newline when expanding a snippet,
