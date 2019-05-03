@@ -268,6 +268,36 @@ So I use set other indicators instead.
 (add-to-list 'agda-input-user-translations '("st" "•"))
 (add-to-list 'agda-input-user-translations '("{" "｛"))
 (add-to-list 'agda-input-user-translations '("}" "｝"))
+(add-to-list 'agda-input-user-translations '("{" "⁅"))
+(add-to-list 'agda-input-user-translations '("}" "⁆"))
+#+end_src
+
+**** Correct mistakes on subscripts/superscripts
+
+I often accidentally hold the shift key for too long when entering
+subscripts and superscripts; these translations account for that.
+
+#+begin_src emacs-lisp
+(add-to-list 'agda-input-user-translations '("^!" "¹"))
+(add-to-list 'agda-input-user-translations '("^@" "²"))
+(add-to-list 'agda-input-user-translations '("^#" "³"))
+(add-to-list 'agda-input-user-translations '("^$" "⁴"))
+(add-to-list 'agda-input-user-translations '("^%" "⁵"))
+(add-to-list 'agda-input-user-translations '("^^" "⁶"))
+(add-to-list 'agda-input-user-translations '("^&" "⁷"))
+(add-to-list 'agda-input-user-translations '("^*" "⁸"))
+(add-to-list 'agda-input-user-translations '("^(" "⁹"))
+(add-to-list 'agda-input-user-translations '("^)" "⁰"))
+(add-to-list 'agda-input-user-translations '("_!" "₁"))
+(add-to-list 'agda-input-user-translations '("_@" "₂"))
+(add-to-list 'agda-input-user-translations '("_#" "₃"))
+(add-to-list 'agda-input-user-translations '("_$" "₄"))
+(add-to-list 'agda-input-user-translations '("_%" "₅"))
+(add-to-list 'agda-input-user-translations '("_^" "₆"))
+(add-to-list 'agda-input-user-translations '("_&" "₇"))
+(add-to-list 'agda-input-user-translations '("_*" "₈"))
+(add-to-list 'agda-input-user-translations '("_(" "₉"))
+(add-to-list 'agda-input-user-translations '("_)" "₀"))
 #+end_src
 
 **** Activate the new additions
