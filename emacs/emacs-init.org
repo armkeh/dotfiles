@@ -996,46 +996,20 @@ that would affect these buffers.
 
 Otherwise those settings will not apply in these buffers.
 
-*** Emacs init (this file)
-
-#+begin_src emacs-lisp
-(find-file "~/Dropbox/Organisation/setup/emacs/emacs-init.org")
-#+end_src
-
-*** Emacs tips and tricks
-
+I like a bunch of files open upon startup.
 #+begin_src emacs-lisp
 (find-file "~/Dropbox/Organisation/setup/emacs/tips-and-tricks.org")
-#+end_src
-
-*** Yasnippets file
-
-#+begin_src emacs-lisp
-(find-file "~/Dropbox/Organisation/setup/emacs/yasnippets.org")
-#+end_src
-
-*** Yankpad file
-
-#+begin_src emacs-lisp
 (find-file "~/Dropbox/Organisation/setup/emacs/yankpad.org")
-#+end_src
-
-*** My Agda scratch file
-
-#+begin_src emacs-lisp
 (find-file "~/Dropbox/McMaster/Agda/scratch.agda")
-#+end_src
-
-*** My phone log
-
-#+begin_src emacs-lisp
 (find-file "~/Dropbox/Organisation/log/phone-log.org")
 #+end_src
 
-*** My log (as the initial buffer)
-
+These last files are the ones I want “in focus” upon startup.
 #+begin_src emacs-lisp
-(setq initial-buffer-choice "~/Dropbox/Organisation/log/log.org")
+(find-file "~/Dropbox/Organisation/setup/emacs/emacs-init.org")
+(split-window-right)
+(other-window 1)
+(find-file "~/Dropbox/Organisation/log/log.org")
 #+end_src
 
 * Other
