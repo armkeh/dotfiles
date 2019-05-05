@@ -612,17 +612,32 @@ As seen in ~Cosmetics~, I use ~dired-single~ in order to only have one
 ~dired~ buffer at a time. In case this changes, I define another
 local variable to store the command to invoke ~dired~ with.
 #+begin_src emacs-lisp
-(defun my-dired-invocation (directory) (dired-single-magic-buffer directory))
+(defun my-dired-invocation (directory)
+  "My custom dired invocation.
+   It will use my special “magic buffer” for browsing."
+  (dired-single-magic-buffer directory))
 #+end_src
 
 #+begin_src emacs-lisp
 (general-dired-define-key
-  "h" (lambda () (interactive) (my-dired-invocation "~"))
-  "o" (lambda () (interactive) (my-dired-invocation "~/Dropbox/Organisation/"))
-  "p" (lambda () (interactive) (my-dired-invocation "~/Dropbox/Projects/"))
-  "m" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/"))
-  "t" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/Agda/thesis/"))
-  "c e" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/3ea3/"))
+  "h" '((lambda () (interactive)
+          (my-dired-invocation "~"))
+        :which-key "Home")
+  "o" '((lambda () (interactive)
+          (my-dired-invocation "~/Dropbox/Organisation/"))
+        :which-key "Organisation")
+  "p" '((lambda () (interactive)
+          (my-dired-invocation "~/Dropbox/Projects/"))
+        :which-key "Projects")
+  "m" '((lambda () (interactive)
+          (my-dired-invocation "~/Dropbox/McMaster/"))
+        :which-key "McMaster")
+  "t" '((lambda () (interactive)
+          (my-dired-invocation "~/Dropbox/McMaster/Agda/thesis/"))
+        :which-key "Thesis")
+  "e" '((lambda () (interactive)
+          (my-dired-invocation "~/Dropbox/McMaster/3ea3/"))
+        :which-key "3ea3")
 )
 #+end_src
 
