@@ -10,68 +10,78 @@ and my `yankpad` file.
 
 # Table of Contents
 
-1.  [`emacs-init.org`](#org2f3f1c5)
-    1.  [Introduction](#org62c3e57)
-        1.  [Setting up `.emacs` to use this code](#org5a8dd91)
-    2.  [Major packages](#org4b3c87e)
-        1.  [Package repositories](#orgeedb254)
-        2.  [`general`](#orgd1b7e9f)
-        3.  [`agda` mode](#org8e66336)
-        4.  [`org` mode](#orgee388e7)
-        5.  [`pdf-tools`](#orgabcfc23)
-        6.  [`yankpad` and `yasnippets`](#org62b0272)
-        7.  [`dired`](#orge490a47)
-    3.  [Navigation](#org3c543d5)
-        1.  [Jump between windows using `windmove`](#org0c3b983)
-    4.  [Cosmetics](#org9b44eab)
-        1.  [Displaying/removing information and interface elements](#orgd75f8da)
-        2.  [Themes](#orgecc462f)
-        3.  [Automatically revert unchanged files which change on the disk](#org3492758)
-        4.  [Use `wordsmith` for English syntax highlighting](#orgb5ae8ba)
-        5.  [Show possible completions as I type shortcuts](#org0ef19a4)
-        6.  [Provide a visualisation of my undo tree](#orgb423571)
-        7.  [Buffers to open upon startup](#org91c7e9f)
-    5.  [Other](#orgc2b7696)
-        1.  [Run my custom “dropbox start” command to ensure dropbox is running on the system](#org7ea680c)
-    6.  [Generating the README.md for my Emacs repo](#orgb8ae4bc)
-2.  [`yankpad.org`](#orgd14b40f)
-    1.  [Description](#orgf45d3fe)
-        1.  [Introduction](#org6430684)
-        2.  [Organisation notes](#orga4b907f)
-        3.  [Documentation links](#org3cb5411)
-        4.  [Caveats](#org5e9ad55)
-    2.  [org-mode](#org2c9d5ae)
-        1.  [`org` blocks](#orga4337f8)
-    3.  [Default](#org0851bf2):global:
-        1.  [Punctuation, parentheses, etc.](#orgd60468f)
-        2.  [Words](#org0b856f2)
-        3.  [Other global](#org68a3132)
-    4.  [agda2-mode](#orgc17af70)
-        1.  [ag: Literate code block](#orga6744fb):src:ag:
-        2.  [ga: Break up a literate code block](#org0267192):src:ga:
-        3.  [tag: Catch-file-between-tags](#org4006598):src:tag:
-        4.  [fun: Function declaration with type signature](#org7998af7):src:fun:
-        5.  [setl: `Set` arguments parameterised by a `Level`](#org47070c7):src:setl:
-        6.  [isetl: *Implicit* `Set` arguments parameterised by a `Level`](#org95bc079):src:isetl:
-        7.  [2setl: `Set` arguments parameterised by two `Level's`](#org1dce622):src:2setl:
-        8.  [i2setl: *Implicit* `Set` arguments parameterised by two `Level's`](#org7534d74):src:i2setl:
-        9.  [with: `with` pattern](#orgb68b075):src:with:
-        10. [eqr: Start a `≡-Reasoning` block](#org4d793a7):src:eqr:
-        11. [eqs: Insert a step in a `≡-Reasoning` block](#orgb1ccabb):src:eqs:
-    5.  [tex-mode](#org1b99e2b)
-        1.  [leg: General LaTeX environment](#orge8e7de4):src:leg:
-        2.  [lei: LaTeX itemize](#org4ae77df):src:lei:
-        3.  [lec: LaTeX center](#org9d634cd):src:lec:
-        4.  [li: LaTeX item](#org56f6915):src:li:
+1.  [`emacs-init.org`](#org9bcede4)
+    1.  [Introduction](#org0575384)
+        1.  [Setting up `.emacs` to use this code](#orga581a41)
+    2.  [Major packages](#org0327e52)
+        1.  [Package repositories](#org870b94c)
+        2.  [`agda` mode](#orgd988a1d)
+        3.  [`org` mode](#org1061a43)
+        4.  [`pdf-tools`](#orge2a9399)
+        5.  [`yankpad` and `yasnippets`](#org1fa2144)
+        6.  [`dired`](#org897a35f)
+    3.  [Key bindings](#org68fb828)
+        1.  [`general` definers](#org5bf3b69)
+        2.  [`yankpad`](#org0541301)
+        3.  [`dired`](#orgb9c3467)
+        4.  [Navigation](#org0ca7b23)
+        5.  [`magit`](#org2b41951)
+        6.  [Other](#orgbfce016)
+    4.  [Navigation](#org025c3d7)
+        1.  [Jump between windows using `windmove`](#org17f5f91)
+        2.  [Change scrolling (shortcut) behaviour](#org32c1b19)
+    5.  [Cosmetics](#org0733311)
+        1.  [Displaying/removing information and interface elements](#org49d2172)
+        2.  [Themes](#org76b6654)
+        3.  [Automatically revert unchanged files which change on the disk](#orgc4de085)
+        4.  [Use `wordsmith` for English syntax highlighting](#orgf06363c)
+        5.  [Show possible completions as I type shortcuts](#org2e5f142)
+        6.  [Provide a visualisation of my undo tree](#org2482178)
+        7.  [Buffers to open upon startup](#org3092e69)
+    6.  [Other](#org670ed56)
+        1.  [Run my custom “dropbox start” command to ensure dropbox is running on the system](#org9caad57)
+    7.  [Generating the README.md for my Emacs repo](#org6e9cf9b)
+2.  [`yankpad.org`](#orgb22fdba)
+    1.  [Description](#org543241e)
+        1.  [Introduction](#org00bff43)
+        2.  [Organisation notes](#orgb0b01b6)
+        3.  [Documentation links](#orgf0a4aa5)
+        4.  [Caveats](#org4bd0d32)
+    2.  [org-mode](#orgc31adf0)
+        1.  [`org` blocks](#orge439bf0)
+    3.  [Default](#orgfda4ecb):global:
+        1.  [Punctuation, parentheses, etc.](#orgdd1c4d9)
+        2.  [Words](#orgad74d02)
+        3.  [Filepaths](#orgb4ccefb)
+        4.  [Other global](#org375af7a)
+    4.  [agda2-mode](#orgd5515b7)
+        1.  [ag: Literate code block](#orgdaf62de):src:ag:
+        2.  [ga: Break up a literate code block](#org514ec70):src:ga:
+        3.  [tag: Catch-file-between-tags](#orge7c0c56):src:tag:
+        4.  [fun: Function declaration with type signature](#org7d89a11):src:fun:
+        5.  [dt: Datatype declaration](#orgc6dca0f):src:dt:
+        6.  [setl: `Set` arguments parameterised by a `Level`](#org91f37e3):src:setl:
+        7.  [isetl: *Implicit* `Set` arguments parameterised by a `Level`](#org368a8c6):src:isetl:
+        8.  [2setl: `Set` arguments parameterised by two `Level's`](#orga27bf87):src:2setl:
+        9.  [i2setl: *Implicit* `Set` arguments parameterised by two `Level's`](#orgb26b616):src:i2setl:
+        10. [with: `with` pattern](#org50187ef):src:with:
+        11. [eqr: Start a `≡-Reasoning` block](#org5b449ce):src:eqr:
+        12. [eqs: Insert a step in a `≡-Reasoning` block](#org0178d3b):src:eqs:
+    5.  [tex-mode](#orge785b18)
+        1.  [leg: General LaTeX environment](#org6c977bc):src:leg:
+        2.  [lei: LaTeX itemize](#orgd49376a):src:lei:
+        3.  [lec: LaTeX center](#orgf5b14b8):src:lec:
+        4.  [li: LaTeX item](#org734134a):src:li:
+        5.  [cfbt: Import a tagged portion of another file](#org3e2d397):src:li:
 
 
-<a id="org2f3f1c5"></a>
+<a id="org9bcede4"></a>
 
 # `emacs-init.org`
 
 
 
-<a id="org62c3e57"></a>
+<a id="org0575384"></a>
 
 ## Introduction
 
@@ -81,7 +91,7 @@ in the future and for sharing with others.
 I'm following [Musa's](https://alhassy.github.io/init/) example using an `org` file for this.
 
 
-<a id="org5a8dd91"></a>
+<a id="orga581a41"></a>
 
 ### Setting up `.emacs` to use this code
 
@@ -112,12 +122,12 @@ then add to the bottom of =~/.emacs` these lines:
     having Emacs prompt me every time is annoying and slows my start up.
 
 
-<a id="org4b3c87e"></a>
+<a id="org0327e52"></a>
 
 ## Major packages
 
 
-<a id="orgeedb254"></a>
+<a id="org870b94c"></a>
 
 ### Package repositories
 
@@ -135,123 +145,7 @@ then add to the bottom of =~/.emacs` these lines:
         ;;(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
 
 
-<a id="orgd1b7e9f"></a>
-
-### `general`
-
-I use `general` to organise my custom keybindings.
-
-    (require 'general)
-
-1.  Prefixes
-
-    You can use `general-define-key` directly to define shortcuts,
-    ideally using the keyword argument `:prefix` to avoid repeating
-    prefixes, but if you are (even only possibly)
-    using a prefix several times,
-    it's better to create a custom function to use instead of
-    `general-define-key`.
-    
-    Setting `:keymaps` to `'override` ensures that no package will
-    override my shortcuts.
-    
-    For the moment, I'm experimenting with using `s`-key (“super”-key)
-    combinations as prefixes. I have my caps lock bound to super
-    (on my Chromebook's internal keyboard it's bound to that by
-    default), and I think if I restrict the combination keys to
-    those on the left side of the keyboard, I can avoid “Emacs pinky”.
-    
-    So far I have three categories of shortcuts:
-    
-    -   My main shortcuts, those that don't fall into another category.
-    -   Shortcuts to navigate around the current buffer.
-    -   Shortcuts to open a `dired` buffer for a certain folder.
-    
-        (general-create-definer general-main-define-key
-          :prefix "s-a"
-          :keymaps 'override)
-        
-        (general-create-definer general-buf-nav-define-key
-          :prefix "s-w"
-          :keymaps 'override)
-        
-        (general-create-definer general-dired-define-key
-          :prefix "s-d"
-          :keymaps 'override)
-
-2.  `yankpad`
-
-    I use a non-prefixed shortcut for snippet expansion, since
-    I do it all the time.
-    (at least until yankpad has smart tab expansion).
-    
-        (general-define-key
-          "s-f" 'yankpad-expand)
-    
-    Alternatively, `y m` invokes `yankpad-map`, which brings up a
-    keymap of the last tags of snippets.
-    
-        (general-main-define-key
-          "y m" 'yankpad-map)
-    
-    Changes to the yankpad file require `yankpad-reload` to be run
-    to re-cache the snippets. For the moment, it seems like there is
-    separate caching for each buffer, meaning this command has to be
-    run in every buffer where I want changes to be picked up.
-    So, I have a shortcut key.
-    
-        (general-main-define-key
-          "y r" 'yankpad-reload)
-
-3.  `dired`
-
-    I use shortcuts to jump to frequently used directories in `dired`
-    (from any buffer, not just while in `dired`).
-    
-    As seen in `Cosmetics`, I use `dired-single` in order to only have one
-    `dired` buffer at a time. In case this changes, I define another
-    local variable to store the command to invoke `dired` with.
-    
-        (defun my-dired-invocation (directory) (dired-single-magic-buffer directory))
-    
-        (general-dired-define-key
-          "h" (lambda () (interactive) (my-dired-invocation "~"))
-          "o" (lambda () (interactive) (my-dired-invocation "~/Dropbox/Organisation/"))
-          "p" (lambda () (interactive) (my-dired-invocation "~/Dropbox/Projects/"))
-          "m" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/"))
-          "t" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/Agda/thesis/"))
-          "c e" (lambda () (interactive) (my-dired-invocation "~/Dropbox/McMaster/3ea3/"))
-        )
-
-4.  Navigation
-
-        (general-buf-nav-define-key
-          "r" (lambda () (interactive) (revert-buffer () t ()))
-          "u" (lambda () (interactive) (undo-tree-visualize))
-          "b" (lambda () (interactive) (beginning-of-buffer))
-          "e" (lambda () (interactive) (end-of-buffer))
-          "t t" (lambda () (interactive) (toggle-my-themes))
-          "t c" (lambda () (interactive) (disable-all-custom-themes))
-          "<right>" (lambda () (interactive) (windmove-right))
-          "<left>" (lambda () (interactive) (windmove-left))
-          "<up>" (lambda () (interactive) (windmove-up))
-          "<down>" (lambda () (interactive) (windmove-down))
-        )
-
-5.  `magit`
-
-        (general-main-define-key
-          "g" 'magit-status
-        )
-
-6.  Other
-
-        (general-main-define-key
-          "j" 'dad-joke
-        )
-
-
-<a id="org8e66336"></a>
+<a id="orgd988a1d"></a>
 
 ### `agda` mode
 
@@ -265,11 +159,11 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
 
 1.  Command line arguments
 
-    Dr. Wolfram Kahl has recommended the following settings.
+    Dr. Wolfram Kahl has recommended customising the following settings.
+    (note that my machine is a virtual machine running on a Chromebook
+    with a little less than `5G` available to it).
     
-    (I'm not setting them right somehow&#x2026;)
-    
-        ;;(setq agda2-program-args (quote ("RTS" "-M4G" "-H4G" "-A128M" "-RTS")))
+        (setq agda2-program-args (quote ("+RTS" "-M3G" "-H3G" "-A128M" "-RTS")))
     
     These arguments specify
     
@@ -375,8 +269,36 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
             (add-to-list 'agda-input-user-translations '("st" "•"))
             (add-to-list 'agda-input-user-translations '("{" "｛"))
             (add-to-list 'agda-input-user-translations '("}" "｝"))
+            (add-to-list 'agda-input-user-translations '("{" "⁅"))
+            (add-to-list 'agda-input-user-translations '("}" "⁆"))
     
-    2.  Activate the new additions
+    2.  Correct mistakes on subscripts/superscripts
+    
+        I often accidentally hold the shift key for too long when entering
+        subscripts and superscripts; these translations account for that.
+        
+            (add-to-list 'agda-input-user-translations '("^!" "¹"))
+            (add-to-list 'agda-input-user-translations '("^@" "²"))
+            (add-to-list 'agda-input-user-translations '("^#" "³"))
+            (add-to-list 'agda-input-user-translations '("^$" "⁴"))
+            (add-to-list 'agda-input-user-translations '("^%" "⁵"))
+            (add-to-list 'agda-input-user-translations '("^^" "⁶"))
+            (add-to-list 'agda-input-user-translations '("^&" "⁷"))
+            (add-to-list 'agda-input-user-translations '("^*" "⁸"))
+            (add-to-list 'agda-input-user-translations '("^(" "⁹"))
+            (add-to-list 'agda-input-user-translations '("^)" "⁰"))
+            (add-to-list 'agda-input-user-translations '("_!" "₁"))
+            (add-to-list 'agda-input-user-translations '("_@" "₂"))
+            (add-to-list 'agda-input-user-translations '("_#" "₃"))
+            (add-to-list 'agda-input-user-translations '("_$" "₄"))
+            (add-to-list 'agda-input-user-translations '("_%" "₅"))
+            (add-to-list 'agda-input-user-translations '("_^" "₆"))
+            (add-to-list 'agda-input-user-translations '("_&" "₇"))
+            (add-to-list 'agda-input-user-translations '("_*" "₈"))
+            (add-to-list 'agda-input-user-translations '("_(" "₉"))
+            (add-to-list 'agda-input-user-translations '("_)" "₀"))
+    
+    3.  Activate the new additions
     
             (agda-input-setup)
 
@@ -388,14 +310,32 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
                (lambda () (set-input-method "Agda")))
 
 
-<a id="orgee388e7"></a>
+<a id="org1061a43"></a>
 
 ### `org` mode
 
     (require 'org)
     (require 'ox-extra)
 
-1.  Speed keys
+1.  Capture
+
+    I'm beginning to use `org-capture` to enable me to log
+    ideas/TODO items from anywhere in Emacs in my log file.
+    
+        (setq org-default-notes-file "~/Dropbox/Organisation/log/log.org")
+    
+    Currently I just use the default capture template,
+    and manually organise ideas later.
+    Once I use this system for a while,
+    I should ideally set up other templates to automate some of this.
+
+2.  Agenda
+
+    My log file is my agenda.
+    
+        (setq org-agenda-files '("~/Dropbox/Organisation/log/log.org"))
+
+3.  Speed keys
 
     Speed keys are single keystrokes which execute commands in an
     `org` file when the cursor is at the start of a headline.
@@ -405,14 +345,6 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
     To see the commands available, execute
     
         (org-speed-command-help)
-
-2.  Hide emphasis markers by default
-
-        (setq org-hide-emphasis-markers t)
-
-3.  Highlight math mode blocks
-
-        (setq org-highlight-latex-and-related '(latex))
 
 4.  Exporting
 
@@ -446,7 +378,35 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
         Tying up emacs during that time is annoying, so set the
         export to happen in the background.
         
-            (setq org-export-in-background t)
+            ;;(setq org-export-in-background t)
+        
+        This works by spawning a new Emacs session.
+        That session needs an init file, which by default would be this file;
+        for several reasons, though, I don't want it to use this file.
+        Chief among them, I split the frame in this init file,
+        and having no actual frame, this causes an error for the export process.
+        
+            ;;(setq org-export-async-init-file "~/Dropbox/Organisation/setup/emacs/org-export-init.el")
+        
+        This elisp code creates that init file,
+        based on an [answer on StackExchange](https://superuser.com/a/898717/1032497).
+        
+        Unfortunately, at the moment, this doesn't quite work for me,
+        because I need all my other export settings set as well.
+        So I've disabled exporting in the background for now.
+        
+            (with-temp-file
+              "~/Dropbox/Organisation/setup/emacs/org-export-init.el"
+              (insert "(require 'package)
+                       (setq package-enable-at-startup nil)
+                       (package-initialize)
+            
+                       (require 'org)
+                       (require 'ox)
+                       (require 'cl)
+                       (setq org-export-async-debug nil)
+              ")
+            )
     
     4.  LaTeX specific
     
@@ -519,7 +479,7 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
             </tbody>
             </table>
         
-        3.  Custom document classes (customising outermost structure)
+        3.  Custom document classes
         
             I want a `report` class that begins with `chapter`'s, rather than
             `part`'s.
@@ -534,6 +494,17 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
                       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                       ("\\paragraph{%s}" . "\\paragraph*{%s}")
                       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+            
+            Sometimes, for creating slides, `beamer` is useful.
+            (Though I try to avoid it now; it feels low level to me).
+            
+                (add-to-list
+                  'org-latex-classes
+                    '("beamer"
+                      "\\documentclass[presentation]{beamer}"
+                      ("\\section{%s}" . "\\section*{%s}")
+                      ("\\subsection{%s}" . "\\subsection*{%s}")
+                      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
         
         4.  Source code colouring in LaTeX exports
         
@@ -569,14 +540,29 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
         (require 'ob-haskell)
         (require 'ob-latex)
         (require 'ob-shell)
+        (require 'ob-ruby)
     
     For shell code, we need to initialise via this function.
     See [here](https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-function-definition-is-void-org-babel-get-header).
     
         (org-babel-shell-initialize)
 
+6.  Cosmetics
 
-<a id="orgabcfc23"></a>
+    1.  Indent text based on heading
+    
+            (setq org-indent-mode t)
+    
+    2.  Hide emphasis markers by default
+    
+            (setq org-hide-emphasis-markers t)
+    
+    3.  Highlight math mode blocks
+    
+            (setq org-highlight-latex-and-related '(latex))
+
+
+<a id="orge2a9399"></a>
 
 ### `pdf-tools`
 
@@ -585,7 +571,7 @@ Need to “install” it each time emacs starts
     (pdf-tools-install)
 
 
-<a id="org62b0272"></a>
+<a id="org1fa2144"></a>
 
 ### `yankpad` and `yasnippets`
 
@@ -605,6 +591,13 @@ invoke a snippet, the region will be wrapped).
 
     (setq yas-wrap-around-region t)
 
+`yas-indent-line` controls how inserted snippets are inserted.
+`fixed` indicates the snippet should be indented to the column at point.
+`auto` instead causes each line to be indented using `indent-according-to-mode`.
+I set it to fixed because this is usually what I want; I know best, not the mode.
+
+    (setq yas-indent-line 'fixed)
+
 1.  Don't add a final newline when editing snippet files
 
     `yasnippets` will insert the final newline when expanding a snippet,
@@ -613,7 +606,7 @@ invoke a snippet, the region will be wrapped).
         (add-hook 'snippet-mode-hook (setq require-final-newline nil))
 
 
-<a id="orge490a47"></a>
+<a id="org897a35f"></a>
 
 ### `dired`
 
@@ -713,12 +706,164 @@ the right configuration, very easy to use.
           (add-hook 'dired-load-hook 'my-dired-init))
 
 
-<a id="org3c543d5"></a>
+<a id="org68fb828"></a>
+
+## Key bindings
+
+I make use of `hydra` for keybindings (or groups of keybindings)
+which will be executed several times in a row.
+
+I also make use of `general` to organise other keybindings.
+
+    (require 'general)
+
+
+<a id="org5bf3b69"></a>
+
+### `general` definers
+
+You can use `general-define-key` directly to define shortcuts,
+ideally using the keyword argument `:prefix` to avoid repeating
+prefixes, but if you are (even only possibly)
+using a prefix several times,
+it's better to create a custom function to use instead of
+`general-define-key`.
+
+Setting `:keymaps` to `'override` ensures that no package will
+override my shortcuts.
+
+For the moment, I'm experimenting with using `s`-key (“super”-key)
+combinations as prefixes. I have my caps lock bound to super
+(on my Chromebook's internal keyboard it's bound to that by
+default), and I think if I restrict the combination keys to
+those on the left side of the keyboard, I can avoid “Emacs pinky”.
+
+So far I have three categories of shortcuts:
+
+-   My main shortcuts, those that don't fall into another category.
+-   Shortcuts to navigate around the current buffer.
+-   Shortcuts to open a `dired` buffer for a certain folder.
+
+    (general-create-definer general-main-define-key
+      :prefix "s-a"
+      :keymaps 'override)
+    
+    (general-create-definer general-buf-nav-define-key
+      :prefix "s-w"
+      :keymaps 'override)
+    
+    (general-create-definer general-dired-define-key
+      :prefix "s-d"
+      :keymaps 'override)
+
+
+<a id="org0541301"></a>
+
+### `yankpad`
+
+I use a non-prefixed shortcut for snippet expansion, since
+I do it all the time.
+(at least until yankpad has smart tab expansion).
+
+    (general-define-key
+      "s-f" 'yankpad-expand)
+
+Alternatively, `y m` invokes `yankpad-map`, which brings up a
+keymap of the last tags of snippets.
+
+    (general-main-define-key
+      "y m" 'yankpad-map)
+
+Changes to the yankpad file require `yankpad-reload` to be run
+to re-cache the snippets. For the moment, it seems like there is
+separate caching for each buffer, meaning this command has to be
+run in every buffer where I want changes to be picked up.
+So, I have a shortcut key.
+
+    (general-main-define-key
+      "y r" 'yankpad-reload)
+
+
+<a id="orgb9c3467"></a>
+
+### `dired`
+
+I use shortcuts to jump to frequently used directories in `dired`
+(from any buffer, not just while in `dired`).
+
+As seen in `Cosmetics`, I use `dired-single` in order to only have one
+`dired` buffer at a time. In case this changes, I define another
+local variable to store the command to invoke `dired` with.
+
+    (defun my-dired-invocation (directory)
+      "My custom dired invocation.
+       It will use my special “magic buffer” for browsing."
+      (dired-single-magic-buffer directory))
+
+    (general-dired-define-key
+      "h" '((lambda () (interactive)
+              (my-dired-invocation "~"))
+            :which-key "Home")
+      "o" '((lambda () (interactive)
+              (my-dired-invocation "~/Dropbox/Organisation/"))
+            :which-key "Organisation")
+      "p" '((lambda () (interactive)
+              (my-dired-invocation "~/Dropbox/Projects/"))
+            :which-key "Projects")
+      "m" '((lambda () (interactive)
+              (my-dired-invocation "~/Dropbox/McMaster/"))
+            :which-key "McMaster")
+      "t" '((lambda () (interactive)
+              (my-dired-invocation "~/Dropbox/McMaster/Agda/thesis/"))
+            :which-key "Thesis")
+      "e" '((lambda () (interactive)
+              (my-dired-invocation "~/Dropbox/McMaster/3ea3/"))
+            :which-key "3ea3")
+    )
+
+
+<a id="org0ca7b23"></a>
+
+### Navigation
+
+    (general-buf-nav-define-key
+      "r" (lambda () (interactive) (revert-buffer () t ()))
+      "u" (lambda () (interactive) (undo-tree-visualize))
+      "b" (lambda () (interactive) (beginning-of-buffer))
+      "e" (lambda () (interactive) (end-of-buffer))
+      "t t" (lambda () (interactive) (toggle-my-themes))
+      "t c" (lambda () (interactive) (disable-all-custom-themes))
+      "<right>" (lambda () (interactive) (windmove-right))
+      "<left>" (lambda () (interactive) (windmove-left))
+      "<up>" (lambda () (interactive) (windmove-up))
+      "<down>" (lambda () (interactive) (windmove-down))
+    )
+
+
+<a id="org2b41951"></a>
+
+### `magit`
+
+    (general-main-define-key
+      "g" 'magit-status
+    )
+
+
+<a id="orgbfce016"></a>
+
+### Other
+
+    (general-main-define-key
+      "j" 'dad-joke
+    )
+
+
+<a id="org025c3d7"></a>
 
 ## Navigation
 
 
-<a id="org0c3b983"></a>
+<a id="org17f5f91"></a>
 
 ### Jump between windows using `windmove`
 
@@ -742,12 +887,30 @@ or otherwise taken in Emacs.
 So instead I've define shortcuts using `general` above.
 
 
-<a id="org9b44eab"></a>
+<a id="org32c1b19"></a>
+
+### Change scrolling (shortcut) behaviour
+
+I find the scrolling shortcuts `scroll-up-command` (`C-v`)
+and `scroll-down-command` (`M-v`) “too aggressive”.
+They scroll the screen by nearly the whole window height,
+by default leaving visible only 2 lines which were visible.
+
+I find adjusting this upwards makes it easier to follow along
+with a document as scrolling.
+
+    (setq next-screen-context-lines 16)
+
+Keep in mind `recenter` (`C-l`) when scrolling this way to recenter
+the screen on the current line.
+
+
+<a id="org0733311"></a>
 
 ## Cosmetics
 
 
-<a id="orgd75f8da"></a>
+<a id="org49d2172"></a>
 
 ### Displaying/removing information and interface elements
 
@@ -817,10 +980,11 @@ and hide unimportant information or interfact elements.
         
         I don't need to see that these modes are active.
         
-            (diminish 'yas-minor-mode)
-            (diminish 'undo-tree-mode)
-            (diminish 'which-key-mode)
-            (diminish 'org-indent-mode)
+            (eval-after-load "yas-minor-mode" '(diminish 'yas-minor-mode))
+            (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
+            (eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
+            (eval-after-load "which-key" '(diminish 'which-key-mode))
+            (eval-after-load "org-indent" '(diminish 'org-indent-mode))
         
         If later I want to rename modes, just add a string argument
         to the above form with a (presumably shorter) name.
@@ -865,9 +1029,9 @@ and hide unimportant information or interfact elements.
     
     The code to make it a global mode is from the [Emacs wiki](https://www.emacswiki.org/emacs/FillColumnIndicator).
     
-        (require 'fill-column-indicator)
-        (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode t)))
-        (global-fci-mode t)
+        ;;(require 'fill-column-indicator)
+        ;;(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode t)))
+        ;;(global-fci-mode t)
     
     If I later need it enabled only for certain modes,
     this code could be of use.
@@ -894,7 +1058,7 @@ and hide unimportant information or interfact elements.
     1.  TODO toggle visual-line-mode
 
 
-<a id="orgecc462f"></a>
+<a id="org76b6654"></a>
 
 ### Themes
 
@@ -950,21 +1114,21 @@ Make it “play nice” with `org`
     (doom-themes-org-config)
 
 
-<a id="org3492758"></a>
+<a id="orgc4de085"></a>
 
 ### Automatically revert unchanged files which change on the disk
 
     (global-auto-revert-mode t)
 
 
-<a id="orgb5ae8ba"></a>
+<a id="orgf06363c"></a>
 
 ### TODO Use `wordsmith` for English syntax highlighting
 
     (require 'wordsmith-mode)
 
 
-<a id="org0ef19a4"></a>
+<a id="org2e5f142"></a>
 
 ### Show possible completions as I type shortcuts
 
@@ -972,7 +1136,7 @@ Make it “play nice” with `org`
     (which-key-mode)
 
 
-<a id="orgb423571"></a>
+<a id="org2482178"></a>
 
 ### Provide a visualisation of my undo tree
 
@@ -1007,7 +1171,7 @@ on my system.
     ;;(setq undo-tree-visualizer-diff ())
 
 
-<a id="org91c7e9f"></a>
+<a id="org3092e69"></a>
 
 ### Buffers to open upon startup
 
@@ -1016,41 +1180,27 @@ that would affect these buffers.
 
 Otherwise those settings will not apply in these buffers.
 
-1.  Emacs init (this file)
+I like a bunch of files open upon startup.
 
-        (find-file "~/Dropbox/Organisation/setup/emacs/emacs-init.org")
+    (find-file "~/Dropbox/Organisation/setup/emacs/tips-and-tricks.org")
+    (find-file "~/Dropbox/Organisation/setup/emacs/yankpad.org")
+    (find-file "~/Dropbox/McMaster/Agda/scratch.agda")
+    (find-file "~/Dropbox/Organisation/log/phone-log.org")
 
-2.  Emacs tips and tricks
+These last files are the ones I want “in focus” upon startup.
 
-        (find-file "~/Dropbox/Organisation/setup/emacs/tips-and-tricks.org")
-
-3.  Yasnippets file
-
-        (find-file "~/Dropbox/Organisation/setup/emacs/yasnippets.org")
-
-4.  Yankpad file
-
-        (find-file "~/Dropbox/Organisation/setup/emacs/yankpad.org")
-
-5.  My Agda scratch file
-
-        (find-file "~/Dropbox/McMaster/Agda/scratch.agda")
-
-6.  My phone log
-
-        (find-file "~/Dropbox/Organisation/log/phone-log.org")
-
-7.  My log (as the initial buffer)
-
-        (setq initial-buffer-choice "~/Dropbox/Organisation/log/log.org")
+    (find-file "~/Dropbox/Organisation/setup/emacs/emacs-init.org")
+    (split-window-right)
+    (other-window 1)
+    (find-file "~/Dropbox/Organisation/log/log.org")
 
 
-<a id="orgc2b7696"></a>
+<a id="org670ed56"></a>
 
 ## Other
 
 
-<a id="org7ea680c"></a>
+<a id="org9caad57"></a>
 
 ### Run my custom “dropbox start” command to ensure dropbox is running on the system
 
@@ -1059,7 +1209,7 @@ Otherwise those settings will not apply in these buffers.
                                  "/opt/dropbox-filesystem-fix/dropbox_start.py")
 
 
-<a id="orgb8ae4bc"></a>
+<a id="org6e9cf9b"></a>
 
 ## Generating the README.md for my Emacs repo
 
@@ -1091,18 +1241,18 @@ including this file and other relevant files.
     )
 
 
-<a id="orgd14b40f"></a>
+<a id="orgb22fdba"></a>
 
 # `yankpad.org`
 
 
 
-<a id="orgf45d3fe"></a>
+<a id="org543241e"></a>
 
 ## Description
 
 
-<a id="org6430684"></a>
+<a id="org00bff43"></a>
 
 ### Introduction
 
@@ -1119,7 +1269,7 @@ which provides a great deal of functionality, including tab fields
 and arbitrary lisp code execution.
 
 
-<a id="orga4b907f"></a>
+<a id="orgb0b01b6"></a>
 
 ### Organisation notes
 
@@ -1154,7 +1304,7 @@ Most of my snippets are marked `:src:`, since this *is* a literate file
 (and I don't tend to use snippets for executing code).
 
 
-<a id="org3cb5411"></a>
+<a id="orgf0a4aa5"></a>
 
 ### Documentation links
 
@@ -1163,7 +1313,7 @@ Most of my snippets are marked `:src:`, since this *is* a literate file
 -   [org-mode](https://orgmode.org/) (for good measure)
 
 
-<a id="org5e9ad55"></a>
+<a id="org4bd0d32"></a>
 
 ### Caveats
 
@@ -1175,7 +1325,7 @@ For that reason, the `org` mode snippets come first,
 as they are useful for adding to this file.
 
 
-<a id="org2c9d5ae"></a>
+<a id="orgc31adf0"></a>
 
 ## org-mode
 
@@ -1184,7 +1334,7 @@ that I include snippets from lots of other modes, since I often
 write code from other modes in `org`.
 
 
-<a id="orga4337f8"></a>
+<a id="orge439bf0"></a>
 
 ### `org` blocks
 
@@ -1242,34 +1392,49 @@ write code from other modes in `org`.
             $0
             #+end_src
 
-2.  Others
+2.  Blocks for LaTeX exports
 
-    1.  e: Example     :src:orge:
+    1.  ldisc: Discussion     :src:ldisc:
+    
+            #+attr_LaTeX: :options [$1]
+            #+begin_discussion
+            $0
+            #+end_discussion
+
+3.  Others
+
+    1.  c: Center     :src:orgcntr:
+    
+            #+begin_center
+            $0
+            #+end_center
+    
+    2.  e: Example     :src:orgex:
     
             #+begin_example $1
             $0
             #+end_example
     
-    2.  quot: Quote     :src:orgquot:
+    3.  quot: Quote     :src:orgquot:
     
             #+begin_quote
             $0
             #+end_quote
     
-    3.  ques: Question     :src:orgques:
+    4.  ques: Question     :src:orgques:
     
             #+begin_example $1
             $0
             #+end_example
     
-    4.  ans: Answer     :src:organs:
+    5.  ans: Answer     :src:organs:
     
             #+begin_example $1
             $0
             #+end_example
 
 
-<a id="org0851bf2"></a>
+<a id="orgfda4ecb"></a>
 
 ## Default     :global:
 
@@ -1280,7 +1445,7 @@ I make these snippets available everywhere else as well by marking
 the category as `:global:`.
 
 
-<a id="orgd60468f"></a>
+<a id="orgdd1c4d9"></a>
 
 ### Punctuation, parentheses, etc.
 
@@ -1290,7 +1455,7 @@ the category as `:global:`.
 
 2.  card: Cardinality     :src:card:
 
-        ∣$1∣ $0
+        |$1| $0
 
 3.  enc: Encoding     :src:enc:
 
@@ -1301,7 +1466,7 @@ the category as `:global:`.
         ⟦$1⟧ $0
 
 
-<a id="org0b856f2"></a>
+<a id="orgad74d02"></a>
 
 ### Words
 
@@ -1314,7 +1479,18 @@ the category as `:global:`.
         non-deterministic
 
 
-<a id="org68a3132"></a>
+<a id="orgb4ccefb"></a>
+
+### Filepaths
+
+1.  Thesis
+
+    1.  simp-dfa-tex:     :src:
+    
+            latex/Automata/Simple/DFA.tex
+
+
+<a id="org375af7a"></a>
 
 ### Other global
 
@@ -1345,12 +1521,12 @@ the category as `:global:`.
         $0
 
 
-<a id="orgc17af70"></a>
+<a id="orgd5515b7"></a>
 
 ## agda2-mode
 
 
-<a id="orga6744fb"></a>
+<a id="orgdaf62de"></a>
 
 ### ag: Literate code block     :src:ag:
 
@@ -1359,16 +1535,21 @@ the category as `:global:`.
     \end{code}
 
 
-<a id="org0267192"></a>
+<a id="org514ec70"></a>
 
 ### ga: Break up a literate code block     :src:ga:
 
-    \end{code}
+Often we need to break up code blocks somewhere in the middle.
+
+The `\end{code}` here is an Elisp string so that it's not mistaken
+as ending a LaTeX code environment in *this* document.
+
+    `"\\end{code}"`
     $0
     \begin{code}
 
 
-<a id="org4006598"></a>
+<a id="orge7c0c56"></a>
 
 ### tag: Catch-file-between-tags     :src:tag:
 
@@ -1377,7 +1558,7 @@ the category as `:global:`.
     %</$1>
 
 
-<a id="org7998af7"></a>
+<a id="org7d89a11"></a>
 
 ### fun: Function declaration with type signature     :src:fun:
 
@@ -1385,35 +1566,43 @@ the category as `:global:`.
     $1 = ?
 
 
-<a id="org47070c7"></a>
+<a id="orgc6dca0f"></a>
+
+### dt: Datatype declaration     :src:dt:
+
+    data $1 : Set where
+      $2 : $1
+
+
+<a id="org91f37e3"></a>
 
 ### setl: `Set` arguments parameterised by a `Level`     :src:setl:
 
     {${1:a} : Level} → (${2:A} : Set $1) → $0
 
 
-<a id="org95bc079"></a>
+<a id="org368a8c6"></a>
 
 ### isetl: *Implicit* `Set` arguments parameterised by a `Level`     :src:isetl:
 
     {${1:a} : Level} → {${2:A} : Set $1} → $0
 
 
-<a id="org1dce622"></a>
+<a id="orga27bf87"></a>
 
 ### 2setl: `Set` arguments parameterised by two `Level's`     :src:2setl:
 
     {${1:a} ${2:b} : Level} → (${3:A} : Set $1) → (${4:B} : Set $1) → $0
 
 
-<a id="org7534d74"></a>
+<a id="orgb26b616"></a>
 
 ### i2setl: *Implicit* `Set` arguments parameterised by two `Level's`     :src:i2setl:
 
     {${1:a} ${2:b} : Level} → {${3:A} : Set $1} → {${4:B} : Set $1} → $0
 
 
-<a id="orgb68b075"></a>
+<a id="org50187ef"></a>
 
 ### with: `with` pattern     :src:with:
 
@@ -1421,7 +1610,7 @@ the category as `:global:`.
     ... | ${2:thing} = $0
 
 
-<a id="org4d793a7"></a>
+<a id="org5b449ce"></a>
 
 ### eqr: Start a `≡-Reasoning` block     :src:eqr:
 
@@ -1432,7 +1621,7 @@ the category as `:global:`.
     ∎
 
 
-<a id="orgb1ccabb"></a>
+<a id="org0178d3b"></a>
 
 ### eqs: Insert a step in a `≡-Reasoning` block     :src:eqs:
 
@@ -1440,12 +1629,12 @@ the category as `:global:`.
       $0
 
 
-<a id="org1b99e2b"></a>
+<a id="orge785b18"></a>
 
 ## tex-mode
 
 
-<a id="orge8e7de4"></a>
+<a id="org6c977bc"></a>
 
 ### leg: General LaTeX environment     :src:leg:
 
@@ -1454,7 +1643,7 @@ the category as `:global:`.
     \end{$1}
 
 
-<a id="org4ae77df"></a>
+<a id="orgd49376a"></a>
 
 ### lei: LaTeX itemize     :src:lei:
 
@@ -1463,7 +1652,7 @@ the category as `:global:`.
     \end{itemize}
 
 
-<a id="org9d634cd"></a>
+<a id="orgf5b14b8"></a>
 
 ### lec: LaTeX center     :src:lec:
 
@@ -1472,9 +1661,18 @@ the category as `:global:`.
     \end{center}
 
 
-<a id="org56f6915"></a>
+<a id="org734134a"></a>
 
 ### li: LaTeX item     :src:li:
 
     \item $0
+
+
+<a id="org3e2d397"></a>
+
+### cfbt: Import a tagged portion of another file     :src:li:
+
+Using the package `catchfilebetweentags`.
+
+    \ExecuteMetaData[$1]{$2}$0
 
