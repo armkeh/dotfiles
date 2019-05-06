@@ -75,12 +75,12 @@ We need Emacs to locate Agda mode. This command is put in ~.emacs~
 
 *** Command line arguments
 
-Dr. Wolfram Kahl has recommended the following settings.
-
-(I'm not setting them right somehow...)
+Dr. Wolfram Kahl has recommended customising the following settings.
+(note that my machine is a virtual machine running on a Chromebook
+with a little less than ~5G~ available to it).
 
 #+begin_src emacs-lisp
-;;(setq agda2-program-args (quote ("RTS" "-M4G" "-H4G" "-A128M" "-RTS")))
+(setq agda2-program-args (quote ("+RTS" "-M3G" "-H3G" "-A128M" "-RTS")))
 #+end_src
 
 These arguments specify
