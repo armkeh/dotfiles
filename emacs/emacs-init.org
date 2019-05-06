@@ -891,9 +891,9 @@ the line will be off by the length of the indentation
 The code to make it a global mode is from the [[https://www.emacswiki.org/emacs/FillColumnIndicator][Emacs wiki]].
 
 #+begin_src emacs-lisp
-(require 'fill-column-indicator)
-(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode t)))
-(global-fci-mode t)
+;;(require 'fill-column-indicator)
+;;(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode t)))
+;;(global-fci-mode t)
 #+end_src
 
 If I later need it enabled only for certain modes,
