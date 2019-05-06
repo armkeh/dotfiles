@@ -246,6 +246,16 @@ deterministic
 non-deterministic
 #+end_src
 
+** Filepaths
+
+*** Thesis
+
+**** simp-dfa-tex:                                                   :src:
+
+#+begin_src text
+latex/Automata/Simple/DFA.tex
+#+end_src
+
 ** Other global
 
 *** thisfile: Name of the current file (buffer)              :src:thisfile:
@@ -401,4 +411,12 @@ $0
 
 #+begin_src text
 \item $0
+#+end_src
+
+** cfbt: Import a tagged portion of another file                    :src:li:
+
+Using the package ~catchfilebetweentags~.
+
+#+begin_src text
+\ExecuteMetaData[$1]{$2}$0
 #+end_src
