@@ -269,8 +269,41 @@ Tying up emacs during that time is annoying, so set the
 export to happen in the background.
 
 #+begin_src emacs-lisp
-(setq org-export-in-background t)
+;;(setq org-export-in-background t)
 #+end_src
+
+This works by spawning a new Emacs session.
+That session needs an init file, which by default would be this file;
+for several reasons, though, I don't want it to use this file.
+Chief among them, I split the frame in this init file,
+and having no actual frame, this causes an error for the export process.
+
+#+begin_src emacs-lisp
+;;(setq org-export-async-init-file "~/Dropbox/Organisation/setup/emacs/org-export-init.el")
+#+end_src
+
+This elisp code creates that init file,
+based on an [[https://superuser.com/a/898717/1032497][answer on StackExchange]].
+
+Unfortunately, at the moment, this doesn't quite work for me,
+because I need all my other export settings set as well.
+So I've disabled exporting in the background for now.
+
+#+begin_src emacs-lisp
+(with-temp-file
+  "~/Dropbox/Organisation/setup/emacs/org-export-init.el"
+  (insert "(require 'package)
+           (setq package-enable-at-startup nil)
+           (package-initialize)
+
+           (require 'org)
+           (require 'ox)
+           (require 'cl)
+           (setq org-export-async-debug nil)
+  ")
+)
+#+end_src
+
 **** LaTeX specific
 
 ***** Default LaTeX compiler
