@@ -1121,7 +1121,8 @@ I like a bunch of files open upon startup.
 #+end_src
 
 These last files are the ones I want “in focus” upon startup.
-I move to the end of the log to ensure any junk input gets placed there.
+I move to the end of the scratch file
+to ensure any junk input gets placed there.
 #+begin_src emacs-lisp
   (find-file "~/Dropbox/Organisation/setup/emacs/emacs-init.org")
   (split-window-right)
@@ -1132,6 +1133,7 @@ I move to the end of the log to ensure any junk input gets placed there.
   (windmove-down)
   (find-file "~/Dropbox/Organisation/org-scratch.org")
   (end-of-buffer)
+  (shrink-window)
 #+end_src
 
 We must end the ~if~ above; in the case that we are running in headless mode,
