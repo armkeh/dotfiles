@@ -910,8 +910,8 @@ conflicts with ~pdf-tools~. So instead of ~global-linum-mode~,
 I enable it for ~text~ and ~prog~ modes.
 
 #+begin_src emacs-lisp
-(add-hook 'text-mode-hook 'linum-mode)
-(add-hook 'prog-mode-hook 'linum-mode)
+;;(add-hook 'text-mode-hook 'linum-mode)
+;;(add-hook 'prog-mode-hook 'linum-mode)
 #+end_src
 
 *** Highlight matching parenthesis when cursor is near
