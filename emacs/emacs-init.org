@@ -478,6 +478,14 @@ See [[https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-functio
  (setq org-highlight-latex-and-related '(latex))
  #+end_src
 
+*** Other
+
+**** Allow alphabetical lists
+
+#+begin_src emacs-lisp
+(setq org-list-allow-alphabetical t)
+#+end_src
+
 ** ~pdf-tools~
 
 Need to “install” it each time emacs starts
