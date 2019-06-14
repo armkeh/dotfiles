@@ -370,6 +370,63 @@ a problem I should resolve. For the moment, if I want to use
 ;;(setq org-latex-listings 'minted
 ;;      org-latex-packages-alist '(("" "minted")))
 #+end_src
+**** ~org-reveal~
+
+I make use of ~org-reveal~ to create ~reveal.js~ slide decks.
+This is way easier than dealing with ~beamer~ in LaTeX,
+and results in much more attractive and better organised slides.
+
+#+begin_src emacs-lisp
+(require 'ox-reveal)
+
+(setq org-reveal-root "file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/")
+#+end_src
+
+***** Slide appearance
+
+****** Theme
+
+~reveal.js~ comes with many themes; ~black~ is the current default
+at time of writing this. I set it just to be sure it stays consistent..
+
+#+begin_src emacs-lisp
+(setq org-reveal-theme "black")
+#+end_src
+
+At the time of writing, the included themes are
+- ~black~: Black background, white text, blue links
+- ~white~: White background, black text, blue links
+- ~league~: Gray background, white text, blue links
+- ~beige~: Beige background, dark text, brown links
+- ~sky~: Blue background, thin dark text, blue links
+- ~night~: Black background, thick white text, orange links
+- ~serif~: Cappuccino background, gray text, brown links
+- ~simple~: White background, black text, blue links
+- ~solarized~: Cream-colored background, dark green text, blue links
+(list from the [[https://github.com/hakimel/reveal.js/#theming][~reveal.js~ github]]).
+
+****** Title page
+
+The default title slide includes title and date, with the formatting
+#+begin_src html
+<h1 class="title">%t</h1><p class="date">Created: %d/p>
+#+end_src
+where ~%t~ stands for the document title and ~%d~ stands for the date.
+I override this setting
+#+begin_src emacs-lisp
+(setq org-reveal-title-slide "<h2 class=\"title\">%t</h2><h3>%a</h3><h4>%d</h4>")
+#+end_src
+
+****** Default slide height, width, margin and scaling
+
+#+begin_src emacs-lisp
+(setq org-reveal-height 800)
+(setq org-reveal-width 1200)
+(setq org-reveal-margin "0.1")
+(setq org-reveal-min-scale "0.05")
+(setq org-reveal-max-scale "5")
+#+end_src
+
 *** Evaluating code
 
 By default, Emacs will query whether we /actually/ want to
