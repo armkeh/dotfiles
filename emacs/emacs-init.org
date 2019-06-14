@@ -460,10 +460,10 @@ See [[https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-functio
 
 *** Cosmetics
 
-**** Indent text based on heading
+**** Indent text based on heading by default
 
 #+begin_src emacs-lisp
-(setq org-indent-mode t)
+(add-hook 'org-mode-hook 'org-indent-mode)
 #+end_src
 
 **** Hide emphasis markers by default
