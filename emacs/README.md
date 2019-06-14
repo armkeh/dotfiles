@@ -10,78 +10,78 @@ and my `yankpad` file.
 
 # Table of Contents
 
-1.  [`emacs-init.org`](#org9bcede4)
-    1.  [Introduction](#org0575384)
-        1.  [Setting up `.emacs` to use this code](#orga581a41)
-    2.  [Major packages](#org0327e52)
-        1.  [Package repositories](#org870b94c)
-        2.  [`agda` mode](#orgd988a1d)
-        3.  [`org` mode](#org1061a43)
-        4.  [`pdf-tools`](#orge2a9399)
-        5.  [`yankpad` and `yasnippets`](#org1fa2144)
-        6.  [`dired`](#org897a35f)
-    3.  [Key bindings](#org68fb828)
-        1.  [`general` definers](#org5bf3b69)
-        2.  [`yankpad`](#org0541301)
-        3.  [`dired`](#orgb9c3467)
-        4.  [Navigation](#org0ca7b23)
-        5.  [`magit`](#org2b41951)
-        6.  [Other](#orgbfce016)
-    4.  [Navigation](#org025c3d7)
-        1.  [Jump between windows using `windmove`](#org17f5f91)
-        2.  [Change scrolling (shortcut) behaviour](#org32c1b19)
-    5.  [Cosmetics](#org0733311)
-        1.  [Displaying/removing information and interface elements](#org49d2172)
-        2.  [Themes](#org76b6654)
-        3.  [Automatically revert unchanged files which change on the disk](#orgc4de085)
-        4.  [Use `wordsmith` for English syntax highlighting](#orgf06363c)
-        5.  [Show possible completions as I type shortcuts](#org2e5f142)
-        6.  [Provide a visualisation of my undo tree](#org2482178)
-        7.  [Buffers to open upon startup](#org3092e69)
-    6.  [Other](#org670ed56)
-        1.  [Run my custom “dropbox start” command to ensure dropbox is running on the system](#org9caad57)
-    7.  [Generating the README.md for my Emacs repo](#org6e9cf9b)
-2.  [`yankpad.org`](#orgb22fdba)
-    1.  [Description](#org543241e)
-        1.  [Introduction](#org00bff43)
-        2.  [Organisation notes](#orgb0b01b6)
-        3.  [Documentation links](#orgf0a4aa5)
-        4.  [Caveats](#org4bd0d32)
-    2.  [org-mode](#orgc31adf0)
-        1.  [`org` blocks](#orge439bf0)
-    3.  [Default](#orgfda4ecb):global:
-        1.  [Punctuation, parentheses, etc.](#orgdd1c4d9)
-        2.  [Words](#orgad74d02)
-        3.  [Filepaths](#orgb4ccefb)
-        4.  [Other global](#org375af7a)
-    4.  [agda2-mode](#orgd5515b7)
-        1.  [ag: Literate code block](#orgdaf62de):src:ag:
-        2.  [ga: Break up a literate code block](#org514ec70):src:ga:
-        3.  [tag: Catch-file-between-tags](#orge7c0c56):src:tag:
-        4.  [fun: Function declaration with type signature](#org7d89a11):src:fun:
-        5.  [dt: Datatype declaration](#orgc6dca0f):src:dt:
-        6.  [setl: `Set` arguments parameterised by a `Level`](#org91f37e3):src:setl:
-        7.  [isetl: *Implicit* `Set` arguments parameterised by a `Level`](#org368a8c6):src:isetl:
-        8.  [2setl: `Set` arguments parameterised by two `Level's`](#orga27bf87):src:2setl:
-        9.  [i2setl: *Implicit* `Set` arguments parameterised by two `Level's`](#orgb26b616):src:i2setl:
-        10. [with: `with` pattern](#org50187ef):src:with:
-        11. [eqr: Start a `≡-Reasoning` block](#org5b449ce):src:eqr:
-        12. [eqs: Insert a step in a `≡-Reasoning` block](#org0178d3b):src:eqs:
-    5.  [tex-mode](#orge785b18)
-        1.  [leg: General LaTeX environment](#org6c977bc):src:leg:
-        2.  [lei: LaTeX itemize](#orgd49376a):src:lei:
-        3.  [lec: LaTeX center](#orgf5b14b8):src:lec:
-        4.  [li: LaTeX item](#org734134a):src:li:
-        5.  [cfbt: Import a tagged portion of another file](#org3e2d397):src:li:
+1.  [`emacs-init.org`](#org9d2c7bc)
+    1.  [Introduction](#orgc1a730d)
+        1.  [Setting up `.emacs` to use this code](#org116201e)
+    2.  [Major packages](#org1eb2147)
+        1.  [Package repositories](#orgb40d626)
+        2.  [`agda` mode](#org31552ad)
+        3.  [`org` mode](#orgcc57517)
+        4.  [`pdf-tools`](#org1cd1548)
+        5.  [`yankpad` and `yasnippets`](#org85a179d)
+        6.  [`dired`](#orgdb323f7)
+    3.  [Key bindings](#org34fc202)
+        1.  [`general` definers](#orgfb605cd)
+        2.  [`yankpad`](#org8dc9143)
+        3.  [`dired`](#org28fd418)
+        4.  [Navigation](#orgdaddde8)
+        5.  [`magit`](#org644f265)
+        6.  [Other](#orgef52b9e)
+    4.  [Navigation](#org6e4eafd)
+        1.  [Jump between windows using `windmove`](#org87f777e)
+        2.  [Change scrolling (shortcut) behaviour](#orgc6f4883)
+    5.  [Cosmetics](#orgb5d9f3b)
+        1.  [Displaying/removing information and interface elements](#orgd537c66)
+        2.  [Themes](#orgb192563)
+        3.  [Automatically revert unchanged files which change on the disk](#orgdbc45ca)
+        4.  [Use `wordsmith` for English syntax highlighting](#orgf8767ab)
+        5.  [Show possible completions as I type shortcuts](#org7506985)
+        6.  [Provide a visualisation of my undo tree](#org2363fdb)
+        7.  [Buffers to open upon startup](#org5006a2b)
+    6.  [Other](#org8f64bdc)
+        1.  [Run my custom “dropbox start” command to ensure dropbox is running on the system](#orgd7209a6)
+    7.  [Generating the README.md for my Emacs repo](#org35d40ad)
+2.  [`yankpad.org`](#orga2f37b7)
+    1.  [Description](#org4e49e62)
+        1.  [Introduction](#org79fb2ac)
+        2.  [Organisation notes](#org1b94319)
+        3.  [Documentation links](#org27a09d5)
+        4.  [Caveats](#org515b106)
+    2.  [org-mode](#orge6f7065)
+        1.  [`org` blocks](#orgad72431)
+    3.  [Default](#org5b2bede):global:
+        1.  [Punctuation, parentheses, etc.](#org7b639c6)
+        2.  [Words](#orgc91a5aa)
+        3.  [Filepaths](#org7cb1300)
+        4.  [Other global](#org306d671)
+    4.  [agda2-mode](#org734e54b)
+        1.  [ag: Literate code block](#org7d14487):src:ag:
+        2.  [ga: Break up a literate code block](#org225f6a7):src:ga:
+        3.  [tag: Catch-file-between-tags](#org1904e6c):src:tag:
+        4.  [fun: Function declaration with type signature](#org034bf90):src:fun:
+        5.  [dt: Datatype declaration](#org667ab89):src:dt:
+        6.  [setl: `Set` arguments parameterised by a `Level`](#orgac063e5):src:setl:
+        7.  [isetl: *Implicit* `Set` arguments parameterised by a `Level`](#orgc45aa58):src:isetl:
+        8.  [2setl: `Set` arguments parameterised by two `Level's`](#org1846b48):src:2setl:
+        9.  [i2setl: *Implicit* `Set` arguments parameterised by two `Level's`](#org967ec41):src:i2setl:
+        10. [with: `with` pattern](#org42706dd):src:with:
+        11. [eqr: Start a `≡-Reasoning` block](#orgff97af3):src:eqr:
+        12. [eqs: Insert a step in a `≡-Reasoning` block](#orge6cf851):src:eqs:
+    5.  [tex-mode](#org97d6282)
+        1.  [leg: General LaTeX environment](#org5c85922):src:leg:
+        2.  [lei: LaTeX itemize](#orgad5443d):src:lei:
+        3.  [lec: LaTeX center](#org2ce8fca):src:lec:
+        4.  [li: LaTeX item](#org8d4ef36):src:li:
+        5.  [cfbt: Import a tagged portion of another file](#org4b765c6):src:li:
 
 
-<a id="org9bcede4"></a>
+<a id="org9d2c7bc"></a>
 
 # `emacs-init.org`
 
 
 
-<a id="org0575384"></a>
+<a id="orgc1a730d"></a>
 
 ## Introduction
 
@@ -91,7 +91,7 @@ in the future and for sharing with others.
 I'm following [Musa's](https://alhassy.github.io/init/) example using an `org` file for this.
 
 
-<a id="orga581a41"></a>
+<a id="org116201e"></a>
 
 ### Setting up `.emacs` to use this code
 
@@ -122,12 +122,12 @@ then add to the bottom of =~/.emacs` these lines:
     having Emacs prompt me every time is annoying and slows my start up.
 
 
-<a id="org0327e52"></a>
+<a id="org1eb2147"></a>
 
 ## Major packages
 
 
-<a id="org870b94c"></a>
+<a id="orgb40d626"></a>
 
 ### Package repositories
 
@@ -145,7 +145,7 @@ then add to the bottom of =~/.emacs` these lines:
         ;;(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
 
 
-<a id="orgd988a1d"></a>
+<a id="org31552ad"></a>
 
 ### `agda` mode
 
@@ -236,7 +236,8 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
     So I use set other indicators instead.
     
         (defun my-agda-highlighting ()
-          "Set face attributes to replace Agda highlighting I find annoying."
+          "Set face attributes to replace Agda highlighting,
+          which I find hard to read in many situations."
           (set-face-attribute
             'agda2-highlight-coverage-problem-face
             nil ;; all frames
@@ -310,7 +311,7 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
                (lambda () (set-input-method "Agda")))
 
 
-<a id="org1061a43"></a>
+<a id="orgcc57517"></a>
 
 ### `org` mode
 
@@ -377,36 +378,24 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
         Using `latex-mk`, the export process takes a bit of time.
         Tying up emacs during that time is annoying, so set the
         export to happen in the background.
+        This setting can be modified locally in the export dialog frame
+        if desired.
         
-            ;;(setq org-export-in-background t)
+            (setq org-export-in-background t)
         
         This works by spawning a new Emacs session.
-        That session needs an init file, which by default would be this file;
-        for several reasons, though, I don't want it to use this file.
-        Chief among them, I split the frame in this init file,
-        and having no actual frame, this causes an error for the export process.
+        That session uses this init file, so we must be careful
+        that this file works for daemon (headless) Emacs processes.
+        See [1.5.7](#org5006a2b) for how to deal with
+        problematic portions.
         
-            ;;(setq org-export-async-init-file "~/Dropbox/Organisation/setup/emacs/org-export-init.el")
-        
-        This elisp code creates that init file,
-        based on an [answer on StackExchange](https://superuser.com/a/898717/1032497).
-        
-        Unfortunately, at the moment, this doesn't quite work for me,
-        because I need all my other export settings set as well.
-        So I've disabled exporting in the background for now.
-        
-            (with-temp-file
-              "~/Dropbox/Organisation/setup/emacs/org-export-init.el"
-              (insert "(require 'package)
-                       (setq package-enable-at-startup nil)
-                       (package-initialize)
-            
-                       (require 'org)
-                       (require 'ox)
-                       (require 'cl)
-                       (setq org-export-async-debug nil)
-              ")
-            )
+        Another possible solution would be to modify
+        `org-export-async-init-file`, but that would require
+        creation of a new init file. To use this approach, I would
+        have to repeat large portions of this file.
+        If this approach is ever desirable,
+        this [answer on StackExchange](https://superuser.com/a/898717/1032497) describes how to create such a file
+        using Lisp code.
     
     4.  LaTeX specific
     
@@ -519,6 +508,58 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
             
                 ;;(setq org-latex-listings 'minted
                 ;;      org-latex-packages-alist '(("" "minted")))
+    
+    5.  `org-reveal`
+    
+        I make use of `org-reveal` to create `reveal.js` slide decks.
+        This is way easier than dealing with `beamer` in LaTeX,
+        and results in much more attractive and better organised slides.
+        
+            (require 'ox-reveal)
+            
+            (setq org-reveal-root "file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/")
+        
+        1.  Slide appearance
+        
+            1.  Theme
+            
+                `reveal.js` comes with many themes; `black` is the current default
+                at time of writing this. I set it just to be sure it stays consistent..
+                
+                    (setq org-reveal-theme "black")
+                
+                At the time of writing, the included themes are
+                
+                -   `black`: Black background, white text, blue links
+                -   `white`: White background, black text, blue links
+                -   `league`: Gray background, white text, blue links
+                -   `beige`: Beige background, dark text, brown links
+                -   `sky`: Blue background, thin dark text, blue links
+                -   `night`: Black background, thick white text, orange links
+                -   `serif`: Cappuccino background, gray text, brown links
+                -   `simple`: White background, black text, blue links
+                -   `solarized`: Cream-colored background, dark green text, blue links
+                
+                (list from the [`reveal.js` github](https://github.com/hakimel/reveal.js/#theming)).
+            
+            2.  Title page
+            
+                The default title slide includes title and date, with the formatting
+                
+                    <h1 class="title">%t</h1><p class="date">Created: %d/p>
+                
+                where `%t` stands for the document title and `%d` stands for the date.
+                I override this setting
+                
+                    (setq org-reveal-title-slide "<h2 class=\"title\">%t</h2><h3>%a</h3><h4>%d</h4>")
+            
+            3.  Default slide height, width, margin and scaling
+            
+                    (setq org-reveal-height 800)
+                    (setq org-reveal-width 1200)
+                    (setq org-reveal-margin "0.1")
+                    (setq org-reveal-min-scale "0.05")
+                    (setq org-reveal-max-scale "5")
 
 5.  Evaluating code
 
@@ -549,9 +590,9 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
 
 6.  Cosmetics
 
-    1.  Indent text based on heading
+    1.  Indent text based on heading by default
     
-            (setq org-indent-mode t)
+            (add-hook 'org-mode-hook 'org-indent-mode)
     
     2.  Hide emphasis markers by default
     
@@ -561,8 +602,14 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
     
             (setq org-highlight-latex-and-related '(latex))
 
+7.  Other
 
-<a id="orge2a9399"></a>
+    1.  Allow alphabetical lists
+    
+            (setq org-list-allow-alphabetical t)
+
+
+<a id="org1cd1548"></a>
 
 ### `pdf-tools`
 
@@ -571,7 +618,7 @@ Need to “install” it each time emacs starts
     (pdf-tools-install)
 
 
-<a id="org1fa2144"></a>
+<a id="org85a179d"></a>
 
 ### `yankpad` and `yasnippets`
 
@@ -606,7 +653,7 @@ I set it to fixed because this is usually what I want; I know best, not the mode
         (add-hook 'snippet-mode-hook (setq require-final-newline nil))
 
 
-<a id="org897a35f"></a>
+<a id="orgdb323f7"></a>
 
 ### `dired`
 
@@ -706,7 +753,7 @@ the right configuration, very easy to use.
           (add-hook 'dired-load-hook 'my-dired-init))
 
 
-<a id="org68fb828"></a>
+<a id="org34fc202"></a>
 
 ## Key bindings
 
@@ -718,7 +765,7 @@ I also make use of `general` to organise other keybindings.
     (require 'general)
 
 
-<a id="org5bf3b69"></a>
+<a id="orgfb605cd"></a>
 
 ### `general` definers
 
@@ -757,7 +804,7 @@ So far I have three categories of shortcuts:
       :keymaps 'override)
 
 
-<a id="org0541301"></a>
+<a id="org8dc9143"></a>
 
 ### `yankpad`
 
@@ -784,7 +831,7 @@ So, I have a shortcut key.
       "y r" 'yankpad-reload)
 
 
-<a id="orgb9c3467"></a>
+<a id="org28fd418"></a>
 
 ### `dired`
 
@@ -804,6 +851,9 @@ local variable to store the command to invoke `dired` with.
       "h" '((lambda () (interactive)
               (my-dired-invocation "~"))
             :which-key "Home")
+      "d" '((lambda () (interactive)
+              (my-dired-invocation "~/Dropbox/"))
+            :which-key "Dropbox")
       "o" '((lambda () (interactive)
               (my-dired-invocation "~/Dropbox/Organisation/"))
             :which-key "Organisation")
@@ -813,16 +863,22 @@ local variable to store the command to invoke `dired` with.
       "m" '((lambda () (interactive)
               (my-dired-invocation "~/Dropbox/McMaster/"))
             :which-key "McMaster")
+      "a" '((lambda () (interactive)
+              (my-dired-invocation "~/Dropbox/McMaster/Agda/"))
+            :which-key "Agda")
       "t" '((lambda () (interactive)
               (my-dired-invocation "~/Dropbox/McMaster/Agda/thesis/"))
             :which-key "Thesis")
-      "e" '((lambda () (interactive)
+      "cm" '((lambda () (interactive)
+              (my-dired-invocation "~/Dropbox/McMaster/3mi3/"))
+            :which-key "3mi3")
+      "ce" '((lambda () (interactive)
               (my-dired-invocation "~/Dropbox/McMaster/3ea3/"))
             :which-key "3ea3")
     )
 
 
-<a id="org0ca7b23"></a>
+<a id="orgdaddde8"></a>
 
 ### Navigation
 
@@ -840,7 +896,7 @@ local variable to store the command to invoke `dired` with.
     )
 
 
-<a id="org2b41951"></a>
+<a id="org644f265"></a>
 
 ### `magit`
 
@@ -849,7 +905,7 @@ local variable to store the command to invoke `dired` with.
     )
 
 
-<a id="orgbfce016"></a>
+<a id="orgef52b9e"></a>
 
 ### Other
 
@@ -858,12 +914,12 @@ local variable to store the command to invoke `dired` with.
     )
 
 
-<a id="org025c3d7"></a>
+<a id="org6e4eafd"></a>
 
 ## Navigation
 
 
-<a id="org17f5f91"></a>
+<a id="org87f777e"></a>
 
 ### Jump between windows using `windmove`
 
@@ -887,7 +943,7 @@ or otherwise taken in Emacs.
 So instead I've define shortcuts using `general` above.
 
 
-<a id="org32c1b19"></a>
+<a id="orgc6f4883"></a>
 
 ### Change scrolling (shortcut) behaviour
 
@@ -905,12 +961,12 @@ Keep in mind `recenter` (`C-l`) when scrolling this way to recenter
 the screen on the current line.
 
 
-<a id="org0733311"></a>
+<a id="orgb5d9f3b"></a>
 
 ## Cosmetics
 
 
-<a id="org49d2172"></a>
+<a id="orgd537c66"></a>
 
 ### Displaying/removing information and interface elements
 
@@ -995,8 +1051,8 @@ and hide unimportant information or interfact elements.
     conflicts with `pdf-tools`. So instead of `global-linum-mode`,
     I enable it for `text` and `prog` modes.
     
-        (add-hook 'text-mode-hook 'linum-mode)
-        (add-hook 'prog-mode-hook 'linum-mode)
+        ;;(add-hook 'text-mode-hook 'linum-mode)
+        ;;(add-hook 'prog-mode-hook 'linum-mode)
 
 5.  Highlight matching parenthesis when cursor is near
 
@@ -1058,7 +1114,7 @@ and hide unimportant information or interfact elements.
     1.  TODO toggle visual-line-mode
 
 
-<a id="org76b6654"></a>
+<a id="orgb192563"></a>
 
 ### Themes
 
@@ -1114,21 +1170,21 @@ Make it “play nice” with `org`
     (doom-themes-org-config)
 
 
-<a id="orgc4de085"></a>
+<a id="orgdbc45ca"></a>
 
 ### Automatically revert unchanged files which change on the disk
 
     (global-auto-revert-mode t)
 
 
-<a id="orgf06363c"></a>
+<a id="orgf8767ab"></a>
 
 ### TODO Use `wordsmith` for English syntax highlighting
 
     (require 'wordsmith-mode)
 
 
-<a id="org2e5f142"></a>
+<a id="org7506985"></a>
 
 ### Show possible completions as I type shortcuts
 
@@ -1136,7 +1192,7 @@ Make it “play nice” with `org`
     (which-key-mode)
 
 
-<a id="org2482178"></a>
+<a id="org2363fdb"></a>
 
 ### Provide a visualisation of my undo tree
 
@@ -1171,12 +1227,19 @@ on my system.
     ;;(setq undo-tree-visualizer-diff ())
 
 
-<a id="org3092e69"></a>
+<a id="org5006a2b"></a>
 
 ### Buffers to open upon startup
 
 Note that this portion of the file should be *after* any settings
 that would affect these buffers.
+
+This portion of the file should only be run if the Emacs process
+is not headless. In the case that Emacs is running as a daemon,
+as it does when initiating an asynchronous process such as
+an Org async export process.
+
+    (if (display-graphic-p) (progn
 
 Otherwise those settings will not apply in these buffers.
 
@@ -1188,19 +1251,32 @@ I like a bunch of files open upon startup.
     (find-file "~/Dropbox/Organisation/log/phone-log.org")
 
 These last files are the ones I want “in focus” upon startup.
+I move to the end of the scratch file
+to ensure any junk input gets placed there.
 
     (find-file "~/Dropbox/Organisation/setup/emacs/emacs-init.org")
     (split-window-right)
-    (other-window 1)
+    (windmove-right)
     (find-file "~/Dropbox/Organisation/log/log.org")
+    (windmove-left)
+    (split-window-below)
+    (windmove-down)
+    (find-file "~/Dropbox/Organisation/org-scratch.org")
+    (end-of-buffer)
+    (shrink-window)
+
+We must end the `if` above; in the case that we are running in headless mode,
+just do nothing here.
+
+    ) nil)
 
 
-<a id="org670ed56"></a>
+<a id="org8f64bdc"></a>
 
 ## Other
 
 
-<a id="org9caad57"></a>
+<a id="orgd7209a6"></a>
 
 ### Run my custom “dropbox start” command to ensure dropbox is running on the system
 
@@ -1209,7 +1285,7 @@ These last files are the ones I want “in focus” upon startup.
                                  "/opt/dropbox-filesystem-fix/dropbox_start.py")
 
 
-<a id="org6e9cf9b"></a>
+<a id="org35d40ad"></a>
 
 ## Generating the README.md for my Emacs repo
 
@@ -1241,18 +1317,18 @@ including this file and other relevant files.
     )
 
 
-<a id="orgb22fdba"></a>
+<a id="orga2f37b7"></a>
 
 # `yankpad.org`
 
 
 
-<a id="org543241e"></a>
+<a id="org4e49e62"></a>
 
 ## Description
 
 
-<a id="org00bff43"></a>
+<a id="org79fb2ac"></a>
 
 ### Introduction
 
@@ -1269,7 +1345,7 @@ which provides a great deal of functionality, including tab fields
 and arbitrary lisp code execution.
 
 
-<a id="orgb0b01b6"></a>
+<a id="org1b94319"></a>
 
 ### Organisation notes
 
@@ -1304,7 +1380,7 @@ Most of my snippets are marked `:src:`, since this *is* a literate file
 (and I don't tend to use snippets for executing code).
 
 
-<a id="orgf0a4aa5"></a>
+<a id="org27a09d5"></a>
 
 ### Documentation links
 
@@ -1313,7 +1389,7 @@ Most of my snippets are marked `:src:`, since this *is* a literate file
 -   [org-mode](https://orgmode.org/) (for good measure)
 
 
-<a id="org4bd0d32"></a>
+<a id="org515b106"></a>
 
 ### Caveats
 
@@ -1325,7 +1401,7 @@ For that reason, the `org` mode snippets come first,
 as they are useful for adding to this file.
 
 
-<a id="orgc31adf0"></a>
+<a id="orge6f7065"></a>
 
 ## org-mode
 
@@ -1334,7 +1410,7 @@ that I include snippets from lots of other modes, since I often
 write code from other modes in `org`.
 
 
-<a id="orge439bf0"></a>
+<a id="orgad72431"></a>
 
 ### `org` blocks
 
@@ -1434,7 +1510,7 @@ write code from other modes in `org`.
             #+end_example
 
 
-<a id="orgfda4ecb"></a>
+<a id="org5b2bede"></a>
 
 ## Default     :global:
 
@@ -1445,7 +1521,7 @@ I make these snippets available everywhere else as well by marking
 the category as `:global:`.
 
 
-<a id="orgdd1c4d9"></a>
+<a id="org7b639c6"></a>
 
 ### Punctuation, parentheses, etc.
 
@@ -1466,7 +1542,7 @@ the category as `:global:`.
         ⟦$1⟧ $0
 
 
-<a id="orgad74d02"></a>
+<a id="orgc91a5aa"></a>
 
 ### Words
 
@@ -1479,7 +1555,7 @@ the category as `:global:`.
         non-deterministic
 
 
-<a id="orgb4ccefb"></a>
+<a id="org7cb1300"></a>
 
 ### Filepaths
 
@@ -1490,7 +1566,7 @@ the category as `:global:`.
             latex/Automata/Simple/DFA.tex
 
 
-<a id="org375af7a"></a>
+<a id="org306d671"></a>
 
 ### Other global
 
@@ -1521,12 +1597,12 @@ the category as `:global:`.
         $0
 
 
-<a id="orgd5515b7"></a>
+<a id="org734e54b"></a>
 
 ## agda2-mode
 
 
-<a id="orgdaf62de"></a>
+<a id="org7d14487"></a>
 
 ### ag: Literate code block     :src:ag:
 
@@ -1535,7 +1611,7 @@ the category as `:global:`.
     \end{code}
 
 
-<a id="org514ec70"></a>
+<a id="org225f6a7"></a>
 
 ### ga: Break up a literate code block     :src:ga:
 
@@ -1549,7 +1625,7 @@ as ending a LaTeX code environment in *this* document.
     \begin{code}
 
 
-<a id="orge7c0c56"></a>
+<a id="org1904e6c"></a>
 
 ### tag: Catch-file-between-tags     :src:tag:
 
@@ -1558,7 +1634,7 @@ as ending a LaTeX code environment in *this* document.
     %</$1>
 
 
-<a id="org7d89a11"></a>
+<a id="org034bf90"></a>
 
 ### fun: Function declaration with type signature     :src:fun:
 
@@ -1566,7 +1642,7 @@ as ending a LaTeX code environment in *this* document.
     $1 = ?
 
 
-<a id="orgc6dca0f"></a>
+<a id="org667ab89"></a>
 
 ### dt: Datatype declaration     :src:dt:
 
@@ -1574,35 +1650,35 @@ as ending a LaTeX code environment in *this* document.
       $2 : $1
 
 
-<a id="org91f37e3"></a>
+<a id="orgac063e5"></a>
 
 ### setl: `Set` arguments parameterised by a `Level`     :src:setl:
 
     {${1:a} : Level} → (${2:A} : Set $1) → $0
 
 
-<a id="org368a8c6"></a>
+<a id="orgc45aa58"></a>
 
 ### isetl: *Implicit* `Set` arguments parameterised by a `Level`     :src:isetl:
 
     {${1:a} : Level} → {${2:A} : Set $1} → $0
 
 
-<a id="orga27bf87"></a>
+<a id="org1846b48"></a>
 
 ### 2setl: `Set` arguments parameterised by two `Level's`     :src:2setl:
 
     {${1:a} ${2:b} : Level} → (${3:A} : Set $1) → (${4:B} : Set $1) → $0
 
 
-<a id="orgb26b616"></a>
+<a id="org967ec41"></a>
 
 ### i2setl: *Implicit* `Set` arguments parameterised by two `Level's`     :src:i2setl:
 
     {${1:a} ${2:b} : Level} → {${3:A} : Set $1} → {${4:B} : Set $1} → $0
 
 
-<a id="org50187ef"></a>
+<a id="org42706dd"></a>
 
 ### with: `with` pattern     :src:with:
 
@@ -1610,7 +1686,7 @@ as ending a LaTeX code environment in *this* document.
     ... | ${2:thing} = $0
 
 
-<a id="org5b449ce"></a>
+<a id="orgff97af3"></a>
 
 ### eqr: Start a `≡-Reasoning` block     :src:eqr:
 
@@ -1621,7 +1697,7 @@ as ending a LaTeX code environment in *this* document.
     ∎
 
 
-<a id="org0178d3b"></a>
+<a id="orge6cf851"></a>
 
 ### eqs: Insert a step in a `≡-Reasoning` block     :src:eqs:
 
@@ -1629,12 +1705,12 @@ as ending a LaTeX code environment in *this* document.
       $0
 
 
-<a id="orge785b18"></a>
+<a id="org97d6282"></a>
 
 ## tex-mode
 
 
-<a id="org6c977bc"></a>
+<a id="org5c85922"></a>
 
 ### leg: General LaTeX environment     :src:leg:
 
@@ -1643,7 +1719,7 @@ as ending a LaTeX code environment in *this* document.
     \end{$1}
 
 
-<a id="orgd49376a"></a>
+<a id="orgad5443d"></a>
 
 ### lei: LaTeX itemize     :src:lei:
 
@@ -1652,7 +1728,7 @@ as ending a LaTeX code environment in *this* document.
     \end{itemize}
 
 
-<a id="orgf5b14b8"></a>
+<a id="org2ce8fca"></a>
 
 ### lec: LaTeX center     :src:lec:
 
@@ -1661,14 +1737,14 @@ as ending a LaTeX code environment in *this* document.
     \end{center}
 
 
-<a id="org734134a"></a>
+<a id="org8d4ef36"></a>
 
 ### li: LaTeX item     :src:li:
 
     \item $0
 
 
-<a id="org3e2d397"></a>
+<a id="org4b765c6"></a>
 
 ### cfbt: Import a tagged portion of another file     :src:li:
 
