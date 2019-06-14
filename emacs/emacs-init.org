@@ -277,7 +277,7 @@ if desired.
 
 This works by spawning a new Emacs session.
 That session uses this init file, so we must be careful
-that this file works for headless (non-window) Emacs processes.
+that this file works for daemon (headless) Emacs processes.
 See [[Buffers to open upon setup]] for how to deal with
 problematic portions.
 
@@ -1027,9 +1027,8 @@ on my system.
 Note that this portion of the file should be /after/ any settings
 that would affect these buffers.
 
-This portion of the file should only be run if Emacs
-is actually running in a window.
-In the case that Emacs is running as a daemon,
+This portion of the file should only be run if the Emacs process
+is not headless. In the case that Emacs is running as a daemon,
 as it does when initiating an asynchronous process such as
 an Org async export process.
 
@@ -1061,8 +1060,8 @@ I move to the end of the log to ensure any junk input gets placed there.
   (end-of-buffer)
 #+end_src
 
-We must end the ~if~ above; in the case that we are not
-running a window, just do nothing here.
+We must end the ~if~ above; in the case that we are running in headless mode,
+just do nothing here.
 #+begin_src emacs-lisp
 ) nil)
 #+end_src
