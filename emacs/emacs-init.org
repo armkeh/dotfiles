@@ -278,7 +278,7 @@ if desired.
 This works by spawning a new Emacs session.
 That session uses this init file, so we must be careful
 that this file works for daemon (headless) Emacs processes.
-See [[Buffers to open upon setup]] for how to deal with
+See [[Buffers to open upon startup]] for how to deal with
 problematic portions.
 
 Another possible solution would be to modify
