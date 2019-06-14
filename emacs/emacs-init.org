@@ -105,7 +105,8 @@ So I use set other indicators instead.
 
 #+begin_src emacs-lisp
 (defun my-agda-highlighting ()
-  "Set face attributes to replace Agda highlighting I find annoying."
+  "Set face attributes to replace Agda highlighting,
+  which I find hard to read in many situations."
   (set-face-attribute
     'agda2-highlight-coverage-problem-face
     nil ;; all frames
