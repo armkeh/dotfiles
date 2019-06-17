@@ -503,6 +503,26 @@ See [[https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-functio
  (setq org-highlight-latex-and-related '(latex))
  #+end_src
 
+**** Replace the ellipsis ~...~
+
+By default, folded portions of the document are
+presented by an ellipsis, ~...~. Let's replace that.
+
+#+begin_src emacs-lisp
+(setq org-ellipsis " ⤵")
+#+end_src
+
+But I find this is not particularly visible with my theme.
+So, I customise the ~org-ellipsis~ face.
+
+#+begin_src emacs-lisp
+(set-face-attribute
+    'org-ellipsis
+    nil ;; all frames
+    :foreground 'unspecified
+  )
+#+end_src
+
 *** Other
 
 **** Allow alphabetical lists
