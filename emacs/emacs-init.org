@@ -7,7 +7,7 @@
 This is my ~emacs~ initialisation code, documented for my own understanding
 in the future and for sharing with others.
 
-I'm following [[https://alhassy.github.io/init/][Musa's]] example using an ~org~ file for this.
+I'm following [[https://alhassy.github.io/init/][Musa Alhassy's]] example using an ~org~ file for this.
 
 ** Setting up ~.emacs~ to use this code
 
@@ -509,6 +509,15 @@ See [[https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-functio
 
 #+begin_src emacs-lisp
 (setq org-list-allow-alphabetical t)
+#+end_src
+
+**** Reveal hidden elements if they are edited
+
+To avoid, for instance, accidentally editing folded portions
+of the document.
+
+#+begin_src emacs-lisp
+(setq org-catch-invisible-edits 'show)
 #+end_src
 
 ** ~pdf-tools~
