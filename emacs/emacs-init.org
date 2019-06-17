@@ -40,7 +40,7 @@ having Emacs prompt me every time is annoying and slows my start up.
 
 * Major packages
 
-** Package repositories
+** Package repositories and ~use-package~
 
 #+begin_src emacs-lisp
 (require 'package)
@@ -59,6 +59,26 @@ having Emacs prompt me every time is annoying and slows my start up.
 ;;(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
 #+end_src
 
+*** Bootstrap ~use-package~
+
+Using ~use-package~ allows me to easily migrate to new systems,
+because I don't have to ~package-install~ every package I use.
+
+Unless it's already installed, update the packages archives,
+then install the most recent version of “use-package”.
+#+begin_src emacs-lisp
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(require 'use-package)
+#+end_src
+
+I always want to download packages that aren't installed.
+#+begin_src emacs-lisp
+(setq use-package-always-ensure t)
+#+end_src
+
 ** ~agda~ mode
 
 We need Emacs to locate Agda mode. This command is put in ~.emacs~
@@ -68,6 +88,8 @@ We need Emacs to locate Agda mode. This command is put in ~.emacs~
                 (shell-command-to-string "agda-mode locate")))
 #+end_src
 
+These packages are installed when setting up Agda,
+so I simply ~require~ them.
 #+begin_src emacs-lisp
 (require 'agda-input)
 (require 'agda2-highlight)
@@ -190,9 +212,14 @@ subscripts and superscripts; these translations account for that.
 
 ** ~org~ mode
 
+I use ~org~ for almost everything, and utilise many
+of the extras included in ~org-plus-contrib~.
 #+begin_src emacs-lisp
-(require 'org)
-(require 'ox-extra)
+(use-package org
+  :ensure org-plus-contrib
+  :config
+  (require 'ox-extra)
+)
 #+end_src
 
 *** Capture
@@ -237,11 +264,9 @@ To see the commands available, execute
 
 Use the ~:ignore:~ tag on headlines to omit the headline when
 exporting, but keep its contents.
-
 #+begin_src emacs-lisp
 (ox-extras-activate '(ignore-headlines))
 #+end_src
-
 Alternatively, use the ~:noexport:~ tag to omit the headline
 /and/ its contents.
 
@@ -260,7 +285,7 @@ I want to preserve my indentation for source code during export.
 The ~htmlize~ package preserves source code colouring on export to html.
 (And presumably does a lot more I am not fully aware of).
 #+begin_src emacs-lisp
-(require 'htmlize)
+(use-package htmlize)
 #+end_src
 
 **** Export in the background
@@ -377,7 +402,7 @@ This is way easier than dealing with ~beamer~ in LaTeX,
 and results in much more attractive and better organised slides.
 
 #+begin_src emacs-lisp
-(require 'ox-reveal)
+(use-package ox-reveal)
 
 (setq org-reveal-root "file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/")
 #+end_src
@@ -488,6 +513,10 @@ See [[https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-functio
 
 ** ~pdf-tools~
 
+#+begin_src emacs-lisp
+(use-package pdf-tools)
+#+end_src
+
 Need to “install” it each time emacs starts
 #+begin_src emacs-lisp
 (pdf-tools-install)
@@ -504,11 +533,17 @@ Need to “install” it each time emacs starts
 I use ~yasnippets~ for text expansion, and ~yankpad~ to organise my
 snippets.
 
+For inserting snippets, we require string manipulation functions
+from the ~subr-x~ package (built-in).
 #+begin_src emacs-lisp
-(require 'yasnippet)
+(require 'subr-x)
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package yasnippet)
 (yas-global-mode t)
 
-(require 'yankpad)
+(use-package yankpad)
 (setq yankpad-file "~/Dropbox/Organisation/setup/emacs/yankpad.org")
 #+end_src
 
@@ -579,7 +614,7 @@ I use ~dired-single~ to avoid ~dired~ opening a new buffer
 for every directory visited.
 
 #+begin_src emacs-lisp
-(require 'dired-single)
+(use-package dired-single)
 #+end_src
 
 I use a “magic” buffer with the name ~*Dired*~, to avoid the single
@@ -611,6 +646,12 @@ is taken directly from the ~dired-single~ [[https://github.com/crocket/dired-sin
   (add-hook 'dired-load-hook 'my-dired-init))
 #+end_src
 
+** ~magit~
+
+#+begin_src emacs-lisp
+(use-package magit)
+#+end_src
+
 * Key bindings
 
 I make use of ~hydra~ for keybindings (or groups of keybindings)
@@ -619,7 +660,7 @@ which will be executed several times in a row.
 I also make use of ~general~ to organise other keybindings.
 
 #+begin_src emacs-lisp
-(require 'general)
+(use-package general)
 #+end_src
 
 ** ~general~ definers
@@ -773,7 +814,7 @@ local variable to store the command to invoke ~dired~ with.
 The package ~windmove~ lets us jump between windows in a frame.
 
 #+begin_src emacs-lisp
-(require 'windmove)
+(use-package windmove)
 #+end_src
 
 For the uninitiated, a /window/ in Emacs is not the same as
@@ -808,6 +849,65 @@ Keep in mind ~recenter~ (~C-l~) when scrolling this way to recenter
 the screen on the current line.
 
 * Cosmetics
+
+** Themes
+
+I use the ~doom-nord~ themes,
+and toggle between the non-~light~ and ~light~ variants.
+
+#+begin_src emacs-lisp
+(use-package doom-themes)
+
+(load-theme 'doom-nord t)
+
+(setq my-dark-theme 'doom-nord)
+(setq my-light-theme 'doom-nord-light)
+
+(defun disable-all-custom-themes ()
+  "Disable all custom themes.
+   Returns the previous highest precendence theme
+   (nil if no themes were previously enabled).
+
+   Implementation:
+     Gets the highest precedence applied theme as the first element
+     of custom-enabled-themes.
+
+     Then iteratively disables all the themes in custom-enabled-themes.
+  "
+  (let ((most-recent-theme (car custom-enabled-themes)))
+    (while (car custom-enabled-themes)
+      (disable-theme (car custom-enabled-themes)))
+    most-recent-theme
+  )
+)
+
+(defun toggle-my-themes ()
+  "Disable all custom, then try to toggle the themes
+   my-dark-theme and my-light-theme, in that if one was
+   the last applied theme, the other will be applied.
+
+   If neither was the last applied theme, my-dark-theme
+   will be applied as a default.
+  "
+
+  (let ((most-recent-theme (disable-all-custom-themes)))
+    (if (eq most-recent-theme my-dark-theme)
+        (load-theme my-light-theme)
+        (load-theme my-dark-theme)
+    )
+  )
+)
+
+(eq (car custom-enabled-themes) my-dark-theme)
+(disable-all-custom-themes)
+(toggle-my-themes)
+#+end_src
+
+Make it “play nice” with ~org~
+
+#+begin_src emacs-lisp
+(doom-themes-org-config)
+#+end_src
 
 ** Displaying/removing information and interface elements
 
@@ -888,7 +988,7 @@ of space on the mode line.
 or give them shorter names.
 
 #+begin_src emacs-lisp
-(require 'diminish)
+(use-package diminish)
 #+end_src
 
 I don't need to see that these modes are active.
@@ -905,9 +1005,8 @@ to the above form with a (presumably shorter) name.
 
 *** Show line numbers on left (for ~text~ and ~prog~ mode)
 
-I like to have line numbers displayed, but ~linum-mode~
-conflicts with ~pdf-tools~. So instead of ~global-linum-mode~,
-I enable it for ~text~ and ~prog~ modes.
+As of Emacs 26, ~display-line-numbers-mode~ is the “proper”
+way to 
 
 #+begin_src emacs-lisp
 ;;(add-hook 'text-mode-hook 'linum-mode)
@@ -920,7 +1019,7 @@ I enable it for ~text~ and ~prog~ modes.
  (load-library "paren")
  (show-paren-mode 1)
  (transient-mark-mode t)
- (require 'paren)
+ (use-package paren)
  #+end_src
 
 *** Show trailing whitespace
@@ -950,7 +1049,7 @@ the line will be off by the length of the indentation
 The code to make it a global mode is from the [[https://www.emacswiki.org/emacs/FillColumnIndicator][Emacs wiki]].
 
 #+begin_src emacs-lisp
-;;(require 'fill-column-indicator)
+;;(use-package fill-column-indicator)
 ;;(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode t)))
 ;;(global-fci-mode t)
 #+end_src
@@ -958,7 +1057,7 @@ The code to make it a global mode is from the [[https://www.emacswiki.org/emacs/
 If I later need it enabled only for certain modes,
 this code could be of use.
 #+begin_src emacs-lisp
-;; (require 'fill-column-indicator)
+;; (use-package fill-column-indicator)
 ;; (add-hook 'text-mode-hook 'fci-mode)
 ;; (add-hook 'prog-mode-hook 'fci-mode)
 #+end_src
@@ -982,63 +1081,6 @@ lines, so I should add a way to turn it off.
 
 **** TODO toggle visual-line-mode
 
-** Themes
-
-I use the ~doom-nord~ themes,
-and toggle between the non-~light~ and ~light~ variants.
-
-#+begin_src emacs-lisp
-(load-theme 'doom-nord t)
-
-(setq my-dark-theme 'doom-nord)
-(setq my-light-theme 'doom-nord-light)
-
-(defun disable-all-custom-themes ()
-  "Disable all custom themes.
-   Returns the previous highest precendence theme
-   (nil if no themes were previously enabled).
-
-   Implementation:
-     Gets the highest precedence applied theme as the first element
-     of custom-enabled-themes.
-
-     Then iteratively disables all the themes in custom-enabled-themes.
-  "
-  (let ((most-recent-theme (car custom-enabled-themes)))
-    (while (car custom-enabled-themes)
-      (disable-theme (car custom-enabled-themes)))
-    most-recent-theme
-  )
-)
-
-(defun toggle-my-themes ()
-  "Disable all custom, then try to toggle the themes
-   my-dark-theme and my-light-theme, in that if one was
-   the last applied theme, the other will be applied.
-
-   If neither was the last applied theme, my-dark-theme
-   will be applied as a default.
-  "
-
-  (let ((most-recent-theme (disable-all-custom-themes)))
-    (if (eq most-recent-theme my-dark-theme)
-        (load-theme my-light-theme)
-        (load-theme my-dark-theme)
-    )
-  )
-)
-
-(eq (car custom-enabled-themes) my-dark-theme)
-(disable-all-custom-themes)
-(toggle-my-themes)
-#+end_src
-
-Make it “play nice” with ~org~
-
-#+begin_src emacs-lisp
-(doom-themes-org-config)
-#+end_src
-
 ** Automatically revert unchanged files which change on the disk
 
 #+begin_src emacs-lisp
@@ -1048,13 +1090,13 @@ Make it “play nice” with ~org~
 ** TODO Use ~wordsmith~ for English syntax highlighting
 
 #+begin_src emacs-lisp
-(require 'wordsmith-mode)
+(use-package wordsmith-mode)
 #+end_src
 
 ** Show possible completions as I type shortcuts
 
 #+begin_src emacs-lisp
-(require 'which-key)
+(use-package which-key)
 (which-key-mode)
 #+end_src
 
@@ -1075,7 +1117,7 @@ I like to think of the undo tree as “extemely local” version control.
 The package ~undo-tree~ provides a visualisation of the undo tree.
 
 #+begin_src emacs-lisp
-(require 'undo-tree)
+(use-package undo-tree)
 (global-undo-tree-mode)
 #+end_src
 
@@ -1133,7 +1175,7 @@ to ensure any junk input gets placed there.
   (windmove-down)
   (find-file "~/Dropbox/Organisation/org-scratch.org")
   (end-of-buffer)
-  (shrink-window)
+  (shrink-window 999) ;; basically minimize it vertically
 #+end_src
 
 We must end the ~if~ above; in the case that we are running in headless mode,
