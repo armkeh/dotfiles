@@ -1100,7 +1100,11 @@ It's good style not to have trailing whitespace.
 ~show-trailing-whitespace~ will colour any trailing whitespace.
 
 #+begin_src emacs-lisp
-(setq show-trailing-whitespace t)
+(global-whitespace-mode)
+(setq whitespace-style
+      '(face
+        trailing lines-tail empty
+        tabs space-before-tab::tab space-after-tab::tab))
 #+end_src
 
 This can be a little annoying, so I should add a way to turn
