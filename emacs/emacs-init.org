@@ -1057,10 +1057,28 @@ I don't need to see that these modes are active.
 If later I want to rename modes, just add a string argument
 to the above form with a (presumably shorter) name.
 
-*** Show line numbers on left (for ~text~ and ~prog~ mode)
+*** Show line numbers on left
 
 As of Emacs 26, ~display-line-numbers-mode~ is the “proper”
-way to 
+way to display line numbers next to a buffer.
+#+begin_src emacs-lisp
+(global-display-line-numbers-mode)
+#+end_src
+
+I find it concerning when the width of the column
+used for line numbers grows throughout the document;
+it makes me think Org mode headlines further down are nested.
+This setting makes the width constant;
+it wastes some screen space, but is good for my sanity.
+#+begin_src emacs-lisp
+(setq display-line-numbers-grow-only t)
+#+end_src
+
+In older versions, we can use ~linum-mode~, but
+- it interacts poorly with ~pdf-tools~, so we don't want to
+  enable it globally, and
+- it makes Emacs quite laggy when working with larger files.
+So I generally just work without line numbers in older versions.
 
 #+begin_src emacs-lisp
 ;;(add-hook 'text-mode-hook 'linum-mode)
