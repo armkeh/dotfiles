@@ -38,6 +38,24 @@ works correctly on the target file), but why set it in ~.emacs~?
 Since ~.emacs~ uses a symlink to this version controlled file,
 having Emacs prompt me every time is annoying and slows my start up.
 
+* ~elisp~ code used below
+
+This section defines some functions/variables referred to
+below, that don't fit in a particular place below.
+
+** Theme change hook
+
+[[https://www.reddit.com/r/emacs/comments/4v7tcj/does_emacs_have_a_hook_for_when_the_theme_changes/][Apparently]] there is no hook in Emacs for when a theme change occurs.
+This change, taken from the linked reddit post, defines one I can use.
+
+#+begin_src emacs-lisp
+(defvar after-load-theme-hook nil
+  "Hook run after a color theme is loaded using `load-theme'.")
+(defadvice load-theme (after run-after-load-theme-hook activate)
+  "Run `after-load-theme-hook'."
+  (run-hooks 'after-load-theme-hook))
+#+end_src
+
 * Major packages
 
 ** Package repositories and ~use-package~
@@ -512,15 +530,22 @@ presented by an ellipsis, ~...~. Let's replace that.
 (setq org-ellipsis " ⤵")
 #+end_src
 
-But I find this is not particularly visible with my theme.
-So, I customise the ~org-ellipsis~ face.
-
+But I find this is not particularly visible with my theme;
+it gets set to a very faint colour.
+So, I customise the ~org-ellipsis~ face so that it has
+the same colour as the rest of the headline.
+It has to be set after every theme change, or the setting will
+be overwritten (probably the themes I use set it specifically?).
 #+begin_src emacs-lisp
-(set-face-attribute
-    'org-ellipsis
-    nil ;; all frames
-    :foreground 'unspecified
+(add-hook 'after-load-theme-hook
+  (lambda ()
+    (set-face-attribute
+      'org-ellipsis
+      nil ;; all frames
+      :foreground 'unspecified
+    )
   )
+)
 #+end_src
 
 *** Other
