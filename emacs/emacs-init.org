@@ -1234,7 +1234,7 @@ I like a bunch of files open upon startup.
 #+begin_src emacs-lisp
   (find-file "~/Dropbox/Organisation/setup/emacs/tips-and-tricks.org")
   (find-file "~/Dropbox/Organisation/setup/emacs/yankpad.org")
-  (find-file "~/Dropbox/McMaster/Agda/scratch.agda")
+  (find-file "~/Dropbox/McMaster/Agda/agda-scratch.agda")
   (find-file "~/Dropbox/Organisation/log/phone-log.org")
 #+end_src
 
