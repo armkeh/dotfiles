@@ -121,6 +121,13 @@ $0
 ,#+end_src
 #+end_src
 
+**** py: Python code block                                     :src:orgpy:
+#+begin_src text
+#+begin_src python
+$0
+,#+end_src
+#+end_src
+
 **** ic: “Interactive” C block                                :src:orgicc:
 
 #+begin_src text
