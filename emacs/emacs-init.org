@@ -1138,7 +1138,7 @@ So I generally just work without line numbers in older versions.
  (use-package paren)
  #+end_src
 
-*** Show trailing whitespace
+*** Show trailing whitespace and overlong lines
 
 It's good style not to have trailing whitespace.
 ~show-trailing-whitespace~ will colour any trailing whitespace.
@@ -1151,10 +1151,12 @@ It's good style not to have trailing whitespace.
         tabs space-before-tab::tab space-after-tab::tab))
 #+end_src
 
-This can be a little annoying, so I should add a way to turn
-it off.
+This can be a little annoying, so there are toggles for various
+aspects under ~Key bindings~.
 
-**** TODO toggle show-trailing-whitespace
+**** TODO Actually put those keybindings in place
+
+Add/remove from ~whitespace-style~ on the fly.
 
 *** Show ruler at 80 characters for (for ~text~ and ~prog~ mode)
 
