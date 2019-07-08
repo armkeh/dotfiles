@@ -1101,11 +1101,22 @@ way to display line numbers next to a buffer.
 I find it concerning when the width of the column
 used for line numbers grows throughout the document;
 it makes me think Org mode headlines further down are nested.
-This setting makes the width constant;
-it wastes some screen space, but is good for my sanity.
+Setting ~display-line-numbers-width-start~ causes the system
+to count the number of lines when opening a buffer, and
+set the minimum width necessary to display all line numbers.
+It wastes some screen space, but is good for my sanity.
 #+begin_src emacs-lisp
-(setq display-line-numbers-grow-only t)
+(setq display-line-numbers-width-start t)
 #+end_src
+
+Since line numbers can be distracting in some instances,
+see [[Key bindings]] for toggles to turn it off.
+
+**** TODO Turn off line number mode for certain kinds of buffers
+
+Agda results, help, pdfs, dired, ...
+
+**** For older versions of Emacs
 
 In older versions, we can use ~linum-mode~, but
 - it interacts poorly with ~pdf-tools~, so we don't want to
