@@ -548,6 +548,17 @@ be overwritten (probably the themes I use set it specifically?).
 )
 #+end_src
 
+**** Tables
+
+I prefer to work with wordwrap on, so tables can be
+quite problematic.
+
+The solution is to set column widths so that we can collapse
+tables. In recent Org mode versions, we need to enable collapsing.
+#+begin_src emacs-lisp
+(setq org-startup-align-all-table t)
+#+end_src
+
 *** Other
 
 **** Allow alphabetical lists
