@@ -1168,11 +1168,13 @@ the line will be off by the length of the indentation
 (i.e. it will be at line 68 if indented 2 characters,
 66 if indented 4, etc.).
 
-The code to make it a global mode is from the [[https://www.emacswiki.org/emacs/FillColumnIndicator][Emacs wiki]].
+The code to make it a global mode is from the
+[[https://www.emacswiki.org/emacs/FillColumnIndicator][Emacs wiki]].
 
 #+begin_src emacs-lisp
 ;;(use-package fill-column-indicator)
-;;(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode t)))
+;;(define-globalized-minor-mode global-fci-mode
+;;  fci-mode (lambda () (fci-mode t)))
 ;;(global-fci-mode t)
 #+end_src
 
@@ -1183,6 +1185,10 @@ this code could be of use.
 ;; (add-hook 'text-mode-hook 'fci-mode)
 ;; (add-hook 'prog-mode-hook 'fci-mode)
 #+end_src
+
+After some use, I've found this indicator to be a combination
+of distracting and possibly causing some lag, so I no longer use
+it. ~whitespace-mode~ (set up above) makes a good alternative.
 
 *** Wrap lines
 
