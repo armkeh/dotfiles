@@ -1205,9 +1205,24 @@ annoying (or at least I find it so in Emacs).
 #+end_src
 
 This can be annoying if working with a file with lots of long
-lines, so I should add a way to turn it off.
+lines, so there is a shortcut under [[Key bindings]] to toggle it.
 
-**** TODO toggle visual-line-mode
+One annoying feature of ~visual-line-mode~, at least in recent
+versions, is that it redefines a kill to only kill to the end
+of the visual line, rather than the whole line.
+This design decision can be reversed; thanks to the
+[[https://emacs.stackexchange.com/questions/13279/][Stack overflow]] contributor.
+#+begin_src emacs-lisp
+(define-key visual-line-mode-map [remap kill-line] 'kill-line)
+#+end_src
+Org mode also interferes with killing the whole line;
+it rebinds ~C-k~ to be ~org-kill-line~, which seems to kill the
+visual line. Let's undo that rebinding.
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook
+  (lambda ()
+    (define-key org-mode-map "\C-k" 'kill-line)))
+#+end_src
 
 ** Automatically revert unchanged files which change on the disk
 
