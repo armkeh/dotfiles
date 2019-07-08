@@ -866,6 +866,28 @@ local variable to store the command to invoke ~dired~ with.
 
 ** Other
 
+These are cosmetics relating to lines in the current buffer.
+#+begin_src emacs-lisp
+(general-main-define-key
+  "l" '(:ignore t :which-key "Line cosmetics")
+  "l n" '(:ignore t :which-key "Line numbers")
+  "l n y" '((lambda () (interactive) (display-line-numbers-mode 1))
+            :which-key "Line numbers - yes"
+           )
+  "l n n" '((lambda () (interactive) (display-line-numbers-mode 0))
+            :which-key "Line numbers - no"
+           )
+  "l w" '(:ignore t :which-key "Line wrap")
+  "l w y" '((lambda () (interactive) (visual-line-mode 1))
+            :which-key "Line wrap - yes"
+           )
+  "l w n" '((lambda () (interactive) (visual-line-mode 0))
+            :which-key "Line wrap - no"
+           )
+  "l l" '(:ignore t :which-key "Long line highlighting")
+)
+#+end_src
+
 #+begin_src emacs-lisp
 (general-main-define-key
   "j" 'dad-joke
