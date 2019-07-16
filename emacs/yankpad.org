@@ -1,6 +1,6 @@
 #+Title: My literate ~yankpad~ file
+#+Author: Mark Armstrong
 #+Description: A literate file which generates my collection of snippets for yankpad (with yasnippets).
-#+Startup: indent
 
 * Description
 
@@ -72,6 +72,9 @@ as they are useful for adding to this file.
 I use ~org~ all the time, so you'll note in the ~:properties:~ drawer
 that I include snippets from lots of other modes, since I often
 write code from other modes in ~org~.
+
+I sometime use Org syntax outside of Org mode, so also see
+the [[Default]] category for more Org-related snippets.
 
 ** ~org~ blocks
 
@@ -213,6 +216,23 @@ current major mode.
 I make these snippets available everywhere else as well by marking
 the category as ~:global:~.
 
+** Org related
+
+I often use Org syntax outside of Org mode, especially when
+writing literate Agda documents. So many Org syntax snippets
+are included here to be available everywhere.
+
+*** dh: Document header                                         :src:orgdh:
+
+I usually use what I think is a fairly minimalist document header.
+
+#+begin_src text
+#+Title: $1
+#+Author: ${2:Mark Armstrong}
+#+Description: $3
+
+$0
+#+end_src
 ** Punctuation, parentheses, etc.
 
 *** dq: Double quotes                                              :src:dq:
