@@ -97,6 +97,39 @@ I always want to download packages that aren't installed.
 (setq use-package-always-ensure t)
 #+end_src
 
+** ~eshell~
+
+#+begin_src emacs-lisp
+(use-package eshell)
+#+end_src
+
+Jeremias Queiroz posted a “fancy eshell prompt” setup on [[https://www.reddit.com/r/emacs/comments/6f0rkz/my_fancy_eshell_prompt/][Reddit]],
+from which I derived this setup, but I've modified it to use
+builtin face colours to improve portability across themes.
+
+#+begin_src emacs-lisp
+(setq eshell-prompt-function
+(lambda ()
+  (let ((white  `(face-attribute 'default :foreground))
+        (green  `(face-attribute 'success :foreground))
+        (red    `(face-attribute 'error   :foreground))
+        (blue   `(face-attribute 'link    :foreground))
+        (yellow `(face-attribute 'warning :foreground)))
+  (concat
+  (propertize "┌─["                 'face green)
+  (propertize (user-login-name)     'face red)
+  (propertize "@"                   'face green)
+  (propertize (system-name)         'face blue)
+  (propertize "]──["                'face green)
+  (propertize (format-time-string "%H:%M" (current-time)) 'face yellow)
+  (propertize "]──["                'face green)
+  (propertize (concat (eshell/pwd)) 'face white)
+  (propertize "]\n"                 'face green)
+  (propertize "└─>"                 'face green)
+  (propertize (if (= (user-uid) 0) " # " " $ ") 'face green))
+)))
+#+end_src
+
 ** ~agda~ mode
 
 We need Emacs to locate Agda mode. This command is put in ~.emacs~
