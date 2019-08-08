@@ -155,6 +155,14 @@ $0
 ,#+end_src
 #+end_src
 
+**** xml: XML block                                           :src:orgxml:
+
+#+begin_src text
+#+begin_src xml
+$0
+,#+end_src
+#+end_src
+
 *** Blocks for LaTeX exports
 
 **** ldisc: Discussion                                         :src:ldisc:
