@@ -76,7 +76,79 @@ write code from other modes in ~org~.
 I sometime use Org syntax outside of Org mode, so also see
 the [[Default]] category for more Org-related snippets.
 
-** ~org~ blocks
+** Other
+
+*** Gmail filters
+
+These XML snippets are for creating filters for my Gmail account,
+based on various criteria.
+
+**** gmfto: Gmail filter by “to”                               :src:gmfto:
+
+#+begin_src xml
+<entry> <category term='filter'></category>
+  <title>$1</title>
+  <apps:property
+      name='to'
+      value='$1'/>
+  <apps:property
+      name='label'
+      value='$2'/>
+  ${3:<apps:property
+      name='shouldMarkAsRead'
+      value='true'/>}
+  ${4:<apps:property
+      name='shouldArchive'
+      value='true'/>}
+</entry>
+#+end_src
+
+**** gmffrom: Gmail filter by “from”                         :src:gmffrom:
+
+#+begin_src xml
+<entry> <category term='filter'></category>
+  <title>$1</title>
+  <apps:property
+      name='from'
+      value='$1'/>
+  <apps:property
+      name='label'
+      value='$2'/>
+  ${3:<apps:property
+      name='shouldMarkAsRead'
+      value='true'/>}
+  ${4:<apps:property
+      name='shouldArchive'
+      value='true'/>}
+</entry>
+#+end_src
+
+* Default                                                            :global:
+
+The category “Default” will be used if there is no category for the
+current major mode.
+
+I make these snippets available everywhere else as well by marking
+the category as ~:global:~.
+
+** Org related
+
+I often use Org syntax outside of Org mode, especially when
+writing literate Agda documents. So many Org syntax snippets
+are included here to be available everywhere.
+
+*** dh: Document header                                         :src:orgdh:
+
+I usually use what I think is a fairly minimalist document header.
+
+#+begin_src text
+#+Title: $1
+#+Author: ${2:Mark Armstrong}
+#+Description: $3
+
+$0
+#+end_src
+*** ~org~ blocks
 
 *** ~src~ blocks
 
@@ -216,31 +288,8 @@ $0
 #+end_example
 #+end_src
 
-* Default                                                            :global:
 
-The category “Default” will be used if there is no category for the
-current major mode.
 
-I make these snippets available everywhere else as well by marking
-the category as ~:global:~.
-
-** Org related
-
-I often use Org syntax outside of Org mode, especially when
-writing literate Agda documents. So many Org syntax snippets
-are included here to be available everywhere.
-
-*** dh: Document header                                         :src:orgdh:
-
-I usually use what I think is a fairly minimalist document header.
-
-#+begin_src text
-#+Title: $1
-#+Author: ${2:Mark Armstrong}
-#+Description: $3
-
-$0
-#+end_src
 ** Punctuation, parentheses, etc.
 
 *** dq: Double quotes                                              :src:dq:
