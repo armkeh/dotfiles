@@ -750,6 +750,30 @@ is taken directly from the ~dired-single~ [[https://github.com/crocket/dired-sin
 (use-package magit)
 #+end_src
 
+** Email: ~mu4e~ (with ~mbsync~)
+
+Using Emacs as an email client provides us with powerful text editing
+while composing email.
+
+#+begin_src emacs-lisp
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+(require 'mu4e)
+#+end_src
+
+#+begin_src emacs-lisp
+(setq
+  mu4e-maildir       "/mnt/chromeos/removable/SD Card/Crostini/.mail"
+  mu4e-sent-folder   "/sent"
+  mu4e-drafts-folder "/drafts"
+  mu4e-trash-folder  "/trash"
+  mu4e-refile-folder "/archive")
+#+end_src
+
+** ~winner~ for saving and restoring window layouts
+
+#+begin_src emacs-lisp
+(winner-mode 1)
+#+end_src
 * Key bindings
 
 I make use of ~hydra~ for keybindings (or groups of keybindings)
