@@ -503,6 +503,18 @@ I override this setting
 (setq org-reveal-max-scale "5")
 #+end_src
 
+**** ~ox-pandoc~
+
+~ox-pandoc~ is “another exporter that translates Org-mode file to various other
+formats via Pandoc”.
+
+I don't make much use of it, but it more flexible, and so has
+lots of options which make be useful in the future.
+
+#+begin_src emacs-lisp
+(use-package ox-pandoc)
+#+end_src
+
 *** Evaluating code
 
 By default, Emacs will query whether we /actually/ want to
