@@ -813,7 +813,7 @@ So far I have three categories of shortcuts:
   :prefix "s-a"
   :keymaps 'override)
 
-(general-create-definer general-buf-nav-define-key
+(general-create-definer general-window-define-key
   :prefix "s-w"
   :keymaps 'override)
 
@@ -822,7 +822,21 @@ So far I have three categories of shortcuts:
   :keymaps 'override)
 #+end_src
 
-** ~yankpad~
+** Invoke processes
+
+These bindings invoke various processes, such as ~dired~ or ~eshell~.
+They either have their own definer above, or are bound to a single key combo.
+
+*** ~keyboard-quit~
+
+I often find myself using ~s-g~ in place of ~c-g~ when using my keybindings
+(which begin with super). So, I bind ~keyboard-quit~ to ~s-g~ as well.
+#+begin_src emacs-lisp
+(general-define-key
+  "s-g" 'keyboard-quit)
+#+end_src
+
+*** ~yankpad~
 
 I use a non-prefixed shortcut for snippet expansion, since
 I do it all the time.
@@ -849,7 +863,7 @@ So, I have a shortcut key.
   "y r" 'yankpad-reload)
 #+end_src
 
-** ~dired~
+*** ~dired~
 
 I use shortcuts to jump to frequently used directories in ~dired~
 (from any buffer, not just while in ~dired~).
@@ -878,6 +892,9 @@ local variable to store the command to invoke ~dired~ with.
   "o" '((lambda () (interactive)
           (my-dired-invocation "~/Dropbox/Organisation/"))
         :which-key "Organisation")
+  "r" '((lambda () (interactive)
+          (my-dired-invocation "~/Dropbox/Organisation/reading/"))
+        :which-key "Organisation")
   "p" '((lambda () (interactive)
           (my-dired-invocation "~/Dropbox/Projects/"))
         :which-key "Projects")
@@ -900,20 +917,54 @@ local variable to store the command to invoke ~dired~ with.
 )
 #+end_src
 
-** Navigation
+*** ~eshell~
 
 #+begin_src emacs-lisp
-(general-buf-nav-define-key
-  "r" (lambda () (interactive) (revert-buffer () t ()))
-  "u" (lambda () (interactive) (undo-tree-visualize))
-  "b" (lambda () (interactive) (beginning-of-buffer))
-  "e" (lambda () (interactive) (end-of-buffer))
-  "t t" (lambda () (interactive) (toggle-my-themes))
-  "t c" (lambda () (interactive) (disable-all-custom-themes))
-  "<right>" (lambda () (interactive) (windmove-right))
-  "<left>" (lambda () (interactive) (windmove-left))
-  "<up>" (lambda () (interactive) (windmove-up))
-  "<down>" (lambda () (interactive) (windmove-down))
+(general-define-key
+  "s-s" 'eshell)
+#+end_src
+
+** Buffer navigation and management, window and theme management
+
+Somewhat sinfully, here I group shortcuts relating to the buffer,
+the window(s) and the cosmetics of the frame,
+into one (conceptual) category: “window”, prefix ~w~.
+
+#+begin_src emacs-lisp
+(general-window-define-key
+  "r" '((lambda () (interactive) (revert-buffer () t ()))
+        :which-key "Revert buffer")
+  "u" '((lambda () (interactive) (undo-tree-visualize))
+        :which-key "Undo tree")
+
+  "b"   '(:ignore t
+          :which-key "Buffer navigation")
+  "b t" '((lambda () (interactive) (beginning-of-buffer))
+          :which-key "Top of buffer")
+  "b b" '((lambda () (interactive) (end-of-buffer))
+          :which-key "Bottom of buffer")
+
+  "t"   '(:ignore t
+          :which-key "Theme management")
+  "t t" '((lambda () (interactive) (toggle-my-themes))
+          :which-key "Toggle theme")
+  "t c" '((lambda () (interactive) (disable-all-custom-themes))
+          :which-key "Clear theme")
+
+  "w"         '(:ignore t
+                :which-key "Window layout management")
+  "w <right>" '((lambda () (interactive) (windmove-right))
+                :which-key "Move focus right")
+  "w <left>"  '((lambda () (interactive) (windmove-left))
+                :which-key "Move focus left")
+  "w <up>"    '((lambda () (interactive) (windmove-up))
+                :which-key "Move focus up")
+  "w <down>"  '((lambda () (interactive) (windmove-down))
+                :which-key "Move focus down")
+  "w u"       '((lambda () (interactive) (winner-undo))
+                :which-key "Undo layout change")
+  "w r"       '((lambda () (interactive) (winner-redo))
+                :which-key "Redo layout change")
 )
 #+end_src
 
@@ -930,22 +981,22 @@ local variable to store the command to invoke ~dired~ with.
 These are cosmetics relating to lines in the current buffer.
 #+begin_src emacs-lisp
 (general-main-define-key
-  "l" '(:ignore t :which-key "Line cosmetics")
-  "l n" '(:ignore t :which-key "Line numbers")
+  "l"     '(:ignore t
+            :which-key "Line cosmetics")
+  "l n"   '(:ignore t
+            :which-key "Line numbers")
   "l n y" '((lambda () (interactive) (display-line-numbers-mode 1))
-            :which-key "Line numbers - yes"
-           )
+            :which-key "Line numbers - yes")
   "l n n" '((lambda () (interactive) (display-line-numbers-mode 0))
-            :which-key "Line numbers - no"
-           )
-  "l w" '(:ignore t :which-key "Line wrap")
+            :which-key "Line numbers - no")
+  "l w"   '(:ignore t
+            :which-key "Line wrap")
   "l w y" '((lambda () (interactive) (visual-line-mode 1))
-            :which-key "Line wrap - yes"
-           )
+            :which-key "Line wrap - yes")
   "l w n" '((lambda () (interactive) (visual-line-mode 0))
-            :which-key "Line wrap - no"
-           )
-  "l l" '(:ignore t :which-key "Long line highlighting")
+            :which-key "Line wrap - no")
+  "l l"   '(:ignore t
+            :which-key "Long line highlighting")
 )
 #+end_src
 
