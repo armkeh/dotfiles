@@ -1461,6 +1461,25 @@ just do nothing here.
                              "/opt/dropbox-filesystem-fix/dropbox_start.py")
 #+end_src
 
+* Temporary fixes
+
+Herein I collect any workarounds I use to solve problems temporarily.
+
+These should be truly temporary!
+
+** ~org-strip-quotes~
+
+In some versions of Org, ~org-strip-quotes~ was used in export functions,
+but is not defined! It should be in ~lisp/org-macs.el~.
+
+So I just define it here.
+#+begin_src emacs-lisp
+(defun org-strip-quotes (string)
+  "Strip double quotes from around STRING, if applicable.
+If STRING is nil, return nil."
+  (org-unbracket-string "\"" "\"" string))
+#+end_src
+
 * COMMENT TODO Ideas for additions
 
 - ~C-c n l~ - Move remainder of line to the line below
@@ -1496,7 +1515,7 @@ including this file and other relevant files.
   (insert "* ~yankpad.org~\n")
   (insert "#+INCLUDE: yankpad.org\n")
   (org-mode)
-  (org-md-export-to-markdown)
+  (org-pandoc-export-to-markdown)
 )
 #+end_example
 
