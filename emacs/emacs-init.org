@@ -1474,6 +1474,51 @@ on my system.
 
 *** Buffers to open at startup
 
+I like a bunch of files open (in the background) upon startup.
+#+begin_src emacs-lisp
+(setq my-initial-background-files
+  '("~/Dropbox/Organisation/setup/emacs/tips-and-tricks.org"
+    "~/Dropbox/Organisation/setup/emacs/yankpad.org"
+    "~/Dropbox/McMaster/Agda/agda-scratch.agda"
+    "~/Dropbox/Organisation/log/phone-log.org"
+))
+#+end_src
+Along with this list, to facilite reseting the session
+(/clearing the desktop/), we must maintain a list of regular
+expressions matching the resulting buffer names,
+so that they can be skipped when deleting buffers on a (soft) reset.
+#+begin_src emacs-lisp
+(setq my-initial-background-buffers-regexps
+  '("tips-and-tricks.org"
+    "yankpad.org"
+    "agda-scratch.agda"
+    "phone-log.org"
+))
+#+end_src
+
+Then there are files I want in focus (/on the desktop/) at startup.
+These are opened using my ~my-desktop-initialise~ (defined above),
+with the earlier files being to the right of and above the later files.
+The last file will be in focus.
+#+begin_src emacs-lisp
+(setq my-initial-files
+  '("~/Dropbox/Organisation/log/log.org"
+    "~/Dropbox/Organisation/setup/emacs/emacs-init.org"
+    "~/Dropbox/Organisation/org-scratch.org"
+))
+#+end_src
+As above, we need a list of regular expression matching the
+resulting buffer names.
+#+begin_src emacs-lisp
+(setq my-initial-buffers-regexps
+  '("log.org"
+    "emacs-init.org"
+    "org-scratch.org"
+))
+#+end_src
+
+*** Opening those buffers
+
 Note that this portion of the file should be /after/ any settings
 that would affect these buffers.
 Otherwise those settings will not apply in these buffers.
@@ -1483,40 +1528,52 @@ is not headless. In the case that Emacs is (presumably) running as a daemon,
 as it does when initiating an asynchronous process such as
 an Org async export process.
 #+begin_src emacs-lisp
-(if (display-graphic-p) (progn
-#+end_src
-
-I like a bunch of files open (in the background) upon startup.
-#+begin_src emacs-lisp
-(setq my-initial-background-files
-  '("~/Dropbox/Organisation/setup/emacs/tips-and-tricks.org"
-    "~/Dropbox/Organisation/setup/emacs/yankpad.org"
-    "~/Dropbox/McMaster/Agda/agda-scratch.agda"
-    "~/Dropbox/Organisation/log/phone-log.org"
-))
-
-(loop for file in my-initial-background-files
-  do (find-file file)
+(if (display-graphic-p)
+  (progn
+   (loop for file in my-initial-background-files
+     do (find-file file)
+   )
+   (my-desktop-initialise my-initial-files)
+   (shrink-window 999) ;; basically minimize it vertically
+  )
 )
 #+end_src
 
-Then there are files I want in focus (/on the desktop/) at startup.
-This leaves focus on the last file, the window of which I prefer shrunk.
-#+begin_src emacs-lisp
-(setq my-initial-files
-  '("~/Dropbox/Organisation/log/log.org"
-    "~/Dropbox/Organisation/setup/emacs/emacs-init.org"
-    "~/Dropbox/Organisation/org-scratch.org"
-))
+*** Recover the previous session
 
-(my-desktop-initialise my-initial-files)
-(shrink-window 999) ;; basically minimize it vertically
+Usually, I don't appreciate software opening in its previous state;
+if I closed an application (especially Emacs),
+there is probably a reason, and so I prefer a clean slate on startup.
+
+Unfortunately, my work machine has developed a nasty habit
+of turning off when put into sleep mode.
+The process of reopening everything several times
+a day has become irritating, so I prefer
+to recover the previous session each time.
+
+#+begin_src emacs-lisp
+;; TODO
 #+end_src
 
-We must end the ~if~ above; in the case that we are running in headless mode,
-just do nothing here.
+*** Buffers to preserve on session clear
+
+Given that I am restoring the previous session by default,
+I need to be able to clear the current session when needed
+(i.e. close all buffers).
+
+Emac's internal buffers are preserved on a session clear,
+but I additionally want to preserve the buffers I open on
+startup.
+
 #+begin_src emacs-lisp
-) nil)
+(loop for buffer-re in my-initial-background-buffers-regexps
+  do (add-to-list 'desktop-clear-preserve-buffers
+                  buffer-re)
+)
+(loop for buffer-re in my-initial-buffers-regexps
+  do (add-to-list 'desktop-clear-preserve-buffers
+                  buffer-re)
+)
 #+end_src
 
 * Other
@@ -1586,4 +1643,3 @@ including this file and other relevant files.
   (org-pandoc-export-to-markdown)
 )
 #+end_example
-
