@@ -888,15 +888,6 @@ So far I have three categories of shortcuts:
 These bindings invoke various processes, such as ~dired~ or ~eshell~.
 They either have their own definer above, or are bound to a single key combo.
 
-*** ~keyboard-quit~
-
-I often find myself using ~s-g~ in place of ~c-g~ when using my keybindings
-(which begin with super). So, I bind ~keyboard-quit~ to ~s-g~ as well.
-#+begin_src emacs-lisp
-(general-define-key
-  "s-g" 'keyboard-quit)
-#+end_src
-
 *** ~yankpad~
 
 I use a non-prefixed shortcut for snippet expansion, since
@@ -985,6 +976,17 @@ local variable to store the command to invoke ~dired~ with.
   "s-s" 'eshell)
 #+end_src
 
+*** ~magit~
+
+I often find myself using ~s-g~ in place of ~c-g~ when using my keybindings
+(which begin with super). So, I avoid using it for starting ~magit~.
+
+#+begin_src emacs-lisp
+(general-define-key
+  "s-m" 'magit-status
+)
+#+end_src
+
 ** Buffer navigation and management, window and theme management
 
 Somewhat sinfully, here I group shortcuts relating to the buffer,
@@ -1042,14 +1044,6 @@ into one (conceptual) category: “window”, prefix ~w~.
             :which-key "“Minimise” window")
   "+"     '((lambda () (interactive) (enlarge-window 999))
             :which-key "“Maximise”  window")
-)
-#+end_src
-
-** ~magit~
-
-#+begin_src emacs-lisp
-(general-main-define-key
-  "g" 'magit-status
 )
 #+end_src
 
