@@ -1454,44 +1454,47 @@ on my system.
 ;;(setq undo-tree-visualizer-diff ())
 #+end_src
 
-** Buffers to open upon startup
+** Session (opened buffers) setup and management
+
+*** Buffers to open at startup
 
 Note that this portion of the file should be /after/ any settings
 that would affect these buffers.
+Otherwise those settings will not apply in these buffers.
 
 This portion of the file should only be run if the Emacs process
-is not headless. In the case that Emacs is running as a daemon,
+is not headless. In the case that Emacs is (presumably) running as a daemon,
 as it does when initiating an asynchronous process such as
 an Org async export process.
-
 #+begin_src emacs-lisp
 (if (display-graphic-p) (progn
 #+end_src
 
-Otherwise those settings will not apply in these buffers.
-
-I like a bunch of files open upon startup.
+I like a bunch of files open (in the background) upon startup.
 #+begin_src emacs-lisp
-  (find-file "~/Dropbox/Organisation/setup/emacs/tips-and-tricks.org")
-  (find-file "~/Dropbox/Organisation/setup/emacs/yankpad.org")
-  (find-file "~/Dropbox/McMaster/Agda/agda-scratch.agda")
-  (find-file "~/Dropbox/Organisation/log/phone-log.org")
+(setq my-initial-background-files
+  '("~/Dropbox/Organisation/setup/emacs/tips-and-tricks.org"
+    "~/Dropbox/Organisation/setup/emacs/yankpad.org"
+    "~/Dropbox/McMaster/Agda/agda-scratch.agda"
+    "~/Dropbox/Organisation/log/phone-log.org"
+))
+
+(loop for file in my-initial-background-files
+  do (find-file file)
+)
 #+end_src
 
-These last files are the ones I want “in focus” upon startup.
-I move to the end of the scratch file
-to ensure any junk input gets placed there.
+Then there are files I want in focus (/on the desktop/) at startup.
+This leaves focus on the last file, the window of which I prefer shrunk.
 #+begin_src emacs-lisp
-  (find-file "~/Dropbox/Organisation/setup/emacs/emacs-init.org")
-  (split-window-right)
-  (windmove-right)
-  (find-file "~/Dropbox/Organisation/log/log.org")
-  (windmove-left)
-  (split-window-below)
-  (windmove-down)
-  (find-file "~/Dropbox/Organisation/org-scratch.org")
-  (end-of-buffer)
-  (shrink-window 999) ;; basically minimize it vertically
+(setq my-initial-files
+  '("~/Dropbox/Organisation/log/log.org"
+    "~/Dropbox/Organisation/setup/emacs/emacs-init.org"
+    "~/Dropbox/Organisation/org-scratch.org"
+))
+
+(my-desktop-initialise my-initial-files)
+(shrink-window 999) ;; basically minimize it vertically
 #+end_src
 
 We must end the ~if~ above; in the case that we are running in headless mode,
