@@ -1031,6 +1031,17 @@ into one (conceptual) category: “window”, prefix ~w~.
                 :which-key "Undo layout change")
   "w r"       '((lambda () (interactive) (winner-redo))
                 :which-key "Redo layout change")
+  "w i"       '((lambda () (interactive)
+                           (my-desktop-initialise my-initial-files))
+                :which-key "My window initialise")
+  "w -"       '((lambda () (interactive) (shrink-window 5))
+                :which-key "Shrink window")
+  "w ="       '((lambda () (interactive) (enlarge-window 5))
+                :which-key "Enlarge window")
+  "w _"     '((lambda () (interactive) (shrink-window 999))
+                :which-key "“Minimise” window")
+  "w +"     '((lambda () (interactive) (enlarge-window 999))
+                :which-key "“Maximise”  window")
 )
 #+end_src
 
