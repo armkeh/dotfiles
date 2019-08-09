@@ -998,6 +998,11 @@ into one (conceptual) category: “window”, prefix ~w~.
   "u" '((lambda () (interactive) (undo-tree-visualize))
         :which-key "Undo tree")
 
+  "s"   '(:ignore t
+          :which-key "Session management")
+  "s c" '((lambda () (interactive) (desktop-clear))
+          :which-key "Session clear")
+
   "b"   '(:ignore t
           :which-key "Buffer navigation")
   "b t" '((lambda () (interactive) (beginning-of-buffer))
