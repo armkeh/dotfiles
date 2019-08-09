@@ -403,7 +403,7 @@ if desired.
 This works by spawning a new Emacs session.
 That session uses this init file, so we must be careful
 that this file works for daemon (headless) Emacs processes.
-See [[Buffers to open upon startup]] for how to deal with
+See [[Opening the initial buffers]] for how to deal with
 problematic portions.
 
 Another possible solution would be to modify
@@ -1511,7 +1511,7 @@ resulting buffer names.
 ))
 #+end_src
 
-*** Opening those buffers
+*** Opening the initial buffers
 
 Note that this portion of the file should be /after/ any settings
 that would affect these buffers.
