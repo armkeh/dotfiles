@@ -1106,7 +1106,7 @@ Unfortunately, on my system, all the other possibilities seem
 to be taken with system shortcuts (which I cannot modify in ChromeOS),
 or otherwise taken in Emacs.
 
-So instead I've define shortcuts using ~general~ above.
+So instead I've defined shortcuts using ~general~ above.
 
 ** Change scrolling (shortcut) behaviour
 
