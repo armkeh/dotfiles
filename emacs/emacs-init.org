@@ -1026,14 +1026,13 @@ into one (conceptual) category: “window”, prefix ~w~.
   "<down>"  '((lambda () (interactive) (windmove-down))
               :which-key "Move focus down")
 
-  "S-<down>"  '((lambda () (interactive)
-                         (my-desktop-initialise my-initial-files)
-                :which-key "Initialise layout")
-  "S-<left>"  '((lambda () (interactive) (winner-undo))
-                :which-key "Undo layout change")
-  "S-<right>" '((lambda () (interactive) (winner-redo))
-                :which-key "Redo layout change")
-              :which-key "My window initialise")
+  "\\" '((lambda () (interactive)
+                 (my-desktop-initialise my-initial-files))
+         :which-key "My window initialise")
+  "["  '(winner-undo
+         :which-key "Undo layout change")
+  "]"  '(winner-redo
+         :which-key "Redo layout change")
 
   "-"     '((lambda () (interactive) (shrink-window 5))
             :which-key "Shrink window")
