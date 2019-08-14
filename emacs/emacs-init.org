@@ -303,6 +303,64 @@ subscripts and superscripts; these translations account for that.
        (lambda () (set-input-method "Agda")))
 #+end_src
 
+** Other programming languages
+
+*** The Mozart Programming System for ~Oz~
+
+The Mozart Programming System “provides a powerful environment
+for the development of software systems, called the
+``Oz Programming interface" (OPI)”.
+See the [[https://mozart.github.io/][github.io]] page.
+Specifically,
+[[https://mozart.github.io/mozart-v1/doc-1.4.0/opi/node2.html][this page]]
+which discusses how to invoke the API
+(though at time of writing, the documentation is for Mozart ~v1~,
+not the current Mozart ~v2~).
+
+Upon installation, the Mozart programming system provides
+a shell command, ~oz~, (and usually also a application shortcut)
+for launching an Emacs process with the Mozart sub-process.
+
+Since I'm presumably running Emacs already, this is not how I wish
+to invoke the OPI. Instead, I check for an Oz installation
+under ~usr/bin/oz~, and set up invokation of the OPI from within Emacs.
+
+For Mozart to work, we need to set the ~OZHOME~ environment variable.
+#+begin_src emacs-lisp
+(setq my-oz-home "/usr")
+
+(when (file-directory-p my-oz-home)
+  (setenv "OZHOME" my-oz-home)
+)
+#+end_src
+Note this must be done before loading the ~elisp~!
+
+Of course, it's a good idea to check that Oz is installed on the system,
+so set the location of the Mozart ~elisp~ code,
+check that that location exists, and then load it and set up auto loads.
+#+begin_src emacs-lisp
+(setq my-mozart-elisp "/usr/share/mozart/elisp")
+
+(when (file-directory-p my-mozart-elisp)
+  (add-to-list 'load-path my-mozart-elisp)
+  (load "mozart")
+  (add-to-list 'auto-mode-alist '("\\.oz\\'" . oz-mode))
+  (add-to-list 'auto-mode-alist '("\\.ozg\\'" . oz-gump-mode))
+  (autoload 'run-oz "oz" "" t)
+  (autoload 'oz-mode "oz" "" t)
+  (autoload 'oz-gump-mode "oz" "" t)
+  (autoload 'oz-new-buffer "oz" "" t)
+)
+#+end_src
+
+~oz-mode~ annoyling remaps ~C-x SPC~, so we must undo that.
+#+begin_src emacs-lisp
+(eval-after-load "oz-mode"
+  '(progn
+    (define-key oz-mode-map (kbd "C-SPC") 'rectangle-mark-mode)
+))
+#+end_src
+
 ** ~org~ mode
 
 I use ~org~ for almost everything, and utilise many
