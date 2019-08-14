@@ -628,6 +628,20 @@ lots of options which make be useful in the future.
 (use-package ox-pandoc)
 #+end_src
 
+**** ~ox-tufte~
+
+I use [[https://github.com/edwardtufte/tufte-css][Tufte CSS]] for websites;
+~ox-tufte~ exports is a package to export ~html~ which is nicely
+compatible with this style sheet. See the Github readme
+[[https://github.com/dakrone/ox-tufte][here]].
+#+begin_src emacs-lisp
+(use-package ox-tufte)
+#+end_src
+
+I found ~ox-tufte~ mentioned in a
+[[https://www.reddit.com/r/emacs/comments/6r32q4][Reddit thread]]
+regarding CSS for Org html export.
+
 *** Evaluating code
 
 By default, Emacs will query whether we /actually/ want to
