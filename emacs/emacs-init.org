@@ -563,7 +563,7 @@ and results in much more attractive and better organised slides.
 ****** Theme
 
 ~reveal.js~ comes with many themes; ~black~ is the current default
-at time of writing this. I set it just to be sure it stays consistent..
+at time of writing this. I set it just to be sure it stays consistent.
 
 #+begin_src emacs-lisp
 (setq org-reveal-theme "black")
@@ -585,22 +585,35 @@ At the time of writing, the included themes are
 
 The default title slide includes title and date, with the formatting
 #+begin_src html
-<h1 class="title">%t</h1><p class="date">Created: %d/p>
+<h1 class="title">%t</h1>
+<p class="date">Created: %d/p>
 #+end_src
 where ~%t~ stands for the document title and ~%d~ stands for the date.
 I override this setting
 #+begin_src emacs-lisp
-(setq org-reveal-title-slide "<h2 class=\"title\">%t</h2><h3>%a</h3><h4>%d</h4>")
+(setq org-reveal-title-slide
+  "<h2 class=\"title\">%t</h2>
+   <h3>%s</h3>
+   <h4>%a</h4>
+   <h5>%d</h5>")
 #+end_src
 
 ****** Default slide height, width, margin and scaling
 
+These settings are depricated; I need to remove this.
 #+begin_src emacs-lisp
-(setq org-reveal-height 800)
-(setq org-reveal-width 1200)
-(setq org-reveal-margin "0.1")
-(setq org-reveal-min-scale "0.05")
-(setq org-reveal-max-scale "5")
+;;(setq org-reveal-height 5000)
+;;(setq org-reveal-width 1200)
+;;(setq org-reveal-margin "0.1")
+;;(setq org-reveal-min-scale "0.05")
+;;(setq org-reveal-max-scale "5")
+#+end_src
+
+****** Extra CSS
+
+I should set this up.
+#+begin_src emacs-lisp
+(setq org-reveal-extra-css "")
 #+end_src
 
 **** ~ox-pandoc~
