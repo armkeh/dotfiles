@@ -196,6 +196,14 @@ $0
 ,#+end_src
 #+end_src
 
+**** oz: Oz code block                                         :src:orgoz:
+
+#+begin_src text
+#+begin_src oz :results output :noweb yes
+$0
+,#+end_src
+#+end_src
+
 **** py: Python code block                                     :src:orgpy:
 #+begin_src text
 #+begin_src python
@@ -287,8 +295,6 @@ $0
 $0
 #+end_example
 #+end_src
-
-
 
 ** Punctuation, parentheses, etc.
 
