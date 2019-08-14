@@ -79,33 +79,26 @@ The process is:
   open it.
 - Else, quit.
 #+begin_src emacs-lisp
-(defun my-desktop-initialise (files)
-  (while files
-    (setq first (car files))
+(defun cascading-find-files (files)
+  "Opens a set of files in a cascading series of windows,
+created by splitting the current window.
+The windows begin in the upper right, with the first file,
+and move left and then down, each window being half the size
+of the previous (as long as this is possible)."
+  (while files ;; there's at least one file to open
+    (find-file (car files))
     (setq files (cdr files))
-    (if files
-      (progn
-       (split-window nil nil 'left)
-       (find-file first)
-       (windmove-left)
-       (setq second (car files))
-       (setq files  (cdr files))
-       (if files
-         (progn
-          (split-window nil nil 'below)
-          (find-file second)
-          (windmove-down)
-         )
-         ()
-       )
-      )
-      (if first (find-file first))
-    )
-  )
-)
+    (when files ;; there are two or more files
+      (split-window nil nil 'left)
+      (other-window 1)
+      (find-file (car files)) ;; open second file on the left
+      (setq files  (cdr files))
+      (when files ;; there are still more files, so split horizontally
+        (split-window nil nil 'below)
+        (other-window 1)))))
 #+end_src
 
-* Major packages
+* Various packages
 
 ** Package repositories and ~use-package~
 
@@ -1029,8 +1022,8 @@ into one (conceptual) category: “window”, prefix ~w~.
               :which-key "Move focus down")
 
   "\\" '((lambda () (interactive)
-                 (my-desktop-initialise my-initial-files))
-         :which-key "My window initialise")
+                 (cascading-find-files my-initial-files))
+         :which-key "My initial windows")
   "["  '(winner-undo
          :which-key "Undo layout change")
   "]"  '(winner-redo
@@ -1527,7 +1520,7 @@ an Org async export process.
    (loop for file in my-initial-background-files
      do (find-file file)
    )
-   (my-desktop-initialise my-initial-files)
+   (cascading-find-files my-initial-files)
    (shrink-window 999) ;; basically minimize it vertically
   )
 )
