@@ -731,6 +731,18 @@ tables. In recent Org mode versions, we need to enable collapsing.
 (setq org-startup-align-all-table t)
 #+end_src
 
+**** Inline images
+
+We can configure Org to automatically inline linked images
+when opening documents.
+#+begin_src emacs-lisp
+(setq org-startup-with-inline-images t)
+#+end_src
+
+#+begin_src emacs-lisp
+(setq org-image-actual-width nil)
+#+end_src
+
 *** Other
 
 **** Allow alphabetical lists
