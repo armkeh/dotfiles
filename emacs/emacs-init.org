@@ -660,10 +660,11 @@ By default only emacs lisp can be evaluated.
 Documentation [[https://orgmode.org/manual/Languages.html][here]].
 
 #+begin_src emacs-lisp
-(require 'ob-C)
+(require 'ob-shell)
 (require 'ob-haskell)
 (require 'ob-latex)
-(require 'ob-shell)
+(require 'ob-oz)
+(require 'ob-C)
 (require 'ob-ruby)
 #+end_src
 
