@@ -106,34 +106,27 @@ The process is:
 -   Else, quit.
 
 ``` {.commonlisp org-language="emacs-lisp"}
-(defun my-desktop-initialise (files)
-  (while files
-    (setq first (car files))
+(defun cascading-find-files (files)
+  "Opens a set of files in a cascading series of windows,
+created by splitting the current window.
+The windows begin in the upper right, with the first file,
+and move left and then down, each window being half the size
+of the previous (as long as this is possible)."
+  (while files ;; there's at least one file to open
+    (find-file (car files))
     (setq files (cdr files))
-    (if files
-      (progn
-       (split-window nil nil 'left)
-       (find-file first)
-       (windmove-left)
-       (setq second (car files))
-       (setq files  (cdr files))
-       (if files
-         (progn
-          (split-window nil nil 'below)
-          (find-file second)
-          (windmove-down)
-         )
-         ()
-       )
-      )
-      (if first (find-file first))
-    )
-  )
-)
+    (when files ;; there are two or more files
+      (split-window nil nil 'left)
+      (other-window 1)
+      (find-file (car files)) ;; open second file on the left
+      (setq files  (cdr files))
+      (when files ;; there are still more files, so split horizontally
+        (split-window nil nil 'below)
+        (other-window 1)))))
 ```
 
-Major packages
---------------
+Various packages
+----------------
 
 ### Package repositories and `use-package`
 
@@ -351,7 +344,81 @@ them.
            (lambda () (set-input-method "Agda")))
     ```
 
-### `org` mode
+### Other programming languages
+
+1.  The Mozart Programming System for `Oz`
+
+    The Mozart Programming System "provides a powerful environment for
+    the development of software systems, called the \`\`Oz Programming
+    interface\" (OPI)". See the [github.io](https://mozart.github.io/)
+    page. Specifically, [this
+    page](https://mozart.github.io/mozart-v1/doc-1.4.0/opi/node2.html)
+    which discusses how to invoke the API (though at time of writing,
+    the documentation is for Mozart `v1`, not the current Mozart `v2`).
+
+    Upon installation, the Mozart programming system provides a shell
+    command, `oz`, (and usually also a application shortcut) for
+    launching an Emacs process with the Mozart sub-process.
+
+    Since I\'m presumably running Emacs already, this is not how I wish
+    to invoke the OPI. Instead, I check for an Oz installation under
+    `usr/bin/oz`, and set up invokation of the OPI from within Emacs.
+
+    (Note: I install Mozart from pre-built binaries, which are
+    distributed [on their Github
+    page](https://github.com/mozart/mozart2/releases). Depending upon
+    how you install Mozart, you may need to modify the directories below
+    (notably, my directories differ from those mentioned on the
+    `github.io` page).
+
+    For Mozart to work, we need to set the `OZHOME` environment
+    variable.
+
+    ``` {.commonlisp org-language="emacs-lisp"}
+    (setq my-oz-home "/usr")
+
+    (when (file-directory-p my-oz-home)
+      (setenv "OZHOME" my-oz-home)
+    )
+    ```
+
+    Note this must be done before loading the `elisp`, because the
+    `elisp` attempts to start a `oz` server. If it fails to do so, we
+    will receive errors such as "Searching for program: No such file or
+    directory, ./bin/ozengine".
+
+    Of course, it\'s a good idea to check that Oz is installed on the
+    system, so set the location of the Mozart `elisp` code, check that
+    that location exists, and then load it and set up auto loads.
+
+    ``` {.commonlisp org-language="emacs-lisp"}
+    (setq my-mozart-elisp "/usr/share/mozart/elisp")
+
+    (when (file-directory-p my-mozart-elisp)
+      (add-to-list 'load-path my-mozart-elisp)
+      (load "mozart")
+      (add-to-list 'auto-mode-alist '("\\.oz\\'" . oz-mode))
+      (add-to-list 'auto-mode-alist '("\\.ozg\\'" . oz-gump-mode))
+      (autoload 'run-oz "oz" "" t)
+      (autoload 'oz-mode "oz" "" t)
+      (autoload 'oz-gump-mode "oz" "" t)
+      (autoload 'oz-new-buffer "oz" "" t)
+    )
+    ```
+
+    `oz-mode` annoyling remaps `C-x SPC`, so we must undo that.
+
+    ``` {.commonlisp org-language="emacs-lisp"}
+    (eval-after-load "oz-mode"
+      '(progn
+        (define-key oz-mode-map (kbd "C-x SPC") 'rectangle-mark-mode)
+    ))
+    ```
+
+    Below, in my Org mode setup under [1.3.5.5](#Evaluating code), I set
+    up literate Oz (it only takes `(require 'ob-oz)`).
+
+### Org mode
 
 I use `org` for almost everything, and utilise many of the extras
 included in `org-plus-contrib`.
@@ -571,7 +638,7 @@ included in `org-plus-contrib`.
 
                 `reveal.js` comes with many themes; `black` is the
                 current default at time of writing this. I set it just
-                to be sure it stays consistent..
+                to be sure it stays consistent.
 
                 ``` {.commonlisp org-language="emacs-lisp"}
                 (setq org-reveal-theme "black")
@@ -601,24 +668,39 @@ included in `org-plus-contrib`.
                 the formatting
 
                 ``` {.html}
-                <h1 class="title">%t</h1><p class="date">Created: %d/p>
+                <h1 class="title">%t</h1>
+                <p class="date">Created: %d/p>
                 ```
 
                 where `%t` stands for the document title and `%d` stands
                 for the date. I override this setting
 
                 ``` {.commonlisp org-language="emacs-lisp"}
-                (setq org-reveal-title-slide "<h2 class=\"title\">%t</h2><h3>%a</h3><h4>%d</h4>")
+                (setq org-reveal-title-slide
+                  "<h2 class=\"title\">%t</h2>
+                   <h3>%s</h3>
+                   <h4>%a</h4>
+                   <h5>%d</h5>")
                 ```
 
             3.  Default slide height, width, margin and scaling
 
+                These settings are depricated; I need to remove this.
+
                 ``` {.commonlisp org-language="emacs-lisp"}
-                (setq org-reveal-height 800)
-                (setq org-reveal-width 1200)
-                (setq org-reveal-margin "0.1")
-                (setq org-reveal-min-scale "0.05")
-                (setq org-reveal-max-scale "5")
+                ;;(setq org-reveal-height 5000)
+                ;;(setq org-reveal-width 1200)
+                ;;(setq org-reveal-margin "0.1")
+                ;;(setq org-reveal-min-scale "0.05")
+                ;;(setq org-reveal-max-scale "5")
+                ```
+
+            4.  Extra CSS
+
+                I should set this up.
+
+                ``` {.commonlisp org-language="emacs-lisp"}
+                (setq org-reveal-extra-css "")
                 ```
 
     6.  `ox-pandoc`
@@ -632,6 +714,21 @@ included in `org-plus-contrib`.
         ``` {.commonlisp org-language="emacs-lisp"}
         (use-package ox-pandoc)
         ```
+
+    7.  `ox-tufte`
+
+        I use [Tufte CSS](https://github.com/edwardtufte/tufte-css) for
+        websites; `ox-tufte` exports is a package to export `html` which
+        is nicely compatible with this style sheet. See the Github
+        readme [here](https://github.com/dakrone/ox-tufte).
+
+        ``` {.commonlisp org-language="emacs-lisp"}
+        (use-package ox-tufte)
+        ```
+
+        I found `ox-tufte` mentioned in a [Reddit
+        thread](https://www.reddit.com/r/emacs/comments/6r32q4)
+        regarding CSS for Org html export.
 
 5.  Evaluating code
 
@@ -652,10 +749,11 @@ included in `org-plus-contrib`.
     Documentation [here](https://orgmode.org/manual/Languages.html).
 
     ``` {.commonlisp org-language="emacs-lisp"}
-    (require 'ob-C)
+    (require 'ob-shell)
     (require 'ob-haskell)
     (require 'ob-latex)
-    (require 'ob-shell)
+    (require 'ob-oz)
+    (require 'ob-C)
     (require 'ob-ruby)
     ```
 
@@ -725,6 +823,19 @@ included in `org-plus-contrib`.
 
         ``` {.commonlisp org-language="emacs-lisp"}
         (setq org-startup-align-all-table t)
+        ```
+
+    6.  Inline images
+
+        We can configure Org to automatically inline linked images when
+        opening documents.
+
+        ``` {.commonlisp org-language="emacs-lisp"}
+        (setq org-startup-with-inline-images t)
+        ```
+
+        ``` {.commonlisp org-language="emacs-lisp"}
+        (setq org-image-actual-width nil)
         ```
 
 7.  Other
@@ -1098,8 +1209,8 @@ category: "window", prefix `w`.
               :which-key "Move focus down")
 
   "\\" '((lambda () (interactive)
-                 (my-desktop-initialise my-initial-files))
-         :which-key "My window initialise")
+                 (cascading-find-files my-initial-files))
+         :which-key "My initial windows")
   "["  '(winner-undo
          :which-key "Undo layout change")
   "]"  '(winner-redo
@@ -1620,7 +1731,7 @@ Unfortunately this seems to introduce a fair amount of lag on my system.
        (loop for file in my-initial-background-files
          do (find-file file)
        )
-       (my-desktop-initialise my-initial-files)
+       (cascading-find-files my-initial-files)
        (shrink-window 999) ;; basically minimize it vertically
       )
     )
@@ -1929,7 +2040,16 @@ to be available everywhere.
         #+end_src
         ```
 
-    6.  py: Python code block [[src]{.smallcaps}]{.tag
+    6.  oz: Oz code block [[src]{.smallcaps}]{.tag
+        tag-name="src"} [[orgoz]{.smallcaps}]{.tag tag-name="orgoz"}
+
+        ``` {.text}
+        #+begin_src oz :results output :noweb yes
+        $0
+        #+end_src
+        ```
+
+    7.  py: Python code block [[src]{.smallcaps}]{.tag
         tag-name="src"} [[orgpy]{.smallcaps}]{.tag tag-name="orgpy"}
 
         ``` {.text}
@@ -1938,7 +2058,7 @@ to be available everywhere.
         #+end_src
         ```
 
-    7.  ic: "Interactive" C block [[src]{.smallcaps}]{.tag
+    8.  ic: "Interactive" C block [[src]{.smallcaps}]{.tag
         tag-name="src"} [[orgicc]{.smallcaps}]{.tag tag-name="orgicc"}
 
         ``` {.text}
@@ -1947,7 +2067,7 @@ to be available everywhere.
         #+end_src
         ```
 
-    8.  icn: Inactive "Interactive" C block [[src]{.smallcaps}]{.tag
+    9.  icn: Inactive "Interactive" C block [[src]{.smallcaps}]{.tag
         tag-name="src"} [[orgicn]{.smallcaps}]{.tag tag-name="orgicn"}
 
         ``` {.text}
@@ -1956,7 +2076,7 @@ to be available everywhere.
         #+end_src
         ```
 
-    9.  ich: "Interactive" C header block [[src]{.smallcaps}]{.tag
+    10. ich: "Interactive" C header block [[src]{.smallcaps}]{.tag
         tag-name="src"} [[orgich]{.smallcaps}]{.tag tag-name="orgich"}
 
         ``` {.text}
@@ -1965,7 +2085,7 @@ to be available everywhere.
         #+end_src
         ```
 
-    10. xml: XML block [[src]{.smallcaps}]{.tag
+    11. xml: XML block [[src]{.smallcaps}]{.tag
         tag-name="src"} [[orgxml]{.smallcaps}]{.tag tag-name="orgxml"}
 
         ``` {.text}
