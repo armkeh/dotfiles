@@ -357,7 +357,7 @@ check that that location exists, and then load it and set up auto loads.
 #+begin_src emacs-lisp
 (eval-after-load "oz-mode"
   '(progn
-    (define-key oz-mode-map (kbd "C-SPC") 'rectangle-mark-mode)
+    (define-key oz-mode-map (kbd "C-x SPC") 'rectangle-mark-mode)
 ))
 #+end_src
 
