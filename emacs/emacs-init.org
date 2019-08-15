@@ -362,7 +362,7 @@ check that that location exists, and then load it and set up auto loads.
 )
 #+end_src
 
-~oz-mode~ annoyling remaps ~C-x SPC~, so we must undo that.
+~oz-mode~ annoyingly remaps ~C-x SPC~, so we must undo that.
 #+begin_src emacs-lisp
 (eval-after-load "oz-mode"
   '(progn
