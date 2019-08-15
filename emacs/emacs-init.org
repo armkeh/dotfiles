@@ -325,6 +325,12 @@ Since I'm presumably running Emacs already, this is not how I wish
 to invoke the OPI. Instead, I check for an Oz installation
 under ~usr/bin/oz~, and set up invokation of the OPI from within Emacs.
 
+(Note: I install Mozart from pre-built binaries, which are distributed
+[[https://github.com/mozart/mozart2/releases][on their Github page]].
+Depending upon how you install Mozart, you may need
+to modify the directories below
+(notably, my directories differ from those mentioned on the ~github.io~ page).
+
 For Mozart to work, we need to set the ~OZHOME~ environment variable.
 #+begin_src emacs-lisp
 (setq my-oz-home "/usr")
@@ -333,7 +339,10 @@ For Mozart to work, we need to set the ~OZHOME~ environment variable.
   (setenv "OZHOME" my-oz-home)
 )
 #+end_src
-Note this must be done before loading the ~elisp~!
+Note this must be done before loading the ~elisp~,
+because the ~elisp~ attempts to start a ~oz~ server.
+If it fails to do so, we will receive errors such as
+“Searching for program: No such file or directory, ./bin/ozengine”.
 
 Of course, it's a good idea to check that Oz is installed on the system,
 so set the location of the Mozart ~elisp~ code,
@@ -361,7 +370,10 @@ check that that location exists, and then load it and set up auto loads.
 ))
 #+end_src
 
-** ~org~ mode
+Below, in my Org mode setup under [[Evaluating code]],
+I set up literate Oz (it only takes ~(require 'ob-oz)~).
+
+** Org mode
 
 I use ~org~ for almost everything, and utilise many
 of the extras included in ~org-plus-contrib~.
