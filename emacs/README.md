@@ -5,7 +5,6 @@ description: |
     A literate file which generates my collection of snippets for yankpad
     (with yasnippets).
 export_file_name: 'README.md'
-startup: indent
 title: |
     My Emacs setup My literate Emacs initialisation file My literate
     `yankpad` file
@@ -406,7 +405,7 @@ them.
     )
     ```
 
-    `oz-mode` annoyling remaps `C-x SPC`, so we must undo that.
+    `oz-mode` annoyingly remaps `C-x SPC`, so we must undo that.
 
     ``` {.commonlisp org-language="emacs-lisp"}
     (eval-after-load "oz-mode"
@@ -420,8 +419,8 @@ them.
 
 ### Org mode
 
-I use `org` for almost everything, and utilise many of the extras
-included in `org-plus-contrib`.
+I use Org for almost everything, and utilise many of the extras included
+in `org-plus-contrib`.
 
 ``` {.commonlisp org-language="emacs-lisp"}
 (use-package org
@@ -717,13 +716,14 @@ included in `org-plus-contrib`.
 
     7.  `ox-tufte`
 
-        I use [Tufte CSS](https://github.com/edwardtufte/tufte-css) for
-        websites; `ox-tufte` exports is a package to export `html` which
-        is nicely compatible with this style sheet. See the Github
-        readme [here](https://github.com/dakrone/ox-tufte).
+        At ibe point I considered using [Tufte
+        CSS](https://github.com/edwardtufte/tufte-css) for websites;
+        `ox-tufte` exports is a package to export `html` which is nicely
+        compatible with this style sheet. See the Github readme
+        [here](https://github.com/dakrone/ox-tufte).
 
         ``` {.commonlisp org-language="emacs-lisp"}
-        (use-package ox-tufte)
+        ;(use-package ox-tufte)
         ```
 
         I found `ox-tufte` mentioned in a [Reddit
@@ -1008,6 +1008,18 @@ while composing email.
 
 ``` {.commonlisp org-language="emacs-lisp"}
 (winner-mode 1)
+```
+
+### `exwm`
+
+I\'ve considered using the Emacs window manager, `exwm`, but on my
+Chromebook, I can\'t replace the window manager. So it remains simply a
+possibility for the future.
+
+``` {.commonlisp org-language="emacs-lisp"}
+;(use-package exwm)
+;(require 'exwm-config)
+;(exwm-config-default)
 ```
 
 Key bindings
@@ -2022,7 +2034,17 @@ to be available everywhere.
         #+end_src
         ```
 
-    4.  sh: Shell [[src]{.smallcaps}]{.tag
+    4.  latex: LaTeX [[src]{.smallcaps}]{.tag
+        tag-name="src"} [[orglatex]{.smallcaps}]{.tag
+        tag-name="orglatex"}
+
+        ``` {.text}
+        #+begin_src latex
+        $0
+        #+end_src
+        ```
+
+    5.  sh: Shell [[src]{.smallcaps}]{.tag
         tag-name="src"} [[orgsh]{.smallcaps}]{.tag tag-name="orgsh"}
 
         ``` {.text}
@@ -2031,7 +2053,7 @@ to be available everywhere.
         #+end_src
         ```
 
-    5.  ag: Agda code block [[src]{.smallcaps}]{.tag
+    6.  ag: Agda code block [[src]{.smallcaps}]{.tag
         tag-name="src"} [[orgag]{.smallcaps}]{.tag tag-name="orgag"}
 
         ``` {.text}
@@ -2040,7 +2062,7 @@ to be available everywhere.
         #+end_src
         ```
 
-    6.  oz: Oz code block [[src]{.smallcaps}]{.tag
+    7.  oz: Oz code block [[src]{.smallcaps}]{.tag
         tag-name="src"} [[orgoz]{.smallcaps}]{.tag tag-name="orgoz"}
 
         ``` {.text}
@@ -2049,7 +2071,16 @@ to be available everywhere.
         #+end_src
         ```
 
-    7.  py: Python code block [[src]{.smallcaps}]{.tag
+    8.  rb: Ruby code block [[src]{.smallcaps}]{.tag
+        tag-name="src"} [[orgrb]{.smallcaps}]{.tag tag-name="orgrb"}
+
+        ``` {.text}
+        #+begin_src ruby
+        $0
+        #+end_src
+        ```
+
+    9.  py: Python code block [[src]{.smallcaps}]{.tag
         tag-name="src"} [[orgpy]{.smallcaps}]{.tag tag-name="orgpy"}
 
         ``` {.text}
@@ -2058,7 +2089,7 @@ to be available everywhere.
         #+end_src
         ```
 
-    8.  ic: "Interactive" C block [[src]{.smallcaps}]{.tag
+    10. ic: "Interactive" C block [[src]{.smallcaps}]{.tag
         tag-name="src"} [[orgicc]{.smallcaps}]{.tag tag-name="orgicc"}
 
         ``` {.text}
@@ -2067,7 +2098,7 @@ to be available everywhere.
         #+end_src
         ```
 
-    9.  icn: Inactive "Interactive" C block [[src]{.smallcaps}]{.tag
+    11. icn: Inactive "Interactive" C block [[src]{.smallcaps}]{.tag
         tag-name="src"} [[orgicn]{.smallcaps}]{.tag tag-name="orgicn"}
 
         ``` {.text}
@@ -2076,7 +2107,7 @@ to be available everywhere.
         #+end_src
         ```
 
-    10. ich: "Interactive" C header block [[src]{.smallcaps}]{.tag
+    12. ich: "Interactive" C header block [[src]{.smallcaps}]{.tag
         tag-name="src"} [[orgich]{.smallcaps}]{.tag tag-name="orgich"}
 
         ``` {.text}
@@ -2085,7 +2116,7 @@ to be available everywhere.
         #+end_src
         ```
 
-    11. xml: XML block [[src]{.smallcaps}]{.tag
+    13. xml: XML block [[src]{.smallcaps}]{.tag
         tag-name="src"} [[orgxml]{.smallcaps}]{.tag tag-name="orgxml"}
 
         ``` {.text}
