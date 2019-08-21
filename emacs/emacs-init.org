@@ -374,7 +374,7 @@ I set up literate Oz (it only takes ~(require 'ob-oz)~).
 
 ** Org mode
 
-I use ~org~ for almost everything, and utilise many
+I use Org for almost everything, and utilise many
 of the extras included in ~org-plus-contrib~.
 #+begin_src emacs-lisp
 (use-package org
