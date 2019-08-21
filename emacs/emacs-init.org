@@ -1,6 +1,5 @@
 #+Title: My literate Emacs initialisation file
 #+Description: My literate emacs initialisation file.
-#+Startup: indent
 
 * Introduction
 
