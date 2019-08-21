@@ -641,12 +641,14 @@ lots of options which make be useful in the future.
 
 **** ~ox-tufte~
 
-I use [[https://github.com/edwardtufte/tufte-css][Tufte CSS]] for websites;
+At ibe point I considered using
+[[https://github.com/edwardtufte/tufte-css][Tufte CSS]]
+for websites;
 ~ox-tufte~ exports is a package to export ~html~ which is nicely
 compatible with this style sheet. See the Github readme
 [[https://github.com/dakrone/ox-tufte][here]].
 #+begin_src emacs-lisp
-(use-package ox-tufte)
+;(use-package ox-tufte)
 #+end_src
 
 I found ~ox-tufte~ mentioned in a
