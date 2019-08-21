@@ -180,6 +180,14 @@ $0
 ,#+end_src
 #+end_src
 
+**** latex: LaTeX                                           :src:orglatex:
+
+#+begin_src text
+#+begin_src latex
+$0
+,#+end_src
+#+end_src
+
 **** sh: Shell                                                 :src:orgsh:
 
 #+begin_src text
@@ -204,7 +212,16 @@ $0
 ,#+end_src
 #+end_src
 
+**** rb: Ruby code block                                       :src:orgrb:
+
+#+begin_src text
+#+begin_src ruby
+$0
+,#+end_src
+#+end_src
+
 **** py: Python code block                                     :src:orgpy:
+
 #+begin_src text
 #+begin_src python
 $0
