@@ -937,6 +937,18 @@ while composing email.
 #+begin_src emacs-lisp
 (winner-mode 1)
 #+end_src
+** ~exwm~
+
+I've considered using the Emacs window manager, ~exwm~,
+but on my Chromebook, I can't replace the window manager.
+So it remains simply a possibility for the future.
+
+#+begin_src emacs-lisp
+;(use-package exwm)
+;(require 'exwm-config)
+;(exwm-config-default)
+#+end_src
+
 * Key bindings
 
 I make use of ~hydra~ for keybindings (or groups of keybindings)
