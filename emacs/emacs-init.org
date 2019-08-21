@@ -641,7 +641,11 @@ lots of options which make be useful in the future.
 
 **** ~ox-tufte~
 
-At ibe point I considered using
+(This section is deprecated; I now use
+[[https://github.com/fniessen/org-html-themes/blob/master/README.org][Read-the-Org]]
+as the theme for my websites).
+
+At one point I considered using
 [[https://github.com/edwardtufte/tufte-css][Tufte CSS]]
 for websites;
 ~ox-tufte~ exports is a package to export ~html~ which is nicely
