@@ -716,7 +716,11 @@ in `org-plus-contrib`.
 
     7.  `ox-tufte`
 
-        At ibe point I considered using [Tufte
+        (This section is deprecated; I now use
+        [Read-the-Org](https://github.com/fniessen/org-html-themes/blob/master/README.org)
+        as the theme for my websites).
+
+        At one point I considered using [Tufte
         CSS](https://github.com/edwardtufte/tufte-css) for websites;
         `ox-tufte` exports is a package to export `html` which is nicely
         compatible with this style sheet. See the Github readme
@@ -1176,6 +1180,14 @@ combo.
     ``` {.commonlisp org-language="emacs-lisp"}
     (general-define-key
       "s-m" 'magit-status
+    )
+    ```
+
+5.  `recentf`
+
+    ``` {.commonlisp org-language="emacs-lisp"}
+    (general-define-key
+      "s-r" 'recentf-open-files
     )
     ```
 
@@ -1749,26 +1761,42 @@ Unfortunately this seems to introduce a fair amount of lag on my system.
     )
     ```
 
-3.  Recover the previous session
+3.  Seeing recently visited files
 
     Usually, I don\'t appreciate software opening in its previous state;
     if I closed an application (especially Emacs), there is probably a
     reason, and so I prefer a clean slate on startup.
 
-    Unfortunately, my work machine has developed a nasty habit of
-    turning off when put into sleep mode. The process of reopening
-    everything several times a day has become irritating, so I prefer to
-    recover the previous session each time.
+    Unfortunately, at one point my work machine developed a nasty habit
+    of turning off when put into sleep mode. There\'s was a reddit
+    [thread](https://www.reddit.com/r/Crostini/comments/btwi1z/) and a
+    Chromium issue
+    [thread](https://bugs.chromium.org/p/chromium/issues/detail?id=968060)
+    regarding the issue. It was actually fixed in an update almost
+    immediately after I incorporated these changes, so I don\'t make
+    wide use of the below setup.
+
+    The process of reopening everything several times a day has become
+    irritating, so I prefer to recover the previous session each time.
+
+    `recentf-mode` is a minor mode which builds a list of recently
+    opened files; see the [Emacs
+    wiki](https://www.emacswiki.org/emacs/RecentFiles).
 
     ``` {.commonlisp org-language="emacs-lisp"}
-    ;; TODO
+    (recentf-mode 1)
+    ```
+
+    By default, `recentf-mode` saves the list of recently opened on
+    exit; however, in the case of a crash, this hook is never executed.
+    Instead, we can set it up to be backed up regularly; say every 5
+    minutes.
+
+    ``` {.commonlisp org-language="emacs-lisp"}
+    (run-at-time nil (* 5 60) 'recentf-save-list)
     ```
 
 4.  Buffers to preserve on session clear
-
-    Given that I am restoring the previous session by default, I need to
-    be able to clear the current session when needed (i.e. close all
-    buffers).
 
     Emac\'s internal buffers are preserved on a session clear, but I
     additionally want to preserve the buffers I open on startup.
