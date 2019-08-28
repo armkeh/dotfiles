@@ -6,16 +6,18 @@
 This is my ~emacs~ initialisation code, documented for my own understanding
 in the future and for sharing with others.
 
-I'm following [[https://alhassy.github.io/init/][Musa Alhassy's]] example using an ~org~ file for this.
+I'm following [[https://alhassy.github.io/init/][Musa Alhassy's]] example using
+an ~org~ file for this.
 
 ** Setting up ~.emacs~ to use this code
 
-Create a symbolic link to this file in =~/.emacs.d/~,
+Create a symbolic link to this file in =~/.emacs.d/=,
 then add to the bottom of =~/.emacs= these lines:
 #+BEGIN_EXAMPLE emacs-lisp
 ;; BEGIN my edits
 
-;; I've set up an init file following Musa's guide: https://alhassy.github.io/init/
+;; I've set up an init file following Musa's guide:
+;; https://alhassy.github.io/init/
 
 ;; Enable Emacs VC on symlinked files
 (setq vc-follow-symlinks t)
