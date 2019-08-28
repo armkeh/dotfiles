@@ -1778,6 +1778,6 @@ including this file and other relevant files.
   (insert "* ~yankpad.org~\n")
   (insert "#+INCLUDE: yankpad.org\n")
   (org-mode)
-  (org-pandoc-export-to-markdown)
+  (org-pandoc-export-to-gfm)
 )
 #+end_example
