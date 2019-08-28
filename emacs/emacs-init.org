@@ -1667,14 +1667,16 @@ Usually, I don't appreciate software opening in its previous state;
 if I closed an application (especially Emacs),
 there is probably a reason, and so I prefer a clean slate on startup.
 
-Unfortunately, my work machine has developed a nasty habit
+Unfortunately, at one point my work machine developed a nasty habit
 of turning off when put into sleep mode.
-
-There's a reddit
+There's was a reddit
 [[https://www.reddit.com/r/Crostini/comments/btwi1z/][thread]]
 and a Chromium issue
 [[https://bugs.chromium.org/p/chromium/issues/detail?id=968060][thread]]
-regarding the issue. Hopefully it will be fixed someday :).
+regarding the issue.
+It was actually fixed in an update almost immediately after
+I incorporated these changes, so I don't make wide use of the
+below setup.
 
 The process of reopening everything several times
 a day has become irritating, so I prefer
