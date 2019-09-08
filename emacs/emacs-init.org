@@ -780,6 +780,12 @@ of the document.
 (setq org-catch-invisible-edits 'show)
 #+end_src
 
+**** Inline tasks
+
+#+begin_src emacs-lisp
+(require 'org-inlinetask)
+#+end_src
+
 ** ~pdf-tools~
 
 #+begin_src emacs-lisp
