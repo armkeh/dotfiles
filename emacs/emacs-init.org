@@ -763,6 +763,18 @@ when opening documents.
 (setq org-image-actual-width nil)
 #+end_src
 
+**** Tag position
+
+By default (as of Org 9.1.9),
+tags get shifted to the 77th column.
+But this causes blank lines to be inserted
+when working on narrower screens.
+I bump it down a good bit,
+to ensure tags stay away from the right side of the screen.
+#+begin_src emacs-lisp
+(setq org-tags-column 48)
+#+end_src
+
 *** Other
 
 **** Allow alphabetical lists
