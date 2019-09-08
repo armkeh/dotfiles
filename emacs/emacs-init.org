@@ -374,6 +374,12 @@ check that that location exists, and then load it and set up auto loads.
 Below, in my Org mode setup under [[Evaluating code]],
 I set up literate Oz (it only takes ~(require 'ob-oz)~).
 
+*** F#
+
+#+begin_src emacs-lisp
+(require 'fsharp-mode)
+#+end_src
+
 ** Org mode
 
 I use Org for almost everything, and utilise many
@@ -671,13 +677,10 @@ just /not/ execute code marked for execution during export in an
 (setq org-confirm-babel-evaluate nil)
 #+end_src
 
-Loading the following languages with ~require~ allows code blocks
-in them to be evaluated.
-
 By default only emacs lisp can be evaluated.
-
 Documentation [[https://orgmode.org/manual/Languages.html][here]].
 
+These languages have support built-in, it just has to be activated.
 #+begin_src emacs-lisp
 (require 'ob-shell)
 (require 'ob-haskell)
@@ -685,6 +688,11 @@ Documentation [[https://orgmode.org/manual/Languages.html][here]].
 (require 'ob-oz)
 (require 'ob-C)
 (require 'ob-ruby)
+#+end_src
+
+For other languages, separate packages are needed.
+#+begin_src emacs-lisp
+(use-package ob-fsharp)
 #+end_src
 
 For shell code, we need to initialise via this function.

@@ -260,6 +260,14 @@ $0
 ,#+end_src
 #+end_src
 
+**** f#: F# block                                              :src:orgf#:
+
+#+begin_src text
+#+begin_src fsharp
+$0
+,#+end_src
+#+end_src
+
 *** Blocks for LaTeX exports
 
 **** ldisc: Discussion                                         :src:ldisc:
