@@ -2,7 +2,7 @@
 <!-- IT SHOULD NOT BE MODIFIED DIRECTLY. -->
 
 
-This repository contains the files that make up my Emacs setup.
+this This repository contains the files that make up my Emacs setup.
 
 For the moment, that is my (literate) Emacs initialisation file and my
 `yankpad` file of snippets.
@@ -403,6 +403,12 @@ them.
     Below, in my Org mode setup under [1.3.5.5](#Evaluating%20code), I
     set up literate Oz (it only takes `(require 'ob-oz)`).
 
+2.  F\#
+    
+    ``` commonlisp
+    (require 'fsharp-mode)
+    ```
+
 ### Org mode
 
 I use Org for almost everything, and utilise many of the extras included
@@ -512,7 +518,20 @@ in `org-plus-contrib`.
         StackExchange](https://superuser.com/a/898717/1032497) describes
         how to create such a file using Lisp code.
     
-    4.  LaTeX specific
+    4.  Don't change `.org` links to `.html`
+        
+        By default (see the
+        [manual](https://orgmode.org/manual/Links-in-HTML-export.html))
+        when exporting to HTML, Org will change `.org` links to `.html`.
+        I don't want this; for instance, when teaching a course, I like
+        to link to both a generated HTML file and the original Org
+        source version of notes (on my generated course homepage).
+        
+        ``` commonlisp
+        (setq org-html-link-org-files-as-html nil)
+        ```
+    
+    5.  LaTeX specific
         
         1.  Default LaTeX compiler
             
@@ -607,7 +626,7 @@ in `org-plus-contrib`.
             ;;      org-latex-packages-alist '(("" "minted")))
             ```
     
-    5.  `org-reveal`
+    6.  `org-reveal`
         
         I make use of `org-reveal` to create `reveal.js` slide decks.
         This is way easier than dealing with `beamer` in LaTeX, and
@@ -690,7 +709,7 @@ in `org-plus-contrib`.
                 (setq org-reveal-extra-css "")
                 ```
     
-    6.  `ox-pandoc`
+    7.  `ox-pandoc`
         
         `ox-pandoc` is “another exporter that translates Org-mode file
         to various other formats via Pandoc”.
@@ -702,7 +721,7 @@ in `org-plus-contrib`.
         (use-package ox-pandoc)
         ```
     
-    7.  `ox-tufte`
+    8.  `ox-tufte`
         
         (This section is deprecated; I now use
         [Read-the-Org](https://github.com/fniessen/org-html-themes/blob/master/README.org)
@@ -721,6 +740,46 @@ in `org-plus-contrib`.
         I found `ox-tufte` mentioned in a [Reddit
         thread](https://www.reddit.com/r/emacs/comments/6r32q4)
         regarding CSS for Org html export.
+    
+    9.  Ensure useful HTML anchors
+        
+        This code snippet is borrowed from Musa's
+        [init](https://github.com/alhassy/emacs.d/#Ensuring-Useful-HTML-Anchors).
+        
+        > Upon HTML export, each tree heading is assigned an ID to be
+        > used for hyperlinks. Default IDs are something like
+        > org1957a9d, which does not endure the test of time: Re-export
+        > will produce a different id. Here's a rough snippet to
+        > generate IDs from headings, by replacing spaces with hyphens,
+        > for headings without IDs.
+        
+        ``` commonlisp
+        (defun my/ensure-headline-ids (&rest _)
+          "Org trees without a :CUSTOM_ID: property have the property
+           set to be their heading.
+        
+           If multiple trees end-up with the same id property,
+           issue a message and undo any property insertion thus far.
+          "
+          (interactive)
+          (let ((ids))
+            (org-map-entries
+             (lambda ()
+               (org-with-point-at (point)
+                 (let ((id (org-entry-get nil "CUSTOM_ID")))
+                   (unless id
+                     (setq id (s-replace " " "-" (nth 4 (org-heading-components))))
+                     (if (not (member id ids))
+                         (push id ids)
+                       (message-box "Oh no, a repeated id!\n\n\t%s" id)
+                       (undo)
+                       (setq quit-flag t))
+                     (org-entry-put nil "CUSTOM_ID" id))))))))
+        
+        ;; Whenever html & md export happens, ensure we have headline ids.
+        (advice-add 'org-html-export-to-html :before 'my/ensure-headline-ids)
+        (advice-add 'org-md-export-to-markdown :before 'my/ensure-headline-ids)
+        ```
 
 5.  Evaluating code
     
@@ -733,12 +792,10 @@ in `org-plus-contrib`.
     (setq org-confirm-babel-evaluate nil)
     ```
     
-    Loading the following languages with `require` allows code blocks in
-    them to be evaluated.
+    By default only emacs lisp can be evaluated. Documentation
+    [here](https://orgmode.org/manual/Languages.html).
     
-    By default only emacs lisp can be evaluated.
-    
-    Documentation [here](https://orgmode.org/manual/Languages.html).
+    These languages have support built-in, it just has to be activated.
     
     ``` commonlisp
     (require 'ob-shell)
@@ -747,6 +804,12 @@ in `org-plus-contrib`.
     (require 'ob-oz)
     (require 'ob-C)
     (require 'ob-ruby)
+    ```
+    
+    For other languages, separate packages are needed.
+    
+    ``` commonlisp
+    (use-package ob-fsharp)
     ```
     
     For shell code, we need to initialise via this function. See
@@ -829,6 +892,17 @@ in `org-plus-contrib`.
         ``` commonlisp
         (setq org-image-actual-width nil)
         ```
+    
+    7.  Tag position
+        
+        By default (as of Org 9.1.9), tags get shifted to the 77th
+        column. But this causes blank lines to be inserted when working
+        on narrower screens. I bump it down a good bit, to ensure tags
+        stay away from the right side of the screen.
+        
+        ``` commonlisp
+        (setq org-tags-column 48)
+        ```
 
 7.  Other
     
@@ -845,6 +919,12 @@ in `org-plus-contrib`.
         
         ``` commonlisp
         (setq org-catch-invisible-edits 'show)
+        ```
+    
+    3.  Inline tasks
+        
+        ``` commonlisp
+        (require 'org-inlinetask)
         ```
 
 ### `pdf-tools`
@@ -1835,6 +1915,8 @@ If STRING is nil, return nil."
 This code generates a `README.md` file for my Emacs repo, including this
 file and other relevant files.
 
+org-export-to-file org-export-async-debug
+
 # `yankpad.org`
 
 ## Description
@@ -2103,6 +2185,15 @@ to be available everywhere.
         
         ``` text
         #+begin_src xml
+        $0
+        #+end_src
+        ```
+    
+    14. f\#: F\# block
+        <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgf#"><span class="smallcaps">orgf\#</span></span>
+        
+        ``` text
+        #+begin_src fsharp
         $0
         #+end_src
         ```
