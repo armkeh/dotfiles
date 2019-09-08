@@ -484,6 +484,19 @@ If this approach is ever desirable,
 this [[https://superuser.com/a/898717/1032497][answer on StackExchange]] describes how to create such a file
 using Lisp code.
 
+**** Don't change ~.org~ links to ~.html~
+
+By default
+(see the [[https://orgmode.org/manual/Links-in-HTML-export.html][manual]])
+when exporting to HTML, Org will change ~.org~ links to ~.html~.
+I don't want this; for instance, when teaching a course,
+I like to link to both a generated HTML file and
+the original Org source version of notes
+(on my generated course homepage).
+#+begin_src emacs-lisp
+(setq org-html-link-org-files-as-html nil)
+#+end_src
+
 **** LaTeX specific
 
 ***** Default LaTeX compiler
