@@ -1694,10 +1694,6 @@ It wastes some screen space, but is good for my sanity.
 Since line numbers can be distracting in some instances,
 see [[Key bindings]] for toggles to turn it off.
 
-**** TODO Turn off line number mode for certain kinds of buffers
-
-Agda results, help, pdfs, dired, ...
-
 **** For older versions of Emacs
 
 In older versions, we can use ~linum-mode~, but
