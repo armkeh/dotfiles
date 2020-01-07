@@ -123,7 +123,7 @@ based on various criteria.
 </entry>
 #+end_src
 
-* Default                                                            :global:
+* Default                                       :global:
 
 The category “Default” will be used if there is no category for the
 current major mode.
@@ -137,7 +137,7 @@ I often use Org syntax outside of Org mode, especially when
 writing literate Agda documents. So many Org syntax snippets
 are included here to be available everywhere.
 
-*** dh: Document header                                         :src:orgdh:
+*** dh: Document header                       :src:orgdh:
 
 I usually use what I think is a fairly minimalist document header.
 
@@ -156,7 +156,7 @@ Note that the ~,#~ expands to the ~org~ “comment” character ~#~.
 
 This is needed to have a ~#+end_src~ /inside/ a ~src~ block.
 
-**** src: Generic source block                                :src:orgsrc:
+**** src: Generic source block               :src:orgsrc:
 
 #+begin_src text
 #+begin_src $1
@@ -164,7 +164,7 @@ $0
 ,#+end_src
 #+end_src
 
-**** el: Emacs lisp block                                      :src:orgel:
+**** el: Emacs lisp block                    :src:orgel:
 
 #+begin_src text
 #+begin_src emacs-lisp
@@ -172,7 +172,7 @@ $0
 ,#+end_src
 #+end_src
 
-**** t: Plaintext                                               :src:orgt:
+**** t: Plaintext                            :src:orgt:
 
 #+begin_src text
 #+begin_src text
@@ -180,7 +180,7 @@ $0
 ,#+end_src
 #+end_src
 
-**** latex: LaTeX                                           :src:orglatex:
+**** latex: LaTeX                            :src:orglatex:
 
 #+begin_src text
 #+begin_src latex
@@ -188,7 +188,7 @@ $0
 ,#+end_src
 #+end_src
 
-**** sh: Shell                                                 :src:orgsh:
+**** sh: Shell                               :src:orgsh:
 
 #+begin_src text
 #+begin_src shell
@@ -212,7 +212,7 @@ $0
 ,#+end_src
 #+end_src
 
-**** rb: Ruby code block                                       :src:orgrb:
+**** rb: Ruby code block                     :src:orgrb:
 
 #+begin_src text
 #+begin_src ruby
@@ -220,7 +220,7 @@ $0
 ,#+end_src
 #+end_src
 
-**** py: Python code block                                     :src:orgpy:
+**** py: Python code block                   :src:orgpy:
 
 #+begin_src text
 #+begin_src python
@@ -228,7 +228,7 @@ $0
 ,#+end_src
 #+end_src
 
-**** ic: “Interactive” C block                                :src:orgicc:
+**** ic: “Interactive” C block               :src:orgicc:
 
 #+begin_src text
 #+begin_src c :tangle (currently-working-with "${1:generated}")
@@ -236,7 +236,7 @@ $0
 ,#+end_src
 #+end_src
 
-**** icn: Inactive “Interactive” C block                      :src:orgicn:
+**** icn: Inactive “Interactive” C block     :src:orgicn:
 
 #+begin_src text
 #+begin_src c :tangle (not-currently-working-with "${1:generated}")
@@ -244,7 +244,7 @@ $0
 ,#+end_src
 #+end_src
 
-**** ich: “Interactive” C header block                        :src:orgich:
+**** ich: “Interactive” C header block       :src:orgich:
 
 #+begin_src text
 #+begin_src c :tangle (currently-working-with-header "${1:generated}")
@@ -252,7 +252,7 @@ $0
 ,#+end_src
 #+end_src
 
-**** xml: XML block                                           :src:orgxml:
+**** xml: XML block                          :src:orgxml:
 
 #+begin_src text
 #+begin_src xml
@@ -260,7 +260,7 @@ $0
 ,#+end_src
 #+end_src
 
-**** f#: F# block                                              :src:orgf#:
+**** fs: F# block                            :src:orgfs:
 
 #+begin_src text
 #+begin_src fsharp
@@ -407,7 +407,7 @@ $0
 
 * agda2-mode
 
-** ag: Literate code block                                           :src:ag:
+** agl: Literate code block                    :src:agl:
 
 #+begin_src text
 \begin{code}
