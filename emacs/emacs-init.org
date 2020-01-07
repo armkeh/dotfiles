@@ -892,6 +892,26 @@ PlantUML requires we set the path to the ~.jar~ file.
 (setq org-hide-emphasis-markers t)
 #+end_src
 
+**** Emphasis marker regexps
+
+Dumping this just for now...
+see https://emacs.stackexchange.com/questions/41111/org-mode-markup-between-square-brackets
+#+begin_src emacs-lisp
+(with-eval-after-load 'org
+  ; chars for prematch
+  (setcar org-emphasis-regexp-components            "     ('\"{“”\[\\-")
+  ; chars for postmatch
+  (setcar (nthcdr 1 org-emphasis-regexp-components) "\] -   .,!?;:''“”\")}/\\“”(-")
+  ; forbidden chars
+  (setcar (nthcdr 2 org-emphasis-regexp-components) "    \t\r\n\"")
+  ; body
+  (setcar (nthcdr 3 org-emphasis-regexp-components) ".")
+  ; max newlines
+  (setcar (nthcdr 4 org-emphasis-regexp-components) 1)
+  (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
+#+end_src
+I add ( to the second entry, to allow ( to immediately follow markup.
+
 **** Highlight math mode blocks
 
  #+begin_src emacs-lisp
