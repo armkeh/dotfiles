@@ -1722,7 +1722,11 @@ It's good style not to have trailing whitespace.
 ~show-trailing-whitespace~ will colour any trailing whitespace.
 
 #+begin_src emacs-lisp
-(global-whitespace-mode)
+(add-hook 'text-mode-hook 'whitespace-mode)
+(add-hook 'prog-mode-hook 'whitespace-mode)
+
+; (global-whitespace-mode)
+
 (setq whitespace-style
       '(face
         trailing lines-tail empty
