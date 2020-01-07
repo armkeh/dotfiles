@@ -196,15 +196,15 @@ $0
 ,#+end_src
 #+end_src
 
-**** ag: Agda code block                                       :src:orgag:
+**** ag: Agda code block                     :src:orgag:
 
 #+begin_src text
-#+begin_src org-agda
+#+begin_src agda2
 $0
 ,#+end_src
 #+end_src
 
-**** oz: Oz code block                                         :src:orgoz:
+**** oz: Oz code block                       :src:orgoz:
 
 #+begin_src text
 #+begin_src oz :results output :noweb yes
