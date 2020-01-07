@@ -9,6 +9,13 @@ in the future and for sharing with others.
 I'm following [[https://alhassy.github.io/init/][Musa Alhassy's]] example using
 an ~org~ file for this.
 
+** About me
+
+#+begin_src emacs-lisp
+(setq user-full-name "Mark Armstrong")
+(setq user-mail-address "markparmstrong@gmail.com")
+#+end_src
+
 ** Setting up ~.emacs~ to use this code
 
 Create a symbolic link to this file in =~/.emacs.d/=,
