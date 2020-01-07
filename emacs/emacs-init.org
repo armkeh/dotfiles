@@ -1730,11 +1730,7 @@ It's good style not to have trailing whitespace.
 #+end_src
 
 This can be a little annoying, so there are toggles for various
-aspects under ~Key bindings~.
-
-**** TODO Actually put those keybindings in place
-
-Add/remove from ~whitespace-style~ on the fly.
+aspects under [[Key bindings].
 
 *** Show ruler at 80 characters for (for ~text~ and ~prog~ mode)
 
