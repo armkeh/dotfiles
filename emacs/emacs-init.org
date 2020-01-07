@@ -1216,7 +1216,7 @@ So far I have three categories of shortcuts:
 
 #+begin_src emacs-lisp
 (general-create-definer general-main-define-key
-  :prefix "s-a"
+  :prefix "s-q"
   :keymaps 'override)
 
 (general-create-definer general-window-define-key
