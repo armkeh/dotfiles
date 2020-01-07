@@ -1262,6 +1262,29 @@ So, I have a shortcut key.
 
 *** ~dired~
 
+**** Jumping to specific buffers
+
+There are some files so commonly used, I want shortcuts directly to them
+(in fact, usually these files are perpetually kept open).
+These shortcuts then don't involve ~dired~, but they are lumped in here anyway.
+
+#+begin_src emacs-lisp
+(general-dired-define-key
+  "s" '(:ignore t :which-key "Scratch buffers")
+  "sa" '((lambda () (interactive)
+           (find-file "~/Dropbox/McMaster/Agda/agda-scratch.agda"))
+         :which-key "Agda scratch")
+  "so" '((lambda () (interactive)
+           (find-file "~/Dropbox/Organisation/org-scratch.org"))
+         :which-key "Org scratch")
+  "e" '((lambda () (interactive)
+           (find-file "~/Dropbox/Organisation/setup/emacs/emacs-init.org"))
+         :which-key "Emacs init")
+)
+#+end_src
+
+**** Files not(?) already opened
+
 I use shortcuts to jump to frequently used directories in ~dired~
 (from any buffer, not just while in ~dired~).
 
