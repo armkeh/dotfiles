@@ -1351,7 +1351,15 @@ I often find myself using ~s-g~ in place of ~c-g~ when using my keybindings
 
 #+begin_src emacs-lisp
 (general-define-key
-  "s-m" 'magit-status
+  "s-v" 'magit-status
+)
+#+end_src
+
+*** ~mu4e~
+
+#+begin_src emacs-lisp
+(general-define-key
+  "s-m" 'mu4e
 )
 #+end_src
 
@@ -1360,6 +1368,14 @@ I often find myself using ~s-g~ in place of ~c-g~ when using my keybindings
 #+begin_src emacs-lisp
 (general-define-key
   "s-r" 'recentf-open-files
+)
+#+end_src
+
+*** ~list-processes~
+
+#+begin_src emacs-lisp
+(general-define-key
+  "s-p" 'list-processes
 )
 #+end_src
 
