@@ -194,6 +194,7 @@ We need Emacs to locate Agda mode. This command is put in ~.emacs~
 
 These packages are installed when setting up Agda,
 so I simply ~require~ them.
+:TODO: is this required because I am activating Agda input mode everywhere?
 #+begin_src emacs-lisp
 (require 'agda-input)
 (require 'agda2-highlight)
@@ -269,6 +270,17 @@ So I use set other indicators instead.
 (add-to-list 'agda-input-user-translations '("}" "｝"))
 (add-to-list 'agda-input-user-translations '("{" "⁅"))
 (add-to-list 'agda-input-user-translations '("}" "⁆"))
+(add-to-list 'agda-input-user-translations '("..." "…"))
+#+end_src
+
+**** Arrows
+
+#+begin_src emacs-lisp
+(add-to-list 'agda-input-user-translations '("into" "↪"))
+(add-to-list 'agda-input-user-translations '("onto" "↠"))
+(add-to-list 'agda-input-user-translations '("conv" "↓"))
+(add-to-list 'agda-input-user-translations '("=v" "⇓"))
+(add-to-list 'agda-input-user-translations '("eval" "⇓"))
 #+end_src
 
 **** Correct mistakes on subscripts/superscripts
@@ -297,6 +309,27 @@ subscripts and superscripts; these translations account for that.
 (add-to-list 'agda-input-user-translations '("_*" "₈"))
 (add-to-list 'agda-input-user-translations '("_(" "₉"))
 (add-to-list 'agda-input-user-translations '("_)" "₀"))
+#+end_src
+
+**** Emoticons
+
+#+begin_src emacs-lisp
+(add-to-list 'agda-input-user-translations '(":)" "😀"))
+(add-to-list 'agda-input-user-translations '(":D" "😁"))
+#+end_src
+
+😁
+
+**** Calccheck
+
+TODO
+
+**** Other
+
+#+begin_src emacs-lisp
+(add-to-list 'agda-input-user-translations '("op" "⊕"))
+(add-to-list 'agda-input-user-translations '("^<" "﹤"))
+(add-to-list 'agda-input-user-translations '("powset" "℘"))
 #+end_src
 
 **** Activate the new additions
