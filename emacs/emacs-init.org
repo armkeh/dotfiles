@@ -349,6 +349,12 @@ TODO
 
 ** Other programming languages
 
+*** Racket
+
+#+begin_src emacs-lisp
+(use-package racket-mode)
+#+end_src
+
 *** The Mozart Programming System for ~Oz~
 
 The Mozart Programming System “provides a powerful environment
@@ -421,6 +427,19 @@ I set up literate Oz (it only takes ~(require 'ob-oz)~).
 
 #+begin_src emacs-lisp
 (require 'fsharp-mode)
+#+end_src
+
+*** Prolog
+
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist
+                 '("\\.pl\\'" . prolog-mode))
+#+end_src
+
+*** Scheme
+
+#+begin_src emacs-lisp
+(use-package geiser)
 #+end_src
 
 ** Org mode
@@ -784,9 +803,20 @@ These languages have support built-in, it just has to be activated.
 (require 'ob-shell)
 (require 'ob-haskell)
 (require 'ob-latex)
-(require 'ob-oz)
 (require 'ob-C)
 (require 'ob-ruby)
+(require 'ob-plantuml)
+(require 'ob-R)
+(require 'ob-ditaa)
+(require 'ob-scheme)
+#+end_src
+
+#+begin_src emacs-lisp
+(setq org-ditaa-jar-path "/usr/bin/ditaa")
+#+end_src
+
+#+begin_src emacs-lisp
+(setq geiser-default-implementation 'guile)
 #+end_src
 
 For other languages, separate packages are needed.
@@ -794,10 +824,37 @@ For other languages, separate packages are needed.
 (use-package ob-fsharp)
 #+end_src
 
+~ob-oz~ comes with a Mozart2 installation;
+if there's a problem, make sure the Mozart2 Elisp directory
+is in the path.
+#+begin_src emacs-lisp
+(require 'ob-oz)
+#+end_src
+
+There are at least two packages for Org babel support for Racket,
+but neither are on MELPA. Neither one seems to stand out as
+more or less fully featured.
+- [[https://github.com/hasu/emacs-ob-racket][emacs-ob-racket]]
+  is more recently maintained.
+- [[https://github.com/xchrishawk/ob-racket][ob-racket]]
+  has not been updated in 4 years.
+So I choose ~emacs-ob-racket~. For the moment, I just saved it
+to my ~emacs.d~; probably it should be put somewhere better,
+but I will do that when I next set up my system :).
+#+begin_src emacs-lisp
+(add-to-list 'load-path "/home/markparmstrong/.emacs.d/ob-racket")
+(require 'ob-racket)
+#+end_src
+
 For shell code, we need to initialise via this function.
 See [[https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-function-definition-is-void-org-babel-get-header][here]].
 #+begin_src emacs-lisp
 (org-babel-shell-initialize)
+#+end_src
+
+PlantUML requires we set the path to the ~.jar~ file.
+#+begin_src emacs-lisp
+(setq org-plantuml-jar-path "/usr/share/java/plantuml.jar")
 #+end_src
 
 *** Cosmetics
