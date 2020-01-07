@@ -1674,7 +1674,10 @@ to the above form with a (presumably shorter) name.
 As of Emacs 26, ~display-line-numbers-mode~ is the “proper”
 way to display line numbers next to a buffer.
 #+begin_src emacs-lisp
-(global-display-line-numbers-mode)
+;; (global-display-line-numbers-mode)
+
+(add-hook 'text-mode-hook 'display-line-numbers-mode)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 #+end_src
 
 I find it concerning when the width of the column
