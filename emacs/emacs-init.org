@@ -640,6 +640,27 @@ a problem I should resolve. For the moment, if I want to use
 ;;(setq org-latex-listings 'minted
 ;;      org-latex-packages-alist '(("" "minted")))
 #+end_src
+
+***** ~hyperref~ setup
+
+#+begin_src emacs-lisp
+(setq org-latex-hyperref-template
+  "\\hypersetup{
+   pdfauthor={%a},
+   pdftitle={%t},
+   pdfkeywords={%k},
+   pdfsubject={%d},
+   pdfcreator={%c},
+   pdflang={%L},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+"
+)
+#+end_src
+
 **** ~org-reveal~
 
 I make use of ~org-reveal~ to create ~reveal.js~ slide decks.
