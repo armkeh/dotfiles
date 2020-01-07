@@ -268,6 +268,22 @@ $0
 ,#+end_src
 #+end_src
 
+**** pl: Prolog block                        :src:orgpl:
+
+#+begin_src text
+#+begin_src prolog
+$0
+,#+end_src
+#+end_src
+
+**** sch: Scheme                             :src:orgsch:
+
+#+begin_src text
+#+begin_src scheme
+$0
+,#+end_src
+#+end_src
+
 *** Blocks for LaTeX exports
 
 **** ldisc: Discussion                                         :src:ldisc:
@@ -321,6 +337,14 @@ $0
 #+end_example
 #+end_src
 
+**** verse: Verse                            :src:orgverse:
+
+#+begin_src emacs-lisp
+#+begin_verse
+$0
+#+end_verse
+#+end_src
+
 ** Punctuation, parentheses, etc.
 
 *** dq: Double quotes                                              :src:dq:
@@ -328,6 +352,13 @@ $0
 #+begin_src text
 “$1” $0
 #+end_src
+
+*** ell: Ellipsis                             :src:ellipsis:
+
+#+begin_src text
+…
+#+end_src
+
 
 *** card: Cardinality                                            :src:card:
 
