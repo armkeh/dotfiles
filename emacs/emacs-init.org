@@ -2087,3 +2087,11 @@ Admittedly, it's a hack to just sleep.
   (write-file "README.md")
 )
 #+end_src
+
+* Scratch
+
+** Find file alias for ease of use in eshell
+
+#+begin_src emacs-lisp
+(defalias 'ff 'find-file)
+#+end_src
