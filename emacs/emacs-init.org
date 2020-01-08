@@ -1149,18 +1149,122 @@ is taken directly from the ~dired-single~ [[https://github.com/crocket/dired-sin
 Using Emacs as an email client provides us with powerful text editing
 while composing email.
 
+*** Basic setup
+I've follow the guide
+[[https://www.reddit.com/r/emacs/comments/bfsck6/mu4e_for_dummies/][here]]
+to set it up.
+
 #+begin_src emacs-lisp
+(use-package org-mime)
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 (require 'mu4e)
 #+end_src
 
 #+begin_src emacs-lisp
 (setq
-  mu4e-maildir       "/mnt/chromeos/removable/SD Card/Crostini/.mail"
-  mu4e-sent-folder   "/sent"
-  mu4e-drafts-folder "/drafts"
-  mu4e-trash-folder  "/trash"
-  mu4e-refile-folder "/archive")
+  mu4e-maildir       "~/.mail/"
+  mu4e-sent-folder   "/gmail/Sent Mail"
+  mu4e-drafts-folder "/gmail/Drafts"
+  mu4e-trash-folder  "/gmail/Trash"
+  mu4e-refile-folder "/gmail/Archive")
+
+; get mail
+(setq mu4e-get-mail-command "mbsync -a"
+  mu4e-view-prefer-html t
+  mu4e-update-interval 180
+  mu4e-headers-auto-update t
+  mu4e-compose-signature-auto-include nil
+  mu4e-compose-format-flowed t)
+
+;; enable inline images
+(setq mu4e-view-show-images t)
+;; use imagemagick, if available
+(when (fboundp 'imagemagick-register-types)
+  (imagemagick-register-types))
+
+(require 'smtpmail)
+
+;; Added Nov. 19 2019, since email was not sending correctly
+(setq send-mail-function    'smtpmail-send-it
+      smtpmail-smtp-server  "smtp.gmail.com"
+      smtpmail-stream-type  'ssl
+      smtpmail-smtp-service 465)
+
+;;rename files when moving
+;;NEEDED FOR MBSYNC
+(setq mu4e-change-filenames-when-moving t)
+
+;;set up queue for offline email
+;;use mu mkdir  ~/Maildir/acc/queue to set up first
+(setq smtpmail-queue-mail nil)  ;; start in normal mode
+
+;;from the info manual
+(setq mu4e-attachment-dir  "~/Downloads")
+
+(setq message-kill-buffer-on-exit t)
+(setq mu4e-compose-dont-reply-to-self t)
+
+(require 'org-mu4e)
+
+;; convert org mode to HTML automatically
+(setq org-mu4e-convert-to-html t)
+
+;;from vxlabs config
+;; show full addresses in view message (instead of just names)
+;; toggle per name with M-RET
+(setq mu4e-view-show-addresses 't)
+
+;; don't ask when quitting
+(setq mu4e-confirm-quit nil)
+#+end_src
+
+*** Changing the ~From~ address automatically
+
+I use my personal Gmail to collect all of my emails,
+but when replying I like to send back from whichever
+account the original mail was sent to.
+This hook updates the ~From~ field when replying to
+an email sent to one of my other accounts.
+It is taken from [[https://www.djcbsoftware.nl/code/mu/mu4e/Compose-hooks.html#Compose-hooks][the ~mu4e~ documentation]].
+#+begin_src emacs-lisp
+;; 1) messages to me@foo.example.com should be replied with From:me@foo.example.com
+;; 2) messages to me@bar.example.com should be replied with From:me@bar.example.com
+;; 3) all other mail should use From:me@cuux.example.com
+(add-hook 'mu4e-compose-pre-hook
+  (defun my-set-from-address ()
+    "Set the From address based on the To address of the original."
+    (let ((msg mu4e-compose-parent-message)) ;; msg is shorter...
+      (when msg
+	(setq user-mail-address
+	  (cond
+	    ((mu4e-message-contact-field-matches msg :to "armstmp@mcmaster.ca")
+	      "armstmp@mcmaster.ca")
+	    (t "markparmstrong@gmail.com")))))))
+#+end_src
+
+#+begin_example emacs-lisp
+(add-hook 'mu4e-compose-mode-hook
+  (lambda ()
+    (let ((start-line (line-number-at-pos)))
+      (beginning-of-buffer)
+      (when (> (count-matches "To:.*<armstmp@mcmaster.ca>.*\n") 0)
+        (re-search-forward "From:.*\n")
+        (replace-match "From: Mark Armstrong <armstmp@mcmaster.ca>\n"))
+        (re-search-forward "\(To:.*\)") ; to be completed...
+      (goto-line start-line)))) ; restore current line
+#+end_example
+
+*** Viewing HTML mail in browser
+
+#+begin_src emacs-lisp
+(add-to-list 'mu4e-view-actions
+  '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+#+end_src
+
+*** Enabling Org-like folding in email composition
+
+#+begin_src emacs-lisp
+(add-hook 'message-mode-hook 'turn-on-orgstruct++)
 #+end_src
 
 ** ~winner~ for saving and restoring window layouts
