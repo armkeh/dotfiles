@@ -924,7 +924,7 @@ By default, folded portions of the document are
 presented by an ellipsis, ~...~. Let's replace that.
 
 #+begin_src emacs-lisp
-(setq org-ellipsis " ⤵")
+(setq org-ellipsis " ⮷")
 #+end_src
 
 But I find this is not particularly visible with my theme;
@@ -1803,6 +1803,32 @@ visual line. Let's undo that rebinding.
   (lambda ()
     (define-key org-mode-map "\C-k" 'kill-line)))
 #+end_src
+
+*** Emoticons
+
+I was using this package to add support for unicode emoticon characters,
+which did not display correctly otherwise (no font I had handled them?).
+Improving my unicode font support seems to be a better idea;
+in particular, one problem with ~emojify~ is it changes characters
+such as ~↔~ (left to right arrow) to emoticons, which I definitely do not want.
+#+begin_src emacs-lisp
+;;(use-package emojify)
+;;(add-hook 'after-init-hook #'global-emojify-mode)
+#+end_src
+
+Instead, it's best to just install fonts supporting the unicode characters
+I want. In particular, the Symbola font, which on Debian
+can be installed via the ~fonts-symbola~ package.
+
+:TODO: Look into more efficiently handling fallback fonts.
+It might be somewhat inefficient to leave it up to Emacs
+to search my system for appropriate fonts to display characters.
+See [[https://idiocy.org/emacs-fonts-and-fontsets.html]]
+and [[https://emacs.stackexchange.com/questions/17205/]].
+
+There's also this package to help with Unicode fonts,
+but it doesn't seem necessary for me.
+[[https://github.com/rolandwalker/unicode-fonts]]
 
 ** Automatically revert unchanged files which change on the disk
 
