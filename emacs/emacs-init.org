@@ -2007,6 +2007,13 @@ startup.
 )
 #+end_src
 
+** Smoother scrolling
+
+#+begin_src emacs-lisp
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+(setq mouse-wheel-progressive-speed t) ;; don't accelerate scrolling
+#+end_src
+
 * Other
 
 ** Run my custom “dropbox start” command to ensure dropbox is running on the system
