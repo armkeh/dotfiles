@@ -1709,6 +1709,13 @@ the screen on the current line.
 
 * Cosmetics
 
+** Fonts
+
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist
+             '(font . "Cousine-10"))
+#+end_src
+
 ** Themes
 
 I use the ~doom-nord~ themes,
