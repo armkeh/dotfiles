@@ -1282,6 +1282,80 @@ It is taken from [[https://www.djcbsoftware.nl/code/mu/mu4e/Compose-hooks.html#C
 (add-hook 'message-mode-hook 'turn-on-orgstruct++)
 #+end_src
 
+** COMMENT Email: ~notmuch~ (with isync)
+
+Build notmuch from [[https://github.com/notmuch/notmuch][source]]
+to get a recent version.
+
+#+begin_src emacs-lisp
+(require 'notmuch)
+#+end_src
+
+** COMMENT Email: ~gnus~
+
+This is taken from Musa's init, and complemented by information from
+[[https://www.emacswiki.org/emacs/GnusGmail][the Emacs wiki]].
+
+
+The below needs to be tangled to ~~/.gnus~.
+Note that ~user-full-name~ and ~user-mail-address~ need to be defined
+(they are above).
+#+begin_src emacs-lisp :tangle ~/.gnus
+;; user-full-name and user-mail-address should be defined
+
+(setq gnus-select-method
+      '(nnimap "gmail"
+               (nnimap-address "imap.gmail.com")
+               (nnimap-server-port "imaps")
+               (nnimap-stream ssl)))
+
+(setq smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 587
+      gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
+
+;; Make Gnus NOT ignore [Gmail] mailboxes
+(setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
+
+;; Reply with the same email address
+(setq gnus-posting-styles
+  '(((header "to" "markparmstrong@gmail.com")
+     (address "markparmstrong@gmail.com"))
+    ((header "to" "armstmp@mcmaster.ca")
+     (address "armstmp@mcmaster.ca"))
+    ((header "cc" "markparmstrong@gmail.com")
+     (address "markparmstrong@gmail.com"))
+    ((header "cc" "armstmp@mcmaster.ca")
+     (address "armstmp@mcmaster.ca"))))
+
+;; Newest emails first
+(setq gnus-thread-sort-functions
+  '(gnus-thread-sort-by-most-recent-number))
+
+;; DON'T invasively take over my whole Emacs frame, thank you very much…
+(setq gnus-use-full-window nil)
+
+;; Use GNUS topics to organise the groups list by topic
+(add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
+
+(setq gnus-topics-alist nil)
+
+;; Some eye candy
+(setq gnus-sum-thread-tree-vertical        "│"
+      gnus-sum-thread-tree-leaf-with-other "├─► "
+      gnus-sum-thread-tree-single-leaf     "╰─► "
+      gnus-summary-line-format
+      (concat
+       "%0{%U%R%z%}"
+       "%3{│%}" "%1{%d%}" "%3{│%}"
+       "  "
+       "%4{%-20,20f%}"
+       "  "
+       "%3{│%}"
+       " "
+       "%1{%B%}"
+       "%s\n"))
+#+end_src
+
 ** ~winner~ for saving and restoring window layouts
 
 #+begin_src emacs-lisp
