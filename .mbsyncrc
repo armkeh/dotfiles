@@ -52,7 +52,23 @@ Channel gmail-desk
   Slave :gmail-local:
   Patterns "Desk\*"
 
+Channel gmail-filing
+  Master :gmail-remote:
+  Slave :gmail-local:
+  Patterns "Filing\*"
+
+Channel gmail-longterm
+  Master :gmail-remote:
+  Slave :gmail-local:
+  Patterns "Longterm\*"
+  MaxMessages 10
+
 Group gmail-quick
   Channel gmail-inbox
   Channel gmail-desk
+
+Group gmail-rest
+  Channel gmail-sent
+  Channel gmail-filing
+  Channel gmail-longterm
   Channel gmail-trash

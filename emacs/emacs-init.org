@@ -1235,7 +1235,31 @@ this ensures that I get new emails fairly quickly.
       mu4e-headers-auto-update t)
 #+end_src
 
-:TODO: The larger group should be maintained by another process.
+This is a bit of a dumb asynchronous process to update the rest of
+the mailboxes. Dumb in the sense that if anything ever goes wrong,
+I won't know about it.
+#+begin_src emacs-lisp
+(start-process "mbsync-gmail-rest"
+               "*mbsync gmail-rest*"
+               "~/Dropbox/Organisation/setup/emacs/mbsync-gmail-rest")
+#+end_src
+It runs this shell process.
+#+begin_src shell :tangle mbsync-gmail-rest :shebang "#!/bin/bash"
+while :
+do
+  echo "Beginning sync"
+  date
+  mbsync gmail-rest
+  echo ""
+  echo "Indexing with mu"
+  mu index -m ~/.mail/gmail
+  echo "Ended sync, sleeping for 30m"
+  echo ""
+  echo ""
+  echo ""
+  sleep 30m
+done
+#+end_src
 
 ~mu4e~ has an annoying habit of hogging the minibuffer while
 updating and indexing; unfortunately this means I prefer

@@ -176,7 +176,29 @@ Channel gmail-desk
   Patterns "Desk\*"
 #+end_src
 
-** TODO Filing
+** Filing
+
+I do want to keep all of my filing folders synchronised,
+so ~MaxMessage~ is not set here.
+#+begin_src text
+Channel gmail-filing
+  Master :gmail-remote:
+  Slave :gmail-local:
+  Patterns "Filing\*"
+#+end_src
+
+** Longterm storage
+
+For longterm storage, we don't need many messages per folder;
+just keep 10, so that the folder exists (and we can move
+emails into it).
+#+begin_src text
+Channel gmail-longterm
+  Master :gmail-remote:
+  Slave :gmail-local:
+  Patterns "Longterm\*"
+  MaxMessages 10
+#+end_src
 
 ** TODO Drafts?
 
@@ -184,13 +206,18 @@ This requires some investigation; ~mu4e~ and Gmail may not “play nicely”
 in how they handle drafts. ~mu4e~ and ~mbsync~ together end up creating
 multiple versions of a draft, whereas Gmail keeps just one.
 
-** COMMENT Longterm storage
-
 * Groups
 
+The two groups are “quick”, which synchronises only the inbox and desk,
+and “rest”, which synchronises the rest.
 #+begin_src text
 Group gmail-quick
   Channel gmail-inbox
   Channel gmail-desk
+
+Group gmail-rest
+  Channel gmail-sent
+  Channel gmail-filing
+  Channel gmail-longterm
   Channel gmail-trash
 #+end_src
