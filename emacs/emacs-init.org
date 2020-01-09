@@ -1171,10 +1171,11 @@ I use Gmail exclusively, so the setup is small.
       smtpmail-smtp-service 465)
 #+end_src
 
+If needed, we can create a queue to allow for sending of email
+while offline. See
+[[https://www.gnu.org/software/emacs/manual/html_node/smtpmail/Queued-delivery.html][the documentation]].
 #+begin_src emacs-lisp
-;;set up queue for offline email
-;;use mu mkdir  ~/Maildir/acc/queue to set up first
-(setq smtpmail-queue-mail nil)  ;; start in normal mode
+;;(setq smtpmail-queue-mail nil)
 #+end_src
 
 After sending an email, kill the buffer.
@@ -1243,6 +1244,13 @@ to silence its updating and indexing messages.
 (setq mu4e-hide-index-messages t)
 #+end_src
 
+~mu/mu4e~ normally keeps the base filename the same when moving
+mail to a different folder; with isync, it works better to
+change the name. See the documentation of this variable.
+#+begin_src emacs-lisp
+(setq mu4e-change-filenames-when-moving t)
+#+end_src
+
 *** Viewing emails
 
 Show images by default, and prefer to use ~imagemagick~ to do so.
@@ -1293,15 +1301,20 @@ this shortcut.
 
 *** Message composition settings
 
+I don't use a signature.
 #+begin_src emacs-lisp
-(setq
-  mu4e-compose-signature-auto-include nil
-  mu4e-compose-format-flowed nil)
+(setq mu4e-compose-signature-auto-include nil)
+#+end_src
 
-;;rename files when moving
-;;NEEDED FOR MBSYNC
-(setq mu4e-change-filenames-when-moving t)
+Part of the reason I like to use Emacs is to feel more
+in control of my text layout; for that reason, I don't want
+my text to be reflowed.
+#+begin_src emacs-lisp
+(setq mu4e-compose-format-flowed nil)
+#+end_src
 
+It's convenient not to reply to myself by default.
+#+begin_src emacs-lisp
 (setq mu4e-compose-dont-reply-to-self t)
 #+end_src
 
