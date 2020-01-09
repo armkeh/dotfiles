@@ -1,0 +1,158 @@
+#+Title: My literate ~mbsyncrc~
+#+Author: Mark Armstrong
+#+Description: 
+#+Property: header-args :tangle .mbsyncrc
+
+* Introduction
+
+~mbsync~ synchronises local and remote mail directories.
+I use it as a backend for using Emacs as a mail client,
+since (at least most) Emacs mail clients do not fetch email.
+
+The basic idea of ~mbsync~ is that there are /stores/,
+which are collections of mailboxes and may be local or remote
+(local stores are directories on the local system)
+and /channels/ between stores.
+
+In addition, channels are gathered into groups;
+when synchronising, we can choose to synchronise all groups,
+or only specific ones.
+
+Herein I setup my local and remote store, define several channels,
+and group them into two groups. Each group is then set to be
+synchronised at different intervals; one frequently
+and the other just regularly.
+
+* Account details
+
+My Gmail account details.
+
+Notice the use of a password command, so that sensitive information is not
+stored here or elsewhere in plaintext.
+
+Of course, upon setting up a new system, the pass file needs to be recreated
+(I usually just get a new key each time, revoking the old key).
+
+#+begin_src text
+IMAPAccount gmail
+  Host imap.gmail.com
+  User markparmstrong@gmail.com
+  # Have to set this up upon migrating systems
+  PassCmd "gpg -q --for-your-eyes-only --no-tty -d ~/.mbsyncpass.gpg"
+  SSLType IMAPS
+  CertificateFile /etc/ssl/certs/ca-certificates.crt
+#+end_src
+
+* Stores
+
+For the moment, I only have two stores; my local system and my Gmail.
+
+** Local
+
+#+begin_src text
+# Local storage details
+MaildirStore gmail-local
+  # The trailing "/" on the path is important
+  Path ~/.mail/gmail/
+  Inbox ~/.mail/gmail/Inbox
+#+end_src
+
+** Gmail
+
+#+begin_src text
+IMAPStore gmail-remote
+  Account gmail
+#+end_src
+* Setting for all channels
+
+#+begin_src text
+# Automatically create missing mailboxes, both locally and on the server
+Create Both
+
+# Automatically expunge deleted emails both locally and on the server
+# Also handles expunging emails moved to different folders?
+Expunge Both
+
+# State is saved locally
+SyncState *
+#+end_src
+
+* Channels
+
+Here, it's important to understand how I organise my emails with Gmail.
+I try to practice “Inbox 0”, and so I organise emails into numerous folders.
+There are top level folders:
+- Desk
+  - Meant to invoke the idea that these emails are kept on my desk,
+    within easy reach, as they need to be followed up on soon or
+    referred to regularly.
+- Filing
+  - Meant to invoke the idea of a filing cabinet kept in my office;
+    not within immediate reach, but not very far away.
+    There are many levels of nesting here; it's intended to be deep,
+    but not too wide.
+- Longterm Storage
+  - Meant to invoke the idea of boxes stored out of the way.
+    There is very little or no nesting here; it's intended to be wide.
+
+I usually only need my inbox, drafts, sent mail and desk synchronised;
+filing is much less regularly needed, and longterm storage and trash are
+never needed (I can always look things up in Gmail's interface if need be).
+
+** Inbox, sent mail and trash
+
+Synchronise the entire inbox; I don't keep much in there.
+#+begin_src text
+Channel gmail-inbox
+  Master :gmail-remote:
+  Slave :gmail-local:
+  Patterns "INBOX"
+#+end_src
+
+It seems very unlikely I will ever need local access
+to even moderately old sent messages;
+I can check them remotely, and if I need to followup on such an old message,
+probably it is time to start a new thread (so replying to the original
+is not needed).
+#+begin_src text
+Channel gmail-sent
+  Master :gmail-remote:"[Gmail]/Sent Mail"
+  Slave :gmail-local:"Sent Mail"
+  MaxMessages 250
+#+end_src
+
+And I should never need more than 100 messages from my trash;
+honestly the only reason to synchronise it is to be able to recover
+messages that should not be in there locally
+(this would be very unlikely, as I don't actually delete much).
+#+begin_src text
+Channel gmail-trash
+  Master :gmail-remote:"[Gmail]/Trash"
+  Slave :gmail-local:"Trash"
+  MaxMessages 100
+#+end_src
+
+** TODO Desk
+
+All the folders under desk should be kept synchronised fully;
+ideally, not much piles up there.
+If it does in the future, I may have to reevaluate this decision.
+
+** TODO Filing
+
+** TODO Drafts?
+
+This requires some investigation; ~mu4e~ and Gmail may not “play nicely”
+in how they handle drafts. ~mu4e~ and ~mbsync~ together end up creating
+multiple versions of a draft, whereas Gmail keeps just one.
+
+** COMMENT Longterm storage
+
+* Groups
+
+#+begin_src text
+Group gmail-quick
+  Channel gmail-inbox
+  Channel gmail-desk
+  Channel gmail-trash
+#+end_src

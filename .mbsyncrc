@@ -1,0 +1,51 @@
+IMAPAccount gmail
+  Host imap.gmail.com
+  User markparmstrong@gmail.com
+  # Have to set this up upon migrating systems
+  PassCmd "gpg -q --for-your-eyes-only --no-tty -d ~/.mbsyncpass.gpg"
+  SSLType IMAPS
+  CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+# Local storage details
+MaildirStore gmail-local
+  # The trailing "/" on the path is important
+  Path ~/.mail/gmail/
+  Inbox ~/.mail/gmail/Inbox
+
+IMAPStore gmail-remote
+  Account gmail
+
+# Automatically create missing mailboxes, both locally and on the server
+Create Both
+
+# Automatically expunge deleted emails both locally and on the server
+# Also handles expunging emails moved to different folders?
+Expunge Both
+
+# State is saved locally
+SyncState *
+
+Channel gmail-inbox
+  Master :gmail-remote:
+  Slave :gmail-local:
+  Patterns "INBOX"
+
+Channel gmail-sent
+  Master :gmail-remote:"[Gmail]/Sent Mail"
+  Slave :gmail-local:"Sent Mail"
+  MaxMessages 250
+
+Channel gmail-trash
+  Master :gmail-remote:"[Gmail]/Trash"
+  Slave :gmail-local:"Trash"
+  MaxMessages 100
+
+Channel gmail-desk
+  Master :gmail-remote:
+  Slave :gmail-local:
+  Patterns "Desk\*"
+
+Group gmail-quick
+  Channel gmail-inbox
+  Channel gmail-desk
+  Channel gmail-trash
