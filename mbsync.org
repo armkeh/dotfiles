@@ -1,15 +1,18 @@
-#+Title: My literate ~mbsyncrc~
+#+Title: My literate iaync settings
 #+Author: Mark Armstrong
-#+Description: 
+#+Description: A literate setup for isync.
 #+Property: header-args :tangle .mbsyncrc
 
 * Introduction
 
-~mbsync~ synchronises local and remote mail directories.
+isync synchronises local and remote mail directories.
 I use it as a backend for using Emacs as a mail client,
 since (at least most) Emacs mail clients do not fetch email.
 
-The basic idea of ~mbsync~ is that there are /stores/,
+Do note that while the application is named isync, the executable
+was at some point renamed to ~mbsync~.
+
+The basic idea of isync is that there are /stores/,
 which are collections of mailboxes and may be local or remote
 (local stores are directories on the local system)
 and /channels/ between stores.
@@ -22,6 +25,41 @@ Herein I setup my local and remote store, define several channels,
 and group them into two groups. Each group is then set to be
 synchronised at different intervals; one frequently
 and the other just regularly.
+
+* Caveats
+
+This setup assumes (at least) isync 1.4.0, as earlier versions
+do not support subfolder settings we use
+(1.3.0 probably does, but 1.2.1 does not).
+
+At time of writing, to get isync 1.4.0 on Debian, you need
+to build from source, which can be found
+[[https://sourceforge.net/p/isync/isync/ci/master/tree/][here]].
+
+Note that, in order to set SSLType below, you may need to install the
+~libssl-dev~ and ~libsasl2-dev~ packages; see
+[[https://groups.google.com/forum/#!topic/mu-discuss/TCWZ_qd4MHw][this]]
+discussion.
+
+I believe you will also want to install ~libdb-dev~, based on the ~configure~
+script for isync.
+
+* Settings for all channels
+
+All of the settings here can be set or changed for particular
+channels, but it's more convenient to place globally (or nearly globally) used
+settings before the definition of any channel; they then become the default.
+#+begin_src text
+# Automatically create missing mailboxes, both locally and on the server
+Create Both
+
+# Automatically expunge deleted emails both locally and on the server
+# Also handles expunging emails moved to different folders?
+Expunge Both
+
+# State is saved locally
+SyncState *
+#+end_src
 
 * Account details
 
@@ -37,7 +75,6 @@ Of course, upon setting up a new system, the pass file needs to be recreated
 IMAPAccount gmail
   Host imap.gmail.com
   User markparmstrong@gmail.com
-  # Have to set this up upon migrating systems
   PassCmd "gpg -q --for-your-eyes-only --no-tty -d ~/.mbsyncpass.gpg"
   SSLType IMAPS
   CertificateFile /etc/ssl/certs/ca-certificates.crt
@@ -55,6 +92,7 @@ MaildirStore gmail-local
   # The trailing "/" on the path is important
   Path ~/.mail/gmail/
   Inbox ~/.mail/gmail/Inbox
+  SubFolders Verbatim
 #+end_src
 
 ** Gmail
@@ -62,19 +100,6 @@ MaildirStore gmail-local
 #+begin_src text
 IMAPStore gmail-remote
   Account gmail
-#+end_src
-* Setting for all channels
-
-#+begin_src text
-# Automatically create missing mailboxes, both locally and on the server
-Create Both
-
-# Automatically expunge deleted emails both locally and on the server
-# Also handles expunging emails moved to different folders?
-Expunge Both
-
-# State is saved locally
-SyncState *
 #+end_src
 
 * Channels
@@ -132,11 +157,17 @@ Channel gmail-trash
   MaxMessages 100
 #+end_src
 
-** TODO Desk
+** Desk
 
 All the folders under desk should be kept synchronised fully;
 ideally, not much piles up there.
 If it does in the future, I may have to reevaluate this decision.
+#+begin_src text
+Channel gmail-desk
+  Master :gmail-remote:
+  Slave :gmail-local:
+  Patterns "Desk\*"
+#+end_src
 
 ** TODO Filing
 
