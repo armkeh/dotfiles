@@ -1003,6 +1003,14 @@ of the document.
 (require 'org-inlinetask)
 #+end_src
 
+** Org struct mode
+
+Org struct mode lets us use Org-style document folding
+in other modes.
+#+begin_src emacs-lisp
+(add-hook 'agda2-mode 'turn-on-orgstruct++)
+#+end_src
+
 ** ~pdf-tools~
 
 #+begin_src emacs-lisp
