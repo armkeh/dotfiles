@@ -50,14 +50,21 @@ All of the settings here can be set or changed for particular
 channels, but it's more convenient to place globally (or nearly globally) used
 settings before the definition of any channel; they then become the default.
 #+begin_src text
-# Automatically create missing mailboxes, both locally and on the server
+# Propogate mailbox creation both ways.
 Create Both
 
-# Automatically expunge deleted emails both locally and on the server
-# Also handles expunging emails moved to different folders?
+# Propogate mailbox deletion from the server to the local machine.
+# This will only remove empty mailboxes.
+# Don't go the other way, for safety.
+Remove Slave
+
+# Automatically expunge deleted emails both locally and on the server.
+# By the recommendations in the isync man page, we turn this on.
 Expunge Both
 
-# State is saved locally
+# The state of mailboxes is saved to the mailboxes themselves.
+# This means we do not have to manually clean up
+# the states when removing mailboxes.
 SyncState *
 #+end_src
 
