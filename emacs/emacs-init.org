@@ -1253,6 +1253,27 @@ change the name. See the documentation of this variable.
 
 *** Viewing emails
 
+**** Email list
+
+This controls the information shown in the email lists.
+- ~:human-date~ will show the time if the email was sent today
+  (the alternative, ~:date~, would not).
+- ~:from-or-to~ is a special field that will show the sender if it was not me;
+  otherwise it will show the recipient.
+#+begin_src emacs-lisp
+(setq mu4e-headers-fields
+    '( (:date       . 22)
+       (:flags      . 4)
+       (:from-or-to . 22)
+       (:subject    . nil)))
+#+end_src
+
+#+begin_src emacs-lisp
+(setq mu4e-headers-date-format "%d %b/%y, %a, %R")
+#+end_src
+
+**** Individual mail
+
 Show images by default, and prefer to use ~imagemagick~ to do so.
 #+begin_src emacs-lisp
 (setq mu4e-view-show-images t)
