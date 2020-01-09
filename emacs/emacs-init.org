@@ -1144,7 +1144,7 @@ is taken directly from the ~dired-single~ [[https://github.com/crocket/dired-sin
 (use-package magit)
 #+end_src
 
-** Email: ~mu4e~ (with ~mbsync~)
+** Email: ~mu4e~ (with isync)
 
 Using Emacs as an email client provides us with powerful text editing
 while composing email.
@@ -1162,19 +1162,34 @@ to set it up.
 
 #+begin_src emacs-lisp
 (setq
-  mu4e-maildir       "~/.mail/"
-  mu4e-sent-folder   "/gmail/Sent Mail"
+  mu4e-maildir       "~/.mail"
   mu4e-drafts-folder "/gmail/Drafts"
-  mu4e-trash-folder  "/gmail/Trash"
-  mu4e-refile-folder "/gmail/Archive")
+  mu4e-sent-folder   "/gmail/Sent Mail"
+  mu4e-trash-folder  "/gmail/Trash")
+#+end_src
 
+I have two groups set up in my ~mbsyncrc~; one smaller group
+which synchronises quickly, and one larger one.
+A system process synchronises the larger group somewhat regularly;
+the smaller group should be synchronised frequently by Emacs.
+#+begin_src emacs-lisp
 ; get mail
-(setq mu4e-get-mail-command "mbsync -a"
-  mu4e-view-prefer-html t
-  mu4e-update-interval 180
-  mu4e-headers-auto-update t
+(setq mu4e-get-mail-command "mbsync gmail-quick"
+  mu4e-update-interval 60
+  mu4e-headers-auto-update t)
+#+end_src
+
+#+begin_src emacs-lisp
+(setq
   mu4e-compose-signature-auto-include nil
-  mu4e-compose-format-flowed t)
+  mu4e-compose-format-flowed nil
+    mu4e-view-prefer-html nil)
+
+;; Handy shortcuts for jumping
+(setq mu4e-maildir-shortcuts
+    '( ("/Inbox"               . ?i)
+       ("/Sent Mail"   . ?s)
+       ("/Trash"       . ?t)))
 
 ;; enable inline images
 (setq mu4e-view-show-images t)
