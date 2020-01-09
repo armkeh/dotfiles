@@ -1216,10 +1216,10 @@ Note that there should be an archive box here, but I don't make
 use of an archive mailbox.
 #+begin_src emacs-lisp
 (setq
-  mu4e-maildir       "~/.mail"
-  mu4e-drafts-folder "/gmail/Drafts"
-  mu4e-sent-folder   "/gmail/Sent Mail"
-  mu4e-trash-folder  "/gmail/Trash")
+  mu4e-maildir       "~/.mail/gmail"
+  mu4e-drafts-folder "/Drafts"
+  mu4e-sent-folder   "/Sent Mail"
+  mu4e-trash-folder  "/Trash")
 #+end_src
 
 I use isync (whose executable is called ~mbsync~) to manage
@@ -1294,9 +1294,14 @@ this shortcut.
 
 #+begin_src emacs-lisp
 (setq mu4e-maildir-shortcuts
-    '( ("/Inbox"               . ?i)
-       ("/Sent Mail"   . ?s)
-       ("/Trash"       . ?t)))
+    '(("/Inbox"     . ?i)
+      ("/Sent Mail" . ?s)
+      ("/Trash"     . ?t)
+      ("/Desk/1-Imminent"    . ?I)
+      ("/Desk/1-Short term"  . ?S)
+      ("/Desk/3-Reference"   . ?R)
+      ("/Desk/4-Medium term" . ?M)
+      ("/Desk/5-Long term"   . ?L)))
 #+end_src
 
 *** Message composition settings
