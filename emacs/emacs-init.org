@@ -1152,22 +1152,67 @@ is taken directly from the ~dired-single~ [[https://github.com/crocket/dired-sin
 (use-package magit)
 #+end_src
 
-** Email: ~mu4e~ (with isync)
+** Sending email: ~send-mail~
+
+Whether or not you use Emacs to read your email,
+you can use it to send emails with the builtin ~send-mail~.
+It can be configured to use your OS default for sending email
+(for instance, through a mail program or browser),
+or configured to send mail itself (for instance via SMTP).
+For convenience, I choose the latter.
+
+I use Gmail exclusively, so the setup is small.
+#+begin_src emacs-lisp
+(require 'smtpmail)
+
+(setq send-mail-function    'smtpmail-send-it
+      smtpmail-smtp-server  "smtp.gmail.com"
+      smtpmail-stream-type  'ssl
+      smtpmail-smtp-service 465)
+#+end_src
+
+#+begin_src emacs-lisp
+;;set up queue for offline email
+;;use mu mkdir  ~/Maildir/acc/queue to set up first
+(setq smtpmail-queue-mail nil)  ;; start in normal mode
+#+end_src
+
+After sending an email, kill the buffer.
+#+begin_src emacs-lisp
+(setq message-kill-buffer-on-exit t)
+#+end_src
+
+*** Sending HTML mail
+
+I usually prefer to send plaintext email, but if I want to send
+HTML for any reason, that can be done from Emacs as well.
+
+~org-mime~ allows sending of HTML emails written in Org markdown;
+I don't use it yet, as I only send plaintext, but it may be handy later.
+#+begin_src emacs-lisp
+(use-package org-mime)
+#+end_src
+
+** Reading email: ~mu4e~ (with isync)
 
 Using Emacs as an email client provides us with powerful text editing
 while composing email.
 
-*** Basic setup
-I've follow the guide
-[[https://www.reddit.com/r/emacs/comments/bfsck6/mu4e_for_dummies/][here]]
-to set it up.
+I initially followed the guide
+[[https://www.reddit.com/r/emacs/comments/bfsck6/mu4e_for_dummies/][from this reddit post]]
+to set it up, but I've customised things heavily at this point.
 
 #+begin_src emacs-lisp
-(use-package org-mime)
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e/")
 (require 'mu4e)
 #+end_src
 
+*** Basic setup
+
+~mu4e~ needs to know where my mail directory lives,
+and the paths of certain important mailboxes relative to that.
+Note that there should be an archive box here, but I don't make
+use of an archive mailbox.
 #+begin_src emacs-lisp
 (setq
   mu4e-maildir       "~/.mail"
@@ -1176,72 +1221,99 @@ to set it up.
   mu4e-trash-folder  "/gmail/Trash")
 #+end_src
 
+I use isync (whose executable is called ~mbsync~) to manage
+my local mail directory.
 I have two groups set up in my ~mbsyncrc~; one smaller group
-which synchronises quickly, and one larger one.
-A system process synchronises the larger group somewhat regularly;
-the smaller group should be synchronised frequently by Emacs.
+which synchronises with the remote quickly, and one larger one.
+I make ~mu4e~ responsible for synchronising the smaller group regularly;
+this ensures that I get new emails fairly quickly.
 #+begin_src emacs-lisp
 ; get mail
 (setq mu4e-get-mail-command "mbsync gmail-quick"
-  mu4e-update-interval 60
-  mu4e-headers-auto-update t)
+      mu4e-update-interval 60
+      mu4e-headers-auto-update t)
 #+end_src
 
-#+begin_src emacs-lisp
-(setq
-  mu4e-compose-signature-auto-include nil
-  mu4e-compose-format-flowed nil
-    mu4e-view-prefer-html nil)
+:TODO: The larger group should be maintained by another process.
 
-;; Handy shortcuts for jumping
+~mu4e~ has an annoying habit of hogging the minibuffer while
+updating and indexing; unfortunately this means I prefer
+to silence its updating and indexing messages.
+#+begin_src emacs-lisp
+(setq mu4e-hide-index-messages t)
+#+end_src
+
+*** Viewing emails
+
+Show images by default, and prefer to use ~imagemagick~ to do so.
+#+begin_src emacs-lisp
+(setq mu4e-view-show-images t)
+
+(when (fboundp 'imagemagick-register-types)
+  (imagemagick-register-types))
+#+end_src
+
+Attachments can simply be placed in ~~/Downloads~;
+I usually share this directory from ChromeOS, which makes it convenient
+to put attachments there (so I can open them in both OSes easily).
+#+begin_src emacs-lisp
+(setq mu4e-attachment-dir  "~/Downloads")
+#+end_src
+
+Show full email addresses when viewing messages.
+#+begin_src emacs-lisp
+(setq mu4e-view-show-addresses 't)
+#+end_src
+
+**** HTML support
+
+Emacs is not the ideal environment to read HTML emails;
+for that reason, if there is a plaintext version available,
+I prefer to see that first.
+#+begin_src emacs-lisp
+(setq mu4e-view-prefer-html nil)
+#+end_src
+
+If there is no plaintext available, or if the plaintext is unbearable
+for any reason, we can open emails in the browser by using
+this shortcut.
+#+begin_src emacs-lisp
+(add-to-list 'mu4e-view-actions
+  '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+#+end_src
+
+*** Shortcuts to mailboxes
+
+#+begin_src emacs-lisp
 (setq mu4e-maildir-shortcuts
     '( ("/Inbox"               . ?i)
        ("/Sent Mail"   . ?s)
        ("/Trash"       . ?t)))
+#+end_src
 
-;; enable inline images
-(setq mu4e-view-show-images t)
-;; use imagemagick, if available
-(when (fboundp 'imagemagick-register-types)
-  (imagemagick-register-types))
+*** Message composition settings
 
-(require 'smtpmail)
-
-;; Added Nov. 19 2019, since email was not sending correctly
-(setq send-mail-function    'smtpmail-send-it
-      smtpmail-smtp-server  "smtp.gmail.com"
-      smtpmail-stream-type  'ssl
-      smtpmail-smtp-service 465)
+#+begin_src emacs-lisp
+(setq
+  mu4e-compose-signature-auto-include nil
+  mu4e-compose-format-flowed nil)
 
 ;;rename files when moving
 ;;NEEDED FOR MBSYNC
 (setq mu4e-change-filenames-when-moving t)
 
-;;set up queue for offline email
-;;use mu mkdir  ~/Maildir/acc/queue to set up first
-(setq smtpmail-queue-mail nil)  ;; start in normal mode
-
-;;from the info manual
-(setq mu4e-attachment-dir  "~/Downloads")
-
-(setq message-kill-buffer-on-exit t)
 (setq mu4e-compose-dont-reply-to-self t)
-
-(require 'org-mu4e)
-
-;; convert org mode to HTML automatically
-(setq org-mu4e-convert-to-html t)
-
-;;from vxlabs config
-;; show full addresses in view message (instead of just names)
-;; toggle per name with M-RET
-(setq mu4e-view-show-addresses 't)
-
-;; don't ask when quitting
-(setq mu4e-confirm-quit nil)
 #+end_src
 
-*** Changing the ~From~ address automatically
+**** HTML support (nothing to see here)
+
+Note that there is a ~org-mu4e~ package that comes with ~mu4e~,
+which would allow for sending HTML email using ~mu4e~,
+but it is apparently depricated.
+The ~org-mime~ package above is probably the correct path
+if I ever want to send HTML emails.
+
+**** Changing the ~From~ address automatically
 
 I use my personal Gmail to collect all of my emails,
 but when replying I like to send back from whichever
@@ -1250,21 +1322,25 @@ This hook updates the ~From~ field when replying to
 an email sent to one of my other accounts.
 It is taken from [[https://www.djcbsoftware.nl/code/mu/mu4e/Compose-hooks.html#Compose-hooks][the ~mu4e~ documentation]].
 #+begin_src emacs-lisp
-;; 1) messages to me@foo.example.com should be replied with From:me@foo.example.com
-;; 2) messages to me@bar.example.com should be replied with From:me@bar.example.com
-;; 3) all other mail should use From:me@cuux.example.com
 (add-hook 'mu4e-compose-pre-hook
   (defun my-set-from-address ()
     "Set the From address based on the To address of the original."
-    (let ((msg mu4e-compose-parent-message)) ;; msg is shorter...
+    (let ((msg mu4e-compose-parent-message))
       (when msg
-	(setq user-mail-address
-	  (cond
-	    ((mu4e-message-contact-field-matches msg :to "armstmp@mcmaster.ca")
-	      "armstmp@mcmaster.ca")
-	    (t "markparmstrong@gmail.com")))))))
+        (setq user-mail-address
+          (cond
+             ((mu4e-message-contact-field-matches msg :to "armstmp@mcmaster.ca")
+               "armstmp@mcmaster.ca")
+             ((mu4e-message-contact-field-matches msg :cc "armstmp@mcmaster.ca")
+               "armstmp@mcmaster.ca")
+             (t
+               "markparmstrong@gmail.com")))))))
 #+end_src
 
+***** COMMENT My own attempt to make this
+
+Before finding the above, I had attempted to code this utility
+myself; I preserve it here.
 #+begin_example emacs-lisp
 (add-hook 'mu4e-compose-mode-hook
   (lambda ()
@@ -1277,20 +1353,21 @@ It is taken from [[https://www.djcbsoftware.nl/code/mu/mu4e/Compose-hooks.html#C
       (goto-line start-line)))) ; restore current line
 #+end_example
 
-*** Viewing HTML mail in browser
-
-#+begin_src emacs-lisp
-(add-to-list 'mu4e-view-actions
-  '("ViewInBrowser" . mu4e-action-view-in-browser) t)
-#+end_src
-
 *** Enabling Org-like folding in email composition
 
+:TODO: this doesn't work yet?
 #+begin_src emacs-lisp
 (add-hook 'message-mode-hook 'turn-on-orgstruct++)
 #+end_src
 
-** COMMENT Email: ~notmuch~ (with isync)
+*** Miscellaneous
+
+Don't prompt me upon quitting ~mu4e~.
+#+begin_src emacs-lisp
+(setq mu4e-confirm-quit nil)
+#+end_src
+
+** COMMENT Reading email: ~notmuch~ (with isync)
 
 Build notmuch from [[https://github.com/notmuch/notmuch][source]]
 to get a recent version.
@@ -1299,7 +1376,7 @@ to get a recent version.
 (require 'notmuch)
 #+end_src
 
-** COMMENT Email: ~gnus~
+** COMMENT Reading email: ~gnus~
 
 This is taken from Musa's init, and complemented by information from
 [[https://www.emacswiki.org/emacs/GnusGmail][the Emacs wiki]].
