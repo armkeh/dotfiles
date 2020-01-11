@@ -360,6 +360,8 @@ Note there do exist several other solutions for this, such as ~mmm~;
 
 [[https://polymode.github.io/][Read the docs!]]
 
+**** The ~poly-lagda-org-mode~
+
 Org is our hostmode.
 #+begin_src emacs-lisp
 (define-hostmode poly-lagda-org-hostmode
@@ -390,10 +392,56 @@ Finally, add our new mode to the auto mode list.
 
 It's that easy!
 
-:TODO: Stop Agda's syntax highlighting from “spilling”.
-In literate Agda files, Agda will highlight all code outside of code blocks
-as comments upon typechecking. Ideally we should stop it from doing so here;
-otherwise we get all the functionality of Org, but lose its syntax highlighting!
+**** Don't remove Org highlighting on typecheck
+
+Agda's highlighting mode makes use of ~annotate~ to apply syntax highlighting
+throughout the buffer, including the literate portion,
+which ~agda2-highlight~ identifies as “background”.
+Older versions of Agda would highlight the background using
+~font-lock-comment-face~ (so as comments).
+Newer versions (since
+[[https://github.com/agda/agda/commit/8bee8727fff1a87c708c28b02edc38931c91f1fb#diff-4b761ced0541ba9fd4efbe58fd37ba7f][this]]
+commit) simply apply Emacs' default face.
+
+Since we're using Org mode for the literate portion,
+we don't want Agda's highlighting to apply any annotation there.
+We can achieve this by simply removing the setting for background
+from the Agda highlight faces attribute list.
+#+begin_src emacs-lisp
+(assq-delete-all 'background agda2-highlight-faces)
+#+end_src
+
+**** Toggling Org indentation
+
+Agda relies upon indentation syntactically,
+to delimit definitions of modules, records, etc.
+
+I usually have Org indentation turned on, so that
+nested heading are further indented
+(softly; there's no actual whitespace being inserted).
+
+This can make Agda code difficult to read,
+and further, Agda can occasionally “mess this up”;
+for instance, when restarting the Agda process,
+it undoes this soft indentation for some reason.
+
+In any case, it's useful to have a toggle keybinding.
+See my [[Key bindings]].
+
+**** TODO Some TODOs
+
+- Enable Agda loading, and more generally all the agda keybindings,
+  anywhere in .lagda.org files.
+  - At least the important ones that don't obviously clash with Org bindings.
+  - I've tried loading via ~M-x agda2-load~ from the Org portion,
+    and it works (yay!), but it loses the Agda syntax highlighting?
+- To enable monolith ~.lagda.org~ files
+  (large literate files which tangle several individual clean source files),
+  we need a way to strip one level of indentation after tangling.
+  - Actually it's not /needed/; Agda does allow the contents
+    of the toplevel module (so, the remainder of the file)
+    to be indented; but it breaks /convention/.
+
 
 ** Other programming languages
 
