@@ -347,6 +347,54 @@ TODO
        (lambda () (set-input-method "Agda")))
 #+end_src
 
+*** Working in ~.lagda.org~ files using ~Polymode~
+
+~polymode~ allows us to use more than one major mode in a buffer,
+something usually impossible in Emacs.
+Note there do exist several other solutions for this, such as ~mmm~;
+~polymode~ seemed the best candidate for what I want during my
+(admittedly rather brief) search for solutions.
+#+begin_src emacs-lisp
+(use-package polymode)
+#+end_src
+
+[[https://polymode.github.io/][Read the docs!]]
+
+Org is our hostmode.
+#+begin_src emacs-lisp
+(define-hostmode poly-lagda-org-hostmode
+  :mode 'org-mode)
+#+end_src
+
+Agda is our inner mode, delimited by Org source blocks.
+#+begin_src emacs-lisp
+(define-innermode poly-lagda-org-innermode
+  :mode 'agda2-mode
+  :head-matcher "#\\+begin_src agda2\n"
+  :tail-matcher "#\\+end_src\n"
+  :head-mode 'host ;; Use Org for the head and tail delimiters
+  :tail-mode 'host)
+#+end_src
+
+Now we define the polymode using the above host and inner modes.
+#+begin_src emacs-lisp
+(define-polymode poly-lagda-org-mode
+  :hostmode 'poly-lagda-org-hostmode
+  :innermodes '(poly-lagda-org-innermode))
+#+end_src
+
+Finally, add our new mode to the auto mode list.
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.lagda.org" . poly-lagda-org-mode))
+#+end_src
+
+It's that easy!
+
+:TODO: Stop Agda's syntax highlighting from “spilling”.
+In literate Agda files, Agda will highlight all code outside of code blocks
+as comments upon typechecking. Ideally we should stop it from doing so here;
+otherwise we get all the functionality of Org, but lose its syntax highlighting!
+
 ** Other programming languages
 
 *** Racket
