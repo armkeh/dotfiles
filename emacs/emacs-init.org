@@ -186,7 +186,6 @@ builtin face colours to improve portability across themes.
 ** ~agda~ mode
 
 We need Emacs to locate Agda mode. This command is put in ~.emacs~
-
 #+begin_src emacs-lisp
 (load-file (let ((coding-system-for-read 'utf-8))
                 (shell-command-to-string "agda-mode locate")))
@@ -347,12 +346,12 @@ TODO
        (lambda () (set-input-method "Agda")))
 #+end_src
 
-*** Working in ~.lagda.org~ files using ~Polymode~
+*** Working in ~.lagda.org~ files using Polymode
 
-~polymode~ allows us to use more than one major mode in a buffer,
+Polymode allows us to use more than one major mode in a buffer,
 something usually impossible in Emacs.
-Note there do exist several other solutions for this, such as ~mmm~;
-~polymode~ seemed the best candidate for what I want during my
+Note there do exist several other solutions for this, such as MMM;
+Polymode seemed the best candidate for what I want during my
 (admittedly rather brief) search for solutions.
 #+begin_src emacs-lisp
 (use-package polymode)
@@ -374,9 +373,24 @@ Agda is our inner mode, delimited by Org source blocks.
   :mode 'agda2-mode
   :head-matcher "#\\+begin_src agda2\n"
   :tail-matcher "#\\+end_src\n"
-  :head-mode 'host ;; Use Org for the head and tail delimiters
-  :tail-mode 'host)
+  :head-mode 'agda2-mode
+  :tail-mode 'agda2-mode)
+
+  ;; Don't use Polymode's indent line dispatcher,
+  ;; as it results in unexpected indentation on newlines.
+
+;; This worked in the polymode declaration to change the setting
+;; in the org part. It doesn't work above.
+;;  (setq indent-line-function #'indent-relative)
 #+end_src
+The “head” and “tail” (the source block delimiters)
+seem to need to be in Agda mode, or Agda's highlighting
+will be undone upon editing the code
+(I assume because if they're handled by Org,
+Agda doesn't “see” the delimiters,
+and it assumes we're not inside an Agda code block).
+
+:TODO: are there any detriments to the code delimiters not being in Org mode?
 
 Now we define the polymode using the above host and inner modes.
 #+begin_src emacs-lisp
@@ -391,6 +405,7 @@ Finally, add our new mode to the auto mode list.
 #+end_src
 
 It's that easy!
+Though there are a few caveats we need to address below.
 
 **** Don't remove Org highlighting on typecheck
 
@@ -410,6 +425,19 @@ from the Agda highlight faces attribute list.
 #+begin_src emacs-lisp
 (assq-delete-all 'background agda2-highlight-faces)
 #+end_src
+
+**** Proper ~newline~ behaviour in the Agda inner mode
+
+Polymode introduces an “indent line dispatcher”,
+simply called ~pm-indent-line-dispatcher~.
+Unfortunately, this dispatcher does not provide the
+expected indentation behaviour in Agda mode
+(though does seem to take the inner mode into consideration;
+I don't know what the exact reason for the unexpected behaviour is).
+
+~pm-indent-line-dispatcher~ is being invoked in our Polymode
+because it is the setting for ~indent-line-function~;
+
 
 **** Toggling Org indentation
 
@@ -441,7 +469,6 @@ See my [[Key bindings]].
   - Actually it's not /needed/; Agda does allow the contents
     of the toplevel module (so, the remainder of the file)
     to be indented; but it breaks /convention/.
-
 
 ** Other programming languages
 
@@ -974,6 +1001,12 @@ PlantUML requires we set the path to the ~.jar~ file.
 (setq org-plantuml-jar-path "/usr/share/java/plantuml.jar")
 #+end_src
 
+It's convenient to have ~<tab>~ act as it would in the source language
+when editing code blocks.
+#+begin_src emacs-lisp
+;;(setq org-src-tab-acts-natively t)
+#+end_src
+
 *** Cosmetics
 
 **** Indent text based on heading by default
@@ -1300,7 +1333,7 @@ I initially followed the guide
 to set it up, but I've customised things heavily at this point.
 
 #+begin_src emacs-lisp
-(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e/")
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 (require 'mu4e)
 #+end_src
 
@@ -1873,6 +1906,15 @@ into one (conceptual) category: “window”, prefix ~w~.
             :which-key "“Minimise” window")
   "+"     '((lambda () (interactive) (enlarge-window 999))
             :which-key "“Maximise”  window")
+
+  "o"   '(:ignore t
+          :which-key "Org cosmetics")
+  "o i"   '(:ignore t
+            :which-key "Org indent")
+  "o i y" '((lambda () (interactive) (org-indent-mode 1))
+            :which-key "Org indent yes")
+  "o i n" '((lambda () (interactive) (org-indent-mode 0))
+            :which-key "Org indent no")
 )
 #+end_src
 
@@ -1970,7 +2012,7 @@ and toggle between the non-~light~ and ~light~ variants.
 
 (load-theme 'doom-nord t)
 
-(setq my-dark-theme 'doom-nord)
+(setq my-dark-theme 'doom-vibrant)
 (setq my-light-theme 'doom-nord-light)
 
 (defun disable-all-custom-themes ()
