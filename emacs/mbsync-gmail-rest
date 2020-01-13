@@ -1,0 +1,15 @@
+#!/bin/bash
+while :
+do
+  echo "Beginning sync"
+  date
+  mbsync gmail-rest
+  echo ""
+  echo "Indexing with mu"
+  mu index -m ~/.mail/gmail
+  echo "Ended sync, sleeping for 30m"
+  echo ""
+  echo ""
+  echo ""
+  sleep 30m
+done
