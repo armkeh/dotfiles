@@ -2,7 +2,7 @@
 <!-- IT SHOULD NOT BE MODIFIED DIRECTLY. -->
 
 
-this This repository contains the files that make up my Emacs setup.
+This repository contains the files that make up my Emacs setup.
 
 For the moment, that is my (literate) Emacs initialisation file and my
 `yankpad` file of snippets.
@@ -16,6 +16,13 @@ understanding in the future and for sharing with others.
 
 I'm following [Musa Alhassy's](https://alhassy.github.io/init/) example
 using an `org` file for this.
+
+### About me
+
+``` commonlisp
+(setq user-full-name "Mark Armstrong")
+(setq user-mail-address "markparmstrong@gmail.com")
+```
 
 ### Setting up `.emacs` to use this code
 
@@ -172,17 +179,20 @@ face colours to improve portability across themes.
         (blue   `(face-attribute 'link    :foreground))
         (yellow `(face-attribute 'warning :foreground)))
   (concat
-  (propertize "┌─["                 'face green)
+  (propertize "┌—["             'face green)
   (propertize (user-login-name)     'face red)
-  (propertize "@"                   'face green)
-  (propertize (system-name)         'face blue)
+  (propertize "@"                   'face blue)
+  (propertize (system-name)         'face red)
+  (propertize "]──["                'face green)
+  (propertize (format-time-string "%a %b %d" (current-time)) 'face yellow)
   (propertize "]──["                'face green)
   (propertize (format-time-string "%H:%M" (current-time)) 'face yellow)
-  (propertize "]──["                'face green)
-  (propertize (concat (eshell/pwd)) 'face white)
   (propertize "]\n"                 'face green)
-  (propertize "└─>"                 'face green)
-  (propertize (if (= (user-uid) 0) " # " " $ ") 'face green))
+  (propertize "│ "                  'face green)
+  (propertize (concat (eshell/pwd)) 'face blue)
+  (propertize "\n"                 'face green)
+  (propertize "└─►"                 'face green)
+  (propertize (if (= (user-uid) 0) " # " " $ ") 'face white))
 )))
 ```
 
@@ -196,7 +206,8 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
 ```
 
 These packages are installed when setting up Agda, so I simply `require`
-them.
+them. :TODO: is this required because I am activating Agda input mode
+everywhere?
 
 ``` commonlisp
 (require 'agda-input)
@@ -283,9 +294,20 @@ them.
         (add-to-list 'agda-input-user-translations '("}" "｝"))
         (add-to-list 'agda-input-user-translations '("{" "⁅"))
         (add-to-list 'agda-input-user-translations '("}" "⁆"))
+        (add-to-list 'agda-input-user-translations '("..." "…"))
         ```
     
-    2.  Correct mistakes on subscripts/superscripts
+    2.  Arrows
+        
+        ``` commonlisp
+        (add-to-list 'agda-input-user-translations '("into" "↪"))
+        (add-to-list 'agda-input-user-translations '("onto" "↠"))
+        (add-to-list 'agda-input-user-translations '("conv" "↓"))
+        (add-to-list 'agda-input-user-translations '("=v" "⇓"))
+        (add-to-list 'agda-input-user-translations '("eval" "⇓"))
+        ```
+    
+    3.  Correct mistakes on subscripts/superscripts
         
         I often accidentally hold the shift key for too long when
         entering subscripts and superscripts; these translations account
@@ -314,7 +336,28 @@ them.
         (add-to-list 'agda-input-user-translations '("_)" "₀"))
         ```
     
-    3.  Activate the new additions
+    4.  Emoticons
+        
+        ``` commonlisp
+        (add-to-list 'agda-input-user-translations '(":)" "😀"))
+        (add-to-list 'agda-input-user-translations '(":D" "😁"))
+        ```
+        
+        😁
+    
+    5.  Calccheck
+        
+        TODO
+    
+    6.  Other
+        
+        ``` commonlisp
+        (add-to-list 'agda-input-user-translations '("op" "⊕"))
+        (add-to-list 'agda-input-user-translations '("^<" "﹤"))
+        (add-to-list 'agda-input-user-translations '("powset" "℘"))
+        ```
+    
+    7.  Activate the new additions
         
         ``` commonlisp
         (agda-input-setup)
@@ -329,9 +372,130 @@ them.
            (lambda () (set-input-method "Agda")))
     ```
 
+5.  Working in `.lagda.org` files using Polymode
+    
+    Polymode allows us to use more than one major mode in a buffer,
+    something usually impossible in Emacs. Note there do exist several
+    other solutions for this, such as MMM; Polymode seemed the best
+    candidate for what I want during my (admittedly rather brief) search
+    for solutions.
+    
+    ``` commonlisp
+    (use-package polymode)
+    ```
+    
+    [Read the docs](https://polymode.github.io/)\!
+    
+    1.  Org-Agda mode
+        
+        Org is our hostmode.
+        
+        ``` commonlisp
+        (define-hostmode poly-org-agda-hostmode
+          :mode 'org-mode
+          :keep-in-mode 'host
+          ;; Disable font-lock-mode, which interferes with Agda annotations.
+          ;; Unfortunately we lose Org mode highlighting then.
+          :init-functions '((lambda (_) (font-lock-mode 0))))
+        ```
+        
+        Agda is our inner mode, delimited by Org source blocks.
+        
+        ``` commonlisp
+        (define-innermode poly-org-agda-innermode
+          :mode 'agda2-mode
+          :head-matcher "#\\+begin_src agda2\n"
+          :tail-matcher "#\\+end_src\n"
+          :head-mode 'org-mode
+          :tail-mode 'org-mode
+          ;; Disable font-lock-mode, which interferes with Agda annotations,
+          ;; and undo the change to indent-line-function Polymode makes.
+          :init-functions '((lambda (_) (font-lock-mode 0))
+                            (lambda (_) (setq indent-line-function #'indent-relative))))
+        ```
+        
+        Now we define the polymode using the above host and inner modes.
+        
+        ``` commonlisp
+        (define-polymode poly-org-agda-mode
+          :hostmode 'poly-org-agda-hostmode
+          :innermodes '(poly-org-agda-innermode))
+        ```
+        
+        Finally, add our new mode to the auto mode list.
+        
+        ``` commonlisp
+        (add-to-list 'auto-mode-alist '("\\.lagda.org" . poly-org-agda-mode))
+        ```
+    
+    2.  <span class="todo TODO">TODO</span> Don't remove Org
+        highlighting on typecheck
+        
+        Agda's highlighting mode makes use of `annotate` to apply syntax
+        highlighting throughout the buffer, including the literate
+        portion, which `agda2-highlight` identifies as “background”.
+        Older versions of Agda would highlight the background using
+        `font-lock-comment-face` (so as comments). Newer versions (since
+        [this](https://github.com/agda/agda/commit/8bee8727fff1a87c708c28b02edc38931c91f1fb#diff-4b761ced0541ba9fd4efbe58fd37ba7f)
+        commit) simply apply Emacs' default face.
+        
+        Since we're using Org mode for the literate portion, we don't
+        want Agda's highlighting to apply any annotation there. We can
+        achieve this by simply removing the setting for background from
+        the Agda highlight faces attribute list.
+        
+        ``` commonlisp
+        (assq-delete-all 'background agda2-highlight-faces)
+        ```
+        
+        Even with the background annotation removed, following a load,
+        Org fontification in text *following* an Agda block (so
+        everywhere except the top of the file) gets removed following a
+        load. This can be handled by running `font-lock-fontify-buffer`
+        following a load. :TODO: but font-lock-fontify-buffer *removes*
+        the Agda highlighting\!
+    
+    3.  Toggling Org indentation
+        
+        Agda relies upon indentation syntactically, to delimit
+        definitions of modules, records, etc.
+        
+        I usually have Org indentation turned on, so that nested heading
+        are further indented (softly; there's no actual whitespace being
+        inserted).
+        
+        This can make Agda code difficult to read, and further, Agda can
+        occasionally “mess this up”; for instance, when restarting the
+        Agda process, it undoes this soft indentation for some reason.
+        
+        In any case, it's useful to have a toggle keybinding. See my
+        [1.4](#Key%20bindings).
+    
+    4.  <span class="todo TODO">TODO</span> Some TODOs
+        
+          - Enable Agda loading, and more generally all the agda
+            keybindings, anywhere in .lagda.org files.
+              - At least the important ones that don't obviously clash
+                with Org bindings.
+              - I've tried loading via `M-x agda2-load` from the Org
+                portion, and it works (yay\!), but it loses the Agda
+                syntax highlighting?
+          - To enable monolith `.lagda.org` files (large literate files
+            which tangle several individual clean source files), we need
+            a way to strip one level of indentation after tangling.
+              - Actually it's not *needed*; Agda does allow the contents
+                of the toplevel module (so, the remainder of the file)
+                to be indented; but it breaks *convention*.
+
 ### Other programming languages
 
-1.  The Mozart Programming System for `Oz`
+1.  Racket
+    
+    ``` commonlisp
+    (use-package racket-mode)
+    ```
+
+2.  The Mozart Programming System for `Oz`
     
     The Mozart Programming System “provides a powerful environment for
     the development of software systems, called the \`\`Oz Programming
@@ -403,10 +567,23 @@ them.
     Below, in my Org mode setup under [1.3.5.5](#Evaluating%20code), I
     set up literate Oz (it only takes `(require 'ob-oz)`).
 
-2.  F\#
+3.  F\#
     
     ``` commonlisp
     (require 'fsharp-mode)
+    ```
+
+4.  Prolog
+    
+    ``` commonlisp
+    (add-to-list 'auto-mode-alist
+                     '("\\.pl\\'" . prolog-mode))
+    ```
+
+5.  Scheme
+    
+    ``` commonlisp
+    (use-package geiser)
     ```
 
 ### Org mode
@@ -507,7 +684,7 @@ in `org-plus-contrib`.
         This works by spawning a new Emacs session. That session uses
         this init file, so we must be careful that this file works for
         daemon (headless) Emacs processes. See
-        [1.6.7.2](#Opening%20the%20initial%20buffers) for how to deal
+        [1.6.8.2](#Opening%20the%20initial%20buffers) for how to deal
         with problematic portions.
         
         Another possible solution would be to modify
@@ -624,6 +801,26 @@ in `org-plus-contrib`.
             ``` commonlisp
             ;;(setq org-latex-listings 'minted
             ;;      org-latex-packages-alist '(("" "minted")))
+            ```
+        
+        5.  `hyperref` setup
+            
+            ``` commonlisp
+            (setq org-latex-hyperref-template
+              "\\hypersetup{
+               pdfauthor={%a},
+               pdftitle={%t},
+               pdfkeywords={%k},
+               pdfsubject={%d},
+               pdfcreator={%c},
+               pdflang={%L},
+               colorlinks,
+               linkcolor=blue,
+               citecolor=blue,
+               urlcolor=blue
+               }
+            "
+            )
             ```
     
     6.  `org-reveal`
@@ -801,9 +998,20 @@ in `org-plus-contrib`.
     (require 'ob-shell)
     (require 'ob-haskell)
     (require 'ob-latex)
-    (require 'ob-oz)
     (require 'ob-C)
     (require 'ob-ruby)
+    (require 'ob-plantuml)
+    (require 'ob-R)
+    (require 'ob-ditaa)
+    (require 'ob-scheme)
+    ```
+    
+    ``` commonlisp
+    (setq org-ditaa-jar-path "/usr/bin/ditaa")
+    ```
+    
+    ``` commonlisp
+    (setq geiser-default-implementation 'guile)
     ```
     
     For other languages, separate packages are needed.
@@ -812,11 +1020,49 @@ in `org-plus-contrib`.
     (use-package ob-fsharp)
     ```
     
+    `ob-oz` comes with a Mozart2 installation; if there's a problem,
+    make sure the Mozart2 Elisp directory is in the path.
+    
+    ``` commonlisp
+    (require 'ob-oz)
+    ```
+    
+    There are at least two packages for Org babel support for Racket,
+    but neither are on MELPA. Neither one seems to stand out as more or
+    less fully featured.
+    
+      - [emacs-ob-racket](https://github.com/hasu/emacs-ob-racket) is
+        more recently maintained.
+      - [ob-racket](https://github.com/xchrishawk/ob-racket) has not
+        been updated in 4 years.
+    
+    So I choose `emacs-ob-racket`. For the moment, I just saved it to my
+    `emacs.d`; probably it should be put somewhere better, but I will do
+    that when I next set up my system :).
+    
+    ``` commonlisp
+    (add-to-list 'load-path "/home/markparmstrong/.emacs.d/ob-racket")
+    (require 'ob-racket)
+    ```
+    
     For shell code, we need to initialise via this function. See
     [here](https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-function-definition-is-void-org-babel-get-header).
     
     ``` commonlisp
     (org-babel-shell-initialize)
+    ```
+    
+    PlantUML requires we set the path to the `.jar` file.
+    
+    ``` commonlisp
+    (setq org-plantuml-jar-path "/usr/share/java/plantuml.jar")
+    ```
+    
+    It's convenient to have `<tab>` act as it would in the source
+    language when editing code blocks.
+    
+    ``` commonlisp
+    ;;(setq org-src-tab-acts-natively t)
     ```
 
 6.  Cosmetics
@@ -832,20 +1078,67 @@ in `org-plus-contrib`.
         ``` commonlisp
         (setq org-hide-emphasis-markers t)
         ```
+        
+        It is convenient to show the emphasis markers around point.
+        Otherwise it becomes tedious to edit emphasised text. This code
+        to show the emphasis characters surrounding point is stolen from
+        a Reddit
+        [post](https://www.reddit.com/r/orgmode/comments/43uuck/).
+        :TODO: it doesn't work with code or verbatim, or with links.
+        
+        ``` commonlisp
+        (defun org-show-emphasis-markers-at-point ()
+          (save-match-data
+            (if (and (org-in-regexp org-emph-re 2)
+                 (>= (point) (match-beginning 3))
+                 (<= (point) (match-end 4))
+                 (member (match-string 3) (mapcar 'car org-emphasis-alist)))
+            (with-silent-modifications
+              (remove-text-properties
+               (match-beginning 3) (match-beginning 5)
+               '(invisible org-link)))
+              (apply 'font-lock-flush (list (match-beginning 3) (match-beginning 5))))))
+        
+        (add-hook 'post-command-hook
+              'org-show-emphasis-markers-at-point nil t)
+        ```
     
-    3.  Highlight math mode blocks
+    3.  Emphasis marker regexps
+        
+        Dumping this just for now… see
+        <https://emacs.stackexchange.com/questions/41111/org-mode-markup-between-square-brackets>
+        
+        ``` commonlisp
+        (with-eval-after-load 'org
+          ; chars for prematch
+          (setcar org-emphasis-regexp-components            "     ('\"{“”\[\\-")
+          ; chars for postmatch
+          (setcar (nthcdr 1 org-emphasis-regexp-components) "\] -   .,!?;:''“”\")}/\\“”(-")
+          ; forbidden chars
+          (setcar (nthcdr 2 org-emphasis-regexp-components) "    \t\r\n\"")
+          ; body
+          (setcar (nthcdr 3 org-emphasis-regexp-components) ".")
+          ; max newlines
+          (setcar (nthcdr 4 org-emphasis-regexp-components) 1)
+          (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
+        ```
+        
+        I add ( to the second entry, to allow ( to immediately follow
+        markup.
+    
+    4.  Highlight math mode blocks
         
         ``` commonlisp
         (setq org-highlight-latex-and-related '(latex))
         ```
     
-    4.  Replace the ellipsis `...`
+    5.  Replace the ellipsis `...`
         
         By default, folded portions of the document are presented by an
         ellipsis, `...`. Let's replace that.
         
         ``` commonlisp
-        (setq org-ellipsis " ⤵")
+        (setq org-ellipsis " ⮷")
         ```
         
         But I find this is not particularly visible with my theme; it
@@ -867,7 +1160,7 @@ in `org-plus-contrib`.
         )
         ```
     
-    5.  Tables
+    6.  Tables
         
         I prefer to work with wordwrap on, so tables can be quite
         problematic.
@@ -880,7 +1173,7 @@ in `org-plus-contrib`.
         (setq org-startup-align-all-table t)
         ```
     
-    6.  Inline images
+    7.  Inline images
         
         We can configure Org to automatically inline linked images when
         opening documents.
@@ -893,7 +1186,7 @@ in `org-plus-contrib`.
         (setq org-image-actual-width nil)
         ```
     
-    7.  Tag position
+    8.  Tag position
         
         By default (as of Org 9.1.9), tags get shifted to the 77th
         column. But this causes blank lines to be inserted when working
@@ -926,6 +1219,14 @@ in `org-plus-contrib`.
         ``` commonlisp
         (require 'org-inlinetask)
         ```
+
+### Org struct mode
+
+Org struct mode lets us use Org-style document folding in other modes.
+
+``` commonlisp
+(add-hook 'agda2-mode 'turn-on-orgstruct++)
+```
 
 ### `pdf-tools`
 
@@ -1058,24 +1359,291 @@ configuration, very easy to use.
 (use-package magit)
 ```
 
-### Email: `mu4e` (with `mbsync`)
+### Sending email: `send-mail`
+
+Whether or not you use Emacs to read your email, you can use it to send
+emails with the builtin `send-mail`. It can be configured to use your OS
+default for sending email (for instance, through a mail program or
+browser), or configured to send mail itself (for instance via SMTP). For
+convenience, I choose the latter.
+
+I use Gmail exclusively, so the setup is small.
+
+``` commonlisp
+(require 'smtpmail)
+
+(setq send-mail-function    'smtpmail-send-it
+      smtpmail-smtp-server  "smtp.gmail.com"
+      smtpmail-stream-type  'ssl
+      smtpmail-smtp-service 465)
+```
+
+If needed, we can create a queue to allow for sending of email while
+offline. See [the
+documentation](https://www.gnu.org/software/emacs/manual/html_node/smtpmail/Queued-delivery.html).
+
+``` commonlisp
+;;(setq smtpmail-queue-mail nil)
+```
+
+After sending an email, kill the buffer.
+
+``` commonlisp
+(setq message-kill-buffer-on-exit t)
+```
+
+1.  Sending HTML mail
+    
+    I usually prefer to send plaintext email, but if I want to send HTML
+    for any reason, that can be done from Emacs as well.
+    
+    `org-mime` allows sending of HTML emails written in Org markdown; I
+    don't use it yet, as I only send plaintext, but it may be handy
+    later.
+    
+    ``` commonlisp
+    (use-package org-mime)
+    ```
+
+### Reading email: `mu4e` (with isync)
 
 Using Emacs as an email client provides us with powerful text editing
 while composing email.
+
+I initially followed the guide [from this reddit
+post](https://www.reddit.com/r/emacs/comments/bfsck6/mu4e_for_dummies/)
+to set it up, but I've customised things heavily at this point.
 
 ``` commonlisp
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 (require 'mu4e)
 ```
 
-``` commonlisp
-(setq
-  mu4e-maildir       "/mnt/chromeos/removable/SD Card/Crostini/.mail"
-  mu4e-sent-folder   "/sent"
-  mu4e-drafts-folder "/drafts"
-  mu4e-trash-folder  "/trash"
-  mu4e-refile-folder "/archive")
-```
+1.  Basic setup
+    
+    `mu4e` needs to know where my mail directory lives, and the paths of
+    certain important mailboxes relative to that. Note that there should
+    be an archive box here, but I don't make use of an archive mailbox.
+    
+    ``` commonlisp
+    (setq
+      mu4e-maildir       "~/.mail/gmail"
+      mu4e-drafts-folder "/Drafts"
+      mu4e-sent-folder   "/Sent Mail"
+      mu4e-trash-folder  "/Trash")
+    ```
+    
+    I use isync (whose executable is called `mbsync`) to manage my local
+    mail directory. I have two groups set up in my `mbsyncrc`; one
+    smaller group which synchronises with the remote quickly, and one
+    larger one. I make `mu4e` responsible for synchronising the smaller
+    group regularly; this ensures that I get new emails fairly quickly.
+    
+    ``` commonlisp
+    ; get mail
+    (setq mu4e-get-mail-command "mbsync gmail-quick"
+          mu4e-update-interval 60
+          mu4e-headers-auto-update t)
+    ```
+    
+    This is a bit of a dumb asynchronous process to update the rest of
+    the mailboxes. Dumb in the sense that if anything ever goes wrong, I
+    won't know about it.
+    
+    ``` commonlisp
+    (start-process "mbsync-gmail-rest"
+                   "*mbsync gmail-rest*"
+                   "~/Dropbox/Organisation/setup/emacs/mbsync-gmail-rest")
+    ```
+    
+    It runs this shell process.
+    
+    ``` shell
+    while :
+    do
+      echo "Beginning sync"
+      date
+      mbsync gmail-rest
+      echo ""
+      echo "Indexing with mu"
+      mu index -m ~/.mail/gmail
+      echo "Ended sync, sleeping for 30m"
+      echo ""
+      echo ""
+      echo ""
+      sleep 30m
+    done
+    ```
+    
+    `mu4e` has an annoying habit of hogging the minibuffer while
+    updating and indexing; unfortunately this means I prefer to silence
+    its updating and indexing messages.
+    
+    ``` commonlisp
+    (setq mu4e-hide-index-messages t)
+    ```
+    
+    `mu/mu4e` normally keeps the base filename the same when moving mail
+    to a different folder; with isync, it works better to change the
+    name. See the documentation of this variable.
+    
+    ``` commonlisp
+    (setq mu4e-change-filenames-when-moving t)
+    ```
+
+2.  Viewing emails
+    
+    1.  Email list
+        
+        This controls the information shown in the email lists.
+        
+          - `:human-date` will show the time if the email was sent today
+            (the alternative, `:date`, would not).
+          - `:from-or-to` is a special field that will show the sender
+            if it was not me; otherwise it will show the recipient.
+        
+        <!-- end list -->
+        
+        ``` commonlisp
+        (setq mu4e-headers-fields
+            '( (:date       . 22)
+               (:flags      . 4)
+               (:from-or-to . 22)
+               (:subject    . nil)))
+        ```
+        
+        ``` commonlisp
+        (setq mu4e-headers-date-format "%d %b/%y, %a, %R")
+        ```
+    
+    2.  Individual mail
+        
+        Show images by default, and prefer to use `imagemagick` to do
+        so.
+        
+        ``` commonlisp
+        (setq mu4e-view-show-images t)
+        
+        (when (fboundp 'imagemagick-register-types)
+          (imagemagick-register-types))
+        ```
+        
+        Attachments can simply be placed in `~/Downloads`; I usually
+        share this directory from ChromeOS, which makes it convenient to
+        put attachments there (so I can open them in both OSes easily).
+        
+        ``` commonlisp
+        (setq mu4e-attachment-dir  "~/Downloads")
+        ```
+        
+        Show full email addresses when viewing messages.
+        
+        ``` commonlisp
+        (setq mu4e-view-show-addresses 't)
+        ```
+    
+    3.  HTML support
+        
+        Emacs is not the ideal environment to read HTML emails; for that
+        reason, if there is a plaintext version available, I prefer to
+        see that first.
+        
+        ``` commonlisp
+        (setq mu4e-view-prefer-html nil)
+        ```
+        
+        If there is no plaintext available, or if the plaintext is
+        unbearable for any reason, we can open emails in the browser by
+        using this shortcut.
+        
+        ``` commonlisp
+        (add-to-list 'mu4e-view-actions
+          '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+        ```
+
+3.  Shortcuts to mailboxes
+    
+    ``` commonlisp
+    (setq mu4e-maildir-shortcuts
+        '(("/Inbox"     . ?i)
+          ("/Sent Mail" . ?s)
+          ("/Trash"     . ?t)
+          ("/Desk/1-Imminent"    . ?I)
+          ("/Desk/1-Short term"  . ?S)
+          ("/Desk/3-Reference"   . ?R)
+          ("/Desk/4-Medium term" . ?M)
+          ("/Desk/5-Long term"   . ?L)))
+    ```
+
+4.  Message composition settings
+    
+    I don't use a signature.
+    
+    ``` commonlisp
+    (setq mu4e-compose-signature-auto-include nil)
+    ```
+    
+    Part of the reason I like to use Emacs is to feel more in control of
+    my text layout; for that reason, I don't want my text to be
+    reflowed.
+    
+    ``` commonlisp
+    (setq mu4e-compose-format-flowed nil)
+    ```
+    
+    It's convenient not to reply to myself by default.
+    
+    ``` commonlisp
+    (setq mu4e-compose-dont-reply-to-self t)
+    ```
+    
+    1.  HTML support (nothing to see here)
+        
+        Note that there is a `org-mu4e` package that comes with `mu4e`,
+        which would allow for sending HTML email using `mu4e`, but it is
+        apparently depricated. The `org-mime` package above is probably
+        the correct path if I ever want to send HTML emails.
+    
+    2.  Changing the `From` address automatically
+        
+        I use my personal Gmail to collect all of my emails, but when
+        replying I like to send back from whichever account the original
+        mail was sent to. This hook updates the `From` field when
+        replying to an email sent to one of my other accounts. It is
+        taken from [the `mu4e`
+        documentation](https://www.djcbsoftware.nl/code/mu/mu4e/Compose-hooks.html#Compose-hooks).
+        
+        ``` commonlisp
+        (add-hook 'mu4e-compose-pre-hook
+          (defun my-set-from-address ()
+            "Set the From address based on the To address of the original."
+            (let ((msg mu4e-compose-parent-message))
+              (when msg
+                (setq user-mail-address
+                  (cond
+                     ((mu4e-message-contact-field-matches msg :to "armstmp@mcmaster.ca")
+                       "armstmp@mcmaster.ca")
+                     ((mu4e-message-contact-field-matches msg :cc "armstmp@mcmaster.ca")
+                       "armstmp@mcmaster.ca")
+                     (t
+                       "markparmstrong@gmail.com")))))))
+        ```
+
+5.  Enabling Org-like folding in email composition
+    
+    :TODO: this doesn't work yet?
+    
+    ``` commonlisp
+    (add-hook 'message-mode-hook 'turn-on-orgstruct++)
+    ```
+
+6.  Miscellaneous
+    
+    Don't prompt me upon quitting `mu4e`.
+    
+    ``` commonlisp
+    (setq mu4e-confirm-quit nil)
+    ```
 
 ### `winner` for saving and restoring window layouts
 
@@ -1132,7 +1700,7 @@ So far I have three categories of shortcuts:
 
 ``` commonlisp
 (general-create-definer general-main-define-key
-  :prefix "s-a"
+  :prefix "s-q"
   :keymaps 'override)
 
 (general-create-definer general-window-define-key
@@ -1181,58 +1749,83 @@ combo.
 
 2.  `dired`
     
-    I use shortcuts to jump to frequently used directories in `dired`
-    (from any buffer, not just while in `dired`).
+    1.  Jumping to specific buffers
+        
+        There are some files so commonly used, I want shortcuts directly
+        to them (in fact, usually these files are perpetually kept
+        open). These shortcuts then don't involve `dired`, but they are
+        lumped in here anyway.
+        
+        ``` commonlisp
+        (general-dired-define-key
+          "s" '(:ignore t :which-key "Scratch buffers")
+          "sa" '((lambda () (interactive)
+                   (find-file "~/Dropbox/McMaster/Agda/agda-scratch.agda"))
+                 :which-key "Agda scratch")
+          "so" '((lambda () (interactive)
+                   (find-file "~/Dropbox/Organisation/org-scratch.org"))
+                 :which-key "Org scratch")
+          "e" '((lambda () (interactive)
+                   (find-file "~/Dropbox/Organisation/setup/emacs/emacs-init.org"))
+                 :which-key "Emacs init")
+        )
+        ```
     
-    As seen in `Cosmetics`, I use `dired-single` in order to only have
-    one `dired` buffer at a time. In case this changes, I define another
-    local variable to store the command to invoke `dired` with.
-    
-    ``` commonlisp
-    (defun my-dired-invocation (directory)
-      "My custom dired invocation.
-       It will use my special “magic buffer” for browsing."
-      (dired-single-magic-buffer directory))
-    ```
-    
-    ``` commonlisp
-    (general-dired-define-key
-      "c" '((lambda () (interactive)
-              (my-dired-invocation default-directory))
-            :which-key "Current")
-      "h" '((lambda () (interactive)
-              (my-dired-invocation "~"))
-            :which-key "Home")
-      "d" '((lambda () (interactive)
-              (my-dired-invocation "~/Dropbox/"))
-            :which-key "Dropbox")
-      "o" '((lambda () (interactive)
-              (my-dired-invocation "~/Dropbox/Organisation/"))
-            :which-key "Organisation")
-      "r" '((lambda () (interactive)
-              (my-dired-invocation "~/Dropbox/Organisation/reading/"))
-            :which-key "Organisation")
-      "p" '((lambda () (interactive)
-              (my-dired-invocation "~/Dropbox/Projects/"))
-            :which-key "Projects")
-      "m" '((lambda () (interactive)
-              (my-dired-invocation "~/Dropbox/McMaster/"))
-            :which-key "McMaster")
-      "a" '((lambda () (interactive)
-              (my-dired-invocation "~/Dropbox/McMaster/Agda/"))
-            :which-key "Agda")
-      "t" '((lambda () (interactive)
-              (my-dired-invocation "~/Dropbox/McMaster/Agda/thesis/"))
-            :which-key "Thesis")
-      "3" '(:ignore t :which-key "3rd year classes")
-      "3m" '((lambda () (interactive)
-              (my-dired-invocation "~/Dropbox/McMaster/3mi3/"))
-            :which-key "3mi3")
-      "3e" '((lambda () (interactive)
-              (my-dired-invocation "~/Dropbox/McMaster/3ea3/"))
-            :which-key "3ea3")
-    )
-    ```
+    2.  Files not(?) already opened
+        
+        I use shortcuts to jump to frequently used directories in
+        `dired` (from any buffer, not just while in `dired`).
+        
+        As seen in `Cosmetics`, I use `dired-single` in order to only
+        have one `dired` buffer at a time. In case this changes, I
+        define another local variable to store the command to invoke
+        `dired` with.
+        
+        ``` commonlisp
+        (defun my-dired-invocation (directory)
+          "My custom dired invocation.
+           It will use my special “magic buffer” for browsing."
+          (dired-single-magic-buffer directory))
+        ```
+        
+        ``` commonlisp
+        (general-dired-define-key
+          "c" '((lambda () (interactive)
+                  (my-dired-invocation default-directory))
+                :which-key "Current")
+          "h" '((lambda () (interactive)
+                  (my-dired-invocation "~"))
+                :which-key "Home")
+          "d" '((lambda () (interactive)
+                  (my-dired-invocation "~/Dropbox/"))
+                :which-key "Dropbox")
+          "o" '((lambda () (interactive)
+                  (my-dired-invocation "~/Dropbox/Organisation/"))
+                :which-key "Organisation")
+          "r" '((lambda () (interactive)
+                  (my-dired-invocation "~/Dropbox/Organisation/reading/"))
+                :which-key "Organisation")
+          "p" '((lambda () (interactive)
+                  (my-dired-invocation "~/Dropbox/Projects/"))
+                :which-key "Projects")
+          "m" '((lambda () (interactive)
+                  (my-dired-invocation "~/Dropbox/McMaster/"))
+                :which-key "McMaster")
+          "a" '((lambda () (interactive)
+                  (my-dired-invocation "~/Dropbox/McMaster/Agda/"))
+                :which-key "Agda")
+          "t" '((lambda () (interactive)
+                  (my-dired-invocation "~/Dropbox/McMaster/Agda/thesis/"))
+                :which-key "Thesis")
+          "3" '(:ignore t :which-key "3rd year classes")
+          "3m" '((lambda () (interactive)
+                  (my-dired-invocation "~/Dropbox/McMaster/3mi3/"))
+                :which-key "3mi3")
+          "3e" '((lambda () (interactive)
+                  (my-dired-invocation "~/Dropbox/McMaster/3ea3/"))
+                :which-key "3ea3")
+        )
+        ```
 
 3.  `eshell`
     
@@ -1249,15 +1842,31 @@ combo.
     
     ``` commonlisp
     (general-define-key
-      "s-m" 'magit-status
+      "s-v" 'magit-status
     )
     ```
 
-5.  `recentf`
+5.  `mu4e`
+    
+    ``` commonlisp
+    (general-define-key
+      "s-m" 'mu4e
+    )
+    ```
+
+6.  `recentf`
     
     ``` commonlisp
     (general-define-key
       "s-r" 'recentf-open-files
+    )
+    ```
+
+7.  `list-processes`
+    
+    ``` commonlisp
+    (general-define-key
+      "s-p" 'list-processes
     )
     ```
 
@@ -1318,6 +1927,15 @@ category: “window”, prefix `w`.
             :which-key "“Minimise” window")
   "+"     '((lambda () (interactive) (enlarge-window 999))
             :which-key "“Maximise”  window")
+
+  "o"   '(:ignore t
+          :which-key "Org cosmetics")
+  "o i"   '(:ignore t
+            :which-key "Org indent")
+  "o i y" '((lambda () (interactive) (org-indent-mode 1))
+            :which-key "Org indent yes")
+  "o i n" '((lambda () (interactive) (org-indent-mode 0))
+            :which-key "Org indent no")
 )
 ```
 
@@ -1341,8 +1959,12 @@ These are cosmetics relating to lines in the current buffer.
             :which-key "Line wrap - yes")
   "l w n" '((lambda () (interactive) (visual-line-mode 0))
             :which-key "Line wrap - no")
-  "l l"   '(:ignore t
+  "l h"   '(:ignore t
             :which-key "Long line highlighting")
+  "l h y" '((lambda () (interactive) (whitespace-mode 1))
+            :which-key "Long line hightlight - yes")
+  "l h n" '((lambda () (interactive) (whitespace-mode 0))
+            :which-key "Long line hightlight - yes")
 )
 ```
 
@@ -1395,6 +2017,13 @@ screen on the current line.
 
 ## Cosmetics
 
+### Fonts
+
+``` commonlisp
+(add-to-list 'default-frame-alist
+             '(font . "Cousine-10"))
+```
+
 ### Themes
 
 I use the `doom-nord` themes, and toggle between the non-`light` and
@@ -1405,7 +2034,7 @@ I use the `doom-nord` themes, and toggle between the non-`light` and
 
 (load-theme 'doom-nord t)
 
-(setq my-dark-theme 'doom-nord)
+(setq my-dark-theme 'doom-vibrant)
 (setq my-light-theme 'doom-nord-light)
 
 (defun disable-all-custom-themes ()
@@ -1558,7 +2187,10 @@ hide unimportant information or interfact elements.
     display line numbers next to a buffer.
     
     ``` commonlisp
-    (global-display-line-numbers-mode)
+    ;; (global-display-line-numbers-mode)
+    
+    (add-hook 'text-mode-hook 'display-line-numbers-mode)
+    (add-hook 'prog-mode-hook 'display-line-numbers-mode)
     ```
     
     I find it concerning when the width of the column used for line
@@ -1576,12 +2208,7 @@ hide unimportant information or interfact elements.
     Since line numbers can be distracting in some instances, see
     [1.4](#Key%20bindings) for toggles to turn it off.
     
-    1.  <span class="todo TODO">TODO</span> Turn off line number mode
-        for certain kinds of buffers
-        
-        Agda results, help, pdfs, dired, …
-    
-    2.  For older versions of Emacs
+    1.  For older versions of Emacs
         
         In older versions, we can use `linum-mode`, but
         
@@ -1611,7 +2238,11 @@ hide unimportant information or interfact elements.
     `show-trailing-whitespace` will colour any trailing whitespace.
     
     ``` commonlisp
-    (global-whitespace-mode)
+    (add-hook 'text-mode-hook 'whitespace-mode)
+    (add-hook 'prog-mode-hook 'whitespace-mode)
+    
+    ; (global-whitespace-mode)
+    
     (setq whitespace-style
           '(face
             trailing lines-tail empty
@@ -1619,12 +2250,7 @@ hide unimportant information or interfact elements.
     ```
     
     This can be a little annoying, so there are toggles for various
-    aspects under `Key bindings`.
-    
-    1.  <span class="todo TODO">TODO</span> Actually put those
-        keybindings in place
-        
-        Add/remove from `whitespace-style` on the fly.
+    aspects under \[\[Key bindings\].
 
 7.  Show ruler at 80 characters for (for `text` and `prog` mode)
     
@@ -1664,17 +2290,19 @@ hide unimportant information or interfact elements.
     Since I make an effort to keep my lines under 80 characters, I
     usually won't have lines too long for the window.
     
-    If there are such lines, though, horizontally scrolling is annoying
-    (or at least I find it so in Emacs).
-    
-    `visual-line-mode` will “wrap” lines which are too long.
+    Previously, I enabled `visual-line-mode` to “wrap” lines which are
+    too long; This is very annoying when working with a file with lots
+    of long lines, so I no longer enable it by default. there is a
+    shortcut under [1.4](#Key%20bindings) to toggle it if needed.
     
     ``` commonlisp
-    (global-visual-line-mode t)
-    ```
+    ;; Enable line wrapping everywhere; not recommended.
+    ;; (global-visual-line-mode t)
     
-    This can be annoying if working with a file with lots of long lines,
-    so there is a shortcut under [1.4](#Key%20bindings) to toggle it.
+    ;; Enable line wrapping almost everywhere; also not recommended.
+    ;;(add-hook 'text-mode-hook 'visual-line-mode)
+    ;;(add-hook 'prog-mode-hook 'visual-line-mode)
+    ```
     
     One annoying feature of `visual-line-mode`, at least in recent
     versions, is that it redefines a kill to only kill to the end of the
@@ -1696,6 +2324,34 @@ hide unimportant information or interfact elements.
       (lambda ()
         (define-key org-mode-map "\C-k" 'kill-line)))
     ```
+
+9.  Emoticons
+    
+    I was using this package to add support for unicode emoticon
+    characters, which did not display correctly otherwise (no font I had
+    handled them?). Improving my unicode font support seems to be a
+    better idea; in particular, one problem with `emojify` is it changes
+    characters such as `↔` (left to right arrow) to emoticons, which I
+    definitely do not want.
+    
+    ``` commonlisp
+    ;;(use-package emojify)
+    ;;(add-hook 'after-init-hook #'global-emojify-mode)
+    ```
+    
+    Instead, it's best to just install fonts supporting the unicode
+    characters I want. In particular, the Symbola font, which on Debian
+    can be installed via the `fonts-symbola` package.
+    
+    :TODO: Look into more efficiently handling fallback fonts. It might
+    be somewhat inefficient to leave it up to Emacs to search my system
+    for appropriate fonts to display characters. See
+    <https://idiocy.org/emacs-fonts-and-fontsets.html> and
+    <https://emacs.stackexchange.com/questions/17205/>.
+    
+    There's also this package to help with Unicode fonts, but it doesn't
+    seem necessary for me.
+    <https://github.com/rolandwalker/unicode-fonts>
 
 ### Automatically revert unchanged files which change on the disk
 
@@ -1880,6 +2536,13 @@ Unfortunately this seems to introduce a fair amount of lag on my system.
     )
     ```
 
+### Smoother scrolling
+
+``` commonlisp
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+(setq mouse-wheel-progressive-speed t) ;; don't accelerate scrolling
+```
+
 ## Other
 
 ### Run my custom “dropbox start” command to ensure dropbox is running on the system
@@ -1915,7 +2578,17 @@ If STRING is nil, return nil."
 This code generates a `README.md` file for my Emacs repo, including this
 file and other relevant files.
 
-org-export-to-file org-export-async-debug
+**NOTE:** if the readme ceases to be updated when running this, check if
+we need to wait longer on `pandoc` (increase the argument to
+`sleep-for`). Admittedly, it's a hack to just sleep.
+
+## Scratch
+
+### Find file alias for ease of use in eshell
+
+``` commonlisp
+(defalias 'ff 'find-file)
+```
 
 # `yankpad.org`
 
@@ -2121,7 +2794,7 @@ to be available everywhere.
         <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgag"><span class="smallcaps">orgag</span></span>
         
         ``` text
-        #+begin_src org-agda
+        #+begin_src agda2
         $0
         #+end_src
         ```
@@ -2189,11 +2862,29 @@ to be available everywhere.
         #+end_src
         ```
     
-    14. f\#: F\# block
-        <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgf#"><span class="smallcaps">orgf\#</span></span>
+    14. fs: F\# block
+        <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgfs"><span class="smallcaps">orgfs</span></span>
         
         ``` text
         #+begin_src fsharp
+        $0
+        #+end_src
+        ```
+    
+    15. pl: Prolog block
+        <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgpl"><span class="smallcaps">orgpl</span></span>
+        
+        ``` text
+        #+begin_src prolog
+        $0
+        #+end_src
+        ```
+    
+    16. sch: Scheme
+        <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgsch"><span class="smallcaps">orgsch</span></span>
+        
+        ``` text
+        #+begin_src scheme
         $0
         #+end_src
         ```
@@ -2256,6 +2947,15 @@ to be available everywhere.
         $0
         #+end_example
         ```
+    
+    6.  verse: Verse
+        <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgverse"><span class="smallcaps">orgverse</span></span>
+        
+        ``` commonlisp
+        #+begin_verse
+        $0
+        #+end_verse
+        ```
 
 ### Punctuation, parentheses, etc.
 
@@ -2266,21 +2966,28 @@ to be available everywhere.
     “$1” $0
     ```
 
-2.  card: Cardinality
+2.  ell: Ellipsis
+    <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="ellipsis"><span class="smallcaps">ellipsis</span></span>
+    
+    ``` text
+    …
+    ```
+
+3.  card: Cardinality
     <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="card"><span class="smallcaps">card</span></span>
     
     ``` text
     |$1| $0
     ```
 
-3.  enc: Encoding
+4.  enc: Encoding
     <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="enc"><span class="smallcaps">enc</span></span>
     
     ``` commonlisp
     ⌜$1⌝ $0
     ```
 
-4.  denc: Decoding
+5.  denc: Decoding
     <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="denc"><span class="smallcaps">denc</span></span>
     
     ``` commonlisp
@@ -2358,7 +3065,7 @@ to be available everywhere.
 
 ## agda2-mode
 
-### ag: Literate code block <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="ag"><span class="smallcaps">ag</span></span>
+### agl: Literate code block <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="agl"><span class="smallcaps">agl</span></span>
 
 ``` text
 \begin{code}
