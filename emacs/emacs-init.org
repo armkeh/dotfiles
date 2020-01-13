@@ -357,57 +357,94 @@ Polymode seemed the best candidate for what I want during my
 (use-package polymode)
 #+end_src
 
-[[https://polymode.github.io/][Read the docs!]]
+[[https://polymode.github.io/][Read the docs]]!
 
-**** The ~poly-lagda-org-mode~
+**** Org-Agda mode
 
 Org is our hostmode.
 #+begin_src emacs-lisp
-(define-hostmode poly-lagda-org-hostmode
-  :mode 'org-mode)
+(define-hostmode poly-org-agda-hostmode
+  :mode 'org-mode
+  :keep-in-mode 'host
+  ;; Disable font-lock-mode, which interferes with Agda annotations.
+  ;; Unfortunately we lose Org mode highlighting then.
+  :init-functions '((lambda (_) (font-lock-mode 0))))
 #+end_src
 
 Agda is our inner mode, delimited by Org source blocks.
 #+begin_src emacs-lisp
-(define-innermode poly-lagda-org-innermode
+(define-innermode poly-org-agda-innermode
   :mode 'agda2-mode
   :head-matcher "#\\+begin_src agda2\n"
   :tail-matcher "#\\+end_src\n"
-  :head-mode 'agda2-mode
-  :tail-mode 'agda2-mode)
-
-  ;; Don't use Polymode's indent line dispatcher,
-  ;; as it results in unexpected indentation on newlines.
-
-;; This worked in the polymode declaration to change the setting
-;; in the org part. It doesn't work above.
-;;  (setq indent-line-function #'indent-relative)
+  :head-mode 'org-mode
+  :tail-mode 'org-mode
+  ;; Disable font-lock-mode, which interferes with Agda annotations,
+  ;; and undo the change to indent-line-function Polymode makes.
+  :init-functions '((lambda (_) (font-lock-mode 0))
+                    (lambda (_) (setq indent-line-function #'indent-relative))))
 #+end_src
-The “head” and “tail” (the source block delimiters)
-seem to need to be in Agda mode, or Agda's highlighting
-will be undone upon editing the code
-(I assume because if they're handled by Org,
-Agda doesn't “see” the delimiters,
-and it assumes we're not inside an Agda code block).
-
-:TODO: are there any detriments to the code delimiters not being in Org mode?
 
 Now we define the polymode using the above host and inner modes.
 #+begin_src emacs-lisp
-(define-polymode poly-lagda-org-mode
-  :hostmode 'poly-lagda-org-hostmode
-  :innermodes '(poly-lagda-org-innermode))
+(define-polymode poly-org-agda-mode
+  :hostmode 'poly-org-agda-hostmode
+  :innermodes '(poly-org-agda-innermode))
 #+end_src
 
 Finally, add our new mode to the auto mode list.
 #+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.lagda.org" . poly-lagda-org-mode))
+(add-to-list 'auto-mode-alist '("\\.lagda.org" . poly-org-agda-mode))
 #+end_src
 
-It's that easy!
-Though there are a few caveats we need to address below.
+**** COMMENT Alternative “Agda Org” mode (Agda as host, Org as inner)
 
-**** Don't remove Org highlighting on typecheck
+One way to solve the indentation issue in the Agda inner mode
+is to make Agda the outer mode instead,
+because I know (at time of writing) how to adjust
+the ~indent-line-function~ for the outer mode, but not the inner mode.
+
+Agda is our hostmode.
+#+begin_src emacs-lisp
+(define-hostmode poly-agda-org-hostmode
+  :mode 'agda2-mode
+  :keep-in-mode 'host)
+#+end_src
+
+Org is our inner mode, delimited by Org source blocks.
+(But note the inversion of the start and end blocks).
+#+begin_src emacs-lisp
+(define-innermode poly-agda-org-innermode
+  :mode 'org-mode
+  ;; Because Org is the inner mode here,
+  ;; the header and tail of the Agda blocks
+  ;; serve as the tail and header respectively of the Org blocks.
+  ;; Note that the beginning of the buffer, matched by \`,
+  ;; also serves as a header, and the end of the buffer, matched by \',
+  ;; also serves as a tail.
+  :head-matcher "#\\+end_src\n\\|\\`"
+  :tail-matcher "#\\+begin_src agda2\n\\|\\'"
+  :head-mode 'org-mode
+  :tail-mode 'org-mode)
+#+end_src
+
+Now we define the polymode using the above host and inner modes.
+#+begin_src emacs-lisp
+(define-polymode poly-agda-org-mode
+  :hostmode 'poly-agda-org-hostmode
+  :innermodes '(poly-agda-org-innermode)
+
+  ;; Don't use Polymode's indent line dispatcher,
+  ;; as it results in unexpected indentation on newlines.
+  (setq indent-line-function #'indent-relative))
+#+end_src
+
+Finally, add our new mode to the auto mode list.
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.lagda.org" . poly-agda-org-mode))
+#+end_src
+
+**** TODO Don't remove Org highlighting on typecheck
 
 Agda's highlighting mode makes use of ~annotate~ to apply syntax highlighting
 throughout the buffer, including the literate portion,
@@ -426,18 +463,12 @@ from the Agda highlight faces attribute list.
 (assq-delete-all 'background agda2-highlight-faces)
 #+end_src
 
-**** Proper ~newline~ behaviour in the Agda inner mode
-
-Polymode introduces an “indent line dispatcher”,
-simply called ~pm-indent-line-dispatcher~.
-Unfortunately, this dispatcher does not provide the
-expected indentation behaviour in Agda mode
-(though does seem to take the inner mode into consideration;
-I don't know what the exact reason for the unexpected behaviour is).
-
-~pm-indent-line-dispatcher~ is being invoked in our Polymode
-because it is the setting for ~indent-line-function~;
-
+Even with the background annotation removed,
+following a load, Org fontification in text /following/ an Agda block
+(so everywhere except the top of the file)
+gets removed following a load.
+This can be handled by running ~font-lock-fontify-buffer~ following a load.
+:TODO: but font-lock-fontify-buffer /removes/ the Agda highlighting!
 
 **** Toggling Org indentation
 
