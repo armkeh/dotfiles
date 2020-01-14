@@ -475,6 +475,33 @@ gets removed following a load.
 This can be handled by running ~font-lock-fontify-buffer~ following a load.
 :TODO: but font-lock-fontify-buffer /removes/ the Agda highlighting!
 
+***** Testing out fontification
+
+(This was a very incomplete attempt to restore Org fontification
+by applying the just-in-time fontification on only to Org segments;
+that's naive, because Agda seems to destroy the fontification
+information, so fontifying won't do anything).
+
+~jit-lock-fontify-now~ /sometimes/ forces fontlocking,
+without turning on ~font-lock~ mode.
+#+begin_src emacs-lisp
+(jit-lock-fontify-now)
+#+end_src
+Why's it not consistent? I don't know. Damn.
+
+#+begin_src emacs-lisp
+;; Save point and restore it after we're done.
+(save-excursion
+
+  ;; Move to the beginning of the previous agda2 block (if it exists)
+  (re-search-backward "#\\+begin_src agda2" nil t)
+
+  (let ((beg (re-search-forward "#\\+end_src" nil t))
+        (end (re-search-forward "#\\+begin_src agda2" nil t)))
+    (message (format "Going to fontify between %d and %d" beg end))
+    (jit-lock-fontify-now beg end)))
+#+end_src
+
 **** Toggling Org indentation
 
 Agda relies upon indentation syntactically,
