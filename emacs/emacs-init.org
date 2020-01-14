@@ -121,10 +121,9 @@ of the previous (as long as this is possible)."
 
 *** Set the load path for manually downloaded packages
 
-(Currently I don't use manually downloaded packages)
-
+Also used as a scratch directory when I'm working on a package.
 #+begin_src emacs-lisp
-;;(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
+(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
 #+end_src
 
 *** Bootstrap ~use-package~
@@ -346,7 +345,16 @@ TODO
        (lambda () (set-input-method "Agda")))
 #+end_src
 
-*** Working in ~.lagda.org~ files using Polymode
+*** Org Agda mode
+
+#+begin_src emacs-lisp
+(require 'org-agda-mode)
+#+end_src
+
+*** COMMENT Working in ~.lagda.org~ files using Polymode
+
+
+*This code has now been moved to the Org-Agda project.*
 
 Polymode allows us to use more than one major mode in a buffer,
 something usually impossible in Emacs.
