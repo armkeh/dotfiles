@@ -365,10 +365,7 @@ Org is our hostmode.
 #+begin_src emacs-lisp
 (define-hostmode poly-org-agda-hostmode
   :mode 'org-mode
-  :keep-in-mode 'host
-  ;; Disable font-lock-mode, which interferes with Agda annotations.
-  ;; Unfortunately we lose Org mode highlighting then.
-  :init-functions '((lambda (_) (font-lock-mode 0))))
+  :keep-in-mode 'host)
 #+end_src
 
 Agda is our inner mode, delimited by Org source blocks.
