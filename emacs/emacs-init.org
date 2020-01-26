@@ -1142,6 +1142,15 @@ see https://emacs.stackexchange.com/questions/41111/org-mode-markup-between-squa
 #+end_src
 I add ( to the second entry, to allow ( to immediately follow markup.
 
+**** Require ~{}~ to denote sub/superscripts
+
+Sometimes I use the characters ~_~ and ~^~ to write subscripts and superscripts;
+however, when I do so, I want to be forced to use brackets to enclose
+the sub/superscripts.
+#+begin_src emacs-lisp
+(setq org-export-with-sub-superscripts '{})
+#+end_src
+
 **** Highlight math mode blocks
 
  #+begin_src emacs-lisp
