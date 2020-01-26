@@ -204,6 +204,18 @@ $0
 ,#+end_src
 #+end_src
 
+**** ga: Breaking Agda code blocks           :src:orgga:
+
+In Agda-Org mode (a Polymode), the Agda ~src~ blocks
+are in Agda mode, meaning that Org's “demarcate block”
+command isn't available for breaking up source blocks.
+So use this snippet instead.
+#+begin_src text
+,#+end_src
+
+#+begin_src agda2
+#+end_src
+
 **** oz: Oz code block                       :src:orgoz:
 
 #+begin_src text
