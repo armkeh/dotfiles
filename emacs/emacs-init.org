@@ -2108,9 +2108,11 @@ the screen on the current line.
 
 ** Fonts
 
+I like the Cousine font, and usually use a small 11in screen,
+and so use a small font; 9pt seems to be a sweet spot.
 #+begin_src emacs-lisp
 (add-to-list 'default-frame-alist
-             '(font . "Cousine-10"))
+             '(font . "Cousine-9"))
 #+end_src
 
 ** Themes
