@@ -2114,17 +2114,40 @@ the screen on the current line.
 
 ** Themes
 
-I use the ~doom-nord~ themes,
-and toggle between the non-~light~ and ~light~ variants.
-
+I use Doom themes. By default, I prefer a dark theme,
+but like to toggle between it and a light theme at need.
 #+begin_src emacs-lisp
 (use-package doom-themes)
 
-(load-theme 'doom-nord t)
+(setq my/dark-theme 'doom-vibrant)
+(setq my/light-theme 'doom-nord-light)
 
-(setq my-dark-theme 'doom-vibrant)
-(setq my-light-theme 'doom-nord-light)
+(load-theme my/dark-theme t)
+#+end_src
 
+This is recommended for making the Doom themes “play nice” with Org.
+#+begin_src emacs-lisp
+(doom-themes-org-config)
+#+end_src
+
+*** Customising colouring of themes
+
+Sometimes it is necessary to modify faces for particular themes
+manually.
+#+begin_src emacs-lisp
+(custom-theme-set-faces
+ 'doom-vibrant
+ ;; Default is white on a light purple and yellow; impossible to read.
+ '(spaceline-unmodified ((t (:foreground "black"
+                             :background "cyan"))))
+ '(spaceline-modified   ((t (:foreground "black"
+                             :background "gold")))))
+#+end_src
+
+*** Toggling the themes
+
+These functions allow me to clear and toggle my themes.
+#+begin_src emacs-lisp
 (defun disable-all-custom-themes ()
   "Disable all custom themes.
    Returns the previous highest precendence theme
@@ -2153,22 +2176,12 @@ and toggle between the non-~light~ and ~light~ variants.
   "
 
   (let ((most-recent-theme (disable-all-custom-themes)))
-    (if (eq most-recent-theme my-dark-theme)
-        (load-theme my-light-theme)
-        (load-theme my-dark-theme)
+    (if (eq most-recent-theme my/dark-theme)
+        (load-theme my/light-theme)
+        (load-theme my/dark-theme)
     )
   )
 )
-
-(eq (car custom-enabled-themes) my-dark-theme)
-(disable-all-custom-themes)
-(toggle-my-themes)
-#+end_src
-
-Make it “play nice” with ~org~
-
-#+begin_src emacs-lisp
-(doom-themes-org-config)
 #+end_src
 
 ** Displaying/removing information and interface elements
