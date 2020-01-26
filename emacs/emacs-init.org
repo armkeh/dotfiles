@@ -542,7 +542,7 @@ See my [[Key bindings]].
 (use-package racket-mode)
 #+end_src
 
-*** The Mozart Programming System for ~Oz~
+*** COMMENT The Mozart Programming System for ~Oz~
 
 The Mozart Programming System “provides a powerful environment
 for the development of software systems, called the
