@@ -1090,7 +1090,7 @@ when editing code blocks.
 **** Indent text based on heading by default
 
 #+begin_src emacs-lisp
-(add-hook 'org-mode-hook 'org-indent-mode)
+(setq org-startup-indented t)
 #+end_src
 
 **** Hide emphasis markers by default
