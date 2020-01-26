@@ -2214,7 +2214,36 @@ prompt if I accidentally ask to close.
 (setq confirm-kill-emacs 'yes-or-no-p)
 #+end_src
 
-*** Information in the mode line
+*** The mode line
+
+**** Taking the Spacemacs modeline
+
+While I don't use Spacemacs, I do like it's sleek modeline.
+#+begin_src emacs-lisp
+(use-package spaceline)
+#+end_src
+
+Using ~spaceline-emacs-theme~ instead
+of ~spaceline-spacemacs-theme~ should improve compatibility.
+#+begin_src emacs-lisp
+(spaceline-emacs-theme)
+#+end_src
+
+**** Information to display
+
+:TODO:
+
+**** Colour the beginning of the line based on the save status of the file
+
+This setting changes the colour of the start of the modeline
+when the file has been modified and not saved,
+a nice subtle reminder to save.
+#+begin_src emacs-lisp
+(setq spaceline-highlight-face-func
+  'spaceline-highlight-face-modified)
+#+end_src
+
+**** Flash on error
 
 The doom themes package comes with a function to make
 the mode line flash on error.
@@ -2227,6 +2256,11 @@ than necessary.
 #+begin_src emacs-lisp
 ;;(setq visible-bell t)
 #+end_src
+
+**** COMMENT Default modeline configuration
+
+These configurations don't rely upon a package,
+in case I want to return to the vanilla modeline in the future.
 
 I also like the mode line to show the data and time.
 #+begin_src emacs-lisp
