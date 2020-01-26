@@ -201,11 +201,12 @@ so I simply ~require~ them.
 *** Command line arguments
 
 Dr. Wolfram Kahl has recommended customising the following settings.
-(note that my machine is a virtual machine running on a Chromebook
-with a little less than ~5G~ available to it).
+Note that my machine is a virtual machine running on a Chromebook
+which, at time of writing (January 2020) has around ~6G~ (out of
+the system's total ~8G~) available to it.
 
 #+begin_src emacs-lisp
-(setq agda2-program-args (quote ("+RTS" "-M3G" "-H3G" "-A128M" "-RTS")))
+(setq agda2-program-args (quote ("+RTS" "-M4G" "-H4G" "-A128M" "-RTS")))
 #+end_src
 
 These arguments specify
