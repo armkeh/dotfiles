@@ -2387,6 +2387,19 @@ After some use, I've found this indicator to be a combination
 of distracting and possibly causing some lag, so I no longer use
 it. ~whitespace-mode~ (set up above) makes a good alternative.
 
+*** More noticable divider between windows
+
+One problem with a fill column ruler is that it can seem like
+it is the divider between windows.
+
+For that reason, I like to have a more noticable divider
+between windows. ~window-divider-mode~ provides this.
+#+begin_src emacs-lisp
+(window-divider-mode)
+#+end_src
+
+The default settings seem fine for the moment,
+so no customisation here.
 
 *** Don't wrap lines
 
