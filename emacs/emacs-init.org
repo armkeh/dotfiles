@@ -993,6 +993,20 @@ by replacing spaces with hyphens, for headings without IDs.
 (advice-add 'org-md-export-to-markdown :before 'my/ensure-headline-ids)
 #+end_src
 
+**** Require ~{}~ to denote sub/superscripts
+
+Sometimes I want to export the characters ~_~ or ~^~.
+However, Org allows these to be used for LaTeX style sub/superscripts,
+so a lone ~_~ will be exported (to LaTeX at least)
+as ~\_{}~ (and similarly for a lone ~^~).
+
+In order to avoid this, but still allow for LaTeX style sub/superscripts,
+we can use a setting to /require/ that sub/superscripts be enclosed in brackets
+(which is my preference in any case).
+#+begin_src emacs-lisp
+(setq org-export-with-sub-superscripts '{})
+#+end_src
+
 *** Evaluating code
 
 By default, Emacs will query whether we /actually/ want to
