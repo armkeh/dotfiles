@@ -2552,7 +2552,7 @@ an Org async export process.
 )
 #+end_src
 
-*** Seeing recently visited files
+*** COMMENT Seeing recently visited files
 
 Usually, I don't appreciate software opening in its previous state;
 if I closed an application (especially Emacs),
