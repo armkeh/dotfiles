@@ -2364,15 +2364,16 @@ After some use, I've found this indicator to be a combination
 of distracting and possibly causing some lag, so I no longer use
 it. ~whitespace-mode~ (set up above) makes a good alternative.
 
-*** Wrap lines
+
+*** Don't wrap lines
 
 Since I make an effort to keep my lines under 80 characters,
 I usually won't have lines too long for the window.
 
-Previously, I enabled ~visual-line-mode~ to “wrap” lines which are too long;
-This is very annoying when working with a file with lots of long lines,
-so I no longer enable it by default.
-there is a shortcut under [[Key bindings]] to toggle it if needed.
+Previously, I enabled ~visual-line-mode~ to “wrap” lines which
+are too long; This is very annoying when working with a file
+with lots of long lines, so I no longer enable it by default.
+There is a shortcut under [[Key bindings]] to toggle it if needed.
 #+begin_src emacs-lisp
 ;; Enable line wrapping everywhere; not recommended.
 ;; (global-visual-line-mode t)
@@ -2381,6 +2382,17 @@ there is a shortcut under [[Key bindings]] to toggle it if needed.
 ;;(add-hook 'text-mode-hook 'visual-line-mode)
 ;;(add-hook 'prog-mode-hook 'visual-line-mode)
 #+end_src
+
+**** Disable builtin line wrapping
+
+Emacs wraps lines in some modes by default
+(I am honestly unsure which modes).
+We can disable this by setting ~truncate-lines~ to ~t~ by default.
+#+begin_src emacs-lisp
+(set-default 'truncate-lines t)
+#+end_src
+
+**** Killing lines in ~visual-line-mode~
 
 One annoying feature of ~visual-line-mode~, at least in recent
 versions, is that it redefines a kill to only kill to the end
