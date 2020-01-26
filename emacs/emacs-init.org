@@ -2047,12 +2047,13 @@ These are cosmetics relating to lines in the current buffer.
             :which-key "Line wrap - yes")
   "l w n" '((lambda () (interactive) (visual-line-mode 0))
             :which-key "Line wrap - no")
-  "l h"   '(:ignore t
-            :which-key "Long line highlighting")
-  "l h y" '((lambda () (interactive) (whitespace-mode 1))
-            :which-key "Long line hightlight - yes")
-  "l h n" '((lambda () (interactive) (whitespace-mode 0))
-            :which-key "Long line hightlight - yes")
+;; Line highlighting has been reduced; I don't need this anymore.
+;  "l h"   '(:ignore t
+;            :which-key "Long line highlighting")
+;  "l h y" '((lambda () (interactive) (whitespace-mode 1))
+;            :which-key "Long line hightlight - yes")
+;  "l h n" '((lambda () (interactive) (whitespace-mode 0))
+;            :which-key "Long line hightlight - yes")
 )
 #+end_src
 
