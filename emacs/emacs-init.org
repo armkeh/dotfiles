@@ -2312,39 +2312,62 @@ So I generally just work without line numbers in older versions.
  (use-package paren)
  #+end_src
 
-*** Show trailing whitespace and overlong lines
+*** Display tabs
 
-It's good style not to have trailing whitespace.
-~show-trailing-whitespace~ will colour any trailing whitespace.
-
+I usually use spaces rather than tabs,
+so I use ~whitespace-mode~ to alert me to the presence of tabs.
 #+begin_src emacs-lisp
-(add-hook 'text-mode-hook 'whitespace-mode)
-(add-hook 'prog-mode-hook 'whitespace-mode)
-
-; (global-whitespace-mode)
-
-(setq whitespace-style
-      '(face
-        trailing lines-tail empty
-        tabs space-before-tab::tab space-after-tab::tab))
+(global-whitespace-mode t)
 #+end_src
 
-This can be a little annoying, so there are toggles for various
-aspects under [[Key bindings].
+Setting ~whitespace-style~ to ~tab-mark~ visualises tabs
+by changing the display table to show a character at the
+location of the tab.
+#+begin_src emacs-lisp
+(setq whitespace-style '(tab-mark))
+#+end_src
 
-*** Show ruler at 80 characters for (for ~text~ and ~prog~ mode)
+**** Deprecated – more whitespace highlighting
 
-It's also good style to keep lines under 80 characters wide.
-~fill-column-indicator~ will display a line (by default at 70 characters)
+I previously used ~whitespace-style~ to highlight
+trailing whitespace; however, I find this feature intrusive,
+so I avoid it.
 
-One thing worth noting is that with ~org-indent-mode~,
-the line will be off by the length of the indentation
-(i.e. it will be at line 68 if indented 2 characters,
-66 if indented 4, etc.).
+If it is wanted later, then I should add to the list
+#+begin_example emacs-lisp
+(face trailing)
+#+end_example
+We need to add ~face~ to the list, to enable using faces
+to highlight whitespace.
+
+Note there is no way to visualise spaces only at the end of lines;
+The visualisation is done by changing the display table,
+and there is no ability to do so only in particular places.
+Otherwise I would use that rather than highlighting.
+
+*** Show ruler at 70 characters for (for ~text~ and ~prog~ mode)
+
+It's good style to keep lines under 80 characters wide.
+The built in ~display-fill-column-indicator-mode~ puts a ruler,
+by default at 70 characters.
+#+begin_src emacs-lisp
+(global-display-fill-column-indicator-mode t)
+#+end_src
+
+Note that with ~org-indent-mode~, the ruler will be off
+by the length of the indentation (i.e. it will be
+at line 68 if indented 2 characters, 66 if indented 4, etc).
+
+**** Deprecated – ~fci-mode~
+
+In earlier versions of Emacs (< 27), 
+the package ~fill-column-indicator~ could be used to get
+the fill column ruler.
+
+Note that this seems to cause some noticable lag.
 
 The code to make it a global mode is from the
 [[https://www.emacswiki.org/emacs/FillColumnIndicator][Emacs wiki]].
-
 #+begin_src emacs-lisp
 ;;(use-package fill-column-indicator)
 ;;(define-globalized-minor-mode global-fci-mode
