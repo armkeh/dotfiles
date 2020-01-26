@@ -2691,3 +2691,20 @@ Admittedly, it's a hack to just sleep.
 #+begin_src emacs-lisp
 (defalias 'ff 'find-file)
 #+end_src
+
+** Bibliography setup
+
+Stolen from Musa's configuration.
+#+begin_src emacs-lisp
+(use-package org-ref
+  :custom ;; Files to look at when no “╲bibliography{⋯}”
+          ;; is present in a file.
+          ;; Most useful for non-LaTeX files.
+        (reftex-default-bibliography '("~/Dropbox/McMaster/references.bib"))
+        (bibtex-completion-bibliography (car reftex-default-bibliography))
+        (org-ref-default-bibliography reftex-default-bibliography))
+
+;; Quick BibTeX references, sometimes.
+(use-package helm-bibtex)
+(use-package biblio)
+#+end_src
