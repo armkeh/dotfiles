@@ -296,6 +296,32 @@ $0
 ,#+end_src
 #+end_src
 
+**** ~example~ blocks
+
+***** ex: Org example block                 :src:orgex:
+
+#+begin_src text
+#+begin_example $1
+$0
+,#+end_example
+#+end_src
+
+***** ele: Emacs lisp example block         :src:orgex:
+
+#+begin_src text
+#+begin_example emacs-lisp
+$0
+,#+end_example
+#+end_src
+
+***** age: Agda example block               :src:orgex:
+
+#+begin_src text
+#+begin_example agda2
+$0
+,#+end_example
+#+end_src
+
 *** Blocks for LaTeX exports
 
 **** ldisc: Discussion                                         :src:ldisc:
@@ -355,6 +381,14 @@ $0
 #+begin_verse
 $0
 #+end_verse
+#+end_src
+
+**** verb: Verbatim                          :src:orgverb:
+
+#+begin_src emacs-lisp
+#+begin_verbatim
+$0
+#+end_verbatim
 #+end_src
 
 ** Punctuation, parentheses, etc.
