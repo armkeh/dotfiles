@@ -2180,27 +2180,23 @@ and hide unimportant information or interfact elements.
 
 Emacs usually shows a splash screen on startup,
 which doesn't interest me.
-
 #+begin_src emacs-lisp
 (setq inhibit-splash-screen t)
 #+end_src
 
 I don't use the tool bar (icons below the menu bar).
-(This setting must be ~-1~, not ~()~).
-
+(This setting must be ~-1~, not ~nil~).
 #+begin_src emacs-lisp
 (tool-bar-mode -1)
 #+end_src
 
 I also don't use the menu bar.
-(Again, this must be ~-1~, not ~()~).
-
+(Again, this must be ~-1~, not ~nil~).
 #+begin_src emacs-lisp
 (menu-bar-mode -1)
 #+end_src
 
 I also disable the scroll bars.
-
 #+begin_src emacs-lisp
 (scroll-bar-mode -1)
 #+end_src
