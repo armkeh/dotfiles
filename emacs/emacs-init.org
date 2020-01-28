@@ -146,6 +146,19 @@ I always want to download packages that aren't installed.
 (setq use-package-always-ensure t)
 #+end_src
 
+*** Update packages
+
+#+begin_src emacs-lisp
+(use-package auto-package-update
+  :config
+  ;; Delete residual old versions
+  (setq auto-package-update-delete-old-versions t)
+  ;; Do not bother me when updates have taken place.
+  (setq auto-package-update-hide-results t)
+  ;; Update installed packages at startup if there is an update pending.
+  (auto-package-update-maybe))
+#+end_src
+
 ** ~eshell~
 
 #+begin_src emacs-lisp
