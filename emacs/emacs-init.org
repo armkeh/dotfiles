@@ -1284,6 +1284,14 @@ the sub/superscripts.
 (setq org-highlight-latex-and-related '(latex))
 #+end_src
 
+**** Pretty bullets
+
+Org bullets replaces the standard ~*~ in headers
+with prettier symbols.
+#+begin_src emacs-lisp
+(use-package org-bullets
+  :hook (org-mode . org-bullets-mode))
+#+end_src
 
 **** Replace the ellipsis ~...~
 
