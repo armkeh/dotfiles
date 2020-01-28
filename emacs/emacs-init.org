@@ -2786,6 +2786,22 @@ startup.
 (setq mouse-wheel-progressive-speed t) ;; don't accelerate scrolling
 #+end_src
 
+** “All the icons”
+
+The package ~all-the-icons~ makes certain modes prettier
+by adding icons for filetypes, etc.
+#+begin_src emacs-lisp
+(use-package all-the-icons)
+#+end_src
+Note we must run ~all-the-icons-install-fonts~ in order to install
+the icons.
+
+~dired~ is probably the most important usage of this for me.
+#+begin_src emacs-lisp
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+#+end_src
+
 * Other
 
 ** Run my custom “dropbox start” command to ensure dropbox is running on the system
