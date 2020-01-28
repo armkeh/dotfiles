@@ -626,7 +626,7 @@ I set up literate Oz (it only takes ~(require 'ob-oz)~).
 *** F#
 
 #+begin_src emacs-lisp
-(require 'fsharp-mode)
+;;(require 'fsharp-mode)
 #+end_src
 
 *** Prolog
@@ -1056,7 +1056,7 @@ These languages have support built-in, it just has to be activated.
 
 For other languages, separate packages are needed.
 #+begin_src emacs-lisp
-(use-package ob-fsharp)
+;;(use-package ob-fsharp)
 #+end_src
 
 ~ob-oz~ comes with a Mozart2 installation;
