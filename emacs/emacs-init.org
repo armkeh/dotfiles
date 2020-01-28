@@ -1235,9 +1235,10 @@ the sub/superscripts.
 
 **** Highlight math mode blocks
 
- #+begin_src emacs-lisp
- (setq org-highlight-latex-and-related '(latex))
- #+end_src
+#+begin_src emacs-lisp
+(setq org-highlight-latex-and-related '(latex))
+#+end_src
+
 
 **** Replace the ellipsis ~...~
 
@@ -2433,12 +2434,12 @@ So I generally just work without line numbers in older versions.
 
 *** Highlight matching parenthesis when cursor is near
 
- #+begin_src emacs-lisp
- (load-library "paren")
- (show-paren-mode 1)
- (transient-mark-mode t)
- (use-package paren)
- #+end_src
+#+begin_src emacs-lisp
+(load-library "paren")
+(show-paren-mode 1)
+(transient-mark-mode t)
+(use-package paren)
+#+end_src
 
 *** Display tabs
 
