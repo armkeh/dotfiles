@@ -696,12 +696,14 @@ To see the commands available, execute
 
 Use the ~:ignore:~ tag on headlines to omit the headline when
 exporting, but keep its contents.
+#+Name: export-ignore-headlines
 #+begin_src emacs-lisp
 (ox-extras-activate '(ignore-headlines))
 #+end_src
 Alternatively, use the ~:noexport:~ tag to omit the headline
 /and/ its contents.
 
+#+Name: export-ignore-sections
 #+begin_src emacs-lisp
 ;;;; noexport is in the list by default
 ;; (add-to-list 'org-export-exclude-tags "noexport")
@@ -710,41 +712,90 @@ Alternatively, use the ~:noexport:~ tag to omit the headline
 **** Source code block indentation and colouring
 
 I want to preserve my indentation for source code during export.
+#+Name: export-preserve-indentation
 #+begin_src emacs-lisp
 (setq org-src-preserve-indentation t)
 #+end_src
 
 The ~htmlize~ package preserves source code colouring on export to html.
 (And presumably does a lot more I am not fully aware of).
+#+Name: export-htmlize
 #+begin_src emacs-lisp
 (use-package htmlize)
 #+end_src
 
 **** Export in the background
 
-Using ~latex-mk~, the export process takes a bit of time.
+Using ~latex-mk~, the export process for LaTeX takes a bit of time.
 Tying up emacs during that time is annoying, so set the
 export to happen in the background.
 This setting can be modified locally in the export dialog frame
-if desired.
-
+if desired by adding ~C-a~ to the export key sequence..
 #+begin_src emacs-lisp
-(setq org-export-in-background t)
+;; TODO: this is broken for some unknown reason; I regularly get
+;; illegal syntax # errors when trying to export.
+;;(setq org-export-in-background t)
 #+end_src
 
-This works by spawning a new Emacs session.
-That session uses this init file, so we must be careful
-that this file works for daemon (headless) Emacs processes.
-See [[Opening the initial buffers]] for how to deal with
-problematic portions.
+This works by spawning a new Emacs session in which the file is exported.
+By default, that session would use this init file, but that's overkill
+and wastes time; most of this init is not relevant for that session.
+So, we'll set a different init file, constructed from the relevant
+portions of this file.
+#+begin_src emacs-lisp
+(setq org-export-async-init-file
+  "~/.emacs.d/org-async-init.el") 
+#+end_src
 
-Another possible solution would be to modify
-~org-export-async-init-file~, but that would require
-creation of a new init file. To use this approach, I would
-have to repeat large portions of this file.
-If this approach is ever desirable,
-this [[https://superuser.com/a/898717/1032497][answer on StackExchange]] describes how to create such a file
-using Lisp code.
+Some default settings.
+#+begin_src emacs-lisp :noweb yes :tangle ~/.emacs.d/org-async-init.el
+;; Org export init, tangled from my Emacs init
+(require 'package)
+(setq package-enable-at-startup nil)
+(package-initialize)
+
+(require 'org)
+(require 'ox)
+(require 'ox-extra)
+
+(setq org-export-async-debug t)
+#+end_src
+
+These settings are from this exporting section.
+#+begin_src emacs-lisp :noweb yes :tangle ~/.emacs.d/org-async-init.el
+<<export-ignore-headlines>>
+<<export-ignore-sections>>
+<<export-preserve-indentation>>
+<<export-htmlize>>
+<<export-preserve-org-links>>
+<<export-latex-compiler>>
+<<export-latex-process>>
+<<export-latex-classes>>
+<<export-latex-beamer-classes>>
+<<export-latex-minted>>
+<<export-latex-hyperref>>
+<<export-reveal>>
+<<export-reveal-theme>>
+<<export-reveal-title>>
+<<export-reveal-extra-css>>
+<<export-pandoc>>
+<<export-headline-ids>>
+<<export-sub-superscripts>>
+#+end_src
+
+We also need code evaluation settings, as code blocks may need
+to be evaluated for export.
+#+begin_src emacs-lisp :noweb yes :tangle ~/.emacs.d/org-async-init.el
+<<evaluate-no-confirm>>
+<<evaluate-languages>>
+<<evaluate-ditaa-path>>
+<<evaluate-geiser-implementation>>
+<<evaluate-fsharp>>
+<<evaluate-oz>>
+<<evaluate-racket>>
+<<evaluate-shell-init>>
+<<evaluate-plantuml-path>>
+#+end_src
 
 **** Don't change ~.org~ links to ~.html~
 
@@ -755,6 +806,7 @@ I don't want this; for instance, when teaching a course,
 I like to link to both a generated HTML file and
 the original Org source version of notes
 (on my generated course homepage).
+#+Name: export-preserve-org-links
 #+begin_src emacs-lisp
 (setq org-html-link-org-files-as-html nil)
 #+end_src
@@ -771,7 +823,7 @@ for my purposes, so the decision of which to use is arbitrary.
 
 Based on [[https://tex.stackexchange.com/questions/36/differences-between-luatex-context-and-xetex][this discussion on Stack Exchange]], LuaTeX seems the more
 “up and coming” engine, so I'm using it at least until something breaks.
-
+#+Name: export-latex-compiler
 #+begin_src emacs-lisp
 (setq org-latex-compiler "lualatex")
 #+end_src
@@ -780,7 +832,7 @@ Based on [[https://tex.stackexchange.com/questions/36/differences-between-luatex
 
 I use ~latexmk~ to automatically run as many passes as needed
 to resolve references, etc.
-
+#+Name: export-latex-process
 #+begin_src emacs-lisp
 (setq org-latex-pdf-process
       '("latexmk -%latex -f %f"))
@@ -798,7 +850,7 @@ Other flags/format specifiers I may wish to add later include
 
 I want a ~report~ class that begins with ~chapter~'s, rather than
 ~part~'s.
-
+#+Name: export-latex-classes
 #+begin_src emacs-lisp
 (add-to-list
   'org-latex-classes
@@ -814,7 +866,7 @@ I want a ~report~ class that begins with ~chapter~'s, rather than
 
 Sometimes, for creating slides, ~beamer~ is useful.
 (Though I try to avoid it now; it feels low level to me).
-
+#+Name: export-latex-beamer-classes
 #+begin_src emacs-lisp
 (add-to-list
   'org-latex-classes
@@ -833,9 +885,9 @@ Currently this breaks things with my literate Agda process,
 a problem I should resolve. For the moment, if I want to use
 ~minted~, I can do so on a file-by-file basis.
 
-⟪ ~pygments~ (also called ~python-pygments~) must be installed on the
-  system for this to work. ⟫
-
+~pygments~ (also called ~python-pygments~) must be installed on the
+system for this to work.
+#+Name: export-latex-minted
 #+begin_src emacs-lisp
 ;;(setq org-latex-listings 'minted
 ;;      org-latex-packages-alist '(("" "minted")))
@@ -843,6 +895,7 @@ a problem I should resolve. For the moment, if I want to use
 
 ***** ~hyperref~ setup
 
+#+Name: export-latex-hyperref
 #+begin_src emacs-lisp
 (setq org-latex-hyperref-template
   "\\hypersetup{
@@ -867,6 +920,7 @@ I make use of ~org-reveal~ to create ~reveal.js~ slide decks.
 This is way easier than dealing with ~beamer~ in LaTeX,
 and results in much more attractive and better organised slides.
 
+#+Name: export-reveal
 #+begin_src emacs-lisp
 (use-package ox-reveal)
 
@@ -880,6 +934,7 @@ and results in much more attractive and better organised slides.
 ~reveal.js~ comes with many themes; ~black~ is the current default
 at time of writing this. I set it just to be sure it stays consistent.
 
+#+Name: export-reveal-theme
 #+begin_src emacs-lisp
 (setq org-reveal-theme "black")
 #+end_src
@@ -905,6 +960,7 @@ The default title slide includes title and date, with the formatting
 #+end_src
 where ~%t~ stands for the document title and ~%d~ stands for the date.
 I override this setting
+#+Name: export-reveal-title
 #+begin_src emacs-lisp
 (setq org-reveal-title-slide
   "<h2 class=\"title\">%t</h2>
@@ -927,6 +983,7 @@ These settings are depricated; I need to remove this.
 ****** Extra CSS
 
 I should set this up.
+#+Name: export-reveal-extra-css
 #+begin_src emacs-lisp
 (setq org-reveal-extra-css "")
 #+end_src
@@ -939,6 +996,7 @@ formats via Pandoc”.
 I don't make much use of it, but it more flexible, and so has
 lots of options which make be useful in the future.
 
+#+Name: export-pandoc
 #+begin_src emacs-lisp
 (use-package ox-pandoc)
 #+end_src
@@ -978,6 +1036,7 @@ Here's a rough snippet to generate IDs from headings,
 by replacing spaces with hyphens, for headings without IDs.
 #+end_quote
 
+#+Name: export-headline-ids
 #+begin_src emacs-lisp
 (defun my/ensure-headline-ids (&rest _)
   "Org trees without a :CUSTOM_ID: property have the property
@@ -1016,6 +1075,7 @@ as ~\_{}~ (and similarly for a lone ~^~).
 In order to avoid this, but still allow for LaTeX style sub/superscripts,
 we can use a setting to /require/ that sub/superscripts be enclosed in brackets
 (which is my preference in any case).
+#+Name: export-sub-superscripts
 #+begin_src emacs-lisp
 (setq org-export-with-sub-superscripts '{})
 #+end_src
@@ -1026,6 +1086,7 @@ By default, Emacs will query whether we /actually/ want to
 execute code when we evaluate a code block. Also, it seems to
 just /not/ execute code marked for execution during export in an
 ~org~ file. So, I remove the safety.
+#+Name: evaluate-no-confirm
 #+begin_src emacs-lisp
 (setq org-confirm-babel-evaluate nil)
 #+end_src
@@ -1034,6 +1095,7 @@ By default only emacs lisp can be evaluated.
 Documentation [[https://orgmode.org/manual/Languages.html][here]].
 
 These languages have support built-in, it just has to be activated.
+#+Name: evaluate-languages
 #+begin_src emacs-lisp
 (require 'ob-shell)
 (require 'ob-haskell)
@@ -1046,15 +1108,18 @@ These languages have support built-in, it just has to be activated.
 (require 'ob-scheme)
 #+end_src
 
+#+Name: evaluate-ditaa-path
 #+begin_src emacs-lisp
 (setq org-ditaa-jar-path "/usr/bin/ditaa")
 #+end_src
 
+#+Name: evaluate-geiser-implementation
 #+begin_src emacs-lisp
 (setq geiser-default-implementation 'guile)
 #+end_src
 
 For other languages, separate packages are needed.
+#+Name: evaluate-fsharp
 #+begin_src emacs-lisp
 ;;(use-package ob-fsharp)
 #+end_src
@@ -1062,6 +1127,7 @@ For other languages, separate packages are needed.
 ~ob-oz~ comes with a Mozart2 installation;
 if there's a problem, make sure the Mozart2 Elisp directory
 is in the path.
+#+Name: evaluate-oz
 #+begin_src emacs-lisp
 (require 'ob-oz)
 #+end_src
@@ -1075,7 +1141,8 @@ more or less fully featured.
   has not been updated in 4 years.
 So I choose ~emacs-ob-racket~. For the moment, I just saved it
 to my ~emacs.d~; probably it should be put somewhere better,
-but I will do that when I next set up my system :).
+but I will do that when I next set up my system 😀.
+#+Name: evaluate-racket
 #+begin_src emacs-lisp
 (add-to-list 'load-path "/home/markparmstrong/.emacs.d/ob-racket")
 (require 'ob-racket)
@@ -1083,11 +1150,13 @@ but I will do that when I next set up my system :).
 
 For shell code, we need to initialise via this function.
 See [[https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-function-definition-is-void-org-babel-get-header][here]].
+#+Name: evaluate-shell-init
 #+begin_src emacs-lisp
 (org-babel-shell-initialize)
 #+end_src
 
 PlantUML requires we set the path to the ~.jar~ file.
+#+Name: evaluate-plantuml-path
 #+begin_src emacs-lisp
 (setq org-plantuml-jar-path "/usr/share/java/plantuml.jar")
 #+end_src
