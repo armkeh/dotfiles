@@ -2796,6 +2796,29 @@ startup.
                              "/opt/dropbox-filesystem-fix/dropbox_start.py")
 #+end_src
 
+** Always use buffer input mode in mini buffer
+
+Some commands which make use of the minibuffer don't use the input mode
+I have set (Agda input mode); this is very annoying, so I set a hook
+to always use the input mode of the current buffer when entering
+the minibuffer.
+
+Notably, ~string-rectangle~ was where I encountered this all the time.
+The solution below was linked to in this
+[[https://github.com/agda/agda/issues/3993][Agda issue]];
+this StackExchange [[https://emacs.stackexchange.com/questions/38310][post]]
+provides the solution.
+#+begin_src emacs-lisp
+(defun my-inherit-input-method ()
+  "Inherit input method from `minibuffer-selected-window'."
+  (let* ((win (minibuffer-selected-window))
+         (buf (and win (window-buffer win))))
+    (when buf
+      (activate-input-method (buffer-local-value 'current-input-method buf)))))
+
+(add-hook 'minibuffer-setup-hook #'my-inherit-input-method)
+#+end_src
+
 * Temporary fixes
 
 Herein I collect any workarounds I use to solve problems temporarily.
