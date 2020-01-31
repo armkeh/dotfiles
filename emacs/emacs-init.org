@@ -336,6 +336,14 @@ subscripts and superscripts; these translations account for that.
 
 TODO
 
+**** Better access to prime symbols
+
+#+begin_src emacs-lisp
+(add-to-list 'agda-input-user-translations '("''" "″"))
+(add-to-list 'agda-input-user-translations '("'''" "‴"))
+(add-to-list 'agda-input-user-translations '("''''" "⁗"))
+#+end_src
+
 **** Other
 
 #+begin_src emacs-lisp
