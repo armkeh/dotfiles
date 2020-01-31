@@ -2277,20 +2277,6 @@ This is recommended for making the Doom themes “play nice” with Org.
 (doom-themes-org-config)
 #+end_src
 
-*** Customising colouring of themes
-
-Sometimes it is necessary to modify faces for particular themes
-manually.
-#+begin_src emacs-lisp
-(custom-theme-set-faces
- 'doom-vibrant
- ;; Default is white on a light purple and yellow; impossible to read.
- '(spaceline-unmodified ((t (:foreground "black"
-                             :background "cyan"))))
- '(spaceline-modified   ((t (:foreground "black"
-                             :background "gold")))))
-#+end_src
-
 *** Toggling the themes
 
 These functions allow me to clear and toggle my themes.
@@ -2397,6 +2383,17 @@ a nice subtle reminder to save.
 #+begin_src emacs-lisp
 (setq spaceline-highlight-face-func
   'spaceline-highlight-face-modified)
+#+end_src
+
+In fact, let's make that colouring constant across themes.
+#+begin_src emacs-lisp
+(custom-set-faces
+ ;; Default for my dark theme
+ ;; was white on a light purple and yellow; impossible to read.
+ '(spaceline-unmodified ((t (:foreground "black"
+                             :background "green1"))))
+ '(spaceline-modified   ((t (:foreground "black"
+                             :background "gold")))))
 #+end_src
 
 **** Flash on error
