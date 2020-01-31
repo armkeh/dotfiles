@@ -1726,7 +1726,7 @@ this shortcut.
       ("/Sent Mail" . ?s)
       ("/Trash"     . ?t)
       ("/Desk/1-Imminent"    . ?I)
-      ("/Desk/1-Short term"  . ?S)
+      ("/Desk/2-Short term"  . ?S)
       ("/Desk/3-Reference"   . ?R)
       ("/Desk/4-Medium term" . ?M)
       ("/Desk/5-Long term"   . ?L)))
