@@ -2529,13 +2529,20 @@ So I generally just work without line numbers in older versions.
 ;;(add-hook 'prog-mode-hook 'linum-mode)
 #+end_src
 
-*** Highlight matching parenthesis when cursor is near
+*** Parentheses
 
+It's nice to highlight the matching parentheses when the cursor
+is on its match.
 #+begin_src emacs-lisp
-(load-library "paren")
 (show-paren-mode 1)
-(transient-mark-mode t)
-(use-package paren)
+#+end_src
+
+…
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters)
+(add-hook 'org-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'text-mode-hook #'rainbow-delimiters-mode)
 #+end_src
 
 *** Display tabs
