@@ -46,6 +46,20 @@ works correctly on the target file), but why set it in ~.emacs~?
 Since ~.emacs~ uses a symlink to this version controlled file,
 having Emacs prompt me every time is annoying and slows my start up.
 
+** Set a “custom” file
+
+Emacs will, by default, insert all sorts of “custom” settings
+into our ~.emacs~ file (or whichever of the default init locations we use),
+especially those set via GUIs.
+
+In order to avoid polluting that file, let's set it to use
+a particular one. In fact, let's put it under my version control,
+so I will notice changes to it.
+#+begin_src emacs-lisp
+(setq custom-file "~/Dropbox/Organisation/setup/emacs/custom.el")
+(ignore-errors (load custom-file))
+#+end_src
+
 * ~elisp~ code
 
 This section defines some functions/variables referred to
