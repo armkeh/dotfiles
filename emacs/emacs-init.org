@@ -1509,24 +1509,33 @@ I use a “magic” buffer with the name ~*Dired*~, to avoid the single
 #+end_src
 
 The below code, which rebinds keys to use ~dired-single~ rather than ~dired~,
-is taken directly from the ~dired-single~ [[https://github.com/crocket/dired-single][GitHub readme]].
-
+was originally based on code from the ~dired-single~ [[https://github.com/crocket/dired-single][GitHub readme]];
+but in recent versions of Emacs, ~dired-load-hook~ is obsolete,
+so we use ~with-eval-after-load~ instead.
 #+begin_src emacs-lisp
-(defun my-dired-init ()
-  "Bunch of stuff to run for dired, either immediately or when it's
-   loaded."
-  ;; <add other stuff here>
-  (define-key dired-mode-map [return] 'dired-single-buffer)
-  (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
-  (define-key dired-mode-map "." 'dired-single-up-directory)
-)
+(defun my/dired-init ()
+  ;; Keyboard navigation should be rebound to dired-single
+  (define-key dired-mode-map [return]  'dired-single-buffer)
+  (define-key dired-mode-map "."       'dired-single-up-directory)
 
-;; if dired's already loaded, then the keymap will be bound
-(if (boundp 'dired-mode-map)
-        ;; we're good to go; just add our bindings
-        (my-dired-init)
-  ;; it's not loaded yet, so add our bindings to the load-hook
-  (add-hook 'dired-load-hook 'my-dired-init))
+  ;; Emacs registers a mouse 1 click
+  ;; if we click /beside/ a file/directory name.
+  (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
+  ;; It registers a mouse 2 click
+  ;; if we click /on/ a file/directory name.
+  (define-key dired-mode-map [mouse-2] 'dired-single-buffer-mouse))
+
+;; Deprecated code
+;;;; if dired's already loaded, then the keymap will be bound
+;;(if (boundp 'dired-mode-map)
+;;        ;; we're good to go; just add our bindings
+;;        (my/dired-init)
+;;  ;; it's not loaded yet, so add our bindings to the load-hook
+;;  (add-hook 'dired-load-hook 'my/dired-init))
+
+;; Load the keybindings
+(with-eval-after-load 'dired
+  (my/dired-init))
 #+end_src
 
 ** ~magit~
