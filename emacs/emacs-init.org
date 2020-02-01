@@ -2402,13 +2402,37 @@ a nice subtle reminder to save.
 
 In fact, let's make that colouring constant across themes.
 #+begin_src emacs-lisp
-(custom-set-faces
- ;; Default for my dark theme
- ;; was white on a light purple and yellow; impossible to read.
+(custom-theme-set-faces
+ 'user
+ ;; The active buffer has a fairly vibrant blue modeline
+ '(mode-line         ((t (:foreground "black"
+                          :background "DeepSkyBlue1"))))
+ '(powerline-active0 ((t (:foreground "black"
+                          :background "DeepSkyBlue2"))))
+ '(powerline-active1 ((t (:foreground "black"
+                          :background "DeepSkyBlue3"))))
+ '(powerline-active2 ((t (:foreground "black"
+                             :background "DeepSkyBlue4"))))
+
+ ;; The inactive buffers have less vibrant gray/blue modelines
+ '(mode-line-inactive  ((t (:foreground "black"
+                            :background "LightSkyBlue1"))))
+ '(powerline-inactive0 ((t (:foreground "black"
+                            :background "LightSkyBlue2"))))
+ '(powerline-inactive1 ((t (:foreground "black"
+                            :background "LightSkyBlue3"))))
+ '(powerline-inactive2 ((t (:foreground "black"
+                             :background "LightSkyBlue4"))))
+
+ ;; Highlighting based on save status of buffer
  '(spaceline-unmodified ((t (:foreground "black"
                              :background "green1"))))
  '(spaceline-modified   ((t (:foreground "black"
-                             :background "gold")))))
+                             :background "gold1"))))
+ '(spaceline-read-only  ((t (:foreground "black"
+                             :background "seashell1"))))
+)
+(powerline-reset)
 #+end_src
 
 **** Flash on error
