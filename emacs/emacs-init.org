@@ -1652,6 +1652,12 @@ do
   sleep 30m
 done
 #+end_src
+By default, we would be prompted whether we want to kill this process
+upon exiting Emacs; I will always answer yes, so it's best
+just not to have it ask.
+#+begin_src emacs-lisp
+(set-process-query-on-exit-flag (get-process "mbsync-gmail-rest") nil)
+#+end_src
 
 ~mu4e~ has an annoying habit of hogging the minibuffer while
 updating and indexing; unfortunately this means I prefer
