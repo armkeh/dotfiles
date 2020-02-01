@@ -2707,6 +2707,49 @@ There's also this package to help with Unicode fonts,
 but it doesn't seem necessary for me.
 [[https://github.com/rolandwalker/unicode-fonts]]
 
+*** Dim buffers when not in use
+
+The package ~dimmer~ will dim inactive windows to emphasise which
+window has focus.
+See its [[https://github.com/gonewest818/dimmer.el][Github page]].
+#+begin_src emacs-lisp
+(use-package dimmer)
+#+end_src
+
+Turn ~dimmer-mode~ on when Emacs starts.
+#+begin_src emacs-lisp
+(dimmer-mode)
+#+end_src
+
+Don't dim ~which-key~ and ~helm~ buffers.
+#+begin_src emacs-lisp
+(dimmer-configure-which-key)
+(dimmer-configure-helm)
+#+end_src
+
+We can adjust the ~:foreground~ colours, the ~:background~ colours,
+or ~:both~. With a dark theme, adjusting the background causes
+the background to become lighter in inactive buffers,
+which “looks wrong” (makes them looked like they have focus).
+So I set this to just ~:foreground~ (which is the default anyway).
+#+begin_src emacs-lisp
+(setq dimmer-adjustment-mode :foreground)
+#+end_src
+
+I find the default dimming of ~20%~ to be too faint;
+it is noticeable when changing windows, but it does not
+remain noticeable enough later (e.g. when I look away from Emacs
+then look back). Doubling that to ~40%~ seems to be sufficient,
+while maintaing the readability of unfocussed buffers.
+#+begin_src emacs-lisp
+(setq dimmer-fraction 0.4)
+#+end_src
+
+Note that by default, all windows will be dimmer when Emacs
+notices that it does not have focus in the windowing system.
+I like this behaviour; it could be changed by changing
+the variable ~dimmer-watch-frame-focus-events~.
+
 ** Automatically revert unchanged files which change on the disk
 
 #+begin_src emacs-lisp
