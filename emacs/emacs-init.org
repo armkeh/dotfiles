@@ -3043,7 +3043,7 @@ Admittedly, it's a hack to just sleep.
 #+begin_src emacs-lisp :tangle no :results none :exports none
 (with-temp-buffer
   (insert "#+export_file_name: README.md
-           #+options: toc:2
+           #+options: toc:nil
 
            This repository contains the files that make up my Emacs setup.
 

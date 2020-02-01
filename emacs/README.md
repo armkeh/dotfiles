@@ -55,6 +55,21 @@ bottom of `~/.emacs` these lines:
     Since `.emacs` uses a symlink to this version controlled file,
     having Emacs prompt me every time is annoying and slows my start up.
 
+### Set a “custom” file
+
+Emacs will, by default, insert all sorts of “custom” settings into our
+`.emacs` file (or whichever of the default init locations we use),
+especially those set via GUIs.
+
+In order to avoid polluting that file, let's set it to use a particular
+one. In fact, let's put it under my version control, so I will notice
+changes to it.
+
+``` commonlisp
+(setq custom-file "~/Dropbox/Organisation/setup/emacs/custom.el")
+(ignore-errors (load custom-file))
+```
+
 ## `elisp` code
 
 This section defines some functions/variables referred to below, that
@@ -131,10 +146,10 @@ of the previous (as long as this is possible)."
 
 1.  Set the load path for manually downloaded packages
     
-    (Currently I don't use manually downloaded packages)
+    Also used as a scratch directory when I'm working on a package.
     
     ``` commonlisp
-    ;;(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
+    (add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
     ```
 
 2.  Bootstrap `use-package`
@@ -159,10 +174,31 @@ of the previous (as long as this is possible)."
     (setq use-package-always-ensure t)
     ```
 
+3.  Update packages
+    
+    ``` commonlisp
+    (use-package auto-package-update
+      :config
+      ;; Delete residual old versions
+      (setq auto-package-update-delete-old-versions t)
+      ;; Do not bother me when updates have taken place.
+      (setq auto-package-update-hide-results t)
+      ;; Update installed packages at startup if there is an update pending.
+      (auto-package-update-maybe))
+    ```
+
 ### `eshell`
 
 ``` commonlisp
 (use-package eshell)
+```
+
+`em-dirs` is usually loaded upon starting an `eshell` process; I make
+use of a function from it below, so to avoid warnings when compiling
+here I load this file.
+
+``` commonlisp
+(load "em-dirs")
 ```
 
 Jeremias Queiroz posted a “fancy eshell prompt” setup on
@@ -217,11 +253,12 @@ everywhere?
 1.  Command line arguments
     
     Dr. Wolfram Kahl has recommended customising the following settings.
-    (note that my machine is a virtual machine running on a Chromebook
-    with a little less than `5G` available to it).
+    Note that my machine is a virtual machine running on a Chromebook
+    which, at time of writing (January 2020) has around `6G` (out of the
+    system's total `8G`) available to it.
     
     ``` commonlisp
-    (setq agda2-program-args (quote ("+RTS" "-M3G" "-H3G" "-A128M" "-RTS")))
+    (setq agda2-program-args (quote ("+RTS" "-M4G" "-H4G" "-A128M" "-RTS")))
     ```
     
     These arguments specify
@@ -349,7 +386,15 @@ everywhere?
         
         TODO
     
-    6.  Other
+    6.  Better access to prime symbols
+        
+        ``` commonlisp
+        (add-to-list 'agda-input-user-translations '("''" "″"))
+        (add-to-list 'agda-input-user-translations '("'''" "‴"))
+        (add-to-list 'agda-input-user-translations '("''''" "⁗"))
+        ```
+    
+    7.  Other
         
         ``` commonlisp
         (add-to-list 'agda-input-user-translations '("op" "⊕"))
@@ -357,7 +402,7 @@ everywhere?
         (add-to-list 'agda-input-user-translations '("powset" "℘"))
         ```
     
-    7.  Activate the new additions
+    8.  Activate the new additions
         
         ``` commonlisp
         (agda-input-setup)
@@ -372,120 +417,11 @@ everywhere?
            (lambda () (set-input-method "Agda")))
     ```
 
-5.  Working in `.lagda.org` files using Polymode
-    
-    Polymode allows us to use more than one major mode in a buffer,
-    something usually impossible in Emacs. Note there do exist several
-    other solutions for this, such as MMM; Polymode seemed the best
-    candidate for what I want during my (admittedly rather brief) search
-    for solutions.
+5.  Org Agda mode
     
     ``` commonlisp
-    (use-package polymode)
+    (require 'org-agda-mode)
     ```
-    
-    [Read the docs](https://polymode.github.io/)\!
-    
-    1.  Org-Agda mode
-        
-        Org is our hostmode.
-        
-        ``` commonlisp
-        (define-hostmode poly-org-agda-hostmode
-          :mode 'org-mode
-          :keep-in-mode 'host
-          ;; Disable font-lock-mode, which interferes with Agda annotations.
-          ;; Unfortunately we lose Org mode highlighting then.
-          :init-functions '((lambda (_) (font-lock-mode 0))))
-        ```
-        
-        Agda is our inner mode, delimited by Org source blocks.
-        
-        ``` commonlisp
-        (define-innermode poly-org-agda-innermode
-          :mode 'agda2-mode
-          :head-matcher "#\\+begin_src agda2\n"
-          :tail-matcher "#\\+end_src\n"
-          :head-mode 'org-mode
-          :tail-mode 'org-mode
-          ;; Disable font-lock-mode, which interferes with Agda annotations,
-          ;; and undo the change to indent-line-function Polymode makes.
-          :init-functions '((lambda (_) (font-lock-mode 0))
-                            (lambda (_) (setq indent-line-function #'indent-relative))))
-        ```
-        
-        Now we define the polymode using the above host and inner modes.
-        
-        ``` commonlisp
-        (define-polymode poly-org-agda-mode
-          :hostmode 'poly-org-agda-hostmode
-          :innermodes '(poly-org-agda-innermode))
-        ```
-        
-        Finally, add our new mode to the auto mode list.
-        
-        ``` commonlisp
-        (add-to-list 'auto-mode-alist '("\\.lagda.org" . poly-org-agda-mode))
-        ```
-    
-    2.  <span class="todo TODO">TODO</span> Don't remove Org
-        highlighting on typecheck
-        
-        Agda's highlighting mode makes use of `annotate` to apply syntax
-        highlighting throughout the buffer, including the literate
-        portion, which `agda2-highlight` identifies as “background”.
-        Older versions of Agda would highlight the background using
-        `font-lock-comment-face` (so as comments). Newer versions (since
-        [this](https://github.com/agda/agda/commit/8bee8727fff1a87c708c28b02edc38931c91f1fb#diff-4b761ced0541ba9fd4efbe58fd37ba7f)
-        commit) simply apply Emacs' default face.
-        
-        Since we're using Org mode for the literate portion, we don't
-        want Agda's highlighting to apply any annotation there. We can
-        achieve this by simply removing the setting for background from
-        the Agda highlight faces attribute list.
-        
-        ``` commonlisp
-        (assq-delete-all 'background agda2-highlight-faces)
-        ```
-        
-        Even with the background annotation removed, following a load,
-        Org fontification in text *following* an Agda block (so
-        everywhere except the top of the file) gets removed following a
-        load. This can be handled by running `font-lock-fontify-buffer`
-        following a load. :TODO: but font-lock-fontify-buffer *removes*
-        the Agda highlighting\!
-    
-    3.  Toggling Org indentation
-        
-        Agda relies upon indentation syntactically, to delimit
-        definitions of modules, records, etc.
-        
-        I usually have Org indentation turned on, so that nested heading
-        are further indented (softly; there's no actual whitespace being
-        inserted).
-        
-        This can make Agda code difficult to read, and further, Agda can
-        occasionally “mess this up”; for instance, when restarting the
-        Agda process, it undoes this soft indentation for some reason.
-        
-        In any case, it's useful to have a toggle keybinding. See my
-        [1.4](#Key%20bindings).
-    
-    4.  <span class="todo TODO">TODO</span> Some TODOs
-        
-          - Enable Agda loading, and more generally all the agda
-            keybindings, anywhere in .lagda.org files.
-              - At least the important ones that don't obviously clash
-                with Org bindings.
-              - I've tried loading via `M-x agda2-load` from the Org
-                portion, and it works (yay\!), but it loses the Agda
-                syntax highlighting?
-          - To enable monolith `.lagda.org` files (large literate files
-            which tangle several individual clean source files), we need
-            a way to strip one level of indentation after tangling.
-              - Actually it's not *needed*; Agda does allow the contents
-                of the toplevel module (so, the remainder of the file)
-                to be indented; but it breaks *convention*.
 
 ### Other programming languages
 
@@ -495,92 +431,20 @@ everywhere?
     (use-package racket-mode)
     ```
 
-2.  The Mozart Programming System for `Oz`
-    
-    The Mozart Programming System “provides a powerful environment for
-    the development of software systems, called the \`\`Oz Programming
-    interface" (OPI)”. See the [github.io](https://mozart.github.io/)
-    page. Specifically, [this
-    page](https://mozart.github.io/mozart-v1/doc-1.4.0/opi/node2.html)
-    which discusses how to invoke the API (though at time of writing,
-    the documentation is for Mozart `v1`, not the current Mozart `v2`).
-    
-    Upon installation, the Mozart programming system provides a shell
-    command, `oz`, (and usually also a application shortcut) for
-    launching an Emacs process with the Mozart sub-process.
-    
-    Since I'm presumably running Emacs already, this is not how I wish
-    to invoke the OPI. Instead, I check for an Oz installation under
-    `usr/bin/oz`, and set up invokation of the OPI from within Emacs.
-    
-    (Note: I install Mozart from pre-built binaries, which are
-    distributed [on their Github
-    page](https://github.com/mozart/mozart2/releases). Depending upon
-    how you install Mozart, you may need to modify the directories below
-    (notably, my directories differ from those mentioned on the
-    `github.io` page).
-    
-    For Mozart to work, we need to set the `OZHOME` environment
-    variable.
+2.  F\#
     
     ``` commonlisp
-    (setq my-oz-home "/usr")
-    
-    (when (file-directory-p my-oz-home)
-      (setenv "OZHOME" my-oz-home)
-    )
-    ```
-    
-    Note this must be done before loading the `elisp`, because the
-    `elisp` attempts to start a `oz` server. If it fails to do so, we
-    will receive errors such as “Searching for program: No such file or
-    directory, ./bin/ozengine”.
-    
-    Of course, it's a good idea to check that Oz is installed on the
-    system, so set the location of the Mozart `elisp` code, check that
-    that location exists, and then load it and set up auto loads.
-    
-    ``` commonlisp
-    (setq my-mozart-elisp "/usr/share/mozart/elisp")
-    
-    (when (file-directory-p my-mozart-elisp)
-      (add-to-list 'load-path my-mozart-elisp)
-      (load "mozart")
-      (add-to-list 'auto-mode-alist '("\\.oz\\'" . oz-mode))
-      (add-to-list 'auto-mode-alist '("\\.ozg\\'" . oz-gump-mode))
-      (autoload 'run-oz "oz" "" t)
-      (autoload 'oz-mode "oz" "" t)
-      (autoload 'oz-gump-mode "oz" "" t)
-      (autoload 'oz-new-buffer "oz" "" t)
-    )
-    ```
-    
-    `oz-mode` annoyingly remaps `C-x SPC`, so we must undo that.
-    
-    ``` commonlisp
-    (eval-after-load "oz-mode"
-      '(progn
-        (define-key oz-mode-map (kbd "C-x SPC") 'rectangle-mark-mode)
-    ))
-    ```
-    
-    Below, in my Org mode setup under [1.3.5.5](#Evaluating%20code), I
-    set up literate Oz (it only takes `(require 'ob-oz)`).
-
-3.  F\#
-    
-    ``` commonlisp
-    (require 'fsharp-mode)
+    ;;(require 'fsharp-mode)
     ```
 
-4.  Prolog
+3.  Prolog
     
     ``` commonlisp
     (add-to-list 'auto-mode-alist
                      '("\\.pl\\'" . prolog-mode))
     ```
 
-5.  Scheme
+4.  Scheme
     
     ``` commonlisp
     (use-package geiser)
@@ -672,28 +536,152 @@ in `org-plus-contrib`.
     
     3.  Export in the background
         
-        Using `latex-mk`, the export process takes a bit of time. Tying
-        up emacs during that time is annoying, so set the export to
-        happen in the background. This setting can be modified locally
-        in the export dialog frame if desired.
+        Using `latex-mk`, the export process for LaTeX takes a bit of
+        time. Tying up emacs during that time is annoying, so set the
+        export to happen in the background. This setting can be modified
+        locally in the export dialog frame if desired by adding `C-a` to
+        the export key sequence..
         
         ``` commonlisp
-        (setq org-export-in-background t)
+        ;; TODO: this is broken for some unknown reason; I regularly get
+        ;; illegal syntax # errors when trying to export.
+        ;;(setq org-export-in-background t)
         ```
         
-        This works by spawning a new Emacs session. That session uses
-        this init file, so we must be careful that this file works for
-        daemon (headless) Emacs processes. See
-        [1.6.8.2](#Opening%20the%20initial%20buffers) for how to deal
-        with problematic portions.
+        This works by spawning a new Emacs session in which the file is
+        exported. By default, that session would use this init file, but
+        that's overkill and wastes time; most of this init is not
+        relevant for that session. So, we'll set a different init file,
+        constructed from the relevant portions of this file.
         
-        Another possible solution would be to modify
-        `org-export-async-init-file`, but that would require creation of
-        a new init file. To use this approach, I would have to repeat
-        large portions of this file. If this approach is ever desirable,
-        this [answer on
-        StackExchange](https://superuser.com/a/898717/1032497) describes
-        how to create such a file using Lisp code.
+        ``` commonlisp
+        (setq org-export-async-init-file
+          "~/.emacs.d/org-async-init.el") 
+        ```
+        
+        Some default settings.
+        
+        ``` commonlisp
+        ;; Org export init, tangled from my Emacs init
+        (require 'package)
+        (setq package-enable-at-startup nil)
+        (package-initialize)
+        
+        (require 'org)
+        (require 'ox)
+        (require 'ox-extra)
+        
+        (setq org-export-async-debug t)
+        ```
+        
+        These settings are from this exporting section.
+        
+        ``` commonlisp
+        (ox-extras-activate '(ignore-headlines))
+        ;;;; noexport is in the list by default
+        ;; (add-to-list 'org-export-exclude-tags "noexport")
+        (setq org-src-preserve-indentation t)
+        (use-package htmlize)
+        (setq org-html-link-org-files-as-html nil)
+        (setq org-latex-compiler "lualatex")
+        (setq org-latex-pdf-process
+              '("latexmk -%latex -f %f"))
+        (add-to-list
+          'org-latex-classes
+            '("report-noparts"
+              "\\documentclass{report}"
+              ("\\chapter{%s}" . "\\chapter*{%s}")
+              ("\\section{%s}" . "\\section*{%s}")
+              ("\\subsection{%s}" . "\\subsection*{%s}")
+              ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+              ("\\paragraph{%s}" . "\\paragraph*{%s}")
+              ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+        (add-to-list
+          'org-latex-classes
+            '("beamer"
+              "\\documentclass[presentation]{beamer}"
+              ("\\section{%s}" . "\\section*{%s}")
+              ("\\subsection{%s}" . "\\subsection*{%s}")
+              ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+        ;;(setq org-latex-listings 'minted
+        ;;      org-latex-packages-alist '(("" "minted")))
+        (setq org-latex-hyperref-template
+          "\\hypersetup{
+           pdfauthor={%a},
+           pdftitle={%t},
+           pdfkeywords={%k},
+           pdfsubject={%d},
+           pdfcreator={%c},
+           pdflang={%L},
+           colorlinks,
+           linkcolor=blue,
+           citecolor=blue,
+           urlcolor=blue
+           }
+        "
+        )
+        (use-package ox-reveal)
+        
+        (setq org-reveal-root "file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/")
+        (setq org-reveal-theme "black")
+        (setq org-reveal-title-slide
+          "<h2 class=\"title\">%t</h2>
+           <h3>%s</h3>
+           <h4>%a</h4>
+           <h5>%d</h5>")
+        (setq org-reveal-extra-css "")
+        (use-package ox-pandoc)
+        (defun my/ensure-headline-ids (&rest _)
+          "Org trees without a :CUSTOM_ID: property have the property
+           set to be their heading.
+        
+           If multiple trees end-up with the same id property,
+           issue a message and undo any property insertion thus far.
+          "
+          (interactive)
+          (let ((ids))
+            (org-map-entries
+             (lambda ()
+               (org-with-point-at (point)
+                 (let ((id (org-entry-get nil "CUSTOM_ID")))
+                   (unless id
+                     (setq id (s-replace " " "-" (nth 4 (org-heading-components))))
+                     (if (not (member id ids))
+                         (push id ids)
+                       (message-box "Oh no, a repeated id!\n\n\t%s" id)
+                       (undo)
+                       (setq quit-flag t))
+                     (org-entry-put nil "CUSTOM_ID" id))))))))
+        
+        ;; Whenever html & md export happens, ensure we have headline ids.
+        (advice-add 'org-html-export-to-html :before 'my/ensure-headline-ids)
+        (advice-add 'org-md-export-to-markdown :before 'my/ensure-headline-ids)
+        (setq org-export-with-sub-superscripts '{})
+        ```
+        
+        We also need code evaluation settings, as code blocks may need
+        to be evaluated for export.
+        
+        ``` commonlisp
+        (setq org-confirm-babel-evaluate nil)
+        (require 'ob-shell)
+        (require 'ob-haskell)
+        (require 'ob-latex)
+        (require 'ob-C)
+        (require 'ob-ruby)
+        (require 'ob-plantuml)
+        (require 'ob-R)
+        (require 'ob-ditaa)
+        (require 'ob-scheme)
+        (setq org-ditaa-jar-path "/usr/bin/ditaa")
+        (setq geiser-default-implementation 'guile)
+        ;;(use-package ob-fsharp)
+        (require 'ob-oz)
+        (add-to-list 'load-path "/home/markparmstrong/.emacs.d/ob-racket")
+        (require 'ob-racket)
+        (org-babel-shell-initialize)
+        (setq org-plantuml-jar-path "/usr/share/java/plantuml.jar")
+        ```
     
     4.  Don't change `.org` links to `.html`
         
@@ -795,8 +783,8 @@ in `org-plus-contrib`.
             a problem I should resolve. For the moment, if I want to use
             `minted`, I can do so on a file-by-file basis.
             
-            ⟪ `pygments` (also called `python-pygments`) must be
-            installed on the system for this to work. ⟫
+            `pygments` (also called `python-pygments`) must be installed
+            on the system for this to work.
             
             ``` commonlisp
             ;;(setq org-latex-listings 'minted
@@ -977,6 +965,22 @@ in `org-plus-contrib`.
         (advice-add 'org-html-export-to-html :before 'my/ensure-headline-ids)
         (advice-add 'org-md-export-to-markdown :before 'my/ensure-headline-ids)
         ```
+    
+    10. Require `{}` to denote sub/superscripts
+        
+        Sometimes I want to export the characters `_` or `^`. However,
+        Org allows these to be used for LaTeX style sub/superscripts, so
+        a lone `_` will be exported (to LaTeX at least) as `\_{}` (and
+        similarly for a lone `^`).
+        
+        In order to avoid this, but still allow for LaTeX style
+        sub/superscripts, we can use a setting to *require* that
+        sub/superscripts be enclosed in brackets (which is my preference
+        in any case).
+        
+        ``` commonlisp
+        (setq org-export-with-sub-superscripts '{})
+        ```
 
 5.  Evaluating code
     
@@ -1017,7 +1021,7 @@ in `org-plus-contrib`.
     For other languages, separate packages are needed.
     
     ``` commonlisp
-    (use-package ob-fsharp)
+    ;;(use-package ob-fsharp)
     ```
     
     `ob-oz` comes with a Mozart2 installation; if there's a problem,
@@ -1038,7 +1042,7 @@ in `org-plus-contrib`.
     
     So I choose `emacs-ob-racket`. For the moment, I just saved it to my
     `emacs.d`; probably it should be put somewhere better, but I will do
-    that when I next set up my system :).
+    that when I next set up my system 😀.
     
     ``` commonlisp
     (add-to-list 'load-path "/home/markparmstrong/.emacs.d/ob-racket")
@@ -1070,7 +1074,7 @@ in `org-plus-contrib`.
     1.  Indent text based on heading by default
         
         ``` commonlisp
-        (add-hook 'org-mode-hook 'org-indent-mode)
+        (setq org-startup-indented t)
         ```
     
     2.  Hide emphasis markers by default
@@ -1080,27 +1084,77 @@ in `org-plus-contrib`.
         ```
         
         It is convenient to show the emphasis markers around point.
-        Otherwise it becomes tedious to edit emphasised text. This code
-        to show the emphasis characters surrounding point is stolen from
-        a Reddit
-        [post](https://www.reddit.com/r/orgmode/comments/43uuck/).
-        :TODO: it doesn't work with code or verbatim, or with links.
+        Otherwise it becomes tedious to edit emphasised text.
         
-        ``` commonlisp
+        There have been a couple Reddit posts seeking to solve this
+        problem. First, [this
+        code](https://www.reddit.com/r/orgmode/comments/43uuck/) which
+        doesn't work for all emphasis markers.
+        
+        ``` example
         (defun org-show-emphasis-markers-at-point ()
           (save-match-data
             (if (and (org-in-regexp org-emph-re 2)
-                 (>= (point) (match-beginning 3))
-                 (<= (point) (match-end 4))
-                 (member (match-string 3) (mapcar 'car org-emphasis-alist)))
-            (with-silent-modifications
-              (remove-text-properties
-               (match-beginning 3) (match-beginning 5)
-               '(invisible org-link)))
+                     (>= (point) (match-beginning 3))
+                     (<= (point) (match-end 4))
+                     (member (match-string 3) (mapcar 'car org-emphasis-alist)))
+                (with-silent-modifications
+                 (remove-text-properties
+                  (match-beginning 3) (match-beginning 5)
+                   '(invisible org-link)))
               (apply 'font-lock-flush (list (match-beginning 3) (match-beginning 5))))))
+        ```
         
-        (add-hook 'post-command-hook
-              'org-show-emphasis-markers-at-point nil t)
+        Then, [this more recent
+        code](https://www.reddit.com/r/orgmode/comments/dj5u1y) which
+        adds more checks. However, it seems to lag input a bit?
+        
+        ``` example
+        (defun sbr-org-toggle-emphasis-markers-at-point ()
+          (interactive)
+          (save-match-data
+            (when (or (org-in-regexp org-emph-re 2)
+                      (org-in-regexp org-verbatim-re 2))
+              (if (and (>= (point) (match-beginning 3))
+                       (<= (point) (match-end 4))
+                       (member (match-string 3) (mapcar 'car org-emphasis-alist))
+                       (get-text-property (match-beginning 3) 'invisible))
+                  (with-silent-modifications
+                    (remove-text-properties
+                     (match-beginning 3) (match-beginning 5)
+                     '(invisible org-link)))
+                (apply 'font-lock-flush (list (match-beginning 3) (match-beginning 5)))))))
+        ```
+        
+        This is my attempt, combining the two to some extent. :TODO:
+        this doesn't always hide the characters after point leaves
+        
+        ``` commonlisp
+        (defun org-toggle-emphasis-markers-at-point ()
+          (save-match-data
+            (when (or (org-in-regexp org-emph-re 2)
+                      (org-in-regexp org-verbatim-re 2)
+                      (org-in-regexp org-link-any-re 2))
+              (if (and (>= (point) (match-beginning 3))
+                       (<= (point) (match-end 4))
+                       (member (match-string 3) (mapcar 'car org-emphasis-alist)))
+                       ;; invisible check?
+                  (with-silent-modifications
+                    (remove-text-properties
+                     (match-beginning 3) (match-beginning 5)
+                     '(invisible org-link)))
+                (apply 'font-lock-flush
+                  (list (match-beginning 3) (match-beginning 5)))))))
+        ```
+        
+        We run the above function after each command in an Org mode
+        buffer. :TODO: improve this functionality before use.
+        
+        ``` commonlisp
+        ;(add-hook 'org-mode-hook
+        ;  (lambda ()
+        ;    (add-hook 'post-command-hook
+        ;      'org-toggle-emphasis-markers-at-point nil t)))
         ```
     
     3.  Emphasis marker regexps
@@ -1126,13 +1180,33 @@ in `org-plus-contrib`.
         I add ( to the second entry, to allow ( to immediately follow
         markup.
     
-    4.  Highlight math mode blocks
+    4.  Require `{}` to denote sub/superscripts
+        
+        Sometimes I use the characters `_` and `^` to write subscripts
+        and superscripts; however, when I do so, I want to be forced to
+        use brackets to enclose the sub/superscripts.
+        
+        ``` commonlisp
+        (setq org-export-with-sub-superscripts '{})
+        ```
+    
+    5.  Highlight math mode blocks
         
         ``` commonlisp
         (setq org-highlight-latex-and-related '(latex))
         ```
     
-    5.  Replace the ellipsis `...`
+    6.  Pretty bullets
+        
+        Org bullets replaces the standard `*` in headers with prettier
+        symbols.
+        
+        ``` commonlisp
+        (use-package org-bullets
+          :hook (org-mode . org-bullets-mode))
+        ```
+    
+    7.  Replace the ellipsis `...`
         
         By default, folded portions of the document are presented by an
         ellipsis, `...`. Let's replace that.
@@ -1160,7 +1234,7 @@ in `org-plus-contrib`.
         )
         ```
     
-    6.  Tables
+    8.  Tables
         
         I prefer to work with wordwrap on, so tables can be quite
         problematic.
@@ -1173,7 +1247,7 @@ in `org-plus-contrib`.
         (setq org-startup-align-all-table t)
         ```
     
-    7.  Inline images
+    9.  Inline images
         
         We can configure Org to automatically inline linked images when
         opening documents.
@@ -1186,7 +1260,7 @@ in `org-plus-contrib`.
         (setq org-image-actual-width nil)
         ```
     
-    8.  Tag position
+    10. Tag position
         
         By default (as of Org 9.1.9), tags get shifted to the 77th
         column. But this causes blank lines to be inserted when working
@@ -1332,25 +1406,35 @@ configuration, very easy to use.
     ```
     
     The below code, which rebinds keys to use `dired-single` rather than
-    `dired`, is taken directly from the `dired-single` [GitHub
-    readme](https://github.com/crocket/dired-single).
+    `dired`, was originally based on code from the `dired-single`
+    [GitHub readme](https://github.com/crocket/dired-single); but in
+    recent versions of Emacs, `dired-load-hook` is obsolete, so we use
+    `with-eval-after-load` instead.
     
     ``` commonlisp
-    (defun my-dired-init ()
-      "Bunch of stuff to run for dired, either immediately or when it's
-       loaded."
-      ;; <add other stuff here>
-      (define-key dired-mode-map [return] 'dired-single-buffer)
-      (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
-      (define-key dired-mode-map "." 'dired-single-up-directory)
-    )
+    (defun my/dired-init ()
+      ;; Keyboard navigation should be rebound to dired-single
+      (define-key dired-mode-map [return]  'dired-single-buffer)
+      (define-key dired-mode-map "."       'dired-single-up-directory)
     
-    ;; if dired's already loaded, then the keymap will be bound
-    (if (boundp 'dired-mode-map)
-            ;; we're good to go; just add our bindings
-            (my-dired-init)
-      ;; it's not loaded yet, so add our bindings to the load-hook
-      (add-hook 'dired-load-hook 'my-dired-init))
+      ;; Emacs registers a mouse 1 click
+      ;; if we click /beside/ a file/directory name.
+      (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
+      ;; It registers a mouse 2 click
+      ;; if we click /on/ a file/directory name.
+      (define-key dired-mode-map [mouse-2] 'dired-single-buffer-mouse))
+    
+    ;; Deprecated code
+    ;;;; if dired's already loaded, then the keymap will be bound
+    ;;(if (boundp 'dired-mode-map)
+    ;;        ;; we're good to go; just add our bindings
+    ;;        (my/dired-init)
+    ;;  ;; it's not loaded yet, so add our bindings to the load-hook
+    ;;  (add-hook 'dired-load-hook 'my/dired-init))
+    
+    ;; Load the keybindings
+    (with-eval-after-load 'dired
+      (my/dired-init))
     ```
 
 ### `magit`
@@ -1475,6 +1559,14 @@ to set it up, but I've customised things heavily at this point.
     done
     ```
     
+    By default, we would be prompted whether we want to kill this
+    process upon exiting Emacs; I will always answer yes, so it's best
+    just not to have it ask.
+    
+    ``` commonlisp
+    (set-process-query-on-exit-flag (get-process "mbsync-gmail-rest") nil)
+    ```
+    
     `mu4e` has an annoying habit of hogging the minibuffer while
     updating and indexing; unfortunately this means I prefer to silence
     its updating and indexing messages.
@@ -1569,7 +1661,7 @@ to set it up, but I've customised things heavily at this point.
           ("/Sent Mail" . ?s)
           ("/Trash"     . ?t)
           ("/Desk/1-Imminent"    . ?I)
-          ("/Desk/1-Short term"  . ?S)
+          ("/Desk/2-Short term"  . ?S)
           ("/Desk/3-Reference"   . ?R)
           ("/Desk/4-Medium term" . ?M)
           ("/Desk/5-Long term"   . ?L)))
@@ -1959,12 +2051,13 @@ These are cosmetics relating to lines in the current buffer.
             :which-key "Line wrap - yes")
   "l w n" '((lambda () (interactive) (visual-line-mode 0))
             :which-key "Line wrap - no")
-  "l h"   '(:ignore t
-            :which-key "Long line highlighting")
-  "l h y" '((lambda () (interactive) (whitespace-mode 1))
-            :which-key "Long line hightlight - yes")
-  "l h n" '((lambda () (interactive) (whitespace-mode 0))
-            :which-key "Long line hightlight - yes")
+;; Line highlighting has been reduced; I don't need this anymore.
+;  "l h"   '(:ignore t
+;            :which-key "Long line highlighting")
+;  "l h y" '((lambda () (interactive) (whitespace-mode 1))
+;            :which-key "Long line hightlight - yes")
+;  "l h n" '((lambda () (interactive) (whitespace-mode 0))
+;            :which-key "Long line hightlight - yes")
 )
 ```
 
@@ -2019,69 +2112,74 @@ screen on the current line.
 
 ### Fonts
 
+I like the Cousine font, and usually use a small 11in screen, and so use
+a small font; 9pt seems to be a sweet spot.
+
 ``` commonlisp
 (add-to-list 'default-frame-alist
-             '(font . "Cousine-10"))
+             '(font . "Cousine-9"))
 ```
 
 ### Themes
 
-I use the `doom-nord` themes, and toggle between the non-`light` and
-`light` variants.
+I use Doom themes. By default, I prefer a dark theme, but like to toggle
+between it and a light theme at need.
 
 ``` commonlisp
 (use-package doom-themes)
 
-(load-theme 'doom-nord t)
+(setq my/dark-theme 'doom-vibrant)
+(setq my/light-theme 'doom-nord-light)
 
-(setq my-dark-theme 'doom-vibrant)
-(setq my-light-theme 'doom-nord-light)
-
-(defun disable-all-custom-themes ()
-  "Disable all custom themes.
-   Returns the previous highest precendence theme
-   (nil if no themes were previously enabled).
-
-   Implementation:
-     Gets the highest precedence applied theme as the first element
-     of custom-enabled-themes.
-
-     Then iteratively disables all the themes in custom-enabled-themes.
-  "
-  (let ((most-recent-theme (car custom-enabled-themes)))
-    (while (car custom-enabled-themes)
-      (disable-theme (car custom-enabled-themes)))
-    most-recent-theme
-  )
-)
-
-(defun toggle-my-themes ()
-  "Disable all custom, then try to toggle the themes
-   my-dark-theme and my-light-theme, in that if one was
-   the last applied theme, the other will be applied.
-
-   If neither was the last applied theme, my-dark-theme
-   will be applied as a default.
-  "
-
-  (let ((most-recent-theme (disable-all-custom-themes)))
-    (if (eq most-recent-theme my-dark-theme)
-        (load-theme my-light-theme)
-        (load-theme my-dark-theme)
-    )
-  )
-)
-
-(eq (car custom-enabled-themes) my-dark-theme)
-(disable-all-custom-themes)
-(toggle-my-themes)
+(load-theme my/dark-theme t)
 ```
 
-Make it “play nice” with `org`
+This is recommended for making the Doom themes “play nice” with Org.
 
 ``` commonlisp
 (doom-themes-org-config)
 ```
+
+1.  Toggling the themes
+    
+    These functions allow me to clear and toggle my themes.
+    
+    ``` commonlisp
+    (defun disable-all-custom-themes ()
+      "Disable all custom themes.
+       Returns the previous highest precendence theme
+       (nil if no themes were previously enabled).
+    
+       Implementation:
+         Gets the highest precedence applied theme as the first element
+         of custom-enabled-themes.
+    
+         Then iteratively disables all the themes in custom-enabled-themes.
+      "
+      (let ((most-recent-theme (car custom-enabled-themes)))
+        (while (car custom-enabled-themes)
+          (disable-theme (car custom-enabled-themes)))
+        most-recent-theme
+      )
+    )
+    
+    (defun toggle-my-themes ()
+      "Disable all custom, then try to toggle the themes
+       my-dark-theme and my-light-theme, in that if one was
+       the last applied theme, the other will be applied.
+    
+       If neither was the last applied theme, my-dark-theme
+       will be applied as a default.
+      "
+    
+      (let ((most-recent-theme (disable-all-custom-themes)))
+        (if (eq most-recent-theme my/dark-theme)
+            (load-theme my/light-theme)
+            (load-theme my/dark-theme)
+        )
+      )
+    )
+    ```
 
 ### Displaying/removing information and interface elements
 
@@ -2098,13 +2196,14 @@ hide unimportant information or interfact elements.
     ```
     
     I don't use the tool bar (icons below the menu bar). (This setting
-    must be `-1`, not `()`).
+    must be `-1`, not `nil`).
     
     ``` commonlisp
     (tool-bar-mode -1)
     ```
     
-    I also don't use the menu bar. (Again, this must be `-1`, not `()`).
+    I also don't use the menu bar. (Again, this must be `-1`, not
+    `nil`).
     
     ``` commonlisp
     (menu-bar-mode -1)
@@ -2125,38 +2224,92 @@ hide unimportant information or interfact elements.
     (setq confirm-kill-emacs 'yes-or-no-p)
     ```
 
-3.  Information in the mode line
+3.  The mode line
     
-    The doom themes package comes with a function to make the mode line
-    flash on error.
+    1.  Taking the Spacemacs modeline
+        
+        While I don't use Spacemacs, I do like it's sleek modeline.
+        
+        ``` commonlisp
+        (use-package spaceline)
+        ```
+        
+        Using `spaceline-emacs-theme` instead of
+        `spaceline-spacemacs-theme` should improve compatibility.
+        
+        ``` commonlisp
+        (spaceline-emacs-theme)
+        ```
     
-    ``` commonlisp
-    (doom-themes-visual-bell-config)
-    ```
+    2.  Information to display
+        
+        :TODO:
     
-    I'd previously just used `visible-bell`, but it's a bit nosier than
-    necessary.
+    3.  Colour the beginning of the line based on the save status of the
+        file
+        
+        This setting changes the colour of the start of the modeline
+        when the file has been modified and not saved, a nice subtle
+        reminder to save.
+        
+        ``` commonlisp
+        (setq spaceline-highlight-face-func
+          'spaceline-highlight-face-modified)
+        ```
+        
+        In fact, let's make that colouring constant across themes.
+        
+        ``` commonlisp
+        (custom-theme-set-faces
+         'user
+         ;; The active buffer has a fairly vibrant blue modeline
+         '(mode-line         ((t (:foreground "black"
+                                  :background "DeepSkyBlue1"))))
+         '(powerline-active0 ((t (:foreground "black"
+                                  :background "DeepSkyBlue2"))))
+         '(powerline-active1 ((t (:foreground "black"
+                                  :background "DeepSkyBlue3"))))
+         '(powerline-active2 ((t (:foreground "black"
+                                     :background "DeepSkyBlue4"))))
+        
+         ;; The inactive buffers have less vibrant gray/blue modelines
+         '(mode-line-inactive  ((t (:foreground "black"
+                                    :background "LightSkyBlue1"))))
+         '(powerline-inactive0 ((t (:foreground "black"
+                                    :background "LightSkyBlue2"))))
+         '(powerline-inactive1 ((t (:foreground "black"
+                                    :background "LightSkyBlue3"))))
+         '(powerline-inactive2 ((t (:foreground "black"
+                                     :background "LightSkyBlue4"))))
+        
+         ;; Highlighting based on save status of buffer
+         '(spaceline-unmodified ((t (:foreground "black"
+                                     :background "green1"))))
+         '(spaceline-modified   ((t (:foreground "black"
+                                     :background "gold1"))))
+         '(spaceline-read-only  ((t (:foreground "black"
+                                     :background "seashell1"))))
+        )
+        (powerline-reset)
+        ```
     
-    ``` commonlisp
-    ;;(setq visible-bell t)
-    ```
+    4.  Flash on error
+        
+        The doom themes package comes with a function to make the mode
+        line flash on error.
+        
+        ``` commonlisp
+        (doom-themes-visual-bell-config)
+        ```
+        
+        I'd previously just used `visible-bell`, but it's a bit nosier
+        than necessary.
+        
+        ``` commonlisp
+        ;;(setq visible-bell t)
+        ```
     
-    I also like the mode line to show the data and time.
-    
-    ``` commonlisp
-    (setq display-time-day-and-date t)
-    (setq display-time-24h-format t)
-    (display-time)
-    ```
-    
-    It's also useful to see the line number and column number.
-    
-    ``` commonlisp
-    (line-number-mode t)
-    (column-number-mode t)
-    ```
-    
-    1.  Diminish minor mode names
+    5.  Diminish minor mode names
         
         I use a lot of minor modes, so the mode list takes up a lot of
         space on the mode line.
@@ -2223,76 +2376,128 @@ hide unimportant information or interfact elements.
         ;;(add-hook 'prog-mode-hook 'linum-mode)
         ```
 
-5.  Highlight matching parenthesis when cursor is near
+5.  Parentheses
+    
+    It's nice to highlight the matching parentheses when the cursor is
+    on its match.
     
     ``` commonlisp
-    (load-library "paren")
     (show-paren-mode 1)
-    (transient-mark-mode t)
-    (use-package paren)
     ```
-
-6.  Show trailing whitespace and overlong lines
     
-    It's good style not to have trailing whitespace.
-    `show-trailing-whitespace` will colour any trailing whitespace.
+    …
     
     ``` commonlisp
-    (add-hook 'text-mode-hook 'whitespace-mode)
-    (add-hook 'prog-mode-hook 'whitespace-mode)
-    
-    ; (global-whitespace-mode)
-    
-    (setq whitespace-style
-          '(face
-            trailing lines-tail empty
-            tabs space-before-tab::tab space-after-tab::tab))
+    (use-package rainbow-delimiters)
+    (add-hook 'org-mode-hook #'rainbow-delimiters-mode)
+    (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+    (add-hook 'text-mode-hook #'rainbow-delimiters-mode)
     ```
-    
-    This can be a little annoying, so there are toggles for various
-    aspects under \[\[Key bindings\].
 
-7.  Show ruler at 80 characters for (for `text` and `prog` mode)
+6.  Display tabs
     
-    It's also good style to keep lines under 80 characters wide.
-    `fill-column-indicator` will display a line (by default at 70
-    characters)
-    
-    One thing worth noting is that with `org-indent-mode`, the line will
-    be off by the length of the indentation (i.e. it will be at line 68
-    if indented 2 characters, 66 if indented 4, etc.).
-    
-    The code to make it a global mode is from the [Emacs
-    wiki](https://www.emacswiki.org/emacs/FillColumnIndicator).
+    I usually use spaces rather than tabs, so I use `whitespace-mode` to
+    alert me to the presence of tabs.
     
     ``` commonlisp
-    ;;(use-package fill-column-indicator)
-    ;;(define-globalized-minor-mode global-fci-mode
-    ;;  fci-mode (lambda () (fci-mode t)))
-    ;;(global-fci-mode t)
+    (global-whitespace-mode t)
     ```
     
-    If I later need it enabled only for certain modes, this code could
-    be of use.
+    Setting `whitespace-style` to `tab-mark` visualises tabs by changing
+    the display table to show a character at the location of the tab.
     
     ``` commonlisp
-    ;; (use-package fill-column-indicator)
-    ;; (add-hook 'text-mode-hook 'fci-mode)
-    ;; (add-hook 'prog-mode-hook 'fci-mode)
+    (setq whitespace-style '(tab-mark))
     ```
     
-    After some use, I've found this indicator to be a combination of
-    distracting and possibly causing some lag, so I no longer use it.
-    `whitespace-mode` (set up above) makes a good alternative.
+    1.  Deprecated – more whitespace highlighting
+        
+        I previously used `whitespace-style` to highlight trailing
+        whitespace; however, I find this feature intrusive, so I avoid
+        it.
+        
+        If it is wanted later, then I should add to the list
+        
+        ``` example
+        (face trailing)
+        ```
+        
+        We need to add `face` to the list, to enable using faces to
+        highlight whitespace.
+        
+        Note there is no way to visualise spaces only at the end of
+        lines; The visualisation is done by changing the display table,
+        and there is no ability to do so only in particular places.
+        Otherwise I would use that rather than highlighting.
 
-8.  Wrap lines
+7.  Show ruler at 70 characters for (for `text` and `prog` mode)
+    
+    It's good style to keep lines under 80 characters wide. The built in
+    `display-fill-column-indicator-mode` puts a ruler, by default at 70
+    characters.
+    
+    ``` commonlisp
+    (global-display-fill-column-indicator-mode t)
+    ```
+    
+    Note that with `org-indent-mode`, the ruler will be off by the
+    length of the indentation (i.e. it will be at line 68 if indented 2
+    characters, 66 if indented 4, etc).
+    
+    1.  Deprecated – `fci-mode`
+        
+        In earlier versions of Emacs (\< 27), the package
+        `fill-column-indicator` could be used to get the fill column
+        ruler.
+        
+        Note that this seems to cause some noticable lag.
+        
+        The code to make it a global mode is from the [Emacs
+        wiki](https://www.emacswiki.org/emacs/FillColumnIndicator).
+        
+        ``` commonlisp
+        ;;(use-package fill-column-indicator)
+        ;;(define-globalized-minor-mode global-fci-mode
+        ;;  fci-mode (lambda () (fci-mode t)))
+        ;;(global-fci-mode t)
+        ```
+        
+        If I later need it enabled only for certain modes, this code
+        could be of use.
+        
+        ``` commonlisp
+        ;; (use-package fill-column-indicator)
+        ;; (add-hook 'text-mode-hook 'fci-mode)
+        ;; (add-hook 'prog-mode-hook 'fci-mode)
+        ```
+        
+        After some use, I've found this indicator to be a combination of
+        distracting and possibly causing some lag, so I no longer use
+        it. `whitespace-mode` (set up above) makes a good alternative.
+
+8.  More noticable divider between windows
+    
+    One problem with a fill column ruler is that it can seem like it is
+    the divider between windows.
+    
+    For that reason, I like to have a more noticable divider between
+    windows. `window-divider-mode` provides this.
+    
+    ``` commonlisp
+    (window-divider-mode)
+    ```
+    
+    The default settings seem fine for the moment, so no customisation
+    here.
+
+9.  Don't wrap lines
     
     Since I make an effort to keep my lines under 80 characters, I
     usually won't have lines too long for the window.
     
     Previously, I enabled `visual-line-mode` to “wrap” lines which are
     too long; This is very annoying when working with a file with lots
-    of long lines, so I no longer enable it by default. there is a
+    of long lines, so I no longer enable it by default. There is a
     shortcut under [1.4](#Key%20bindings) to toggle it if needed.
     
     ``` commonlisp
@@ -2304,28 +2509,40 @@ hide unimportant information or interfact elements.
     ;;(add-hook 'prog-mode-hook 'visual-line-mode)
     ```
     
-    One annoying feature of `visual-line-mode`, at least in recent
-    versions, is that it redefines a kill to only kill to the end of the
-    visual line, rather than the whole line. This design decision can be
-    reversed; thanks to the [Stack
-    overflow](https://emacs.stackexchange.com/questions/13279/)
-    contributor.
+    1.  Disable builtin line wrapping
+        
+        Emacs wraps lines in some modes by default (I am honestly unsure
+        which modes). We can disable this by setting `truncate-lines` to
+        `t` by default.
+        
+        ``` commonlisp
+        (set-default 'truncate-lines t)
+        ```
     
-    ``` commonlisp
-    (define-key visual-line-mode-map [remap kill-line] 'kill-line)
-    ```
-    
-    Org mode also interferes with killing the whole line; it rebinds
-    `C-k` to be `org-kill-line`, which seems to kill the visual line.
-    Let's undo that rebinding.
-    
-    ``` commonlisp
-    (add-hook 'org-mode-hook
-      (lambda ()
-        (define-key org-mode-map "\C-k" 'kill-line)))
-    ```
+    2.  Killing lines in `visual-line-mode`
+        
+        One annoying feature of `visual-line-mode`, at least in recent
+        versions, is that it redefines a kill to only kill to the end of
+        the visual line, rather than the whole line. This design
+        decision can be reversed; thanks to the [Stack
+        overflow](https://emacs.stackexchange.com/questions/13279/)
+        contributor.
+        
+        ``` commonlisp
+        (define-key visual-line-mode-map [remap kill-line] 'kill-line)
+        ```
+        
+        Org mode also interferes with killing the whole line; it rebinds
+        `C-k` to be `org-kill-line`, which seems to kill the visual
+        line. Let's undo that rebinding.
+        
+        ``` commonlisp
+        (add-hook 'org-mode-hook
+          (lambda ()
+            (define-key org-mode-map "\C-k" 'kill-line)))
+        ```
 
-9.  Emoticons
+10. Emoticons
     
     I was using this package to add support for unicode emoticon
     characters, which did not display correctly otherwise (no font I had
@@ -2352,6 +2569,54 @@ hide unimportant information or interfact elements.
     There's also this package to help with Unicode fonts, but it doesn't
     seem necessary for me.
     <https://github.com/rolandwalker/unicode-fonts>
+
+11. Dim buffers when not in use
+    
+    The package `dimmer` will dim inactive windows to emphasise which
+    window has focus. See its [Github
+    page](https://github.com/gonewest818/dimmer.el).
+    
+    ``` commonlisp
+    (use-package dimmer)
+    ```
+    
+    Turn `dimmer-mode` on when Emacs starts.
+    
+    ``` commonlisp
+    (dimmer-mode)
+    ```
+    
+    Don't dim `which-key` and `helm` buffers.
+    
+    ``` commonlisp
+    (dimmer-configure-which-key)
+    (dimmer-configure-helm)
+    ```
+    
+    We can adjust the `:foreground` colours, the `:background` colours,
+    or `:both`. With a dark theme, adjusting the background causes the
+    background to become lighter in inactive buffers, which “looks
+    wrong” (makes them looked like they have focus). So I set this to
+    just `:foreground` (which is the default anyway).
+    
+    ``` commonlisp
+    (setq dimmer-adjustment-mode :foreground)
+    ```
+    
+    I find the default dimming of `20%` to be too faint; it is
+    noticeable when changing windows, but it does not remain noticeable
+    enough later (e.g. when I look away from Emacs then look back).
+    Doubling that to `40%` seems to be sufficient, while maintaing the
+    readability of unfocussed buffers.
+    
+    ``` commonlisp
+    (setq dimmer-fraction 0.4)
+    ```
+    
+    Note that by default, all windows will be dimmer when Emacs notices
+    that it does not have focus in the windowing system. I like this
+    behaviour; it could be changed by changing the variable
+    `dimmer-watch-frame-focus-events`.
 
 ### Automatically revert unchanged files which change on the disk
 
@@ -2485,42 +2750,7 @@ Unfortunately this seems to introduce a fair amount of lag on my system.
     )
     ```
 
-3.  Seeing recently visited files
-    
-    Usually, I don't appreciate software opening in its previous state;
-    if I closed an application (especially Emacs), there is probably a
-    reason, and so I prefer a clean slate on startup.
-    
-    Unfortunately, at one point my work machine developed a nasty habit
-    of turning off when put into sleep mode. There's was a reddit
-    [thread](https://www.reddit.com/r/Crostini/comments/btwi1z/) and a
-    Chromium issue
-    [thread](https://bugs.chromium.org/p/chromium/issues/detail?id=968060)
-    regarding the issue. It was actually fixed in an update almost
-    immediately after I incorporated these changes, so I don't make wide
-    use of the below setup.
-    
-    The process of reopening everything several times a day has become
-    irritating, so I prefer to recover the previous session each time.
-    
-    `recentf-mode` is a minor mode which builds a list of recently
-    opened files; see the [Emacs
-    wiki](https://www.emacswiki.org/emacs/RecentFiles).
-    
-    ``` commonlisp
-    (recentf-mode 1)
-    ```
-    
-    By default, `recentf-mode` saves the list of recently opened on
-    exit; however, in the case of a crash, this hook is never executed.
-    Instead, we can set it up to be backed up regularly; say every 5
-    minutes.
-    
-    ``` commonlisp
-    (run-at-time nil (* 5 60) 'recentf-save-list)
-    ```
-
-4.  Buffers to preserve on session clear
+3.  Buffers to preserve on session clear
     
     Emac's internal buffers are preserved on a session clear, but I
     additionally want to preserve the buffers I open on startup.
@@ -2543,6 +2773,25 @@ Unfortunately this seems to introduce a fair amount of lag on my system.
 (setq mouse-wheel-progressive-speed t) ;; don't accelerate scrolling
 ```
 
+### “All the icons”
+
+The package `all-the-icons` makes certain modes prettier by adding icons
+for filetypes, etc.
+
+``` commonlisp
+(use-package all-the-icons)
+```
+
+Note we must run `all-the-icons-install-fonts` in order to install the
+icons.
+
+`dired` is probably the most important usage of this for me.
+
+``` commonlisp
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+```
+
 ## Other
 
 ### Run my custom “dropbox start” command to ensure dropbox is running on the system
@@ -2551,6 +2800,30 @@ Unfortunately this seems to introduce a fair amount of lag on my system.
 (start-process-shell-command "dropbox-start"
                              "*dropbox-start*"
                              "/opt/dropbox-filesystem-fix/dropbox_start.py")
+```
+
+### Always use buffer input mode in mini buffer
+
+Some commands which make use of the minibuffer don't use the input mode
+I have set (Agda input mode); this is very annoying, so I set a hook to
+always use the input mode of the current buffer when entering the
+minibuffer.
+
+Notably, `string-rectangle` was where I encountered this all the time.
+The solution below was linked to in this [Agda
+issue](https://github.com/agda/agda/issues/3993); this StackExchange
+[post](https://emacs.stackexchange.com/questions/38310) provides the
+solution.
+
+``` commonlisp
+(defun my-inherit-input-method ()
+  "Inherit input method from `minibuffer-selected-window'."
+  (let* ((win (minibuffer-selected-window))
+         (buf (and win (window-buffer win))))
+    (when buf
+      (activate-input-method (buffer-local-value 'current-input-method buf)))))
+
+(add-hook 'minibuffer-setup-hook #'my-inherit-input-method)
 ```
 
 ## Temporary fixes
@@ -2588,6 +2861,24 @@ we need to wait longer on `pandoc` (increase the argument to
 
 ``` commonlisp
 (defalias 'ff 'find-file)
+```
+
+### Bibliography setup
+
+Stolen from Musa's configuration.
+
+``` commonlisp
+(use-package org-ref
+  :custom ;; Files to look at when no “╲bibliography{⋯}”
+          ;; is present in a file.
+          ;; Most useful for non-LaTeX files.
+        (reftex-default-bibliography '("~/Dropbox/McMaster/references.bib"))
+        (bibtex-completion-bibliography (car reftex-default-bibliography))
+        (org-ref-default-bibliography reftex-default-bibliography))
+
+;; Quick BibTeX references, sometimes.
+(use-package helm-bibtex)
+(use-package biblio)
 ```
 
 # `yankpad.org`
@@ -2799,7 +3090,21 @@ to be available everywhere.
         #+end_src
         ```
     
-    7.  oz: Oz code block
+    7.  ga: Breaking Agda code blocks
+        <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgga"><span class="smallcaps">orgga</span></span>
+        
+        In Agda-Org mode (a Polymode), the Agda `src` blocks are in Agda
+        mode, meaning that Org's “demarcate block” command isn't
+        available for breaking up source blocks. So use this snippet
+        instead.
+        
+        ``` text
+        #+end_src
+        
+        #+begin_src agda2
+        ```
+    
+    8.  oz: Oz code block
         <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgoz"><span class="smallcaps">orgoz</span></span>
         
         ``` text
@@ -2808,7 +3113,7 @@ to be available everywhere.
         #+end_src
         ```
     
-    8.  rb: Ruby code block
+    9.  rb: Ruby code block
         <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgrb"><span class="smallcaps">orgrb</span></span>
         
         ``` text
@@ -2817,7 +3122,7 @@ to be available everywhere.
         #+end_src
         ```
     
-    9.  py: Python code block
+    10. py: Python code block
         <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgpy"><span class="smallcaps">orgpy</span></span>
         
         ``` text
@@ -2826,7 +3131,7 @@ to be available everywhere.
         #+end_src
         ```
     
-    10. ic: “Interactive” C block
+    11. ic: “Interactive” C block
         <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgicc"><span class="smallcaps">orgicc</span></span>
         
         ``` text
@@ -2835,7 +3140,7 @@ to be available everywhere.
         #+end_src
         ```
     
-    11. icn: Inactive “Interactive” C block
+    12. icn: Inactive “Interactive” C block
         <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgicn"><span class="smallcaps">orgicn</span></span>
         
         ``` text
@@ -2844,7 +3149,7 @@ to be available everywhere.
         #+end_src
         ```
     
-    12. ich: “Interactive” C header block
+    13. ich: “Interactive” C header block
         <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgich"><span class="smallcaps">orgich</span></span>
         
         ``` text
@@ -2853,7 +3158,7 @@ to be available everywhere.
         #+end_src
         ```
     
-    13. xml: XML block
+    14. xml: XML block
         <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgxml"><span class="smallcaps">orgxml</span></span>
         
         ``` text
@@ -2862,7 +3167,7 @@ to be available everywhere.
         #+end_src
         ```
     
-    14. fs: F\# block
+    15. fs: F\# block
         <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgfs"><span class="smallcaps">orgfs</span></span>
         
         ``` text
@@ -2871,7 +3176,7 @@ to be available everywhere.
         #+end_src
         ```
     
-    15. pl: Prolog block
+    16. pl: Prolog block
         <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgpl"><span class="smallcaps">orgpl</span></span>
         
         ``` text
@@ -2880,7 +3185,7 @@ to be available everywhere.
         #+end_src
         ```
     
-    16. sch: Scheme
+    17. sch: Scheme
         <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgsch"><span class="smallcaps">orgsch</span></span>
         
         ``` text
@@ -2888,6 +3193,35 @@ to be available everywhere.
         $0
         #+end_src
         ```
+    
+    18. `example` blocks
+        
+        1.  ex: Org example block
+            <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgex"><span class="smallcaps">orgex</span></span>
+            
+            ``` text
+            #+begin_example $1
+            $0
+            #+end_example
+            ```
+        
+        2.  ele: Emacs lisp example block
+            <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgex"><span class="smallcaps">orgex</span></span>
+            
+            ``` text
+            #+begin_example emacs-lisp
+            $0
+            #+end_example
+            ```
+        
+        3.  age: Agda example block
+            <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgex"><span class="smallcaps">orgex</span></span>
+            
+            ``` text
+            #+begin_example agda2
+            $0
+            #+end_example
+            ```
 
 4.  Blocks for LaTeX exports
     
@@ -2955,6 +3289,15 @@ to be available everywhere.
         #+begin_verse
         $0
         #+end_verse
+        ```
+    
+    7.  verb: Verbatim
+        <span class="tag" data-tag-name="src"><span class="smallcaps">src</span></span> <span class="tag" data-tag-name="orgverb"><span class="smallcaps">orgverb</span></span>
+        
+        ``` commonlisp
+        #+begin_verbatim
+        $0
+        #+end_verbatim
         ```
 
 ### Punctuation, parentheses, etc.
