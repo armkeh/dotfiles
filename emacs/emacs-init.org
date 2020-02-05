@@ -2658,6 +2658,16 @@ is on its match.
 (add-hook 'text-mode-hook #'rainbow-delimiters-mode)
 #+end_src
 
+Don't treat angle brackets as delimiters; even when writing
+HTML or XML, I don't want them to qualify as delimiters for
+the purpose of ~show-paren-mode~, ~check-paren~ and ~rainbow-delimiters~.
+Treat them as symbols instead (this is the meaning of ~_~ in the
+syntax table.
+#+begin_src emacs-lisp
+(modify-syntax-entry ?< "_")
+(modify-syntax-entry ?> "_")
+#+end_src
+
 *** Display tabs
 
 I usually use spaces rather than tabs,
