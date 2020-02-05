@@ -2305,6 +2305,36 @@ These are cosmetics relating to lines in the current buffer.
 )
 #+end_src
 
+** Number pad bindings
+
+I make use of the number pad as an alternate set of arrow keys.
+Specifically, 
+#+begin_src text
+  8    ≈    ↑
+4 5 6  ≈  ← ↓ →
+#+end_src
+The number pad 5 has a tactile bump, making it easy to find without looking.
+#+begin_src emacs-lisp
+(global-set-key (kbd "<kp-4>")   (kbd "<left>"))
+(global-set-key (kbd "<C-kp-4>") (kbd "<C-left>"))
+(global-set-key (kbd "<kp-5>")   (kbd "<down>"))
+(global-set-key (kbd "<C-kp-5>") (kbd "<C-down>"))
+(global-set-key (kbd "<kp-6>")   (kbd "<right>"))
+(global-set-key (kbd "<C-kp-6>") (kbd "<C-right>"))
+(global-set-key (kbd "<kp-8>")   (kbd "<up>"))
+(global-set-key (kbd "<C-kp-8>") (kbd "<C-up>"))
+#+end_src
+
+The keys above my new left and right I bind as shortcuts to the
+modified arrow keys (so they act as ~left-word~ and ~right-word~ by default,
+and ~forward-sexp~ and ~backward-sexp~ when modified with control).
+#+begin_src emacs-lisp
+(global-set-key (kbd "<kp-7>")   (kbd "<C-left>"))
+(global-set-key (kbd "<C-kp-7>") (kbd "<C-M-left>"))
+(global-set-key (kbd "<kp-9>")   (kbd "<C-right>"))
+(global-set-key (kbd "<C-kp-9>") (kbd "<C-M-right>"))
+#+end_src
+
 * Navigation
 
 ** Jump between windows using ~windmove~
