@@ -1304,23 +1304,60 @@ We run the above function after each command in an Org mode buffer.
 
 **** Emphasis marker regexps
 
-Dumping this just for now...
-see https://emacs.stackexchange.com/questions/41111/org-mode-markup-between-square-brackets
+We can change the behaviour of Org emphasis markers
+in terms of what characters are allowed to occur around
+and between them; see 
+[[https://emacs.stackexchange.com/questions/41111/][this stack exchange post]]
+for a sampe setup, and
+[[https://emacs.stackexchange.com/questions/13820][this other post]]
+which is linked to from the first and which has more details.
+
+Everything here must be set when Org is loaded.
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
-  ; chars for prematch
-  (setcar org-emphasis-regexp-components            "     ('\"{“”\[\\-")
-  ; chars for postmatch
-  (setcar (nthcdr 1 org-emphasis-regexp-components) "\] -   .,!?;:''“”\")}/\\“”(-")
-  ; forbidden chars
-  (setcar (nthcdr 2 org-emphasis-regexp-components) "    \t\r\n\"")
-  ; body
-  (setcar (nthcdr 3 org-emphasis-regexp-components) ".")
-  ; max newlines
-  (setcar (nthcdr 4 org-emphasis-regexp-components) 1)
-  (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
 #+end_src
-I add ( to the second entry, to allow ( to immediately follow markup.
+
+Only these characters are allowed to immediately precede
+an emphasis character (left outer boundary characters).
+#+begin_src emacs-lisp
+  (setcar org-emphasis-regexp-components
+    "     ('\"{“”\[\\-")
+#+end_src
+# Org thinks that string about started a LaTeX block; close that \[\]. 
+
+Only these characters are allowed to immedately follow
+an emphasis characters (right outer boundary characters).
+#+begin_src emacs-lisp
+  (setcar (nthcdr 1 org-emphasis-regexp-components)
+    ;; Comment to fix parenthese matching in this file {(
+    "\] -   .,!?;:''“”\")}/\\“”(-")
+#+end_src
+
+Any characters are allowed as inner boundary characters,
+/except/ for those listed here.
+#+begin_src emacs-lisp
+  (setcar (nthcdr 2 org-emphasis-regexp-components)
+    "    \t\r\n\"")
+#+end_src
+
+Any characters are allowed between the inner border characters.
+#+begin_src emacs-lisp
+  (setcar (nthcdr 3 org-emphasis-regexp-components)
+    ".")
+#+end_src
+
+No newlines are allowed, though.
+#+begin_src emacs-lisp
+  (setcar (nthcdr 4 org-emphasis-regexp-components) 0)
+#+end_src
+
+Now we update the setting.
+#+begin_src emacs-lisp
+  (org-set-emph-re
+    'org-emphasis-regexp-components
+    org-emphasis-regexp-components))
+#+end_src
+NOTE the extra closing parenthesis to end the ~with-eval-after-load~!
 
 **** Require ~{}~ to denote sub/superscripts
 
