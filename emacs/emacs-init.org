@@ -1602,7 +1602,8 @@ so we use ~with-eval-after-load~ instead.
 
   ;; Emacs registers a mouse 1 click
   ;; if we click /beside/ a file/directory name.
-  (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
+  ;; I actually prefer this not to open the file.
+  (define-key dired-mode-map [mouse-1] nil)
   ;; It registers a mouse 2 click
   ;; if we click /on/ a file/directory name.
   (define-key dired-mode-map [mouse-2] 'dired-single-buffer-mouse))
