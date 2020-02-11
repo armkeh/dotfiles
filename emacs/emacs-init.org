@@ -1348,7 +1348,7 @@ Any characters are allowed between the inner border characters.
 
 No newlines are allowed, though.
 #+begin_src emacs-lisp
-  (setcar (nthcdr 4 org-emphasis-regexp-components) 0)
+  (setcar (nthcdr 4 org-emphasis-regexp-components) 1)
 #+end_src
 
 Now we update the setting.
