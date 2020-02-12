@@ -18,25 +18,28 @@ an ~org~ file for this.
 
 ** Setting up ~.emacs~ to use this code
 
-Create a symbolic link to this file in =~/.emacs.d/=,
-then add to the bottom of =~/.emacs= these lines:
+Create a symbolic link to this file in ~~/.emacs.d/~,
+then add to the bottom of ~~/.emacs~ these lines:
 #+BEGIN_EXAMPLE emacs-lisp
 ;; BEGIN my edits
-
-;; I've set up an init file following Musa's guide:
-;; https://alhassy.github.io/init/
 
 ;; Enable Emacs VC on symlinked files
 (setq vc-follow-symlinks t)
 
-;; Evaluate my init file.
-(org-babel-load-file "~/.emacs.d/emacs-init.org")
+;; Delete the old tangled and compiled init file.
+(delete-file "~/.emacs.d/emacs-init.el")
+(delete-file "~/.emacs.d/emacs-init.elc")
 
-;; Byte compile the file so that changes to emacs-init.org get picked up.
-(byte-compile-file "~/.emacs")
+;; Load my init file.
+(org-babel-load-file "~/.emacs.d/emacs-init.org")
 
 ;; END my edits
 #+END_EXAMPLE
+
+The separation of files ensures any outside edits to my
+~.emacs~ are retained.
+
+:TODO: check the content of .emacs on start; warn if it has changed
 
 *** Why set ~vc-follow-symlinks~ here?
 
