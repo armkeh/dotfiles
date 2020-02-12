@@ -63,6 +63,165 @@ so I will notice changes to it.
 (ignore-errors (load custom-file))
 #+end_src
 
+* Table of contents                             :TOC_4:
+- [[#introduction][Introduction]]
+  - [[#about-me][About me]]
+  - [[#setting-up-emacs-to-use-this-code][Setting up ~.emacs~ to use this code]]
+    - [[#why-set-vc-follow-symlinks-here][Why set ~vc-follow-symlinks~ here?]]
+  - [[#set-a-custom-file][Set a “custom” file]]
+- [[#elisp-code][~elisp~ code]]
+  - [[#theme-change-hook][Theme change hook]]
+  - [[#cascading-window-setup][Cascading window setup]]
+- [[#various-packages][Various packages]]
+  - [[#package-repositories-and-use-package][Package repositories and ~use-package~]]
+    - [[#set-the-load-path-for-manually-downloaded-packages][Set the load path for manually downloaded packages]]
+    - [[#bootstrap-use-package][Bootstrap ~use-package~]]
+    - [[#update-packages][Update packages]]
+  - [[#helm][~helm~]]
+  - [[#eshell][~eshell~]]
+  - [[#agda-mode][~agda~ mode]]
+    - [[#command-line-arguments][Command line arguments]]
+    - [[#alternative-problem-highlighting][Alternative problem highlighting]]
+    - [[#add-unicode-characters-to-agdas-translations][Add unicode characters to Agda's translations]]
+      - [[#punctuation-and-parentheses][Punctuation and parentheses]]
+      - [[#arrows][Arrows]]
+      - [[#correct-mistakes-on-subscriptssuperscripts][Correct mistakes on subscripts/superscripts]]
+      - [[#emoticons][Emoticons]]
+      - [[#calccheck][Calccheck]]
+      - [[#better-access-to-prime-symbols][Better access to prime symbols]]
+      - [[#other][Other]]
+      - [[#activate-the-new-additions][Activate the new additions]]
+    - [[#activate-agda-input-mode-in-text-and-prog-modes][Activate Agda input mode in ~text~ and ~prog~ modes]]
+    - [[#org-agda-mode][Org Agda mode]]
+  - [[#other-programming-languages][Other programming languages]]
+    - [[#typescript][Typescript]]
+    - [[#racket][Racket]]
+    - [[#f][F#]]
+    - [[#prolog][Prolog]]
+    - [[#scheme][Scheme]]
+  - [[#org-mode][Org mode]]
+    - [[#capture][Capture]]
+    - [[#agenda][Agenda]]
+    - [[#speed-keys][Speed keys]]
+    - [[#exporting][Exporting]]
+      - [[#allow-for-ignoring-headlines-andor-subtrees][Allow for ignoring headlines and/or subtrees]]
+      - [[#source-code-block-indentation-and-colouring][Source code block indentation and colouring]]
+      - [[#export-in-the-background][Export in the background]]
+      - [[#dont-change-org-links-to-html][Don't change ~.org~ links to ~.html~]]
+      - [[#latex-specific][LaTeX specific]]
+      - [[#org-reveal][~org-reveal~]]
+      - [[#ox-pandoc][~ox-pandoc~]]
+      - [[#ox-tufte][~ox-tufte~]]
+      - [[#ensure-useful-html-anchors][Ensure useful HTML anchors]]
+      - [[#require--to-denote-subsuperscripts][Require ~{}~ to denote sub/superscripts]]
+    - [[#evaluating-code][Evaluating code]]
+    - [[#cosmetics][Cosmetics]]
+      - [[#indent-text-based-on-heading-by-default][Indent text based on heading by default]]
+      - [[#hide-emphasis-markers-by-default][Hide emphasis markers by default]]
+      - [[#emphasis-marker-regexps][Emphasis marker regexps]]
+      - [[#require--to-denote-subsuperscripts-1][Require ~{}~ to denote sub/superscripts]]
+      - [[#highlight-math-mode-blocks][Highlight math mode blocks]]
+      - [[#pretty-bullets][Pretty bullets]]
+      - [[#replace-the-ellipsis-][Replace the ellipsis ~...~]]
+      - [[#tables][Tables]]
+      - [[#inline-images][Inline images]]
+      - [[#tag-position][Tag position]]
+    - [[#tables-of-contents][Tables of contents]]
+    - [[#other-1][Other]]
+      - [[#allow-alphabetical-lists][Allow alphabetical lists]]
+      - [[#reveal-hidden-elements-if-they-are-edited][Reveal hidden elements if they are edited]]
+      - [[#inline-tasks][Inline tasks]]
+  - [[#org-struct-mode][Org struct mode]]
+  - [[#pdf-tools][~pdf-tools~]]
+  - [[#yankpad-and-yasnippets][~yankpad~ and ~yasnippets~]]
+    - [[#dont-add-a-final-newline-when-editing-snippet-files][Don't add a final newline when editing snippet files]]
+  - [[#dired][~dired~]]
+    - [[#display-preferences][Display preferences]]
+    - [[#use-only-one-buffer-for-dired][Use only one buffer for ~dired~]]
+  - [[#magit][~magit~]]
+  - [[#sending-email-send-mail][Sending email: ~send-mail~]]
+    - [[#sending-html-mail][Sending HTML mail]]
+  - [[#reading-email-mu4e-with-isync][Reading email: ~mu4e~ (with isync)]]
+    - [[#basic-setup][Basic setup]]
+    - [[#viewing-emails][Viewing emails]]
+      - [[#email-list][Email list]]
+      - [[#individual-mail][Individual mail]]
+      - [[#html-support][HTML support]]
+    - [[#shortcuts-to-mailboxes][Shortcuts to mailboxes]]
+    - [[#message-composition-settings][Message composition settings]]
+      - [[#html-support-nothing-to-see-here][HTML support (nothing to see here)]]
+      - [[#changing-the-from-address-automatically][Changing the ~From~ address automatically]]
+    - [[#enabling-org-like-folding-in-email-composition][Enabling Org-like folding in email composition]]
+    - [[#miscellaneous][Miscellaneous]]
+  - [[#winner-for-saving-and-restoring-window-layouts][~winner~ for saving and restoring window layouts]]
+  - [[#exwm][~exwm~]]
+- [[#key-bindings][Key bindings]]
+  - [[#general-definers][~general~ definers]]
+  - [[#invoke-processes][Invoke processes]]
+    - [[#yankpad][~yankpad~]]
+    - [[#dired-1][~dired~]]
+      - [[#jumping-to-specific-buffers][Jumping to specific buffers]]
+      - [[#files-not-already-opened][Files not(?) already opened]]
+    - [[#eshell-1][~eshell~]]
+    - [[#magit-1][~magit~]]
+    - [[#mu4e][~mu4e~]]
+    - [[#recentf][~recentf~]]
+    - [[#list-processes][~list-processes~]]
+  - [[#buffer-navigation-and-management-window-and-theme-management][Buffer navigation and management, window and theme management]]
+  - [[#other-2][Other]]
+  - [[#number-pad-bindings][Number pad bindings]]
+- [[#navigation][Navigation]]
+  - [[#jump-between-windows-using-windmove][Jump between windows using ~windmove~]]
+  - [[#change-scrolling-shortcut-behaviour][Change scrolling (shortcut) behaviour]]
+- [[#cosmetics-1][Cosmetics]]
+  - [[#fonts][Fonts]]
+  - [[#themes][Themes]]
+    - [[#toggling-the-themes][Toggling the themes]]
+  - [[#displayingremoving-information-and-interface-elements][Displaying/removing information and interface elements]]
+    - [[#remove-unnecessary-interface-elements][Remove unnecessary interface elements]]
+    - [[#prompts-for-important-things][Prompts for important things]]
+    - [[#the-mode-line][The mode line]]
+      - [[#taking-the-spacemacs-modeline][Taking the Spacemacs modeline]]
+      - [[#information-to-display][Information to display]]
+      - [[#colour-the-beginning-of-the-line-based-on-the-save-status-of-the-file][Colour the beginning of the line based on the save status of the file]]
+      - [[#flash-on-error][Flash on error]]
+      - [[#diminish-minor-mode-names][Diminish minor mode names]]
+    - [[#show-line-numbers-on-left][Show line numbers on left]]
+      - [[#for-older-versions-of-emacs][For older versions of Emacs]]
+    - [[#delimiters-parentheses][Delimiters (parentheses)]]
+      - [[#highlight-matching-delimiters][Highlight matching delimiters]]
+      - [[#-and--are-not-delimiters][~<~ and ~>~ are not delimiters]]
+      - [[#rainbow-delimiters][Rainbow delimiters]]
+    - [[#display-tabs][Display tabs]]
+      - [[#deprecated--more-whitespace-highlighting][Deprecated – more whitespace highlighting]]
+    - [[#show-ruler-at-70-characters-for-for-text-and-prog-mode][Show ruler at 70 characters for (for ~text~ and ~prog~ mode)]]
+      - [[#deprecated--fci-mode][Deprecated – ~fci-mode~]]
+    - [[#more-noticable-divider-between-windows][More noticable divider between windows]]
+    - [[#dont-wrap-lines][Don't wrap lines]]
+      - [[#disable-builtin-line-wrapping][Disable builtin line wrapping]]
+      - [[#killing-lines-in-visual-line-mode][Killing lines in ~visual-line-mode~]]
+    - [[#emoticons-1][Emoticons]]
+    - [[#dim-buffers-when-not-in-use][Dim buffers when not in use]]
+  - [[#automatically-revert-unchanged-files-which-change-on-the-disk][Automatically revert unchanged files which change on the disk]]
+  - [[#show-possible-completions-as-i-type-shortcuts][Show possible completions as I type shortcuts]]
+  - [[#provide-a-visualisation-of-my-undo-tree][Provide a visualisation of my undo tree]]
+  - [[#session-opened-buffers-setup-and-management][Session (opened buffers) setup and management]]
+    - [[#buffers-to-open-at-startup][Buffers to open at startup]]
+    - [[#opening-the-initial-buffers][Opening the initial buffers]]
+    - [[#buffers-to-preserve-on-session-clear][Buffers to preserve on session clear]]
+  - [[#smoother-scrolling][Smoother scrolling]]
+  - [[#all-the-icons][“All the icons”]]
+- [[#other-3][Other]]
+  - [[#run-my-custom-dropbox-start-command-to-ensure-dropbox-is-running-on-the-system][Run my custom “dropbox start” command to ensure dropbox is running on the system]]
+  - [[#always-use-buffer-input-mode-in-mini-buffer][Always use buffer input mode in mini buffer]]
+- [[#temporary-fixes][Temporary fixes]]
+  - [[#org-strip-quotes][~org-strip-quotes~]]
+- [[#generating-the-readmemd-for-my-emacs-repo][Generating the README.md for my Emacs repo]]
+- [[#scratch][Scratch]]
+  - [[#aliases-for-common-functions-particularly-useful-for-eshell][Aliases for common functions, particularly useful for eshell]]
+  - [[#bibliography-setup][Bibliography setup]]
+  - [[#always-use-spaces-instead-of-tabs][Always use spaces instead of tabs]]
+
 * ~elisp~ code
 
 This section defines some functions/variables referred to
@@ -1449,6 +1608,22 @@ to ensure tags stay away from the right side of the screen.
 #+begin_src emacs-lisp
 (setq org-tags-column 48)
 #+end_src
+
+*** Tables of contents
+
+This package provides automatic maintainance of a table of contents
+under any heading which is labelled with the ~:TOC:~ tag.
+#+begin_src emacs-lisp
+(use-package toc-org
+  ;; Automatically update toc when saving an Org file.
+  :hook (org-mode . toc-org-mode)
+  ;; Use both “:ignore_N:” and ":export_N:” to exlude headings from the TOC.
+  :custom
+    (toc-org-noexport-regexp
+      "\\(^*+\\)\s+.*:\\(ignore\\|noexport\\)\\([@_][0-9]\\)?:\\($\\|[^ ]*?:$\\)"))
+#+end_src
+
+I lifted this setup straight from Musa's init.
 
 *** Other
 
@@ -3232,15 +3407,12 @@ Admittedly, it's a hack to just sleep.
 #+name: readme-generate
 #+begin_src emacs-lisp :tangle no :results none :exports none
 (with-temp-buffer
-  (insert "#+export_file_name: README
-           #+options: toc:nil
+  (insert "#+Export_file_name: README
 
            This repository contains the files that make up my Emacs setup.
 
            For the moment, that is my (literate) Emacs initialisation file
-           and my ~yankpad~ file of snippets.
-
-           #+toc: headlines 3\n")
+           and my ~yankpad~ file of snippets.\n")
   (insert "* ~emacs-init.org~\n")
   (insert "#+include: emacs-init.org\n")
   (insert "* ~yankpad.org~\n")
