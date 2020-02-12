@@ -601,6 +601,12 @@ See my [[Key bindings]].
 
 ** Other programming languages
 
+*** Typescript
+
+#+begin_src emacs-lisp
+(use-package typescript-mode)
+#+end_src
+
 *** Racket
 
 #+begin_src emacs-lisp
