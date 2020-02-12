@@ -1323,13 +1323,13 @@ an emphasis character (left outer boundary characters).
   (setcar org-emphasis-regexp-components
     "     ('\"{“”\[\\-")
 #+end_src
-# Org thinks that string about started a LaTeX block; close that \[\]. 
+# Org thinks that string above started a LaTeX block; close that \[\]. 
 
 Only these characters are allowed to immedately follow
 an emphasis characters (right outer boundary characters).
 #+begin_src emacs-lisp
   (setcar (nthcdr 1 org-emphasis-regexp-components)
-    ;; Comment to fix parenthese matching in this file {(
+    ;; Comment to fix delimiter matching in the literate file {(
     "\] -   .,!?;:''“”\")}/\\“”(-")
 #+end_src
 
@@ -1940,10 +1940,13 @@ Note that ~user-full-name~ and ~user-mail-address~ need to be defined
 
 (setq smtpmail-smtp-server "smtp.gmail.com"
       smtpmail-smtp-service 587
+      ;; Comment to fix delimiter matching in literate file [
       gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
 
 ;; Make Gnus NOT ignore [Gmail] mailboxes
-(setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
+(setq gnus-ignored-newsgroups
+  ;; Comment to fix delimiter matching in literate file [
+  "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
 
 ;; Reply with the same email address
 (setq gnus-posting-styles
@@ -2644,30 +2647,101 @@ So I generally just work without line numbers in older versions.
 
 *** Parentheses
 
+**** Highlight matching parentheses
+
 It's nice to highlight the matching parentheses when the cursor
 is on its match.
 #+begin_src emacs-lisp
 (show-paren-mode 1)
 #+end_src
 
-…
-#+begin_src emacs-lisp
-(use-package rainbow-delimiters)
-(add-hook 'org-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'text-mode-hook #'rainbow-delimiters-mode)
-#+end_src
+**** < and > are not parentheses
 
 Don't treat angle brackets as delimiters; even when writing
 HTML or XML, I don't want them to qualify as delimiters for
 the purpose of ~show-paren-mode~, ~check-paren~ and ~rainbow-delimiters~.
 Treat them as symbols instead (this is the meaning of ~_~ in the
-syntax table.
+syntax table).
 #+begin_src emacs-lisp
-(modify-syntax-entry ?< "_")
-(modify-syntax-entry ?> "_")
+(defun my/<>-symbol-syntax ()
+  (modify-syntax-entry ?> "_")
+  (modify-syntax-entry ?< "_"))
 #+end_src
 
+~modify-syntax-table~ works on the current buffer
+(unless given a buffer as optional argument)
+and so we need to apply those modifications in each buffer.
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook 'my/<>-symbol-syntax)
+(add-hook 'prog-mode-hook 'my/<>-symbol-syntax)
+(add-hook 'text-mode-hook 'my/<>-symbol-syntax)
+#+end_src
+
+The ~org-mode~ function modifies the entries when run,
+and ~yankpad~ runs it regularly (albeit in a temporary buffer,
+but the modification “leaks”), so we need to undo those
+modifications.
+#+begin_src emacs-lisp
+(defadvice org-mode (after override-<>-syntax activate)
+  (my/<>-symbol-syntax))
+#+end_src
+
+Side note: I'm honestly uncertain if the “leaking” of
+the syntax entry modifications from temporary buffers is a bug.
+It's likely just unintuitive behaviour.
+It can be observed easily; just modify the entry for i.e. ~<~,
+and evaluate
+#+begin_example emacs-lisp
+(with-temp-buffer
+  (org-mode))
+#+end_example
+and observe your modifications are undone.
+
+Do treat these unicode symbols as delimiters.
+The first character in each entry means either
+- “open delimiter”, if it's a ~(~, or
+- “close delimiter”, if it's a ~)~.
+The second symbol designates the matching delimiter. 
+#+begin_src emacs-lisp
+(defun my/unicode-delimiter-syntax ()
+  (modify-syntax-entry (string-to-char "⟨") "(⟩")
+  (modify-syntax-entry (string-to-char "⟩") ")⟨")
+  (modify-syntax-entry (string-to-char "⟪") "(⟫")
+  (modify-syntax-entry (string-to-char "⟫") ")⟪")
+  (modify-syntax-entry (string-to-char "⟦") "(⟧")
+  (modify-syntax-entry (string-to-char "⟧") ")⟦")
+  (modify-syntax-entry (string-to-char "⁅") "(⁆")
+  (modify-syntax-entry (string-to-char "⁆") ")⁅")
+  (modify-syntax-entry (string-to-char "｛") "(｝")
+  (modify-syntax-entry (string-to-char "｝") ")｛"))
+#+end_src
+
+Apply those syntax entry modifications.
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook 'my/unicode-delimiter-syntax)
+(add-hook 'text-mode-hook 'my/unicode-delimiter-syntax)
+#+end_src
+
+**** Rainbow parentheses and other delimiters
+
+The package ~rainbow-delimiters~ goes ones step further than
+highlighting parenthese matching the one under cursor;
+it makes the matching of all parentheses and delimiters
+obvious by using various colours.
+Each level of nesting uses a different colour.
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'text-mode-hook #'rainbow-delimiters-mode)
+#+end_src
+
+One caveat: in some modes, it is not clear which delimiters
+should be matched and which not.
+
+For an example of this, see my settings for the Org emphasis
+regular expressions, which require some commented out
+delimiters to avoid breaking all delimiter matching
+later in this file.
 *** Display tabs
 
 I usually use spaces rather than tabs,
