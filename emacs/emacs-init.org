@@ -2967,12 +2967,6 @@ the variable ~dimmer-watch-frame-focus-events~.
 (global-auto-revert-mode t)
 #+end_src
 
-** TODO Use ~wordsmith~ for English syntax highlighting
-
-#+begin_src emacs-lisp
-(use-package wordsmith-mode)
-#+end_src
-
 ** Show possible completions as I type shortcuts
 
 #+begin_src emacs-lisp
