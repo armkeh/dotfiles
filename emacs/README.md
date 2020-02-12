@@ -32,20 +32,23 @@ bottom of `~/.emacs` these lines:
 ``` example
 ;; BEGIN my edits
 
-;; I've set up an init file following Musa's guide:
-;; https://alhassy.github.io/init/
-
 ;; Enable Emacs VC on symlinked files
 (setq vc-follow-symlinks t)
 
-;; Evaluate my init file.
-(org-babel-load-file "~/.emacs.d/emacs-init.org")
+;; Delete the old tangled and compiled init file.
+(delete-file "~/.emacs.d/emacs-init.el")
+(delete-file "~/.emacs.d/emacs-init.elc")
 
-;; Byte compile the file so that changes to emacs-init.org get picked up.
-(byte-compile-file "~/.emacs")
+;; Load my init file.
+(org-babel-load-file "~/.emacs.d/emacs-init.org")
 
 ;; END my edits
 ```
+
+The separation of files ensures any outside edits to my `.emacs` are
+retained.
+
+:TODO: check the content of .emacs on start; warn if it has changed
 
 1.  Why set `vc-follow-symlinks` here?
     
@@ -187,18 +190,36 @@ of the previous (as long as this is possible)."
       (auto-package-update-maybe))
     ```
 
+### `helm`
+
+Taken from Musa's init.
+
+``` commonlisp
+(use-package helm
+ :diminish
+ :init (helm-mode t)
+ :bind (("M-x"     . helm-M-x)
+        ("C-x C-f" . helm-find-files)
+        ("C-x b"   . helm-mini)     ;; See buffers & recent files; more useful.
+        ("C-x r b" . helm-filtered-bookmarks)
+        ("C-x C-r" . helm-recentf)  ;; Search for recently edited files
+        ("C-c i"   . helm-imenu)
+        ("C-h a"   . helm-apropos)
+        ;; Look at what was cut recently & paste it in.
+        ("M-y" . helm-show-kill-ring)
+
+        :map helm-map
+        ;; We can list ‘actions’ on the currently selected item by C-z.
+        ("C-z" . helm-select-action)
+        ;; Let's keep tab-completetion anyhow.
+        ("TAB"   . helm-execute-persistent-action)
+        ("<tab>" . helm-execute-persistent-action)))
+```
+
 ### `eshell`
 
 ``` commonlisp
 (use-package eshell)
-```
-
-`em-dirs` is usually loaded upon starting an `eshell` process; I make
-use of a function from it below, so to avoid warnings when compiling
-here I load this file.
-
-``` commonlisp
-(load "em-dirs")
 ```
 
 Jeremias Queiroz posted a “fancy eshell prompt” setup on
@@ -208,28 +229,28 @@ face colours to improve portability across themes.
 
 ``` commonlisp
 (setq eshell-prompt-function
-(lambda ()
-  (let ((white  `(face-attribute 'default :foreground))
-        (green  `(face-attribute 'success :foreground))
-        (red    `(face-attribute 'error   :foreground))
-        (blue   `(face-attribute 'link    :foreground))
-        (yellow `(face-attribute 'warning :foreground)))
-  (concat
-  (propertize "┌—["             'face green)
-  (propertize (user-login-name)     'face red)
-  (propertize "@"                   'face blue)
-  (propertize (system-name)         'face red)
-  (propertize "]──["                'face green)
-  (propertize (format-time-string "%a %b %d" (current-time)) 'face yellow)
-  (propertize "]──["                'face green)
-  (propertize (format-time-string "%H:%M" (current-time)) 'face yellow)
-  (propertize "]\n"                 'face green)
-  (propertize "│ "                  'face green)
-  (propertize (concat (eshell/pwd)) 'face blue)
-  (propertize "\n"                 'face green)
-  (propertize "└─►"                 'face green)
-  (propertize (if (= (user-uid) 0) " # " " $ ") 'face white))
-)))
+  (lambda ()
+    (let ((white  `(face-attribute 'default :foreground))
+          (green  `(face-attribute 'success :foreground))
+          (red    `(face-attribute 'error   :foreground))
+          (blue   `(face-attribute 'link    :foreground))
+          (yellow `(face-attribute 'warning :foreground)))
+    (concat
+    (propertize "┌—["             'face green)
+    (propertize (user-login-name)     'face red)
+    (propertize "@"                   'face blue)
+    (propertize (system-name)         'face red)
+    (propertize "]──["                'face green)
+    (propertize (format-time-string "%a %b %d" (current-time)) 'face yellow)
+    (propertize "]──["                'face green)
+    (propertize (format-time-string "%H:%M" (current-time)) 'face yellow)
+    (propertize "]\n"                 'face green)
+    (propertize "│ "                  'face green)
+    (propertize (concat (eshell/pwd)) 'face blue)
+    (propertize "\n"                 'face green)
+    (propertize "└─►"                 'face green)
+    (propertize (if (= (user-uid) 0) " # " " $ ") 'face white))
+  )))
 ```
 
 ### `agda` mode
@@ -242,8 +263,13 @@ We need Emacs to locate Agda mode. This command is put in `.emacs`
 ```
 
 These packages are installed when setting up Agda, so I simply `require`
-them. :TODO: is this required because I am activating Agda input mode
-everywhere?
+them. They would be loaded when starting Agda mode, but I need to load
+them now
+
+  - because I use `agda-input` everywhere, and
+  - because I make some changes to `agda2-highlight` faces below.
+
+<!-- end list -->
 
 ``` commonlisp
 (require 'agda-input)
@@ -425,26 +451,32 @@ everywhere?
 
 ### Other programming languages
 
-1.  Racket
+1.  Typescript
+    
+    ``` commonlisp
+    (use-package typescript-mode)
+    ```
+
+2.  Racket
     
     ``` commonlisp
     (use-package racket-mode)
     ```
 
-2.  F\#
+3.  F\#
     
     ``` commonlisp
     ;;(require 'fsharp-mode)
     ```
 
-3.  Prolog
+4.  Prolog
     
     ``` commonlisp
     (add-to-list 'auto-mode-alist
                      '("\\.pl\\'" . prolog-mode))
     ```
 
-4.  Scheme
+5.  Scheme
     
     ``` commonlisp
     (use-package geiser)
@@ -1159,26 +1191,68 @@ in `org-plus-contrib`.
     
     3.  Emphasis marker regexps
         
-        Dumping this just for now… see
-        <https://emacs.stackexchange.com/questions/41111/org-mode-markup-between-square-brackets>
+        We can change the behaviour of Org emphasis markers in terms of
+        what characters are allowed to occur around and between them;
+        see [this stack exchange
+        post](https://emacs.stackexchange.com/questions/41111/) for a
+        sampe setup, and [this other
+        post](https://emacs.stackexchange.com/questions/13820) which is
+        linked to from the first and which has more details.
+        
+        Everything here must be set when Org is loaded.
         
         ``` commonlisp
         (with-eval-after-load 'org
-          ; chars for prematch
-          (setcar org-emphasis-regexp-components            "     ('\"{“”\[\\-")
-          ; chars for postmatch
-          (setcar (nthcdr 1 org-emphasis-regexp-components) "\] -   .,!?;:''“”\")}/\\“”(-")
-          ; forbidden chars
-          (setcar (nthcdr 2 org-emphasis-regexp-components) "    \t\r\n\"")
-          ; body
-          (setcar (nthcdr 3 org-emphasis-regexp-components) ".")
-          ; max newlines
-          (setcar (nthcdr 4 org-emphasis-regexp-components) 1)
-          (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
         ```
         
-        I add ( to the second entry, to allow ( to immediately follow
-        markup.
+        Only these characters are allowed to immediately precede an
+        emphasis character (left outer boundary characters).
+        
+        ``` commonlisp
+        (setcar org-emphasis-regexp-components
+          "     ('\"{“”\[\\-")
+        ```
+        
+        Only these characters are allowed to immedately follow an
+        emphasis characters (right outer boundary characters).
+        
+        ``` commonlisp
+        (setcar (nthcdr 1 org-emphasis-regexp-components)
+          ;; Comment to fix delimiter matching in the literate file {(
+          "\] -   .,!?;:''“”\")}/\\“”(-")
+        ```
+        
+        Any characters are allowed as inner boundary characters,
+        *except* for those listed here.
+        
+        ``` commonlisp
+        (setcar (nthcdr 2 org-emphasis-regexp-components)
+          "    \t\r\n\"")
+        ```
+        
+        Any characters are allowed between the inner border characters.
+        
+        ``` commonlisp
+        (setcar (nthcdr 3 org-emphasis-regexp-components)
+          ".")
+        ```
+        
+        No newlines are allowed, though.
+        
+        ``` commonlisp
+        (setcar (nthcdr 4 org-emphasis-regexp-components) 1)
+        ```
+        
+        Now we update the setting.
+        
+        ``` commonlisp
+        (org-set-emph-re
+          'org-emphasis-regexp-components
+          org-emphasis-regexp-components))
+        ```
+        
+        NOTE the extra closing parenthesis to end the
+        `with-eval-after-load`\!
     
     4.  Require `{}` to denote sub/superscripts
         
@@ -1419,7 +1493,8 @@ configuration, very easy to use.
     
       ;; Emacs registers a mouse 1 click
       ;; if we click /beside/ a file/directory name.
-      (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
+      ;; I actually prefer this not to open the file.
+      (define-key dired-mode-map [mouse-1] nil)
       ;; It registers a mouse 2 click
       ;; if we click /on/ a file/directory name.
       (define-key dired-mode-map [mouse-2] 'dired-single-buffer-mouse))
@@ -2067,6 +2142,41 @@ These are cosmetics relating to lines in the current buffer.
 )
 ```
 
+### Number pad bindings
+
+I make use of the number pad as an alternate set of arrow keys.
+Specifically,
+
+``` text
+  8    ≈    ↑
+4 5 6  ≈  ← ↓ →
+```
+
+The number pad 5 has a tactile bump, making it easy to find without
+looking.
+
+``` commonlisp
+(global-set-key (kbd "<kp-4>")   (kbd "<left>"))
+(global-set-key (kbd "<C-kp-4>") (kbd "<C-left>"))
+(global-set-key (kbd "<kp-5>")   (kbd "<down>"))
+(global-set-key (kbd "<C-kp-5>") (kbd "<C-down>"))
+(global-set-key (kbd "<kp-6>")   (kbd "<right>"))
+(global-set-key (kbd "<C-kp-6>") (kbd "<C-right>"))
+(global-set-key (kbd "<kp-8>")   (kbd "<up>"))
+(global-set-key (kbd "<C-kp-8>") (kbd "<C-up>"))
+```
+
+The keys above my new left and right I bind as shortcuts to the modified
+arrow keys (so they act as `left-word` and `right-word` by default, and
+`forward-sexp` and `backward-sexp` when modified with control).
+
+``` commonlisp
+(global-set-key (kbd "<kp-7>")   (kbd "<C-left>"))
+(global-set-key (kbd "<C-kp-7>") (kbd "<C-M-left>"))
+(global-set-key (kbd "<kp-9>")   (kbd "<C-right>"))
+(global-set-key (kbd "<C-kp-9>") (kbd "<C-M-right>"))
+```
+
 ## Navigation
 
 ### Jump between windows using `windmove`
@@ -2376,23 +2486,124 @@ hide unimportant information or interfact elements.
         ;;(add-hook 'prog-mode-hook 'linum-mode)
         ```
 
-5.  Parentheses
+5.  Delimiters (parentheses)
     
-    It's nice to highlight the matching parentheses when the cursor is
-    on its match.
+    1.  Highlight matching delimiters
+        
+        It's nice to highlight the matching delimiter when the cursor is
+        on its match.
+        
+        ``` commonlisp
+        (show-paren-mode 1)
+        ```
+        
+        Since I use `rainbow-delimiters`, it's actually distinctive to
+        colour the matching delimiter in plain white, rather than the
+        default red. In case we're in a light theme though, set the
+        background to be black.
+        
+        ``` commonlisp
+        (custom-theme-set-faces
+         'user
+         '(show-paren-match ((t (:foreground "white"
+                                 :background "black"
+                                 :weight ultra-bold)))))
+        ```
     
-    ``` commonlisp
-    (show-paren-mode 1)
-    ```
+    2.  `<` and `>` are not delimiters
+        
+        Don't treat angle brackets as delimiters; even when writing HTML
+        or XML, I don't want them to qualify as delimiters for the
+        purpose of `show-paren-mode`, `check-paren` and
+        `rainbow-delimiters`. Treat them as symbols instead (this is the
+        meaning of `_` in the syntax table).
+        
+        ``` commonlisp
+        (defun my/<>-symbol-syntax ()
+          (modify-syntax-entry ?> "_")
+          (modify-syntax-entry ?< "_"))
+        ```
+        
+        `modify-syntax-table` works on the current buffer (unless given
+        a buffer as optional argument) and so we need to apply those
+        modifications in each buffer.
+        
+        ``` commonlisp
+        (add-hook 'org-mode-hook 'my/<>-symbol-syntax)
+        (add-hook 'prog-mode-hook 'my/<>-symbol-syntax)
+        (add-hook 'text-mode-hook 'my/<>-symbol-syntax)
+        ```
+        
+        The `org-mode` function modifies the entries when run, and
+        `yankpad` runs it regularly (albeit in a temporary buffer, but
+        the modification “leaks”), so we need to undo those
+        modifications.
+        
+        ``` commonlisp
+        (defadvice org-mode (after override-<>-syntax activate)
+          (my/<>-symbol-syntax))
+        ```
+        
+        Side note: I'm honestly uncertain if the “leaking” of the syntax
+        entry modifications from temporary buffers is a bug. It's likely
+        just unintuitive behaviour. It can be observed easily; just
+        modify the entry for i.e. `<`, and evaluate
+        
+        ``` example
+        (with-temp-buffer
+          (org-mode))
+        ```
+        
+        and observe your modifications are undone.
+        
+        Do treat these unicode symbols as delimiters. The first
+        character in each entry means either
+        
+          - “open delimiter”, if it's a `(`, or
+          - “close delimiter”, if it's a `)`.
+        
+        The second symbol designates the matching delimiter.
+        
+        ``` commonlisp
+        (defun my/unicode-delimiter-syntax ()
+          (modify-syntax-entry (string-to-char "⟨") "(⟩")
+          (modify-syntax-entry (string-to-char "⟩") ")⟨")
+          (modify-syntax-entry (string-to-char "⟪") "(⟫")
+          (modify-syntax-entry (string-to-char "⟫") ")⟪")
+          (modify-syntax-entry (string-to-char "⟦") "(⟧")
+          (modify-syntax-entry (string-to-char "⟧") ")⟦")
+          (modify-syntax-entry (string-to-char "⁅") "(⁆")
+          (modify-syntax-entry (string-to-char "⁆") ")⁅")
+          (modify-syntax-entry (string-to-char "｛") "(｝")
+          (modify-syntax-entry (string-to-char "｝") ")｛"))
+        ```
+        
+        Apply those syntax entry modifications.
+        
+        ``` commonlisp
+        (add-hook 'prog-mode-hook 'my/unicode-delimiter-syntax)
+        (add-hook 'text-mode-hook 'my/unicode-delimiter-syntax)
+        ```
     
-    …
-    
-    ``` commonlisp
-    (use-package rainbow-delimiters)
-    (add-hook 'org-mode-hook #'rainbow-delimiters-mode)
-    (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-    (add-hook 'text-mode-hook #'rainbow-delimiters-mode)
-    ```
+    3.  Rainbow delimiters
+        
+        The package `rainbow-delimiters` goes ones step further than
+        highlighting the delimiter matching the one under cursor; it
+        makes the matching of all delimiters obvious by using various
+        colours. Each level of nesting uses a different colour.
+        
+        ``` commonlisp
+        (use-package rainbow-delimiters)
+        (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+        (add-hook 'text-mode-hook #'rainbow-delimiters-mode)
+        ```
+        
+        One caveat: in some modes, it is not clear which delimiters
+        should be matched and which not.
+        
+        For an example of this, see my settings for the Org emphasis
+        regular expressions, which require some commented out delimiters
+        to avoid breaking all delimiter matching later in this file.
 
 6.  Display tabs
     
@@ -2624,12 +2835,6 @@ hide unimportant information or interfact elements.
 (global-auto-revert-mode t)
 ```
 
-### <span class="todo TODO">TODO</span> Use `wordsmith` for English syntax highlighting
-
-``` commonlisp
-(use-package wordsmith-mode)
-```
-
 ### Show possible completions as I type shortcuts
 
 ``` commonlisp
@@ -2857,10 +3062,11 @@ we need to wait longer on `pandoc` (increase the argument to
 
 ## Scratch
 
-### Find file alias for ease of use in eshell
+### Aliases for common functions, particularly useful for eshell
 
 ``` commonlisp
 (defalias 'ff 'find-file)
+(defalias 'q 'quit-window)
 ```
 
 ### Bibliography setup
@@ -2879,6 +3085,16 @@ Stolen from Musa's configuration.
 ;; Quick BibTeX references, sometimes.
 (use-package helm-bibtex)
 (use-package biblio)
+```
+
+### Always use spaces instead of tabs
+
+``` commonlisp
+(setq-default indent-tabs-mode nil)
+```
+
+``` commonlisp
+(setq typescript-indent-level 2)
 ```
 
 # `yankpad.org`
