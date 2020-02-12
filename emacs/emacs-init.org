@@ -2645,17 +2645,30 @@ So I generally just work without line numbers in older versions.
 ;;(add-hook 'prog-mode-hook 'linum-mode)
 #+end_src
 
-*** Parentheses
+*** Delimiters (parentheses)
 
-**** Highlight matching parentheses
+**** Highlight matching delimiters
 
-It's nice to highlight the matching parentheses when the cursor
+It's nice to highlight the matching delimiter when the cursor
 is on its match.
 #+begin_src emacs-lisp
 (show-paren-mode 1)
 #+end_src
 
-**** < and > are not parentheses
+Since I use ~rainbow-delimiters~, it's actually distinctive
+to colour the matching delimiter in plain white,
+rather than the default red.
+In case we're in a light theme though, set the background
+to be black.
+#+begin_src emacs-lisp
+(custom-theme-set-faces
+ 'user
+ '(show-paren-match ((t (:foreground "white"
+                         :background "black"
+                         :weight ultra-bold)))))
+#+end_src
+
+**** ~<~ and ~>~ are not delimiters
 
 Don't treat angle brackets as delimiters; even when writing
 HTML or XML, I don't want them to qualify as delimiters for
@@ -2722,11 +2735,11 @@ Apply those syntax entry modifications.
 (add-hook 'text-mode-hook 'my/unicode-delimiter-syntax)
 #+end_src
 
-**** Rainbow parentheses and other delimiters
+**** Rainbow delimiters
 
 The package ~rainbow-delimiters~ goes ones step further than
-highlighting parenthese matching the one under cursor;
-it makes the matching of all parentheses and delimiters
+highlighting the delimiter matching the one under cursor;
+it makes the matching of all delimiters
 obvious by using various colours.
 Each level of nesting uses a different colour.
 #+begin_src emacs-lisp
@@ -2742,6 +2755,7 @@ For an example of this, see my settings for the Org emphasis
 regular expressions, which require some commented out
 delimiters to avoid breaking all delimiter matching
 later in this file.
+
 *** Display tabs
 
 I usually use spaces rather than tabs,
