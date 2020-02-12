@@ -3281,3 +3281,12 @@ Stolen from Musa's configuration.
 (use-package helm-bibtex)
 (use-package biblio)
 #+end_src
+** Always use spaces instead of tabs
+
+#+begin_src emacs-lisp
+(setq-default indent-tabs-mode nil)
+#+end_src
+
+#+begin_src emacs-lisp
+(setq typescript-indent-level 2)
+#+end_src
