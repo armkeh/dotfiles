@@ -246,7 +246,10 @@ We need Emacs to locate Agda mode. This command is put in ~.emacs~
 
 These packages are installed when setting up Agda,
 so I simply ~require~ them.
-:TODO: is this required because I am activating Agda input mode everywhere?
+They would be loaded when starting Agda mode,
+but I need to load them now
+- because I use ~agda-input~ everywhere, and
+- because I make some changes to ~agda2-highlight~ faces below.
 #+begin_src emacs-lisp
 (require 'agda-input)
 (require 'agda2-highlight)
