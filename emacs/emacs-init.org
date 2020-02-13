@@ -214,6 +214,7 @@ so I will notice changes to it.
 - [[#other-3][Other]]
   - [[#run-my-custom-dropbox-start-command-to-ensure-dropbox-is-running-on-the-system][Run my custom “dropbox start” command to ensure dropbox is running on the system]]
   - [[#always-use-buffer-input-mode-in-mini-buffer][Always use buffer input mode in mini buffer]]
+  - [[#copy-certain-files-to-my-google-drive-after-save][Copy certain files to my Google Drive after save]]
 - [[#temporary-fixes][Temporary fixes]]
   - [[#org-strip-quotes][~org-strip-quotes~]]
 - [[#generating-the-readmemd-for-my-emacs-repo][Generating the README.md for my Emacs repo]]
@@ -3366,6 +3367,58 @@ provides the solution.
       (activate-input-method (buffer-local-value 'current-input-method buf)))))
 
 (add-hook 'minibuffer-setup-hook #'my-inherit-input-method)
+#+end_src
+
+** Copy certain files to my Google Drive after save
+
+I make use of Orgzly on my Android phone for viewing
+(and infrequently for editing) Org files.
+It's particularly useful to keep my log file(s)
+synchronised with my phone so I can view TODOs, etc.,
+in an Orgzly widget.
+
+So, I must somehow synchronise the relevant Org files
+with my phone. Three repository options are available in Orgzly;
+1) use a phone local folder as a repository,
+2) use a Dropbox folder as a repository (with Dropbox installed), and
+3) use a webdav location as a repository.
+I do not have infrastructure for (3). I do use Dropbox,
+so (2) might work, but I want to eventually move away from
+Dropbox as it is losing many features (including already
+support for my VM's filesystem, so I must “hack” it to work.)
+So, (1) seems the best option, supposing I have some means
+of keeping the contents of that folder up-to-date.
+
+As I use a Chromebook, my Google Drive is already present
+and synchronised on my machine
+(albeit not in the Linux VM, but it can be shared with it.)
+On the phone, Google Drive does not natively support
+storing a folder locally, but the app DriveSync does provide this
+(with many options).
+
+So, here I must provide a way to keep certain Org files
+synchronised with my Google Drive.
+
+For the moment, I am interested in a one-way sync only;
+from the computer to the phone.
+So it suffices to copy the files to my Google Drive.
+Specifically, I can do so whenever they are saved.
+
+The simplest way to accomplish this seems to be a file-local hook.
+Specifically, it should hook this function to ~after-save-hook~.
+#+begin_src emacs-lisp
+(defun save-to-drive (&optional subdir)
+  (save-excursion
+    (let ((drive "/mnt/chromeos/GoogleDrive/MyDrive/")
+          (subdir (when subdir (concat subdir "/")))
+          (name (file-name-nondirectory (buffer-file-name))))
+     ;; Copy the file, overwriting if it exists.
+     (copy-file name (concat drive subdir) t))))
+#+end_src
+
+Add a file-local setting such as the below execute the above on save.
+#+begin_src text
+# eval: (add-hook 'after-save-hook (lambda () (save-to-drive "org")) nil 'local)
 #+end_src
 
 * Temporary fixes
