@@ -1137,12 +1137,15 @@ system for this to work.
 I make use of ~org-reveal~ to create ~reveal.js~ slide decks.
 This is way easier than dealing with ~beamer~ in LaTeX,
 and results in much more attractive and better organised slides.
-
 #+Name: export-reveal
 #+begin_src emacs-lisp
 (use-package ox-reveal)
+#+end_src
 
-(setq org-reveal-root "file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/")
+It's a good idea to keep a local copy of the ~reveal.js~ packages.
+#+begin_src emacs-lisp
+(setq org-reveal-root
+  "file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/")
 #+end_src
 
 ***** Slide appearance
