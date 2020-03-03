@@ -2193,14 +2193,13 @@ So it remains simply a possibility for the future.
 
 * Key bindings
 
-I make use of ~hydra~ for keybindings (or groups of keybindings)
-which will be executed several times in a row.
-
-I also make use of ~general~ to organise other keybindings.
-
+I make use of ~general~ to organise keybindings.
 #+begin_src emacs-lisp
 (use-package general)
 #+end_src
+
+Someday I need to also setup ~hydra~ for keybindings which may be
+repeated several times. Or maybe it will replace ~general~ altogether.
 
 ** ~general~ definers
 
@@ -2222,9 +2221,9 @@ those on the left side of the keyboard, I can avoid “Emacs pinky”.
 
 So far I have three categories of shortcuts:
 - My main shortcuts, those that don't fall into another category.
-- Shortcuts to navigate around the current buffer.
+- Shortcuts to navigate around the current buffer and window.
+- Shortcuts to navigate tabs (window configurations).
 - Shortcuts to open a ~dired~ buffer for a certain folder.
-
 #+begin_src emacs-lisp
 (general-create-definer general-main-define-key
   :prefix "s-q"
@@ -2232,6 +2231,10 @@ So far I have three categories of shortcuts:
 
 (general-create-definer general-window-define-key
   :prefix "s-w"
+  :keymaps 'override)
+
+(general-create-definer general-tab-define-key
+  :prefix "s-t"
   :keymaps 'override)
 
 (general-create-definer general-dired-define-key
@@ -2511,15 +2514,30 @@ These are cosmetics relating to lines in the current buffer.
   "l w y" '((lambda () (interactive) (visual-line-mode 1))
             :which-key "Line wrap - yes")
   "l w n" '((lambda () (interactive) (visual-line-mode 0))
-            :which-key "Line wrap - no")
-;; Line highlighting has been reduced; I don't need this anymore.
+            :which-key "Line wrap - no"))
+#+end_src
+
+Line highlighting has been reduced; I don't need this anymore.
+#+begin_example emacs-lisp
 ;  "l h"   '(:ignore t
 ;            :which-key "Long line highlighting")
 ;  "l h y" '((lambda () (interactive) (whitespace-mode 1))
 ;            :which-key "Long line hightlight - yes")
 ;  "l h n" '((lambda () (interactive) (whitespace-mode 0))
 ;            :which-key "Long line hightlight - yes")
-)
+#+end_example
+
+Sometimes I need to toggle fontlocking.
+#+begin_src emacs-lisp
+(general-main-define-key
+  "f"     '(:ignore t
+            :which-key "Font lock")
+  "f y"   '((lambda () (interactive)
+              (font-lock-mode t))
+            :which-key "Font lock - yes")
+  "f n"   '((lambda () (interactive)
+              (font-lock-mode 0))
+            :which-key "Font lock - no"))
 #+end_src
 
 #+begin_src emacs-lisp
