@@ -1097,21 +1097,50 @@ Sometimes, for creating slides, ~beamer~ is useful.
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
 #+end_src
 
-***** Source code colouring in LaTeX exports
+***** Use ~minted~ for code blocks
 
-We can use ~minted~ for source code colouring on export to LaTeX.
-
-Currently this breaks things with my literate Agda process,
-a problem I should resolve. For the moment, if I want to use
-~minted~, I can do so on a file-by-file basis.
-
-~pygments~ (also called ~python-pygments~) must be installed on the
-system for this to work.
-#+Name: export-latex-minted
+First, make sure we load the ~minted~ package.
 #+begin_src emacs-lisp
-;;(setq org-latex-listings 'minted
-;;      org-latex-packages-alist '(("" "minted")))
+(add-to-list 'org-latex-packages-alist '("newfloat" "minted"))
 #+end_src
+The ~newfloat~ package can be used with ~minted~ with
+a ~newfloat~ option to, for instance, support pagebreaks
+in the float. See this StackExchange
+[[https://tex.stackexchange.com/questions/254044/][post]]
+if you want to set that up.
+
+Now, we tell Org to use a ~minted~ environment,
+rather than the default ~verbatim~, for code.
+#+begin_src emacs-lisp
+(setq org-latex-listings 'minted)
+#+end_src
+
+****** Treat ~agda2~ source as ~Haskell~ for listings
+
+Unfortunately, ~minted~ doesn't support Agda,
+so we simply have Org tell it that it's Haskell code.
+#+begin_src emacs-lisp
+(add-to-list 'org-latex-minted-langs '(agda2 "Haskell"))
+#+end_src
+
+****** Alternative: use ~listings~ in place of ~minted~
+
+As a step between using ~verbatim~ blocks and
+using ~minted~ for source code,
+we can use the ~listings~ package.
+
+I found that ~listings~ caused odd typesetting of my Agda code;
+code was out of order, particularly when using underscores,
+and had oddly placed line breaks.
+It may have been an issue with treating Agda code as Haskell;
+I didn't diagnose much before switching to
+using ~minted~ instead.
+
+If the setup is desired, here is how to do it:
+#+begin_example emacs-lisp
+(setq org-latex-listings t) ;; As opposed to 'minted
+(add-to-list 'org-latex-listings-langs '(agda2 "Haskell"))
+#+end_example
 
 ***** ~hyperref~ setup
 
