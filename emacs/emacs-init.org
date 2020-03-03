@@ -1303,7 +1303,9 @@ we can use a setting to /require/ that sub/superscripts be enclosed in brackets
 (setq org-export-with-sub-superscripts '{})
 #+end_src
 
-*** Evaluating code
+*** Literate programming
+
+**** Execution
 
 By default, Emacs will query whether we /actually/ want to
 execute code when we evaluate a code block. Also, it seems to
@@ -1338,7 +1340,7 @@ These languages have support built-in, it just has to be activated.
 
 #+Name: evaluate-geiser-implementation
 #+begin_src emacs-lisp
-(setq geiser-default-implementation 'guile)
+;;(setq geiser-default-implementation 'guile)
 #+end_src
 
 For other languages, separate packages are needed.
@@ -1352,7 +1354,7 @@ if there's a problem, make sure the Mozart2 Elisp directory
 is in the path.
 #+Name: evaluate-oz
 #+begin_src emacs-lisp
-(require 'ob-oz)
+;;(require 'ob-oz)
 #+end_src
 
 There are at least two packages for Org babel support for Racket,
@@ -1367,8 +1369,8 @@ to my ~emacs.d~; probably it should be put somewhere better,
 but I will do that when I next set up my system 😀.
 #+Name: evaluate-racket
 #+begin_src emacs-lisp
-(add-to-list 'load-path "/home/markparmstrong/.emacs.d/ob-racket")
-(require 'ob-racket)
+;;(add-to-list 'load-path "/home/markparmstrong/.emacs.d/ob-racket")
+;;(require 'ob-racket)
 #+end_src
 
 For shell code, we need to initialise via this function.
