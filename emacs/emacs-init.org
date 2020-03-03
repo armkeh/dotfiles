@@ -1659,7 +1659,7 @@ of the document.
 Org struct mode lets us use Org-style document folding
 in other modes.
 #+begin_src emacs-lisp
-(add-hook 'agda2-mode 'turn-on-orgstruct++)
+;;(add-hook 'agda2-mode 'turn-on-orgstruct++)
 #+end_src
 
 ** ~pdf-tools~
@@ -2097,7 +2097,7 @@ myself; I preserve it here.
 
 :TODO: this doesn't work yet?
 #+begin_src emacs-lisp
-(add-hook 'message-mode-hook 'turn-on-orgstruct++)
+;;(add-hook 'message-mode-hook 'turn-on-orgstruct++)
 #+end_src
 
 *** Miscellaneous
