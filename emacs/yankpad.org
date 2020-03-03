@@ -405,7 +405,6 @@ $0
 …
 #+end_src
 
-
 *** card: Cardinality                                            :src:card:
 
 #+begin_src text
@@ -448,6 +447,40 @@ non-deterministic
 latex/Automata/Simple/DFA.tex
 #+end_src
 
+** Templates
+
+*** Meeting notes
+
+**** ms-rep                                  :src:
+
+#+begin_src text
+,*** Mathscheme $1. $2                            :mathscheme:
+
+,**** Myself
+,**** Musa
+,**** Jacques
+,**** Wolfram
+,**** Bill
+,**** Yasmine
+,**** Noel
+,**** Sharon
+,**** Pesara
+#+end_src
+
+**** ms-temp                                 :src:
+
+#+begin_src text
+- Accomplished ::
+  - 
+- TODO ::
+  - 
+- Help ::
+  - 
+
+- Followup ::
+  - 
+#+end_src
+
 ** Other global
 
 *** thisfile: Name of the current file (buffer)              :src:thisfile:
@@ -484,7 +517,7 @@ $0
 
 * agda2-mode
 
-** agl: Literate code block                    :src:agl:
+** agl: LaTeX code block                       :src:agl:
 
 #+begin_src text
 \begin{code}
@@ -492,7 +525,7 @@ $0
 \end{code}
 #+end_src
 
-** ga: Break up a literate code block                               :src:ga:
+** lga: Break up a LaTeX code block            :src:lga:
 
 Often we need to break up code blocks somewhere in the middle.
 
