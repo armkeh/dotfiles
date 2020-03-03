@@ -3639,9 +3639,9 @@ in an Orgzly widget.
 
 So, I must somehow synchronise the relevant Org files
 with my phone. Three repository options are available in Orgzly;
-1) use a phone local folder as a repository,
-2) use a Dropbox folder as a repository (with Dropbox installed), and
-3) use a webdav location as a repository.
+1. use a phone local folder as a repository,
+2. use a Dropbox folder as a repository (with Dropbox installed), and
+3. use a webdav location as a repository.
 I do not have infrastructure for (3). I do use Dropbox,
 so (2) might work, but I want to eventually move away from
 Dropbox as it is losing many features (including already
@@ -3653,8 +3653,8 @@ As I use a Chromebook, my Google Drive is already present
 and synchronised on my machine
 (albeit not in the Linux VM, but it can be shared with it.)
 On the phone, Google Drive does not natively support
-storing a folder locally, but the app DriveSync does provide this
-(with many options).
+storing a folder locally, but the app DriveSync does provide this,
+with many options.
 
 So, here I must provide a way to keep certain Org files
 synchronised with my Google Drive.
