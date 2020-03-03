@@ -920,7 +920,9 @@ To see the commands available, execute
 
 *** Exporting
 
-**** Allow for ignoring headlines and/or subtrees
+**** Ignoring content
+
+***** Headings
 
 Use the ~:ignore:~ tag on headlines to omit the headline when
 exporting, but keep its contents.
@@ -928,13 +930,20 @@ exporting, but keep its contents.
 #+begin_src emacs-lisp
 (ox-extras-activate '(ignore-headlines))
 #+end_src
+
 Alternatively, use the ~:noexport:~ tag to omit the headline
 /and/ its contents.
-
 #+Name: export-ignore-sections
 #+begin_src emacs-lisp
 ;;;; noexport is in the list by default
 ;; (add-to-list 'org-export-exclude-tags "noexport")
+#+end_src
+
+***** Drawers
+
+Ignore all drawers when exporting, by default.
+#+begin_src agda2
+(setq org-export-with-drawers nil)
 #+end_src
 
 **** Source code block indentation and colouring
