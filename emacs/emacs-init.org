@@ -2788,7 +2788,7 @@ of ~spaceline-spacemacs-theme~ should improve compatibility.
 
 :TODO:
 
-**** Colour the beginning of the line based on the save status of the file
+**** Colour the modeline
 
 This setting changes the colour of the start of the modeline
 when the file has been modified and not saved,
