@@ -1384,8 +1384,16 @@ PlantUML requires we set the path to the ~.jar~ file.
 (setq org-plantuml-jar-path "/usr/share/java/plantuml.jar")
 #+end_src
 
+**** Editing source code
+
+When we open a new window to edit source blocks
+(via ~C-c '~), the major mode of that window is determined by
+the setting for the language in ~org-src-lang-modes~.
+Override the setting in that attribute list if you wish to
+change the major mode for a particular language.
+
 It's convenient to have ~<tab>~ act as it would in the source language
-when editing code blocks.
+when editing code blocks in the Org buffer.
 #+begin_src emacs-lisp
 ;;(setq org-src-tab-acts-natively t)
 #+end_src
