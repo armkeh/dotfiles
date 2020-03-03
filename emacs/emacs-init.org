@@ -1055,16 +1055,14 @@ to resolve references, etc.
 #+Name: export-latex-process
 #+begin_src emacs-lisp
 (setq org-latex-pdf-process
-      '("latexmk -%latex -f %f"))
+      '("latexmk -%latex -shell-escape -f %f"))
 #+end_src
 
 The flags/format specifiers are
 | ~%latex~        | stands in for the latex compiler (defaults to the setting above) |
 | ~-f~            | force continued processing past errors                           |
 | ~%f~            | stands in for the (relative) filename                            |
-
-Other flags/format specifiers I may wish to add later include
-| ~-shell-escape~ | necessary to use ~minted~ |
+| ~-shell-escape~ | necessary to use ~minted~                                          |
 
 ***** Custom document classes
 
