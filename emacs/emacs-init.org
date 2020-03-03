@@ -408,9 +408,11 @@ These packages are installed when setting up Agda,
 so I simply ~require~ them.
 They would be loaded when starting Agda mode,
 but I need to load them now
+- because I use ~agda2-info-buffer~ to open that buffer on startup,
 - because I use ~agda-input~ everywhere, and
 - because I make some changes to ~agda2-highlight~ faces below.
 #+begin_src emacs-lisp
+(require 'agda2-mode)
 (require 'agda-input)
 (require 'agda2-highlight)
 #+end_src
@@ -2457,6 +2459,40 @@ into one (conceptual) category: “window”, prefix ~w~.
 )
 #+end_src
 
+** Tab management
+
+#+begin_src emacs-lisp
+(general-tab-define-key
+  "r" '(tab-rename
+        :which-key "Rename tab")
+  "k" '(tab-close
+        :which-key "Kill tab")
+
+  "<right>" '(tab-next
+              :which-key "Next tab")
+  "<left>"  '(tab-previous
+              :which-key "Previous tab")
+  "<down>"  '(tab-recent
+              :which-key "Recent tab")
+  "<up>"    '(tab-undo
+              :which-key "Undo close tab")
+  "S-<right>" '((lambda () (interactive) (tab-move 1))
+              :which-key "Move left")
+  "S-<left>"  '((lambda () (interactive) (tab-move -1))
+              :which-key "Move right")
+
+  "1" (lambda () (interactive) (tab-select 1))
+  "2" (lambda () (interactive) (tab-select 2))
+  "3" (lambda () (interactive) (tab-select 3))
+  "4" (lambda () (interactive) (tab-select 4))
+  "5" (lambda () (interactive) (tab-select 5))
+  "6" (lambda () (interactive) (tab-select 6))
+  "7" (lambda () (interactive) (tab-select 7))
+  "8" (lambda () (interactive) (tab-select 8))
+  "9" (lambda () (interactive) (tab-select 9))
+  "0" (lambda () (interactive) (tab-select 10)))
+#+end_src
+
 ** Other
 
 These are cosmetics relating to lines in the current buffer.
@@ -3145,6 +3181,57 @@ notices that it does not have focus in the windowing system.
 I like this behaviour; it could be changed by changing
 the variable ~dimmer-watch-frame-focus-events~.
 
+*** Tab-bar
+
+#+begin_src emacs-lisp
+(tab-bar-mode)
+#+end_src
+
+The default colouring is a basic Emacs grey;
+let's spruce it up.
+#+begin_src emacs-lisp
+(custom-theme-set-faces
+ 'user
+ '(tab-bar ((t
+     (:foreground "white"
+      :background "DarkSlateGray4"))))
+  '(tab-bar-tab ((t
+     (:foreground "white"
+      :background "DarkSlateGray3"
+      :box (:line-width 1 :style released-button)))))
+  '(tab-bar-tab-inactive ((t
+     (:foreground "white"
+      :background "DarkSlateGray4"
+      :box (:line-width 1 :style released-button))))))
+#+end_src
+
+If the tab bar is to take up space anyway, let's make use of it
+and display a clock up there too.
+This code taken from a post in the
+[[https://lists.gnu.org/archive/html/emacs-devel/2019-10/msg00685.html][Emacs developer mailing list]].
+Note that it's not live updating, though!
+#+begin_src emacs-lisp
+(advice-add 'tab-bar-make-keymap-1 :around
+  (lambda (orig-fun)
+    (append (funcall orig-fun)
+            `((display-time menu-item
+               ,(concat
+                 (propertize " "
+                             'display
+                             '(space :align-to
+                                (- right
+                                  (+ 16    ;; For the time string
+                                     4)))) ;; For some breathing room
+                 (format-time-string "%a %b %d %R"))
+               ignore))))
+  '((name . tab-bar-display-time)))
+#+end_src
+
+Do show numbers on tabs, for the purpose of quickly changing.
+#+begin_src emacs-lisp
+(setq tab-bar-tab-hints 't)
+#+end_src
+
 ** Automatically revert unchanged files which change on the disk
 
 #+begin_src emacs-lisp
@@ -3196,18 +3283,195 @@ on my system.
 ;;(setq undo-tree-visualizer-diff ())
 #+end_src
 
-** Session (opened buffers) setup and management
+** Session setup and management
 
-*** Buffers to open at startup
+*** Tabs and buffers to open at startup
+
+**** Filepaths
+
+For maintainability, most files opened below
+are listed here.
+#+begin_src emacs-lisp
+(setq-local organisation-dir "~/Dropbox/Organisation/")
+(setq-local log-dir (concat organisation-dir "log/"))
+(setq-local setup-dir (concat organisation-dir "setup/"))
+(setq-local emacs-dir (concat setup-dir "emacs/"))
+(setq-local agda-dir  "~/Dropbox/McMaster/Agda/")
+
+(setq-local emacs-init (concat emacs-dir "emacs-init.org"))
+(setq-local yankpad-file (concat emacs-dir "yankpad.org"))
+
+(setq-local log-file (concat log-dir "log.org"))
+
+(setq-local org-scratch (concat organisation-dir "org-scratch.org"))
+(setq-local agda-scratch (concat agda-dir "agda-scratch.agda"))
+#+end_src
+
+**** Create tabs
+
+First, let's create some “consistent” tabs;
+whatever projects I am working on, these tabs
+will always be present.
+- First, of course, is my Emacs init.
+- Second, my Emacs init again, alongside a ~magit~ buffer for it.
+- Second, my Org log and my email.
+- Third, an ~eshell~ instance (separate from the one
+  invoked by my ~eshell~ shortcut).
+#+begin_src emacs-lisp
+(tab-rename "Setup")
+(tab-new)
+(tab-rename "Setup git")
+(tab-new)
+(tab-rename "Log, email")
+(tab-new)
+(tab-rename "eshell")
+#+end_src
+
+Now, setup for some projects I am currently working on;
+this section is volatile!
+#+begin_src emacs-lisp
+(tab-new)
+(tab-rename "Thesis")
+(tab-new)
+(tab-rename "Thesis git")
+(tab-new)
+(tab-rename "github.io")
+(tab-new)
+(tab-rename "github.io git")
+(tab-new)
+(tab-rename "CAS763")
+(tab-new)
+(tab-rename "CAS763 git")
+#+end_src
+
+Finally, open one “New” tab as the rightmost.
+#+begin_src emacs-lisp
+(tab-new)
+(tab-rename "New tab")
+#+end_src
+
+**** Visit tabs and setup buffers
+
+Now, let us visit the tabs, and set up the windows in them.
+Since they're named (presumably uniquely),
+we'll use ~tab-bar-switch-to-tab~ which takes a ~name~ argument.
+
+My ~cascading-find-files~ sometime comes in handy here.
+
+***** Consistent tabs
+
+First, the ~Setup~ tab.
+Here I want my Emacs init in my usual three window split
+(two vertically split windows on the left, large single window on the right),
+with a ~*Help*~ buffer preemptively opened in one of the smaller windows.
+#+begin_src emacs-lisp
+(tab-bar-switch-to-tab "Setup")
+(find-file emacs-init)
+(split-window nil nil 'right)
+(split-window nil nil 'above)
+(other-window 1)
+;; We're now on the right; describe symbol will open a *Help* buffer elsewhere
+(describe-symbol 'nil)
+#+end_src
+
+For ~Setup git~, I want my Emacs init on the right a magit buffer on t.
+#+begin_src emacs-lisp
+(tab-bar-switch-to-tab "Setup git")
+(find-file emacs-init)
+(split-window nil nil 'right)
+(magit)
+#+end_src
+
+The ~Log, email~ tab is similar, but has my log on the left
+and my inbox on the right.
+#+begin_src emacs-lisp
+(tab-bar-switch-to-tab "Log, email")
+(find-file log-file)
+(split-window nil nil 'left)
+(mu4e-headers-search-bookmark (mu4e-get-bookmark-query ?i))
+#+end_src
+
+In the ~Shell~ tab, create buffers for three ~eshell~ instances
+in the usual configuration. By passing a numeric argument,
+we get unique buffers.
+#+begin_src emacs-lisp
+(tab-bar-switch-to-tab "eshell")
+(eshell '3)
+(split-window nil nil 'right)
+(eshell '2)
+(split-window nil nil 'below)
+(eshell '1)
+#+end_src
+
+***** Volatile tabs
+
+My thesis involves Agda, so I want the Agda information buffer open.
+I prefer that information buffer in the lower left,
+the master file in the upper left, and the thesis directory on the right.
+The ~git~ tab is setup the same way the ~Setup git~ tab is.
+#+begin_src emacs-lisp
+(let ((thesis-dir "~/Dropbox/McMaster/Agda/thesis/"))
+  (let ((thesis-master (concat thesis-dir "master.lagda.org")))
+    (tab-bar-switch-to-tab "Thesis")
+    (find-file thesis-dir)
+    (split-window nil nil 'right)
+    (find-file thesis-master)
+    (split-window nil nil 'above)
+    (switch-to-buffer (agda2-info-buffer))
+
+    (tab-bar-switch-to-tab "Thesis git")
+    (find-file thesis-master)
+    (split-window nil nil 'right)
+    (magit)))
+#+end_src
+
+For the moment, my ~github.io~ tab setup is similar to the thesis setup,
+because I blog about Agda.
+#+begin_src emacs-lisp
+(let ((github-io-dir "~/Dropbox/Organisation/websites/armkeh.github.io/"))
+  (let ((github-io-main (concat github-io-dir "index.org")))
+    (tab-bar-switch-to-tab "github.io")
+    (find-file github-io-dir)
+    (split-window nil nil 'right)
+    (find-file github-io-main)
+    (split-window nil nil 'above)
+    (switch-to-buffer (agda2-info-buffer))
+
+    (tab-bar-switch-to-tab "github.io git")
+    (find-file github-io-main)
+    (split-window nil nil 'right)
+    (magit)))
+#+end_src
+
+#+begin_src emacs-lisp
+(let ((763-dir "~/Dropbox/McMaster/cas763/"))
+  (let ((763-assignments (concat 763-dir "assignments.org")))
+    (tab-bar-switch-to-tab "CAS763")
+    (find-file 763-dir)
+    (split-window nil nil 'right)
+    (find-file 763-assignments)
+    (split-window nil nil 'above)
+    (switch-to-buffer (agda2-info-buffer))
+
+    (tab-bar-switch-to-tab "CAS763 git")
+    (find-file 763-assignments)
+    (split-window nil nil 'right)
+    (magit)))
+#+end_src
+
+***** Focus on the first tab
+
+#+begin_src emacs-lisp
+(tab-select 1)
+#+end_src
+
+**** COMMENT Old setup, before use of tabs
 
 I like a bunch of files open (in the background) upon startup.
 #+begin_src emacs-lisp
-(setq my-initial-background-files
-  '("~/Dropbox/Organisation/setup/emacs/tips-and-tricks.org"
-    "~/Dropbox/Organisation/setup/emacs/yankpad.org"
-    "~/Dropbox/McMaster/Agda/agda-scratch.agda"
-    "~/Dropbox/Organisation/log/phone-log.org"
-))
+(setq my/initial-background-files
+  '("~/Dropbox/Organisation/setup/emacs/yankpad.org"
+    "~/Dropbox/McMaster/Agda/agda-scratch.agda"))
 #+end_src
 Along with this list, to facilite reseting the session
 (/clearing the desktop/), we must maintain a list of regular
@@ -3218,8 +3482,7 @@ so that they can be skipped when deleting buffers on a (soft) reset.
   '("tips-and-tricks.org"
     "yankpad.org"
     "agda-scratch.agda"
-    "phone-log.org"
-))
+    "phone-log.org"))
 #+end_src
 
 Then there are files I want in focus (/on the desktop/) at startup.
@@ -3230,8 +3493,7 @@ The last file will be in focus.
 (setq my-initial-files
   '("~/Dropbox/Organisation/log/log.org"
     "~/Dropbox/Organisation/setup/emacs/emacs-init.org"
-    "~/Dropbox/Organisation/org-scratch.org"
-))
+    "~/Dropbox/Organisation/org-scratch.org"))
 #+end_src
 As above, we need a list of regular expression matching the
 resulting buffer names.
@@ -3239,11 +3501,10 @@ resulting buffer names.
 (setq my-initial-buffers-regexps
   '("log.org"
     "emacs-init.org"
-    "org-scratch.org"
-))
+    "org-scratch.org"))
 #+end_src
 
-*** Opening the initial buffers
+*** COMMENT Opening the initial buffers
 
 Note that this portion of the file should be /after/ any settings
 that would affect these buffers.
@@ -3260,9 +3521,7 @@ an Org async export process.
      do (find-file file)
    )
    (cascading-find-files my-initial-files)
-   (shrink-window 999) ;; basically minimize it vertically
-  )
-)
+   (shrink-window 999))) ;; basically minimize it vertically
 #+end_src
 
 *** COMMENT Seeing recently visited files
@@ -3299,7 +3558,7 @@ Instead, we can set it up to be backed up regularly; say every 5 minutes.
 (run-at-time nil (* 5 60) 'recentf-save-list)
 #+end_src
 
-*** Buffers to preserve on session clear
+*** COMMENT Buffers to preserve on session clear
 
 Emac's internal buffers are preserved on a session clear,
 but I additionally want to preserve the buffers I open on
@@ -3308,12 +3567,10 @@ startup.
 #+begin_src emacs-lisp
 (loop for buffer-re in my-initial-background-buffers-regexps
   do (add-to-list 'desktop-clear-preserve-buffers
-                  buffer-re)
-)
+                  buffer-re))
 (loop for buffer-re in my-initial-buffers-regexps
   do (add-to-list 'desktop-clear-preserve-buffers
-                  buffer-re)
-)
+                  buffer-re))
 #+end_src
 
 ** Smoother scrolling
