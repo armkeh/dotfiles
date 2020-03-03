@@ -2002,7 +2002,7 @@ this shortcut.
   '("ViewInBrowser" . mu4e-action-view-in-browser) t)
 #+end_src
 
-*** Shortcuts to mailboxes
+*** Shortcuts to mailboxes and bookmarks
 
 #+begin_src emacs-lisp
 (setq mu4e-maildir-shortcuts
@@ -2014,6 +2014,16 @@ this shortcut.
       ("/Desk/3-Reference"   . ?R)
       ("/Desk/4-Medium term" . ?M)
       ("/Desk/5-Long term"   . ?L)))
+#+end_src
+
+Bookmarks can be used from the ~mu4e~ main page,
+and are also useful for programmatically jumping to maildirs.
+#+begin_src emacs-lisp
+(add-to-list 'mu4e-bookmarks
+  (make-mu4e-bookmark
+    :name  "Inbox"
+    :query "maildir:/Inbox"
+    :key ?i))
 #+end_src
 
 *** Message composition settings
