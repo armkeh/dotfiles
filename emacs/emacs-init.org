@@ -1615,6 +1615,17 @@ to ensure tags stay away from the right side of the screen.
 (setq org-tags-column 48)
 #+end_src
 
+**** Adjusting image display size
+
+I like to use inline images in Org mode, but of course
+I don't want large images to be shown at full size!
+This snippet of code found in a
+[[https://www.reddit.com/r/emacs/comments/55zk2d/][Reddit post]]
+sets the width for displaying images to a third of the screen size.
+#+begin_src emacs-lisp
+(setq org-image-actual-width (/ (display-pixel-width) 3))
+#+end_src
+
 *** Tables of contents
 
 This package provides automatic maintainance of a table of contents
