@@ -1178,6 +1178,13 @@ If the setup is desired, here is how to do it:
 )
 #+end_src
 
+***** Adding additional packages
+
+#+begin_src emacs-lisp
+(add-to-list 'org-latex-packages-alist
+  '("" "tabularx"))
+#+end_src
+
 **** ~org-reveal~
 
 I make use of ~org-reveal~ to create ~reveal.js~ slide decks.
