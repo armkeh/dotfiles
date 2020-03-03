@@ -2976,7 +2976,9 @@ regular expressions, which require some commented out
 delimiters to avoid breaking all delimiter matching
 later in this file.
 
-*** Display tabs
+*** Whitespace display
+
+**** Tabs
 
 I usually use spaces rather than tabs,
 so I use ~whitespace-mode~ to alert me to the presence of tabs.
@@ -2989,6 +2991,19 @@ by changing the display table to show a character at the
 location of the tab.
 #+begin_src emacs-lisp
 (setq whitespace-style '(tab-mark))
+#+end_src
+
+**** Non-breaking spaces
+
+Since I use unicode regularly, I do use non-breaking spaces
+occasionally (especially for intraperiodic spaces, e.g.,
+following ~Dr.~ or ~Mrs.~.
+I do want to be aware of those spaces; thankfully there is
+a face for that.
+#+begin_src emacs-lisp
+(custom-theme-set-faces
+ 'user
+ '(nobreak-space ((t (:underline t)))))
 #+end_src
 
 **** Deprecated – more whitespace highlighting
