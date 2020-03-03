@@ -564,12 +564,20 @@ TODO
 (agda-input-setup)
 #+end_src
 
-*** Activate Agda input mode in ~text~ and ~prog~ modes
+*** Activate Agda input mode in ~text~, ~prog~ and ~artist~ modes
 
+Agda input mode makes it extremely easy to use unicode in documents,
+something I strongly prefer to do.
+When I can use symbols directly, instead of (for instance)
+LaTeX commands, it makes my plaintext far more readable.
+
+So, let's enable Agda input mode in most instances.
 #+begin_src emacs-lisp
 (add-hook 'text-mode-hook
        (lambda () (set-input-method "Agda")))
 (add-hook 'prog-mode-hook
+       (lambda () (set-input-method "Agda")))
+(add-hook 'artist-mode-hook
        (lambda () (set-input-method "Agda")))
 #+end_src
 
