@@ -2545,6 +2545,13 @@ So far I have three categories of shortcuts:
 These bindings invoke various processes, such as ~dired~ or ~eshell~.
 They either have their own definer above, or are bound to a single key combo.
 
+*** ~xah-fly-keys~ command mode
+
+#+begin_src emacs-lisp
+(general-define-key
+  "s-c" 'xah-fly-command-mode-activate)
+#+end_src
+
 *** ~yankpad~
 
 I use a non-prefixed shortcut for snippet expansion, since
