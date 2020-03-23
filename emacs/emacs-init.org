@@ -77,6 +77,7 @@ elisp files I develop myself.
   - [[#setting-up-emacs-to-use-this-code][Setting up ~.emacs~ to use this code]]
     - [[#why-set-vc-follow-symlinks-here][Why set ~vc-follow-symlinks~ here?]]
   - [[#set-a-custom-file][Set a “custom” file]]
+  - [[#a-directory-for-non-package-manager-managed-elisp-files][A directory for non-package manager managed elisp files]]
 - [[#elisp-code][~elisp~ code]]
   - [[#theme-change-hook][Theme change hook]]
   - [[#cascading-window-setup][Cascading window setup]]
@@ -85,7 +86,14 @@ elisp files I develop myself.
     - [[#set-the-load-path-for-manually-downloaded-packages][Set the load path for manually downloaded packages]]
     - [[#bootstrap-use-package][Bootstrap ~use-package~]]
     - [[#update-packages][Update packages]]
-  - [[#helm][~helm~]]
+  - [[#xah-fly-keys][~xah-fly-keys~]]
+    - [[#the-basics][The basics]]
+  - [[#completion-frameworks][Completion frameworks]]
+    - [[#ivy-counsel-and-swiper][Ivy, Counsel and Swiper]]
+      - [[#ivy][Ivy]]
+      - [[#swiper][Swiper]]
+      - [[#counsel][Counsel]]
+    - [[#helm][Helm]]
   - [[#eshell][~eshell~]]
   - [[#agda-mode][~agda~ mode]]
     - [[#command-line-arguments][Command line arguments]]
@@ -97,6 +105,7 @@ elisp files I develop myself.
       - [[#emoticons][Emoticons]]
       - [[#calccheck][Calccheck]]
       - [[#better-access-to-prime-symbols][Better access to prime symbols]]
+      - [[#small-halfwidth-and-fullwidth-math-symbols][Small, halfwidth and fullwidth math symbols]]
       - [[#other][Other]]
       - [[#activate-the-new-additions][Activate the new additions]]
     - [[#activate-agda-input-mode-in-text-prog-and-artist-modes][Activate Agda input mode in ~text~, ~prog~ and ~artist~ modes]]
@@ -147,8 +156,9 @@ elisp files I develop myself.
   - [[#yankpad-and-yasnippets][~yankpad~ and ~yasnippets~]]
     - [[#dont-add-a-final-newline-when-editing-snippet-files][Don't add a final newline when editing snippet files]]
   - [[#dired][~dired~]]
-    - [[#display-preferences][Display preferences]]
+    - [[#file-information][File information]]
     - [[#use-only-one-buffer-for-dired][Use only one buffer for ~dired~]]
+    - [[#cosmetic][Cosmetic]]
   - [[#magit][~magit~]]
   - [[#sending-email-send-mail][Sending email: ~send-mail~]]
     - [[#sending-html-mail][Sending HTML mail]]
@@ -169,6 +179,7 @@ elisp files I develop myself.
 - [[#key-bindings][Key bindings]]
   - [[#general-definers][~general~ definers]]
   - [[#invoke-processes][Invoke processes]]
+    - [[#xah-fly-keys-command-mode][~xah-fly-keys~ command mode]]
     - [[#yankpad][~yankpad~]]
     - [[#dired-1][~dired~]]
       - [[#jumping-to-specific-buffers][Jumping to specific buffers]]
@@ -3127,8 +3138,7 @@ In fact, let's make that colouring constant across themes.
  '(spaceline-modified   ((t (:foreground "black"
                              :background "gold1"))))
  '(spaceline-read-only  ((t (:foreground "black"
-                             :background "seashell1"))))
-)
+                             :background "seashell1")))))
 (powerline-reset)
 #+end_src
 
