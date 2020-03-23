@@ -352,6 +352,42 @@ I always want to download packages that aren't installed.
   (auto-package-update-maybe))
 #+end_src
 
+** ~xah-fly-keys~
+
+It seems to me that most Emacs users acknowledge that
+Emacs' keybindings are not the best out there;
+in particular, people refer to the “Emacs pinky” caused
+by over-use of ~ctrl~.
+
+One solution is ~evil-mode~, which brings Vim keybindings
+to Emacs. Another is ~god-mode~. And yet another
+alternative is ~xah-fly-keys~.
+
+The reason I chose to try ~xah-fly-keys~ is that it places
+the “arrow” keys in its “command mode” in the classic
+⊥ pattern.
+
+Do not override the usual ~ctrl~ keybindings when in insert mode.
+I want Emacs to act “vanilla” when inserting,
+so I don't feel uncomfortable if without ~xah-fly-keys~.
+#+begin_src emacs-lisp
+(setq xah-fly-use-control-key nil)
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package xah-fly-keys)
+
+(xah-fly-keys-set-layout "qwerty")
+
+(xah-fly-keys 1)
+#+end_src
+
+*** The basics
+
+See the below keybinding chart for command mode.
+Press ~M-space~ to enter command mode. I also bind ~S-c~ for this.
+[[http://ergoemacs.org/misc/i/xah_fly_keys_layout_qwerty.svg]]
+
 ** Completion frameworks
 
 *** Ivy, Counsel and Swiper
