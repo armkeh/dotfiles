@@ -609,10 +609,16 @@ subscripts and superscripts; these translations account for that.
 
 #+begin_src emacs-lisp
 (add-to-list 'agda-input-user-translations '(":)" "😀"))
-(add-to-list 'agda-input-user-translations '(":D" "😁"))
+(add-to-list 'agda-input-user-translations '("grin" "😀"))
+(add-to-list 'agda-input-user-translations '("Grin" "😁"))
+(add-to-list 'agda-input-user-translations '("meh" "😐"))
+(add-to-list 'agda-input-user-translations '("sad" "🙁"))
+(add-to-list 'agda-input-user-translations '("gah" "😵"))
+(add-to-list 'agda-input-user-translations '("yes" "✔"))
+(add-to-list 'agda-input-user-translations '("no" "❌"))
 #+end_src
 
-😁
+😀 😁 😐 🙁 😵
 
 **** Calccheck
 
