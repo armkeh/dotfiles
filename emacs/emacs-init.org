@@ -1323,6 +1323,20 @@ rather than the default ~verbatim~, for code.
 (setq org-latex-listings 'minted)
 #+end_src
 
+****** Default options for ~minted~
+
+One reason to use ~minted~ or ~listings~ over the simple ~verbatim~ is
+that it can put decent-looking linebreaks where necessary
+to prevent code running out of the margins.
+This is controlled by the ~breaklines~ argument.
+
+Probably there are other options I should add as well.
+
+#+begin_src emacs-lisp
+(setq org-latex-minted-options
+  '(("breaklines" "true")))
+#+end_src
+
 ****** Treat ~agda2~ source as ~Haskell~ for listings
 
 Unfortunately, ~minted~ doesn't support Agda,
