@@ -2948,13 +2948,22 @@ and so use a small font; 9pt seems to be a sweet spot.
 
 ** Themes
 
-I use Doom themes. By default, I prefer a dark theme,
-but like to toggle between it and a light theme at need.
+I've built up a small collection of themes.
 #+begin_src emacs-lisp
 (use-package doom-themes)
+(use-package modus-vivendi-theme)
+(use-package modus-operandi-theme)
+#+end_src
 
-(setq my/dark-theme 'doom-vibrant)
-(setq my/light-theme 'doom-nord-light)
+By default, I prefer a dark theme,
+but like to toggle between it and a light theme at need.
+#+begin_src emacs-lisp
+;; Doom themes I used previously
+;;(setq my/dark-theme 'doom-vibrant)
+;;(setq my/light-theme 'doom-nord-light)
+
+(setq my/dark-theme 'modus-vivendi)
+(setq my/light-theme 'modus-operandi)
 
 (load-theme my/dark-theme t)
 #+end_src
