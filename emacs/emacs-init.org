@@ -1392,6 +1392,22 @@ If the setup is desired, here is how to do it:
   '("" "tabularx"))
 #+end_src
 
+***** Image handling
+
+I prefer to be explicit about how images are handled during export.
+So, I turn off some defaults of how they are handled in LaTeX.
+
+In particular, the LaTeX export backend by default
+wraps images in ~center~ blocks; but this breaks the ability
+to include images in tables.
+#+begin_src emacs-lisp
+(setq org-latex-images-centered nil)
+#+end_src
+
+#+begin_src emacs-lisp
+(setq org-latex-image-default-width nil)
+#+end_src
+
 **** ~org-reveal~
 
 I make use of ~org-reveal~ to create ~reveal.js~ slide decks.
