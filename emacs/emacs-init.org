@@ -352,10 +352,70 @@ I always want to download packages that aren't installed.
   (auto-package-update-maybe))
 #+end_src
 
-** ~helm~
+** Completion frameworks
 
-Taken from Musa's init.
+*** Ivy, Counsel and Swiper
+
+I'm trying out Ivy and its related packages.
+
+**** Ivy
+
 #+begin_src emacs-lisp
+(use-package ivy
+  :config
+  (ivy-mode 1)
+#+end_src
+
+Add recent files and bookmarks to ~ivy-switch-buffer~.
+#+begin_src emacs-lisp
+  (setq ivy-use-virtual-buffers t)
+#+end_src
+
+Display both the index and the count in the current candidate count.
+#+begin_src emacs-lisp
+  (setq ivy-count-format "(%d/%d) ")
+#+end_src
+
+Enable minibuffer commands in the minibuffer.
+#+begin_src emacs-lisp
+  (setq enable-recursive-minibuffers t)
+#+end_src
+
+# End the settings
+#+begin_src emacs-lisp
+)
+#+end_src
+
+**** Swiper
+
+#+begin_src emacs-lisp
+(use-package swiper
+  :config
+  ;; (global-set-key "\C-r" 'swiper)
+  (global-set-key (kbd "C-s") 'swiper))
+#+end_src
+
+**** Counsel
+
+#+begin_src emacs-lisp
+(use-package counsel
+ :config
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "s-y") 'counsel-yank-pop)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file))
+#+end_src
+
+*** Helm
+
+I used a helm for a while.
+Unfortunately, it was unacceptably slow on my machine;
+often I would have to wait several seconds to complete
+a ~M-x~ or ~C-h o~ as it searched for available function completions
+—and simply typing the command was not an option, as hitting return
+would select the default recommended completion.
+
+The settings I had used were taken from Musa's init.
+#+begin_example emacs-lisp
 (use-package helm
  :diminish
  :init (helm-mode t)
@@ -375,7 +435,7 @@ Taken from Musa's init.
         ;; Let's keep tab-completetion anyhow.
         ("TAB"   . helm-execute-persistent-action)
         ("<tab>" . helm-execute-persistent-action)))
-#+end_src
+#+end_example
 
 ** ~eshell~
 
