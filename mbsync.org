@@ -1,7 +1,7 @@
 #+Title: My literate iaync settings
 #+Author: Mark Armstrong
 #+Description: A literate setup for isync.
-#+Property: header-args :tangle .mbsyncrc
+#+Property: header-args :tangle mbsyncrc
 
 * Introduction
 
