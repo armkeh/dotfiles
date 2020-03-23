@@ -2021,7 +2021,7 @@ now.
 I use ~dired~ for browsing directories; it's simple, and with
 the right configuration, very easy to use.
 
-*** Display preferences
+*** File information
 
 ~dired~ makes use of switches for ~ls~.
 
@@ -2035,7 +2035,8 @@ I like the following switches:
 | ~-L~                        | show information for /references/ rather than symbolic links |
 
 #+begin_src emacs-lisp
-(setq dired-listing-switches "--group-directories-first -aBgGhL")
+(setq dired-listing-switches
+      "--group-directories-first -aBDgGhL --time-style \"+  %Y %b %d %H:%M  \"")
 #+end_src
 
 *** Use only one buffer for ~dired~
@@ -2086,6 +2087,14 @@ so we use ~with-eval-after-load~ instead.
   (my/dired-init))
 #+end_src
 
+*** Cosmetic
+
+Don't display whitespace information via ~whitespace-mode~ in Dired buffers.
+#+begin_src emacs-lisp
+(add-hook 'dired-mode-hook
+  (lambda ()
+     (setq-local whitespace-style nil)))
+#+end_src
 ** ~magit~
 
 #+begin_src emacs-lisp
