@@ -3321,6 +3321,42 @@ regular expressions, which require some commented out
 delimiters to avoid breaking all delimiter matching
 later in this file.
 
+***** COMMENT The faces for the delimiters
+
+*If I want to do this, I'll need to find a way*
+*to set the colours to be theme appropriate;*
+*these settings look fine in dark, but bad in light*.
+
+With rainbow delimiters enabled, I become used
+to associating colours with nesting depths.
+To make the colouring consistent across themes,
+I set it explicitely.
+
+The general order is blues and purples, greens, then reds and pinks;
+so, reverse RGB. The colour darkens as we go.
+#+begin_src emacs-lisp
+((((((((()))))))))
+#+end_src
+
+#+begin_src emacs-lisp
+(custom-theme-set-faces
+ 'user
+ ;; Blues
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "cyan"))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "violet"))))
+ '(rainbow-delimiters-depth-7-face ((t (:foreground "purple"))))
+
+ ;; Greens
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "pale green"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "lime green"))))
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "sea green"))))
+
+ ;; Reds
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "light pink"))))
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "hot pink"))))
+ '(rainbow-delimiters-depth-9-face ((t (:foreground "deep pink")))))
+#+end_src
+
 *** Whitespace display
 
 **** Tabs
