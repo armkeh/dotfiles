@@ -63,6 +63,14 @@ so I will notice changes to it.
 (ignore-errors (load custom-file))
 #+end_src
 
+** A directory for non-package manager managed elisp files
+
+For examples, this directory includes (symbolic links to)
+elisp files I develop myself.
+#+begin_src emacs-lisp
+(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/elisp")
+#+end_src
+
 * Table of contents                             :TOC_4:
 - [[#introduction][Introduction]]
   - [[#about-me][About me]]
