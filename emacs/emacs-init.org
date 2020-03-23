@@ -632,12 +632,44 @@ TODO
 (add-to-list 'agda-input-user-translations '("''''" "⁗"))
 #+end_src
 
+**** Small, halfwidth and fullwidth math symbols
+
+These can be useful where use of the normal symbols
+is restricted; for instance, in ~ditaa~ diagrams many
+of them have special meaning.
+#+begin_src emacs-lisp
+(add-to-list 'agda-input-user-translations '("s*" "﹡"))
+(add-to-list 'agda-input-user-translations '("s+" "﹢"))
+(add-to-list 'agda-input-user-translations '("s-" "﹣"))
+(add-to-list 'agda-input-user-translations '("s<" "﹤"))
+(add-to-list 'agda-input-user-translations '("s>" "﹥"))
+(add-to-list 'agda-input-user-translations '("s=" "﹦"))
+(add-to-list 'agda-input-user-translations '("s\\" "﹨"))
+(add-to-list 'agda-input-user-translations '("f+" "＋"))
+(add-to-list 'agda-input-user-translations '("f<" "＜"))
+(add-to-list 'agda-input-user-translations '("f=" "＝"))
+(add-to-list 'agda-input-user-translations '("f>" "＞"))
+(add-to-list 'agda-input-user-translations '("f\\" "＼"))
+(add-to-list 'agda-input-user-translations '("f^" "＾"))
+(add-to-list 'agda-input-user-translations '("f|" "｜"))
+(add-to-list 'agda-input-user-translations '("f~" "～"))
+(add-to-list 'agda-input-user-translations '("fnot" "￢"))
+(add-to-list 'agda-input-user-translations '("h<-" "￩"))
+(add-to-list 'agda-input-user-translations '("hu" "￪"))
+(add-to-list 'agda-input-user-translations '("h->" "￫"))
+(add-to-list 'agda-input-user-translations '("hd" "￬"))
+#+end_src
+
 **** Other
 
 #+begin_src emacs-lisp
 (add-to-list 'agda-input-user-translations '("op" "⊕"))
 (add-to-list 'agda-input-user-translations '("^<" "﹤"))
 (add-to-list 'agda-input-user-translations '("powset" "℘"))
+(add-to-list 'agda-input-user-translations '("X" "⨉"))
+;; Lunate sigmas
+(add-to-list 'agda-input-user-translations '("Ls" "ϲ"))
+(add-to-list 'agda-input-user-translations '("LS" "Ϲ"))
 #+end_src
 
 **** Activate the new additions
