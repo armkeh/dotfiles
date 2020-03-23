@@ -148,8 +148,6 @@ I usually use what I think is a fairly minimalist document header.
 
 $0
 #+end_src
-*** ~org~ blocks
-
 *** ~src~ blocks
 
 Note that the ~,#~ expands to the ~org~ “comment” character ~#~.
@@ -326,18 +324,18 @@ $0
 
 **** ldisc: Discussion                                         :src:ldisc:
 
-#+begin_src emacs-lisp
+#+begin_src text
 #+attr_LaTeX: :options [$1]
 #+begin_discussion
 $0
 #+end_discussion
 #+end_src
 
-*** Others
+*** Other blocks
 
 **** c: Center                                               :src:orgcntr:
 
-#+begin_src emacs-lisp
+#+begin_src text
 #+begin_center
 $0
 #+end_center
@@ -345,7 +343,7 @@ $0
 
 **** e: Example                                                :src:orgex:
 
-#+begin_src emacs-lisp
+#+begin_src text
 #+begin_example $1
 $0
 #+end_example
@@ -353,7 +351,7 @@ $0
 
 **** quot: Quote                                             :src:orgquot:
 
-#+begin_src emacs-lisp
+#+begin_src text
 #+begin_quote
 $0
 #+end_quote
@@ -361,7 +359,7 @@ $0
 
 **** ques: Question                                          :src:orgques:
 
-#+begin_src emacs-lisp
+#+begin_src text
 #+begin_example $1
 $0
 #+end_example
@@ -369,7 +367,7 @@ $0
 
 **** ans: Answer                                                :src:organs:
 
-#+begin_src emacs-lisp
+#+begin_src text
 #+begin_example $1
 $0
 #+end_example
@@ -377,7 +375,7 @@ $0
 
 **** verse: Verse                            :src:orgverse:
 
-#+begin_src emacs-lisp
+#+begin_src text
 #+begin_verse
 $0
 #+end_verse
@@ -385,10 +383,34 @@ $0
 
 **** verb: Verbatim                          :src:orgverb:
 
-#+begin_src emacs-lisp
+#+begin_src text
 #+begin_verbatim
 $0
 #+end_verbatim
+#+end_src
+
+**** com: Comment                            :src:orgcom:
+
+#+begin_src text
+#+begin_comment
+$0
+#+end_comment
+#+end_src
+
+*** Line prefixes
+
+**** latexh: LaTeX header setting            :src:orglatexh:
+
+#+begin_src text
+#+LaTeX_header: $0
+#+end_src
+
+*** Wrappers
+
+**** latexw: LaTeX wrapper                   :src:orglatexw:
+
+#+begin_src text
+
 #+end_src
 
 ** Punctuation, parentheses, etc.
@@ -413,13 +435,13 @@ $0
 
 *** enc: Encoding                                                 :src:enc:
 
-#+begin_src emacs-lisp
+#+begin_src text
 ⌜$1⌝ $0
 #+end_src
 
 *** denc: Decoding                                               :src:denc:
 
-#+begin_src emacs-lisp
+#+begin_src text
 ⟦$1⟧ $0
 #+end_src
 
@@ -451,7 +473,7 @@ latex/Automata/Simple/DFA.tex
 
 *** Meeting notes
 
-**** ms-rep                                  :src:
+**** ms-rep:                                 :src:
 
 #+begin_src text
 ,*** Mathscheme $1. $2                            :mathscheme:
@@ -467,7 +489,7 @@ latex/Automata/Simple/DFA.tex
 ,**** Pesara
 #+end_src
 
-**** ms-temp                                 :src:
+**** ms-temp:                                :src:
 
 #+begin_src text
 - Accomplished ::
