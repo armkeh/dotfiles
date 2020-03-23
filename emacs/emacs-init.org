@@ -3589,14 +3589,14 @@ let's spruce it up.
 (custom-theme-set-faces
  'user
  '(tab-bar ((t
-     (:foreground "white"
+     (:foreground "black"
       :background "DarkSlateGray4"))))
   '(tab-bar-tab ((t
-     (:foreground "white"
+     (:foreground "black"
       :background "DarkSlateGray3"
       :box (:line-width 1 :style released-button)))))
   '(tab-bar-tab-inactive ((t
-     (:foreground "white"
+     (:foreground "black"
       :background "DarkSlateGray4"
       :box (:line-width 1 :style released-button))))))
 #+end_src
