@@ -2444,17 +2444,59 @@ I don't use a signature.
 (setq mu4e-compose-signature-auto-include nil)
 #+end_src
 
-Part of the reason I like to use Emacs is to feel more
-in control of my text layout; for that reason, I don't want
-my text to be reflowed.
+Don't automatically insert line breaks for long lines
+in the message buffer! Such settings infuriate me.
 #+begin_src emacs-lisp
-(setq mu4e-compose-format-flowed nil)
+(add-hook 'mu4e-compose-mode-hook 'turn-off-auto-fill)
 #+end_src
 
-It's convenient not to reply to myself by default.
-#+begin_src emacs-lisp
-(setq mu4e-compose-dont-reply-to-self t)
+**** Flow
+
+I write emails the way I write all my documents:
+trying as best I can to respect a maximum line length of 80 characters.
+But even 80 characters can be too wide on some mobile screens,
+and when I enter my linebreaks, the receiving client may turn this
+#+begin_src text
+A line with a number of characters that is possibly too wide for mobile.
+Another line of a decent length.
 #+end_src
+into this
+#+begin_src text
+A line with a number of characters that is possibly
+too wide for mobile.
+Another line of a decent length.
+#+end_src
+
+One option to solve seems to be to use long paragraphs and to
+send messages with ~format=flowed~, which tells the receiving client
+to reflow paragraphs as needed.
+See for instance [[https://www.emacswiki.org/emacs/FormatFlowed]].
+But this has two downsides: I dislike writing long lines,
+even with autofill.
+And ~format=flowed~ is not supported consistently;
+for instance Gmail does not respect it.
+
+I don't have a solution for this potential problem yet,
+so I choose to do nothing,
+and potentially have my emails flow broken on mobile screens.
+
+# It is useful to reflow my text for the reciever.
+# The ~format=flowed~ is supposed to allow the receiving client
+# to do this.
+# #+begin_src emacs-lisp
+# (setq mu4e-compose-format-flowed t)
+# #+end_src
+# But since some clients don't support ~format-flowed~ (Gmail being
+# the notable example, instead reflow paragraphs into long lines,
+# which should be broken as needed by the receiver.
+# #+begin_src emacs-lisp
+# (add-hook 'mu4e-compose-mode-hook (lambda () (use-hard-newlines -1)))
+# #+end_src
+#
+# It's convenient not to reply to myself by default.
+# #+begin_src emacs-lisp
+# (setq mu4e-compose-dont-reply-to-self t)
+# #+end_src
 
 **** HTML support (nothing to see here)
 
