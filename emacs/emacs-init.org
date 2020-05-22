@@ -3143,7 +3143,7 @@ but like to toggle between it and a light theme at need.
 
 This is recommended for making the Doom themes “play nice” with Org.
 #+begin_src emacs-lisp
-(doom-themes-org-config)
+;(doom-themes-org-config)
 #+end_src
 
 *** Toggling the themes
@@ -3189,7 +3189,7 @@ These functions allow me to clear and toggle my themes.
 ** Displaying/removing information and interface elements
 
 There are several tweaks I like to display important information
-and hide unimportant information or interfact elements.
+and hide unimportant information or interface elements.
 
 *** Remove unnecessary interface elements
 
@@ -3293,6 +3293,7 @@ In fact, let's make that colouring constant across themes.
 The doom themes package comes with a function to make
 the mode line flash on error.
 #+begin_src emacs-lisp
+(require 'doom-themes-ext-visual-bell)
 (doom-themes-visual-bell-config)
 #+end_src
 
