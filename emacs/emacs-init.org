@@ -2060,8 +2060,10 @@ Need to “install” it each time emacs starts
 (pdf-tools-install)
 #+end_src
 
-*** COMMENT Default to midnight mode
+*** Default to midnight mode
 
+Midnight mode is used to “apply a color-filter appropriate
+for past midnight reading”.
 #+begin_src emacs-lisp
 (add-hook 'pdf-tools-enabled-hook 'pdf-view-midnight-minor-mode)
 #+end_src
