@@ -1005,8 +1005,18 @@ See my [[Key bindings]].
 
 *** Typescript
 
+I previously used ~typescript-mode~; I am trying out ~web-mode~,
+which handles ~HTML~, ~CSS~, ~javascript~, and ~typescript~.
+Compared to ~typescript-mode~, I believe ~web-mode~ may handle ~JSX~ portions
+better. See [[https://github.com/fxbois/web-mode/issues/585][this issue requesting Typescript support in ~web-mode~]].
 #+begin_src emacs-lisp
-(use-package typescript-mode)
+(use-package web-mode)
+#+end_src
+
+I'm not sure if this is necessary.
+#+begin_src emacs-lisp
+;(add-to-list 'auto-mode-alist
+;             '("\\.tsx\\'" . web-mode))
 #+end_src
 
 *** Racket
