@@ -40,6 +40,11 @@ if [ -d "$HOME/.cargo//bin" ] ; then
 fi
 
 
+# Switch caps lock to super, using setxkbmap if it's available.
+# ChromeOS's Crostini does not include setxkbmap,
+# but it allows switching this on the ChromeOS side.
+if [ -x "$(command -v setxkbmap)" ] ; then
+    setxkbmap -option caps:super
 fi
 
 # Nodejs (added manually during setup thereof)
