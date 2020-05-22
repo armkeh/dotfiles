@@ -1022,7 +1022,7 @@ I'm not sure if this is necessary.
 *** Racket
 
 #+begin_src emacs-lisp
-(use-package racket-mode)
+;(use-package racket-mode)
 #+end_src
 
 *** COMMENT The Mozart Programming System for ~Oz~
