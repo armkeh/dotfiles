@@ -4188,14 +4188,18 @@ The solution below was linked to in this
 this StackExchange [[https://emacs.stackexchange.com/questions/38310][post]]
 provides the solution.
 #+begin_src emacs-lisp
-(defun my-inherit-input-method ()
-  "Inherit input method from `minibuffer-selected-window'."
-  (let* ((win (minibuffer-selected-window))
-         (buf (and win (window-buffer win))))
-    (when buf
-      (activate-input-method (buffer-local-value 'current-input-method buf)))))
+;; TODO: this causes problems with ivy; the minibuffer “lags”
+;; one keystroke behind scrolling through the suggestions.
+;; Need to debug or raise issue.
 
-(add-hook 'minibuffer-setup-hook #'my-inherit-input-method)
+;;(defun my-inherit-input-method ()
+;;  "Inherit input method from `minibuffer-selected-window'."
+;;  (let* ((win (minibuffer-selected-window))
+;;         (buf (and win (window-buffer win))))
+;;    (when buf
+;;      (activate-input-method (buffer-local-value 'current-input-method buf)))))
+;;
+;;(add-hook 'minibuffer-setup-hook #'my-inherit-input-method)
 #+end_src
 
 ** Copy certain files to my Google Drive after save
