@@ -1747,6 +1747,11 @@ PlantUML requires we set the path to the ~.jar~ file.
 (setq org-plantuml-jar-path "/usr/share/java/plantuml.jar")
 #+end_src
 
+~ob-typescript~ is [[https://github.com/lurdan/ob-typescript][available]].
+#+begin_src emacs-lisp
+(use-package ob-typescript)
+#+end_src
+
 **** Editing source code
 
 When we open a new window to edit source blocks
