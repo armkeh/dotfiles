@@ -25,7 +25,7 @@ fi
 
 # My settings
 
-# Haskell and OCaml binaries
+# Programming language tool install directories
 if [ -d "/opt/ghc/bin" ] ; then
     PATH="$PATH:/opt/ghc/bin"
 fi
@@ -35,9 +35,11 @@ fi
 if [ -d "$HOME/.opam/system/bin" ] ; then
     PATH="$PATH:$HOME/.opam/system/bin"
 fi
+if [ -d "$HOME/.cargo//bin" ] ; then
+    PATH="$PATH:$HOME/.cargo/bin"
+fi
 
-if [ -d "/opt/ghc/bin" ] ; then
-    PATH="$PATH:/opt/ghc/bin"
+
 fi
 
 # Nodejs (added manually during setup thereof)
@@ -47,3 +49,5 @@ if [ -d "/usr/local/lib/nodejs/node-v13.8.0-linux-x64/bin" ] ; then
     DISTRO=linux-x64
     PATH="$PATH:/usr/local/lib/nodejs/node-v13.8.0-linux-x64/bin"
 fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
