@@ -1385,6 +1385,25 @@ Probably there are other options I should add as well.
   '(("breaklines" "true")))
 #+end_src
 
+****** Don't box unicode characters
+
+Since I primarily export Agda code, which is full of unicode characters,
+and most ~minted~ styles enclose those characters in a red ~fbox~,
+I use this hack to disable ~fbox~'s inside ~minted~ environments.
+(setq 'org-latex-packages-alist ())
+
+#+begin_src emacs-lisp
+(add-to-list 'org-latex-packages-alist
+  "\\makeatletter
+\\def\\dontdofcolorbox{\\renewcommand\\fcolorbox[4][]{##4}}
+\\AtBeginEnvironment{minted}{\\dontdofcolorbox}
+\\makeatother")
+#+end_src
+
+#+begin_src emacs-lisp
+(add-to-list 'org-latex-packages-alist '("" "etoolbox"))
+#+end_src
+
 ****** Treat ~agda2~ source as ~Haskell~ for listings
 
 Unfortunately, ~minted~ doesn't support Agda,
