@@ -1585,7 +1585,27 @@ I found ~ox-tufte~ mentioned in a
 [[https://www.reddit.com/r/emacs/comments/6r32q4][Reddit thread]]
 regarding CSS for Org html export.
 
-**** Ensure useful HTML anchors
+**** HTML specific
+
+***** Change the “Created” postamble to “Last update”
+
+By default, ~org-html-postamble~ is set to ~auto~.
+We overwrite that to ~t~ so that the postamble is constructed
+following the ~org-html-postamble-format~, which we set.
+#+begin_src emacs-lisp
+(setq org-html-postamble t)
+
+(setq org-html-postamble-format
+ '(("en"
+    "<p class=\"author\">Author: %a</p>
+     <p class=\"author\">Contact: %e</p>
+     <p class=\"date\">Original date: %d</p>
+     <p class=\"date\">Last updated: %C</p>
+     <p class=\"creator\">Created using %c</p>
+     <p class=\"validation\">%v</p>")))
+#+end_src
+
+***** Ensure useful HTML anchors
 
 This code snippet is borrowed from Musa's
 [[https://github.com/alhassy/emacs.d/#Ensuring-Useful-HTML-Anchors][init]].
