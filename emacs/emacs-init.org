@@ -4166,12 +4166,13 @@ the icons.
 
 * Other
 
-** Run my custom “dropbox start” command to ensure dropbox is running on the system
+** Run the “dropbox start” command to ensure dropbox is running on the system
 
+I keep the script backed up in my Dropbox itself.
 #+begin_src emacs-lisp
 (start-process-shell-command "dropbox-start"
                              "*dropbox-start*"
-                             "/opt/dropbox-filesystem-fix/dropbox_start.py")
+                             "~/Dropbox/Organisation/scripts/dropbox.py start")
 #+end_src
 
 ** Always use buffer input mode in mini buffer
