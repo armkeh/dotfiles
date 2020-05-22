@@ -4273,22 +4273,17 @@ If STRING is nil, return nil."
   (org-unbracket-string "\"" "\"" string))
 #+end_src
 
-* COMMENT TODO Ideas for additions
+* TODO Ideas for additions
 
 - ~C-c n l~ - Move remainder of line to the line below
   (insert newline at point and remove newline at end of the resulting line)
 
 - ~C-c c l~ - Copy some number of lines before point
 
-* Generating the README.md for my Emacs repo
+* COMMENT Generating the README.md for my Emacs repo
 
 This code generates a ~README.md~ file for my Emacs repo,
 including this file and other relevant files.
-
-*NOTE:* if the readme ceases to be updated when running this,
-check if we need to wait longer on ~pandoc~
-(increase the argument to ~sleep-for~).
-Admittedly, it's a hack to just sleep.
 
 #+name: readme-generate
 #+begin_src emacs-lisp :tangle no :results none :exports none
