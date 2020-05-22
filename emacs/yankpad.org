@@ -294,6 +294,14 @@ $0
 ,#+end_src
 #+end_src
 
+**** ts: Typescript                          :src:
+
+#+begin_src text
+#+begin_src typescript
+$0
+,#+end_src
+#+end_src
+
 **** ~example~ blocks
 
 ***** ex: Org example block                 :src:orgex:
