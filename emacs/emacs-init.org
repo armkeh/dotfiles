@@ -3937,10 +3937,9 @@ with a ~*Help*~ buffer preemptively opened in one of the smaller windows.
 (tab-bar-switch-to-tab "Setup")
 (find-file emacs-init)
 (split-window nil nil 'right)
-(split-window nil nil 'above)
-(other-window 1)
-;; We're now on the right; describe symbol will open a *Help* buffer elsewhere
 (describe-symbol 'nil)
+(split-window nil nil 'above)
+(switch-to-buffer "*scratch*")
 #+end_src
 
 For ~Setup git~, I want my Emacs init on the right a magit buffer on t.
