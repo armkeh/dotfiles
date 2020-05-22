@@ -539,7 +539,33 @@ $0
 
 * agda2-mode
 
-** agl: LaTeX code block                       :src:agl:
+** ell0: Level 0                               :src:agell0:
+
+#+begin_src text
+ℓ₀
+#+end_src
+
+** ella: Level a :src:agella:
+
+#+begin_src text
+ℓᵃ
+#+end_src
+
+** ellb: Level b                               :src:agella:
+
+#+begin_src text
+ℓᵇ
+#+end_src
+
+** elllub: Level least upper bound             :src:agella:
+
+#+begin_src text
+${1:ℓᵃ} ⊔ ${2:ℓᵇ}
+#+end_src
+
+** Old
+
+*** agl: LaTeX code block                     :src:agl:
 
 #+begin_src text
 \begin{code}
@@ -547,7 +573,7 @@ $0
 \end{code}
 #+end_src
 
-** lga: Break up a LaTeX code block            :src:lga:
+*** lga: Break up a LaTeX code block          :src:lga:
 
 Often we need to break up code blocks somewhere in the middle.
 
@@ -560,7 +586,7 @@ $0
 \begin{code}
 #+end_src
 
-** tag: Catch-file-between-tags                                    :src:tag:
+*** tag: Catch-file-between-tags              :src:tag:
 
 #+begin_src text
 %<*$1>
@@ -568,51 +594,51 @@ $0
 %</$1>
 #+end_src
 
-** fun: Function declaration with type signature                   :src:fun:
+*** fun: Function declaration with type signature :src:fun:
 
 #+begin_src text
 $1 : $0
 $1 = ?
 #+end_src
 
-** dt: Datatype declaration                                         :src:dt:
+*** dt: Datatype declaration                  :src:dt:
 
 #+begin_src text
 data $1 : Set where
   $2 : $1
 #+end_src
 
-** setl: ~Set~ arguments parameterised by a ~Level~                   :src:setl:
+*** setl: ~Set~ arguments parameterised by a ~Level~ :src:setl:
 
 #+begin_src text
 {${1:a} : Level} → (${2:A} : Set $1) → $0
 #+end_src
 
-** isetl: /Implicit/ ~Set~ arguments parameterised by a ~Level~        :src:isetl:
+*** isetl: /Implicit/ ~Set~ arguments parameterised by a ~Level~ :src:isetl:
 
 #+begin_src text
 {${1:a} : Level} → {${2:A} : Set $1} → $0
 #+end_src
 
-** 2setl: ~Set~ arguments parameterised by two ~Level's~             :src:2setl:
+*** 2setl: ~Set~ arguments parameterised by two ~Level's~ :src:2setl:
 
 #+begin_src text
 {${1:a} ${2:b} : Level} → (${3:A} : Set $1) → (${4:B} : Set $1) → $0
 #+end_src
 
-** i2setl: /Implicit/ ~Set~ arguments parameterised by two ~Level's~ :src:i2setl:
+*** i2setl: /Implicit/ ~Set~ arguments parameterised by two ~Level's~ :src:i2setl:
 
 #+begin_src text
 {${1:a} ${2:b} : Level} → {${3:A} : Set $1} → {${4:B} : Set $1} → $0
 #+end_src
-** with: ~with~ pattern                                             :src:with:
+*** with: ~with~ pattern                        :src:with:
 
 #+begin_src text
 with $1
 ... | ${2:thing} = $0
 #+end_src
 
-** eqr: Start a ~≡-Reasoning~ block                                  :src:eqr:
+*** eqr: Start a ~≡-Reasoning~ block            :src:eqr:
 
 #+begin_src text
 begin
@@ -622,7 +648,7 @@ begin
 ∎
 #+end_src
 
-** eqs: Insert a step in a ~≡-Reasoning~ block                       :src:eqs:
+*** eqs: Insert a step in a ~≡-Reasoning~ block :src:eqs:
 
 #+begin_src text
 ≡⟨ ${1:?} ⟩
