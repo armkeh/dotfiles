@@ -2361,6 +2361,19 @@ This controls the information shown in the email lists.
 (setq mu4e-headers-date-format "%d %b/%y, %a, %R")
 #+end_src
 
+Don't organise by threads; I find organising by date preferable.
+#+begin_src emacs-lisp
+(setq mu4e-headers-show-threads nil)
+#+end_src
+This can be toggled with `P` in the email list.
+
+By default, related mail is also included; for instance,
+if I reply to a message in a list, the reply will show up in the list.
+I find this unintuitive, especially since I don't organise by threads.
+#+begin_src emacs-lisp
+(setq mu4e-headers-include-related nil)
+#+end_src
+
 **** Individual mail
 
 Show images by default, and prefer to use ~imagemagick~ to do so.
