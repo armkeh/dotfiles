@@ -363,7 +363,15 @@ I always want to download packages that aren't installed.
   (auto-package-update-maybe))
 #+end_src
 
-** ~xah-fly-keys~
+** COMMENT ~xah-fly-keys~
+
+I've moved away from ~xah-fly-keys~, because resources regarding it
+are more limited than ~evil~, and so I felt overwhelmed trying to
+customise it. Further, many of my colleagues use ~evil~,
+so it seems more beneficial to learn that, so I can more easily
+integrate with them.
+
+*** The setup
 
 It seems to me that most Emacs users acknowledge that
 Emacs' keybindings are not the best out there;
@@ -398,6 +406,13 @@ so I don't feel uncomfortable if without ~xah-fly-keys~.
 See the below keybinding chart for command mode.
 Press ~M-space~ to enter command mode. I also bind ~S-c~ for this.
 [[http://ergoemacs.org/misc/i/xah_fly_keys_layout_qwerty.svg]]
+
+** E-vi-l mode
+
+#+begin_src emacs-lisp
+;(use-package evil)
+;(evil-mode 1)
+#+end_src
 
 ** Completion frameworks
 
