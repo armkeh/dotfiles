@@ -2654,6 +2654,12 @@ So it remains simply a possibility for the future.
 ;(exwm-config-default)
 #+end_src
 
+** Command logging
+
+#+begin_src emacs-lisp
+(use-package command-log-mode)
+#+end_src
+
 * Key bindings
 
 I make use of ~general~ to organise keybindings.
