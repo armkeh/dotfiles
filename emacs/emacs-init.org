@@ -2969,7 +2969,9 @@ into one (conceptual) category: “window”, prefix ~w~.
   "7" (lambda () (interactive) (tab-select 7))
   "8" (lambda () (interactive) (tab-select 8))
   "9" (lambda () (interactive) (tab-select 9))
-  "0" (lambda () (interactive) (tab-select 10)))
+  "0" (lambda () (interactive) (tab-select 10))
+  "-" (lambda () (interactive) (tab-select 11))
+  "=" (lambda () (interactive) (tab-select 12)))
 #+end_src
 
 ** Other
