@@ -2748,11 +2748,20 @@ Note that ~user-full-name~ and ~user-mail-address~ need to be defined
        "%s\n"))
 #+end_src
 
+** Docker
+
+#+begin_src emacs-lisp
+(use-package docker
+  :ensure t
+  :bind ("C-c d" . docker))
+#+end_src
+
 ** ~winner~ for saving and restoring window layouts
 
 #+begin_src emacs-lisp
 (winner-mode 1)
 #+end_src
+
 ** ~exwm~
 
 I've considered using the Emacs window manager, ~exwm~,
