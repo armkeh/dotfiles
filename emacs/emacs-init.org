@@ -3327,9 +3327,7 @@ These functions allow me to clear and toggle my themes.
   (let ((most-recent-theme (car custom-enabled-themes)))
     (while (car custom-enabled-themes)
       (disable-theme (car custom-enabled-themes)))
-    most-recent-theme
-  )
-)
+    most-recent-theme))
 
 (defun toggle-my-themes ()
   "Disable all custom, then try to toggle the themes
@@ -3342,11 +3340,8 @@ These functions allow me to clear and toggle my themes.
 
   (let ((most-recent-theme (disable-all-custom-themes)))
     (if (eq most-recent-theme my/dark-theme)
-        (load-theme my/light-theme)
-        (load-theme my/dark-theme)
-    )
-  )
-)
+        (load-theme my/light-theme t)
+        (load-theme my/dark-theme t))))
 #+end_src
 
 ** Displaying/removing information and interface elements
