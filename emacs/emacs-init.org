@@ -2197,7 +2197,10 @@ I like the following switches:
       "--group-directories-first -aBDgGhL --time-style \"+  %Y %b %d %H:%M  \"")
 #+end_src
 
-*** Use only one buffer for ~dired~
+*** COMMENT Use only one buffer for ~dired~
+
+# This became detrimental, since I sometimes like several
+# dired buffers open in different windows.
 
 I use ~dired-single~ to avoid ~dired~ opening a new buffer
 for every directory visited.
@@ -2253,6 +2256,7 @@ Don't display whitespace information via ~whitespace-mode~ in Dired buffers.
   (lambda ()
      (setq-local whitespace-style nil)))
 #+end_src
+
 ** ~magit~
 
 #+begin_src emacs-lisp
