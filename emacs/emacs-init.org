@@ -587,7 +587,7 @@ the system's total ~8G~) available to it.
 That said, my machine is routinely lagging quite badly,
 and so I am trying to find the “sweet spot”.
 #+begin_src emacs-lisp
-(setq agda2-program-args '("+RTS" "-M0.6G" "-H0.6G" "-A128M" "-RTS"))
+(setq agda2-program-args '("+RTS" "-M3.0G" "-H0.6G" "-A128M" "-RTS"))
 #+end_src
 
 These arguments specify
