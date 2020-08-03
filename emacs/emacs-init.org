@@ -1143,6 +1143,15 @@ I set up literate Oz (it only takes ~(require 'ob-oz)~).
 (use-package geiser)
 #+end_src
 
+*** Scala
+
+This package seems to be installed as a dependency
+of ~ob-ammonite~; in any case, it enables
+an Ammonite REPL interface via ~term~ mode via ~M-x run-ammonite~.
+#+begin_src emacs-lisp
+(use-package ammonite-term-repl)
+#+end_src
+
 ** Org mode
 
 I use Org for almost everything, and utilise many
@@ -1782,6 +1791,14 @@ PlantUML requires we set the path to the ~.jar~ file.
 #+begin_src emacs-lisp
 (use-package ob-typescript)
 #+end_src
+
+~ob-ammonite~ interacts with the ~ammonite~ REPL for ~scala~.
+#+begin_src emacs-lisp
+(use-package ob-ammonite)
+#+end_src
+Note that the ~scala~ source blocks are marked as ~amm~ source,
+not actually ~scala~. See
+[[https://github.com/zwild/ob-ammonite][the documentation]].
 
 **** Editing source code
 
