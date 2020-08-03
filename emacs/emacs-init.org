@@ -805,6 +805,13 @@ of them have special meaning.
 (add-to-list 'agda-input-user-translations '("LS" "Ϲ"))
 #+end_src
 
+This Yi script character for the syllable “git” I use
+as a shorthand for “git” (the version control software)
+in my tab names.
+#+begin_src emacs-lisp
+(add-to-list 'agda-input-user-translations '("git" "ꇚ"))
+#+end_src
+
 **** Activate the new additions
 
 #+begin_src emacs-lisp
