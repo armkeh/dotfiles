@@ -1917,7 +1917,7 @@ Only these characters are allowed to immediately precede
 an emphasis character (left outer boundary characters).
 #+begin_src emacs-lisp
   (setcar org-emphasis-regexp-components
-    "     ('\"{“”\[\\-")
+    "     ('\"{}“”\[\\- ")
 #+end_src
 # Org thinks that string above started a LaTeX block; close that \[\]. 
 
@@ -1926,7 +1926,7 @@ an emphasis characters (right outer boundary characters).
 #+begin_src emacs-lisp
   (setcar (nthcdr 1 org-emphasis-regexp-components)
     ;; Comment to fix delimiter matching in the literate file {(
-    "\] -   .,!?;:''“”\")}/\\“”(-")
+    "\] -   .,!?;:''“”\")}/\\“”(-^ ")
 #+end_src
 
 Any characters are allowed as inner boundary characters,
