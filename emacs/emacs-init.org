@@ -1675,6 +1675,9 @@ I have made several edits.
    Trees whose headline are tagged with :ignore:
    are not given an ID.
 
+   Trees whose headline are tagged with :noexport:
+   and any subtrees of those trees are not given an ID.
+
    If multiple trees end-up with the same id property,
    issue a message and undo any property insertion thus far.
   "
@@ -1686,18 +1689,23 @@ I have made several edits.
          (let* ((heading-components (org-heading-components))
                 (headline (nth 4 heading-components))       
                 (tags     (nth 5 heading-components)))
-           (unless (and tags
-                        (or (string-match-p (regexp-quote ":ignore:") tags)
-                            (string-match-p (regexp-quote ":noexport:") tags)))
-             (let ((id (org-entry-get nil "CUSTOM_ID")))
-               (unless id
-                 (setq id (s-replace " " "-" headline))
-                 (if (not (member id ids))
-                     (push id ids)
-                     (message-box "Found repeated headline \"%s\" during custom ID generation. Giving up and reverting progress." headline)
-                     (undo)
-                     (setq quit-flag t))
-                 (org-entry-put nil "CUSTOM_ID" id))))))))))
+           (if (and tags (string-match-p (regexp-quote ":noexport:") tags))
+             ;; This heading is tagged as noexport.
+             ;; Set org-map-continue-from to next heading at this level.
+             (setq org-map-continue-from (progn (org-goto-sibling)
+                                                (line-beginning-position)))
+             ;; Otherwise, check if this heading is tagged as ignore.
+             (unless (and tags (string-match-p (regexp-quote ":ignore:") tags))
+               ;; If not, apply the custom ID.
+               (let ((id (org-entry-get nil "CUSTOM_ID")))
+                 (unless id
+                   (setq id (s-replace " " "-" headline))
+                   (if (not (member id ids))
+                       (push id ids)
+                       (message-box "Found repeated headline \"%s\" during custom ID generation. Giving up and reverting progress." headline)
+                       (undo)
+                       (setq quit-flag t))
+                   (org-entry-put nil "CUSTOM_ID" id)))))))))))
 
 ;; Whenever html & md export happens, ensure we have headline ids.
 (advice-add 'org-html-export-to-html :before 'my/ensure-headline-ids)
