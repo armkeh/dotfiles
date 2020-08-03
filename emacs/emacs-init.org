@@ -3863,6 +3863,13 @@ on my system.
 
 ** Session setup and management
 
+First, we opened my init file earlier;
+kill that buffer now, so that cosmetic changes we made above
+will be properly applied (when we reopen it).
+#+begin_src emacs-lisp
+(kill-buffer "emacs-init.org")
+#+end_src
+
 *** Tabs and buffers to open at startup
 
 **** Filepaths
@@ -3870,19 +3877,19 @@ on my system.
 For maintainability, most files opened below
 are listed here.
 #+begin_src emacs-lisp
-(setq-local organisation-dir "~/Dropbox/Organisation/")
-(setq-local log-dir (concat organisation-dir "log/"))
-(setq-local setup-dir (concat organisation-dir "setup/"))
-(setq-local emacs-dir (concat setup-dir "emacs/"))
-(setq-local agda-dir  "~/Dropbox/McMaster/Agda/")
+(setq-local my/organisation-dir "~/Dropbox/Organisation/")
+(setq-local my/log-dir   (concat my/organisation-dir "log/"))
+(setq-local my/setup-dir (concat my/organisation-dir "setup/"))
+(setq-local my/emacs-dir (concat my/setup-dir "emacs/"))
+(setq-local my/agda-dir  "~/Dropbox/McMaster/Agda/")
 
-(setq-local emacs-init (concat emacs-dir "emacs-init.org"))
-(setq-local yankpad-file (concat emacs-dir "yankpad.org"))
+(setq-local my/emacs-init   (concat my/emacs-dir "emacs-init.org"))
+(setq-local my/yankpad-file (concat my/emacs-dir "yankpad.org"))
 
-(setq-local log-file (concat log-dir "log.org"))
+(setq-local my/log-file (concat my/log-dir "log.org"))
 
-(setq-local org-scratch (concat organisation-dir "org-scratch.org"))
-(setq-local agda-scratch (concat agda-dir "agda-scratch.agda"))
+(setq-local my/org-scratch  (concat my/organisation-dir "org-scratch.org"))
+(setq-local my/agda-scratch (concat my/agda-dir "agda-scratch.agda"))
 #+end_src
 
 **** Create tabs
@@ -3898,9 +3905,9 @@ will always be present.
 #+begin_src emacs-lisp
 (tab-rename "Setup")
 (tab-new)
-(tab-rename "Setup git")
+(tab-rename "Setup ꇚ")
 (tab-new)
-(tab-rename "Log, email")
+(tab-rename "Log/email")
 (tab-new)
 (tab-rename "eshell")
 #+end_src
@@ -3911,21 +3918,28 @@ this section is volatile!
 (tab-new)
 (tab-rename "Thesis")
 (tab-new)
-(tab-rename "Thesis git")
+(tab-rename "Thesis ꇚ")
 (tab-new)
-(tab-rename "github.io")
+(tab-rename "Blog")
 (tab-new)
-(tab-rename "github.io git")
+(tab-rename "Blog ꇚ")
 (tab-new)
-(tab-rename "CAS763")
+(tab-rename "PoPL content")
 (tab-new)
-(tab-rename "CAS763 git")
+(tab-rename "PoPL admin")
+(tab-new)
+(tab-rename "PoPL ꇚ")
 #+end_src
 
-Finally, open one “New” tab as the rightmost.
+Finally, open a few “blank” tab as the rightmost,
+for use when working on other/random things.
 #+begin_src emacs-lisp
 (tab-new)
-(tab-rename "New tab")
+(tab-rename " ")
+(tab-new)
+(tab-rename " ")
+(tab-new)
+(tab-rename " ")
 #+end_src
 
 **** Visit tabs and setup buffers
@@ -3941,29 +3955,33 @@ My ~cascading-find-files~ sometime comes in handy here.
 First, the ~Setup~ tab.
 Here I want my Emacs init in my usual three window split
 (two vertically split windows on the left, large single window on the right),
-with a ~*Help*~ buffer preemptively opened in one of the smaller windows.
+with ~Messages~ buffer on the lower left
+and the ~Help~ buffer preemptively opened in the upper right.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab "Setup")
-(find-file emacs-init)
-(split-window nil nil 'right)
-(describe-symbol 'nil)
+(find-file my/emacs-init)
+(split-window nil nil 'left)
+; describe symbol will use the window not in focus, so the left
+(describe-symbol 'describe-symbol)
+; switch to the help window on the left
+(other-window 1)
 (split-window nil nil 'above)
-(switch-to-buffer "*scratch*")
+(switch-to-buffer "*Messages*")
 #+end_src
 
-For ~Setup git~, I want my Emacs init on the right a magit buffer on t.
+For ~Setup ꇚ~, I want my Emacs init on the right a magit buffer on t.
 #+begin_src emacs-lisp
-(tab-bar-switch-to-tab "Setup git")
-(find-file emacs-init)
+(tab-bar-switch-to-tab "Setup ꇚ")
+(find-file my/emacs-init)
 (split-window nil nil 'right)
 (magit)
 #+end_src
 
-The ~Log, email~ tab is similar, but has my log on the left
+The ~Log/email~ tab is similar, but has my log on the left
 and my inbox on the right.
 #+begin_src emacs-lisp
-(tab-bar-switch-to-tab "Log, email")
-(find-file log-file)
+(tab-bar-switch-to-tab "Log/email")
+(find-file my/log-file)
 (split-window nil nil 'left)
 (mu4e-headers-search-bookmark (mu4e-get-bookmark-query ?i))
 #+end_src
@@ -3996,44 +4014,55 @@ The ~git~ tab is setup the same way the ~Setup git~ tab is.
     (split-window nil nil 'above)
     (switch-to-buffer (agda2-info-buffer))
 
-    (tab-bar-switch-to-tab "Thesis git")
+    (tab-bar-switch-to-tab "Thesis ꇚ")
     (find-file thesis-master)
     (split-window nil nil 'right)
     (magit)))
 #+end_src
 
-For the moment, my ~github.io~ tab setup is similar to the thesis setup,
+****** Blog (and personal website)
+
+For the moment, my ~Blog~ tab setup is similar to the thesis setup,
 because I blog about Agda.
 #+begin_src emacs-lisp
 (let ((github-io-dir "~/Dropbox/Organisation/websites/armkeh.github.io/"))
   (let ((github-io-main (concat github-io-dir "index.org")))
-    (tab-bar-switch-to-tab "github.io")
+    (tab-bar-switch-to-tab "Blog")
     (find-file github-io-dir)
     (split-window nil nil 'right)
     (find-file github-io-main)
     (split-window nil nil 'above)
     (switch-to-buffer (agda2-info-buffer))
 
-    (tab-bar-switch-to-tab "github.io git")
+    (tab-bar-switch-to-tab "Blog ꇚ")
     (find-file github-io-main)
     (split-window nil nil 'right)
     (magit)))
 #+end_src
 
-#+begin_src emacs-lisp
-(let ((763-dir "~/Dropbox/McMaster/cas763/"))
-  (let ((763-assignments (concat 763-dir "assignments.org")))
-    (tab-bar-switch-to-tab "CAS763")
-    (find-file 763-dir)
-    (split-window nil nil 'right)
-    (find-file 763-assignments)
-    (split-window nil nil 'above)
-    (switch-to-buffer (agda2-info-buffer))
+****** Principles of Programming Languages
 
-    (tab-bar-switch-to-tab "CAS763 git")
-    (find-file 763-assignments)
+I use three tabs for my “Principles of Programming Languages”
+course, 3mi3;
+1. content production environment,
+2. administration environment, and
+3. ~git~ and website management environment.
+#+begin_src emacs-lisp
+(let ((popl-dir "~/Dropbox/McMaster/PoPL/"))
+    (tab-bar-switch-to-tab "PoPL content")
+    (find-file popl-dir)
     (split-window nil nil 'right)
-    (magit)))
+    (split-window nil nil 'above)
+
+    ; TODO, once the files are settled upon
+    (tab-bar-switch-to-tab "PoPL admin")
+    (find-file popl-dir)
+
+    ; TODO: should be a website updater and possibly a docker image buffer
+    (tab-bar-switch-to-tab "PoPL ꇚ")
+    (find-file popl-dir)
+    (split-window nil nil 'right)
+    (magit))
 #+end_src
 
 ***** Focus on the first tab
