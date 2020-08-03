@@ -1526,6 +1526,8 @@ and results in much more attractive and better organised slides.
 #+end_src
 
 It's a good idea to keep a local copy of the ~reveal.js~ packages.
+This will be used if I don't set the root explicitely in a project.
+I should update it regularly if it's being used.
 #+begin_src emacs-lisp
 (setq org-reveal-root
   "file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/")
@@ -4131,10 +4133,12 @@ we get unique buffers.
 
 ***** Volatile tabs
 
+****** Thesis
+
 My thesis involves Agda, so I want the Agda information buffer open.
 I prefer that information buffer in the lower left,
 the master file in the upper left, and the thesis directory on the right.
-The ~git~ tab is setup the same way the ~Setup git~ tab is.
+The ~git~ tab is setup the same way the ~Setup ꇚ~ tab is.
 #+begin_src emacs-lisp
 (let ((thesis-dir "~/Dropbox/McMaster/Agda/thesis/"))
   (let ((thesis-master (concat thesis-dir "master.lagda.org")))
@@ -4485,9 +4489,10 @@ including this file and other relevant files.
 (defalias 'q 'quit-window)
 #+end_src
 
-** Bibliography setup
+** COMMENT Bibliography setup
 
 Stolen from Musa's configuration.
+Causing complaints about missing required packages.
 #+begin_src emacs-lisp
 (use-package org-ref
   :custom ;; Files to look at when no “╲bibliography{⋯}”
