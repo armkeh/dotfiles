@@ -251,6 +251,14 @@ elisp files I develop myself.
   - [[#bibliography-setup][Bibliography setup]]
   - [[#always-use-spaces-instead-of-tabs][Always use spaces instead of tabs]]
 
+* First: find the my emacs init file
+
+This way, if something goes wrong below, I am positioned to fix it
+right away.
+#+begin_src emacs-lisp
+(find-file "~/.emacs.d/emacs-init.org")
+#+end_src
+
 * ~elisp~ code
 
 This section defines some functions/variables referred to
