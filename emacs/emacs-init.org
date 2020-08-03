@@ -321,6 +321,20 @@ of the previous (as long as this is possible)."
 
 * Various packages
 
+** Elisp utilities
+
+These utility packages simplify many families of tasks.
+
+~s~ is for ~s~-tring management.
+#+begin_src emacs-lisp
+(use-package s)
+#+end_src
+
+~f~ is for ~f~-ile management.
+#+begin_src emacs-lisp
+(use-package f)
+#+end_src
+
 ** Package repositories and ~use-package~
 
 #+begin_src emacs-lisp
