@@ -451,6 +451,104 @@ Press ~M-space~ to enter command mode. I also bind ~S-c~ for this.
 
 ** Completion frameworks
 
+*** Company
+
+:TODOS:
+- use company for appropriate modee in code blocks
+
+
+Install ~company~ and set it to be used everywhere.
+#+begin_src emacs-lisp
+(use-package company
+  :diminish
+  :config
+  (global-company-mode 1)
+  (setq
+#+end_src
+
+I do find it convenient to require few characters before
+getting autocomplete suggestions, but on my Chromebook
+that slows things down far too much.
+Let's require 4 characters before suggestions are provided.
+#+begin_src emacs-lisp
+   company-minimum-prefix-length 4
+#+end_src
+
+Search buffers using the same major mode for completion candidates.
+Setting ~all~ instead would search all buffers.
+#+begin_src emacs-lisp
+   company-dabbrev-other-buffers t
+   company-dabbrev-code-other-buffers t
+#+end_src
+
+Sort candidates by importance, then case, then in-buffer frequency.
+#+begin_src emacs-lisp
+;   company-transformers '(company-sort-by-backend-importance
+;                          company-sort-prefer-same-case-prefix
+;                          company-sort-by-occurrence)
+#+end_src
+
+Align any annotations to completions to the right.
+#+begin_src emacs-lisp
+   company-tooltip-align-annotations t
+#+end_src
+
+Annotate the completions with numbers.
+We can select an annotation with ~M-num~ instead
+of navigating to it.
+#+begin_src emacs-lisp
+   company-show-numbers t
+#+end_src
+
+Show up to ten candidates in a tooltip.
+When we get to the bottom of the list, wrap.
+#+begin_src emacs-lisp
+   company-tooltip-limit 10
+
+   company-selection-wrap-around t
+#+end_src
+
+Don't downcase by default,
+but if I choose a completion with different casing
+than my prefix, change the prefix casing.
+#+begin_src emacs-lisp
+   company-dabbrev-downcase nil
+   company-dabbrev-ignore-case nil
+#+end_src
+
+Pause very briefly before offering completion.
+This way if I am typing quickly it does not try to inte
+#+begin_src emacs-lisp
+   company-idle-delay 0.2)
+#+end_src
+
+Rebind the controls for completion. Don't use ~return~;
+use ~tab~ instead.
+Also, if documentation is available, ~C-d~ accesses it
+in a new temporary buffer.
+#+begin_src emacs-lisp
+  :bind (:map company-active-map
+              ;; Don't complete on return.
+              ("<return>" . nil) ("RET" . nil)
+              ;; Use tab instead.
+              ("<tab>" . company-complete-selection)
+              ("C-d" . company-show-doc-buffer))) 
+#+end_src
+
+Pop up a tooltip when I hover on a completion that has documentation.
+#+begin_src emacs-lisp
+(use-package company-quickhelp
+ :config
+   (setq company-quickhelp-delay 0.1)
+   (company-quickhelp-mode))
+#+end_src
+
+Emoji support. :smile: → 😄
+#+begin_src emacs-lisp
+(use-package company-emoji
+  :config (add-to-list 'company-backends 'company-emoji))
+#+end_src
+
 *** Ivy, Counsel and Swiper
 
 I'm trying out Ivy and its related packages.
