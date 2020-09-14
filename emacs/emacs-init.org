@@ -3315,11 +3315,10 @@ it's better to create a custom function to use instead of
 Setting ~:keymaps~ to ~'override~ ensures that no package will
 override my shortcuts.
 
-For the moment, I'm experimenting with using ~s~-key (“super”-key)
-combinations as prefixes. I have my caps lock bound to super
-(on my Chromebook's internal keyboard it's bound to that by
-default), and I think if I restrict the combination keys to
-those on the left side of the keyboard, I can avoid “Emacs pinky”.
+I use the “super” key, noted with the ~s-~ prefix,
+for my personal keybindings. Super is not used by packages
+or by Emacs in my experience, so this is a safe way to avoid
+clashes.
 
 So far I have three categories of shortcuts:
 - My main shortcuts, those that don't fall into another category.
@@ -3657,7 +3656,11 @@ Sometimes I need to toggle fontlocking.
 )
 #+end_src
 
-** Number pad bindings
+** Key /redefinitions/
+
+These rebindings completely redefine their relevant keys;
+this seems useful to me when I want one key to act
+like another in every possible context.
 
 I make use of the number pad as an alternate set of arrow keys.
 Specifically, 
