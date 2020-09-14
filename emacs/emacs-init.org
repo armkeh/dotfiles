@@ -4434,6 +4434,14 @@ Do show numbers on tabs, for the purpose of quickly changing.
 (setq tab-bar-tab-hints 't)
 #+end_src
 
+*** Highlight TODOs
+
+From Musa's config.
+#+begin_src emacs-lisp
+(use-package hl-todo)
+(global-hl-todo-mode)
+#+end_src
+
 ** Automatically revert unchanged files which change on the disk
 
 #+begin_src emacs-lisp
