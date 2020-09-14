@@ -5016,3 +5016,21 @@ Causing complaints about missing required packages.
 #+begin_src emacs-lisp
 (setq typescript-indent-level 2)
 #+end_src
+
+** Diagnose hanging
+
+[[https://github.com/lastquestion/explain-pause-mode][Explain pause mode]]
+helps explain any hanging during Emacs usage.
+#+begin_src emacs-lisp
+(require 'explain-pause-mode)
+#+end_src
+
+Trigger it with this simple invocation
+when you want to start profiling.
+#+begin_example emacs-lisp
+(explain-pause-mode)
+#+end_example
+
+Then run ~explain-pause-top~ to see a ~top~-like view
+of what Emacs has been doing.
+
