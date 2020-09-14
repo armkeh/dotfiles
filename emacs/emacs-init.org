@@ -2082,16 +2082,43 @@ not actually ~scala~. See
 
 **** Editing source code
 
+When I choose to edit a source block in a separate buffer,
+that source block becomes my main focus.
+So, open a new frame (OS window) in which to edit.
+Then I can open other material, help buffers, etc.,
+without disturbing the window setup around my Org window.
+When I finish editing, that frame is killed.
+#+begin_src emacs-lisp
+(setq org-src-window-setup 'other-frame)
+#+end_src
+Note, I didn't think I would like the ~other-frame~ option
+at all at first, but it grew on me when I realised
+it was the best way to ensure that editing source blocks in
+a separate buffer would not mess up my window layout
+—which ~other-window~ fails to do—
+give me the option at least to keep the Org buffer visible
+—which ~current-window~ of course disables—
+and give me enough room for the source buffer
+—which ~split-window-below~ and ~split-window-right~ fail to do
+on small screens.
+
 When we open a new window to edit source blocks
-(via ~C-c '~), the major mode of that window is determined by
+the major mode of that window is determined by
 the setting for the language in ~org-src-lang-modes~.
 Override the setting in that attribute list if you wish to
 change the major mode for a particular language.
 
 It's convenient to have ~<tab>~ act as it would in the source language
 when editing code blocks in the Org buffer.
+However, for some reason I have found this irritating
+and disabled it.
 #+begin_src emacs-lisp
 ;;(setq org-src-tab-acts-natively t)
+#+end_src
+
+:TODO:
+#+begin_src emacs-lisp
+(setq org-src-fontify-natively t)
 #+end_src
 
 *** Cosmetics
