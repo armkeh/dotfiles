@@ -2534,6 +2534,13 @@ I lifted this setup straight from Musa's init.
 
 *** Other
 
+**** Set TODO keywords
+
+#+begin_src emacs-lisp
+(setq org-todo-keywords
+  '((sequence "TODO" "SOON" "NEXT" "WORKING" "DELEGATED" "DONE")))
+#+end_src
+
 **** Allow alphabetical lists
 
 #+begin_src emacs-lisp
