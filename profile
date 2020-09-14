@@ -25,18 +25,24 @@ fi
 
 # My settings
 
-# Programming language tool install directories
+# Tool install directories
+
+if [ -d "/usr/local/texlive/2020" ] ; then
+  export MANPATH="$MANPATH:/usr/local/texlive/2020/texmf-dist/doc/man"
+  export INFOPATH="$INFOPATH:/usr/local/texlive/2020/texmf-dist/doc/info"
+  export PATH=/usr/local/texlive/2020/bin/x86_64-linux:$PATH
+fi
 if [ -d "/opt/ghc/bin" ] ; then
-    PATH="$PATH:/opt/ghc/bin"
+    export PATH="$PATH:/opt/ghc/bin"
 fi
 if [ -d "$HOME/.cabal/bin" ] ; then
-    PATH="$PATH:$HOME/.cabal/bin"
+    export PATH="$PATH:$HOME/.cabal/bin"
 fi
 if [ -d "$HOME/.opam/system/bin" ] ; then
-    PATH="$PATH:$HOME/.opam/system/bin"
+    export PATH="$PATH:$HOME/.opam/system/bin"
 fi
 if [ -d "$HOME/.cargo//bin" ] ; then
-    PATH="$PATH:$HOME/.cargo/bin"
+    export PATH="$PATH:$HOME/.cargo/bin"
 fi
 
 
@@ -56,3 +62,6 @@ if [ -d "/usr/local/lib/nodejs/node-v13.8.0-linux-x64/bin" ] ; then
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+# Disable some legacy docker commands
+export DOCKER_HIDE_LEGACY_COMMANDS=true

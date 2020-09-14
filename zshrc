@@ -37,9 +37,10 @@ Prompt_Vertical="$Connector_colour│"
 # %f undoes colour setting
 Prompt_Prompt="$Connector_colour└─►$Clear_colour $ "
 
+# Note that %D{s} formats s using strftime
 Prompt_UserHost="$User_colour%n$Host_colour@%M"
-Prompt_Date="$Date_colour%D"
-Prompt_Time="$Time_colour%*"
+Prompt_Date="$Date_colour%D{%a %b %d}"
+Prompt_Time="$Time_colour%D{%T}"
 
 # A shortened PWD, code taken from
 # https://unix.stackexchange.com/questions/273529/shorten-path-in-zsh-prompt/273567#273567
@@ -55,17 +56,17 @@ Newline=$'\n'
 PROMPT="${Newline}$Prompt_L1${Newline}$Prompt_L2${Newline}$Prompt_L3"
 
 # Reset the prompt regularly to keep the clock current
-# At time of writing, this causes cursor jumps when using a multiline prompt
-# and autocompletion (TAB).
+# If problems occur with refreshing or scroll position jumping, look here.
 # Maybe reference https://github.com/sorin-ionescu/prezto/issues/1512
-
-#TMOUT=1
-#
-#TRAPALRM() {
-#    zle reset-prompt
-#}
+TMOUT=1
+TRAPALRM() {
+    zle reset-prompt
+}
 
 # END Set the prompt -------------------------------------------------
 
 # Force colourised ls output
 alias ls='ls --color=auto'
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/markparmstrong/.sdkman"
+[[ -s "/home/markparmstrong/.sdkman/bin/sdkman-init.sh" ]] && source "/home/markparmstrong/.sdkman/bin/sdkman-init.sh"
