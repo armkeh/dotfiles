@@ -1877,6 +1877,12 @@ I found ~ox-tufte~ mentioned in a
 [[https://www.reddit.com/r/emacs/comments/6r32q4][Reddit thread]]
 regarding CSS for Org html export.
 
+**** ~ox-koma-letter~
+
+#+begin_src emacs-lisp
+(require 'ox-koma-letter)
+#+end_src
+
 **** HTML specific
 
 ***** Change the “Created” postamble to “Last update”
