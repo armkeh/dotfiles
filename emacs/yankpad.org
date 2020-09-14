@@ -294,11 +294,27 @@ $0
 ,#+end_src
 #+end_src
 
-**** ts: Typescript                          :src:
+**** ts: Typescript                            :src:
 
 #+begin_src text
 #+begin_src typescript
 $0
+,#+end_src
+#+end_src
+
+**** amm: Ammonite Scala blocks                :src:
+
+#+begin_src text
+#+begin_src amm
+$0
+,#+end_src
+#+end_src
+
+**** dot: Graphviz Dot diagrams              :src:orgdot:
+
+#+begin_src text
+#+begin_src dot :file $1
+$2
 ,#+end_src
 #+end_src
 
@@ -509,6 +525,18 @@ latex/Automata/Simple/DFA.tex
 
 - Followup ::
   - 
+#+end_src
+
+*** dottree: Graphviz dot tree diagrams       :src:dottree:
+
+#+begin_src text
+digraph T {
+  Node  [label="Node"]
+
+  leaf [label="leaf", shape=plaintext]
+
+  Node -> leaf
+}
 #+end_src
 
 ** Other global
