@@ -3027,6 +3027,18 @@ in the message buffer! Such settings infuriate me.
 (add-hook 'mu4e-compose-mode-hook 'turn-off-auto-fill)
 #+end_src
 
+**** Contacts
+
+I've had problems where contact completion breaks.
+For the moment, I make sure that the contacts are requested
+from ~mu~ upon starting Emacs.
+#+begin_src emacs-lisp
+(mu4e~request-contacts)
+#+end_src
+
+Note that the contacts are stored in a hash table,
+and so I am unsure of how to actually see them in Emacs.
+
 **** Flow
 
 I write emails the way I write all my documents:
