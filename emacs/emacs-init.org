@@ -3102,13 +3102,16 @@ but when replying I like to send back from whichever
 account the original mail was sent to.
 This hook updates the ~From~ field when replying to
 an email sent to one of my other accounts.
-It is taken from [[https://www.djcbsoftware.nl/code/mu/mu4e/Compose-hooks.html#Compose-hooks][the ~mu4e~ documentation]].
+It is taken from [[https://www.djcbsoftware.nl/code/mu/mu4e/Compose-hooks.html#Compose-hooks][the ~mu4e~ documentation]],
+with a modification to save the existing ~user-mail-address~ so
+that it can be reset afterwards.
 #+begin_src emacs-lisp
 (add-hook 'mu4e-compose-pre-hook
-  (defun my-set-from-address ()
+  (defun my/set-from-address ()
     "Set the From address based on the To address of the original."
     (let ((msg mu4e-compose-parent-message))
       (when msg
+        (setq my/user-mail-address-backup user-mail-address)
         (setq user-mail-address
           (cond
              ((mu4e-message-contact-field-matches msg :to "armstmp@mcmaster.ca")
@@ -3117,6 +3120,18 @@ It is taken from [[https://www.djcbsoftware.nl/code/mu/mu4e/Compose-hooks.html#C
                "armstmp@mcmaster.ca")
              (t
                "markparmstrong@gmail.com")))))))
+#+end_src
+
+The ~mu4e-compose-mode-hook~ runs
+after the message has been formed.
+So we are safe to restore the original ~user-mail-address~.
+#+begin_src emacs-lisp
+(add-hook 'mu4e-compose-mode-hook
+  (defun my/restore-user-mail-address ()
+    "Restore the user-mail-address based on the value
+     in my/user-mail-address-backup."
+    (when my/user-mail-address-backup
+       (setq user-mail-address my/user-mail-address-backup))))
 #+end_src
 
 ***** COMMENT My own attempt to make this
