@@ -4037,7 +4037,7 @@ to be black.
                          :weight ultra-bold)))))
 #+end_src
 
-**** ~<~ and ~>~ are not delimiters
+**** What are and what are not delimiters
 
 Don't treat angle brackets as delimiters; even when writing
 HTML or XML, I don't want them to qualify as delimiters for
@@ -4095,7 +4095,9 @@ The second symbol designates the matching delimiter.
   (modify-syntax-entry (string-to-char "⁅") "(⁆")
   (modify-syntax-entry (string-to-char "⁆") ")⁅")
   (modify-syntax-entry (string-to-char "｛") "(｝")
-  (modify-syntax-entry (string-to-char "｝") ")｛"))
+  (modify-syntax-entry (string-to-char "｝") ")｛")
+  (modify-syntax-entry (string-to-char "“") "(”")
+  (modify-syntax-entry (string-to-char "”") ")“"))
 #+end_src
 
 Apply those syntax entry modifications.
