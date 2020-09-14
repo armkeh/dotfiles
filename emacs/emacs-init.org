@@ -2080,6 +2080,25 @@ Note that the ~scala~ source blocks are marked as ~amm~ source,
 not actually ~scala~. See
 [[https://github.com/zwild/ob-ammonite][the documentation]].
 
+This is not the right place to dump this,
+but this code should cause the ~amm~ blocks to export as ~scala~ blocks
+in LaTeX so ~minted~ knows how to handle them.
+This code inspired by a similar problem solved on
+[[https://emacs.stackexchange.com/a/19941][StackExchange]].
+#+begin_src emacs-lisp
+(defun my/ammonite-src-to-scala-src (text backend info)
+  "Translate Ammonite minted blocks resulting from LaTeX export
+to Scala minted blocks."
+  (when (org-export-derived-backend-p backend 'latex)
+    (with-temp-buffer
+      (insert text)
+      (goto-char (point-min))
+      (replace-regexp "\\(\\\\begin{minted}.*\\){amm}" "\\1{scala}")
+      (buffer-substring-no-properties (point-min) (point-max)))))
+
+(add-hook 'org-export-filter-src-block-functions 'my/ammonite-src-to-scala-src)
+#+end_src
+
 **** Editing source code
 
 When I choose to edit a source block in a separate buffer,
