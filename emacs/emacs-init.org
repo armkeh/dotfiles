@@ -4558,20 +4558,20 @@ this section is volatile!
 (tab-new)
 (tab-rename "PoPL content")
 (tab-new)
-(tab-rename "PoPL admin")
-(tab-new)
 (tab-rename "PoPL ꇚ")
+(tab-new)
+(tab-rename "PoPL admin")
 #+end_src
 
 Finally, open a few “blank” tab as the rightmost,
 for use when working on other/random things.
 #+begin_src emacs-lisp
 (tab-new)
-(tab-rename " ")
+(tab-rename "-")
 (tab-new)
-(tab-rename " ")
+(tab-rename "--")
 (tab-new)
-(tab-rename " ")
+(tab-rename "---")
 #+end_src
 
 **** Visit tabs and setup buffers
@@ -4606,7 +4606,7 @@ For ~Setup ꇚ~, I want my Emacs init on the right a magit buffer on t.
 (tab-bar-switch-to-tab "Setup ꇚ")
 (find-file my/emacs-init)
 (split-window nil nil 'right)
-(magit)
+(magit-status-setup-buffer)
 #+end_src
 
 The ~Log/email~ tab is similar, but has my log on the left
@@ -4651,7 +4651,7 @@ The ~git~ tab is setup the same way the ~Setup ꇚ~ tab is.
     (tab-bar-switch-to-tab "Thesis ꇚ")
     (find-file thesis-master)
     (split-window nil nil 'right)
-    (magit)))
+    (magit-status-setup-buffer)))
 #+end_src
 
 ****** Blog (and personal website)
@@ -4671,7 +4671,7 @@ because I blog about Agda.
     (tab-bar-switch-to-tab "Blog ꇚ")
     (find-file github-io-main)
     (split-window nil nil 'right)
-    (magit)))
+    (magit-status-setup-buffer)))
 #+end_src
 
 ****** Principles of Programming Languages
@@ -4682,21 +4682,23 @@ course, 3mi3;
 2. administration environment, and
 3. ~git~ and website management environment.
 #+begin_src emacs-lisp
-(let ((popl-dir "~/Dropbox/McMaster/PoPL/"))
+(let* ((popl-dir "~/Dropbox/McMaster/PoPL/")
+       (popl-index (concat popl-dir "index.org")))
     (tab-bar-switch-to-tab "PoPL content")
     (find-file popl-dir)
     (split-window nil nil 'right)
     (split-window nil nil 'above)
 
-    ; TODO, once the files are settled upon
-    (tab-bar-switch-to-tab "PoPL admin")
-    (find-file popl-dir)
-
-    ; TODO: should be a website updater and possibly a docker image buffer
     (tab-bar-switch-to-tab "PoPL ꇚ")
-    (find-file popl-dir)
+    (find-file popl-index)
     (split-window nil nil 'right)
-    (magit))
+    (magit-status-setup-buffer))
+
+(let ((popl-admin-dir "~/Dropbox/McMaster/PoPL-admin/"))
+    (tab-bar-switch-to-tab "PoPL admin")
+    (find-file popl-admin-dir)
+    (split-window nil nil 'right)
+    (magit-status-setup-buffer))
 #+end_src
 
 ***** Focus on the first tab
