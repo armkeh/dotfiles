@@ -1170,7 +1170,7 @@ I'm not sure if this is necessary.
 
 The Mozart Programming System “provides a powerful environment
 for the development of software systems, called the
-``Oz Programming interface" (OPI)”.
+Oz Programming interface (OPI)”.
 See the [[https://mozart.github.io/][github.io]] page.
 Specifically,
 [[https://mozart.github.io/mozart-v1/doc-1.4.0/opi/node2.html][this page]]
@@ -1186,7 +1186,7 @@ Since I'm presumably running Emacs already, this is not how I wish
 to invoke the OPI. Instead, I check for an Oz installation
 under ~usr/bin/oz~, and set up invokation of the OPI from within Emacs.
 
-(Note: I install Mozart from pre-built binaries, which are distributed
+Note: I install Mozart from pre-built binaries, which are distributed
 [[https://github.com/mozart/mozart2/releases][on their Github page]].
 Depending upon how you install Mozart, you may need
 to modify the directories below
@@ -2131,10 +2131,7 @@ be overwritten (probably the themes I use set it specifically?).
     (set-face-attribute
       'org-ellipsis
       nil ;; all frames
-      :foreground 'unspecified
-    )
-  )
-)
+      :foreground 'unspecified)))
 #+end_src
 
 **** Tables
@@ -2730,7 +2727,7 @@ and potentially have my emails flow broken on mobile screens.
 # #+begin_src emacs-lisp
 # (setq mu4e-compose-format-flowed t)
 # #+end_src
-# But since some clients don't support ~format-flowed~ (Gmail being
+# But since some clients don't support ~format-flowed;~ Gmail being
 # the notable example, instead reflow paragraphs into long lines,
 # which should be broken as needed by the receiver.
 # #+begin_src emacs-lisp
@@ -3818,7 +3815,7 @@ location of the tab.
 **** Non-breaking spaces
 
 Since I use unicode regularly, I do use non-breaking spaces
-occasionally (especially for intraperiodic spaces, e.g.,
+occasionally, especially for intraperiodic spaces, e.g.,
 following ~Dr.~ or ~Mrs.~.
 I do want to be aware of those spaces; thankfully there is
 a face for that.
