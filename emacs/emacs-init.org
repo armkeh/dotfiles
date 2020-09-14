@@ -600,7 +600,7 @@ Enable minibuffer commands in the minibuffer.
   (global-set-key (kbd "C-x C-f") 'counsel-find-file))
 #+end_src
 
-*** Helm
+*** Helm (deprecated)
 
 I used a helm for a while.
 Unfortunately, it was unacceptably slow on my machine;
