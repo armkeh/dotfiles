@@ -2445,6 +2445,77 @@ so set the width of all images to be just 100 pixels.
 # (setq org-image-actual-width (/ (display-pixel-width) 3))
 # #+end_src
 
+**** Colour-coded ~src~ block backgrounds
+
+The Modus themes allow for colour-coded
+backgrounds of Org ~src~ blocks,
+where the colour depends on the language.
+Neat!
+
+#+begin_src emacs-lisp
+(setq modus-vivendi-theme-org-blocks 'rainbow)
+(setq modus-operandi-theme-org-blocks 'rainbow)
+#+end_src
+
+This function will add some colour associations.
+#+begin_src emacs-lisp
+(defun my/modus-add-org-src-block-faces ()
+  (setq org-src-block-faces (append org-src-block-faces
+         `(("text"    modus-theme-nuanced-red)
+           ("latex"   modus-theme-nuanced-yellow)
+           ("haskell" modus-theme-nuanced-blue)
+           ("scala"   modus-theme-nuanced-blue)
+           ("amm"     modus-theme-nuanced-blue)
+           ("ruby"    modus-theme-nuanced-red)
+           ("prolog"  modus-theme-nuanced-green)))))
+#+end_src
+
+Run the function every time we change themes.
+#+begin_src emacs-lisp
+(add-hook 'after-load-theme-hook 'my/modus-add-org-src-block-faces)
+#+end_src
+
+***** COMMENT Test it out
+
+The built in examples at least use the theme's nuanced colours.
+The below examples assume the Modus Vivendi theme.
+The Operandi colours are sometimes different.
+
+Nuanced magenta for Lisps.
+#+begin_example emacs-lisp
+(defun my/cool-message (arg) (message "hello world"))
+#+end_example
+
+Nuanced blue for C's.
+#+begin_example c
+void mycoolmessage(int arg) {
+  printf("hello world");
+}
+#+end_example
+
+Nuanced yellow for shells.
+#+begin_example shell
+echo "hello world"
+#+end_example
+
+Nuanced red for HTML-likes.
+#+begin_example html
+<p>Hello World</p>
+#+end_example
+
+Nuanced cyan for JSON and other configuration types.
+#+begin_example json
+{
+    "test": "HelloWorld"
+}
+#+end_example
+
+Nuanced green for Python.
+#+begin_example python
+def mycoolmessage (arg):
+  print "hello world"
+#+end_example
+
 *** Tables of contents
 
 This package provides automatic maintainance of a table of contents
