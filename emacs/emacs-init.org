@@ -2228,9 +2228,17 @@ We can change the behaviour of Org emphasis markers
 in terms of what characters are allowed to occur around
 and between them; see 
 [[https://emacs.stackexchange.com/questions/41111/][this stack exchange post]]
-for a sampe setup, and
+for a sample setup, and
 [[https://emacs.stackexchange.com/questions/13820][this other post]]
 which is linked to from the first and which has more details.
+
+Note that these settings are somewhat complicated
+by the fact that they are used to construct regular expressions;
+I lost a great amount of time to misplaced brackets and braces,
+which made Org very confused about what I wanted,
+since they were misinterpreted as regular expression syntax.
+See my
+[[https://stackoverflow.com/q/63805679/2041536][StackOverflow question]] on this.
 
 Everything here must be set when Org is loaded.
 #+begin_src emacs-lisp
@@ -2239,34 +2247,60 @@ Everything here must be set when Org is loaded.
 
 Only these characters are allowed to immediately precede
 an emphasis character (left outer boundary characters).
+Note that, as I am including a dash, it must be the first or final character,
+and if including a closing bracket, it must be the first character.
+See [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Regexp-Special.html#Regexp-Special][Special Characters in Regular Expression]].
 #+begin_src emacs-lisp
   (setcar org-emphasis-regexp-components
-    "     ('\"{}“”\[\\- ")
+    (concat
+      ;; All whitespace characters.
+      "[:space:]"
+      (string
+        ;; Opening delimiters; the comments prevent check-parens from getting mad 😀.
+        ?( ;;)
+        ?{ ;;}
+        ?“ ;;”
+        ?[ ;]
+        ;; Dashes
+        ?— ?– ?-))) ;; Do not move the dash. It will break the regexp.
 #+end_src
-# Org thinks that string above started a LaTeX block; close that \[\]. 
 
 Only these characters are allowed to immedately follow
-an emphasis characters (right outer boundary characters).
+an emphasis character (right outer boundary characters).
 #+begin_src emacs-lisp
   (setcar (nthcdr 1 org-emphasis-regexp-components)
-    ;; Comment to fix delimiter matching in the literate file {(
-    "\] -   .,!?;:''“”\")}/\\“”(-^ ")
+    (concat
+      (string ;[
+         ?]) ;; Do not move the bracket. It will break the regexp.
+      ;; All whitespace characters.
+      "[:space:]"
+      (string
+        ;; Closing delimiters, with matching comments as above.
+           ;;(
+        ?) ;;{
+        ?} ;;“
+        ?”
+        ;; Punctuation
+        ?. ?? ?! ?, ?; ?:
+        ;; Dashes
+        ?– ?— ?-))) ;; Do not move the dash. It will break the regexp.
 #+end_src
 
 Any characters are allowed as inner boundary characters,
 /except/ for those listed here.
 #+begin_src emacs-lisp
   (setcar (nthcdr 2 org-emphasis-regexp-components)
-    "    \t\r\n\"")
+    "[:space:]")
 #+end_src
 
 Any characters are allowed between the inner border characters.
+(The regular expression ~.~ matches any character).
 #+begin_src emacs-lisp
   (setcar (nthcdr 3 org-emphasis-regexp-components)
     ".")
 #+end_src
 
-No newlines are allowed, though.
+Only one newline allowed, though.
 #+begin_src emacs-lisp
   (setcar (nthcdr 4 org-emphasis-regexp-components) 1)
 #+end_src
@@ -2278,6 +2312,43 @@ Now we update the setting.
     org-emphasis-regexp-components))
 #+end_src
 NOTE the extra closing parenthesis to end the ~with-eval-after-load~!
+
+***** Test it out
+
+Here are tests of all the ~pre~ and ~post~ values at time of writing.
+#+begin_src org
+ *test*
+(*test*
+)
+[*test*
+]
+{*test*
+}
+“*test*
+”
+-*test*
+–*test*
+—*test*
+
+*test* ;
+(
+*test*)
+[
+*test*]
+{
+*test*}
+“
+*test*”
+*test*-
+*test*–
+*test*—
+*test*.
+*test*?
+*test*!
+*test*,
+*test*;
+*test*:
+#+end_src
 
 **** Require ~{}~ to denote sub/superscripts
 
