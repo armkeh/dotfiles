@@ -344,14 +344,19 @@ These utility packages simplify many families of tasks.
 
 ** Package repositories and ~use-package~
 
+*** The repositories
+
 #+begin_src emacs-lisp
 (require 'package)
 (setq package-archives
-   '(("melpa" . "https://melpa.org/packages/")
-     ("gnu" . "https://elpa.gnu.org/packages/")
-     ("org" . "http://orgmode.org/elpa/")))
+   '(("org" . "http://orgmode.org/elpa/")
+     ("melpa" . "https://melpa.org/packages/")
+     ("gnu" . "https://elpa.gnu.org/packages/")))
 (package-initialize)
 #+end_src
+
+If needed, we can set ~package-archive-priorities~
+to set the priority for these repositories.
 
 *** Set the load path for manually downloaded packages
 
