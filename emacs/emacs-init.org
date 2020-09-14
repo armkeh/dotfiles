@@ -1704,6 +1704,146 @@ I should set this up.
 (setq org-reveal-extra-css "")
 #+end_src
 
+****** COMMENT Footnote hackery            :noexport:
+
+This is currently abandoned work.
+I have resorted to using note blocks instead of footnotes,
+which can be made footnotes in LaTeX export
+and presentation notes in Reveal.
+
+First, here's the CSS that goes with this.
+#+begin_src css
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  max-width: 1200px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  /*padding: 5px 0;*/
+  /*border-radius: 6px;*/
+  
+  /* Position the tooltip text absolutely at position,
+     and above other contents */
+  position: absolute;
+  z-index: -1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+#+end_src
+
+~ox-reveal~ does not support footnotes, unfortunately.
+The footnote numbers are placed correctly,
+but the contents are not exported /at all/.
+Since I want to make use of footnotes in
+my combined ~reveal.js~/PDF course notes,
+and lack sufficient knowledge of how to modify an Org export process,
+I use some HTML/CSS/Javascript hackery to replace
+the footnote numbers with a tooltip which, when hovered over,
+reveals the footnote in a popup.
+
+The basic HTML and CSS is not difficult;
+[[https://www.w3schools.com/css/css_tooltip.asp][w3schools.com has a guide]].
+
+The larger task is the organisation of the macros,
+and the use of Javascript to set the tooltip contents
+from wherever they are defined.
+
+*Caveat*: it is required that footnote contents come after the reference.
+Because Javascript is interpreted, the contents and tooltip must appear
+/before/ the script that sets the tooltip text to those contents.
+So I must make a decision whether the order is
+- tooltip, contents, script, or
+- contents, tooltip, script;
+the former seems more reasonable to me.
+This requirement could be removed by making use of
+an “on page loaded” event listener, but that's a fair bit of work
+to avoid a reasonable restriction.
+
+This also replaces the behaviour of footnotes in “plain” HTML;
+I do not believe it is possible for this approach to affect
+only Reveal exporting.
+:TODO: verify this
+
+:TODO: similar utility for inline footnotes; simpler, since it's all together.
+
+******* Utility macros
+
+Sometimes we need newlines in our expanded text.
+This macro facilitates that.
+#+Macro: newline   (eval "\n")
+
+We will need to ignore some contents
+in the HTML export; simply wrap such contents in HTML comments
+when exporting to HTMl.
+#+Macro: begin-unless-html   @@html:<!--@@
+#+Macro: end-unless-html     @@html:-->@@
+If the contents to be ignored are plaintext not involving commas,
+they can be passed as a macro argument and we don't need a pair
+of delimiters.
+#+Macro: unless-html         {{{begin-unless-html}}}$1{{{end-unless-html}}}
+
+We need to insert Org-style footnote content tags.
+#+Macro: org-fnct  {{{newline}}}[fn:$1]
+
+******* Tooltip/footnote tag
+
+Our first goal is the macro to be used
+in place of the footnote tag, so
+#+begin_src text
+[fn:name]
+#+end_src
+is replaced by
+#+begin_src text
+{{{fnt:name}}}
+#+end_src
+where ~fnt~ stands for “footnote tag”.
+
+We need HTML for the tooltip text.
+Note the contents are not set here;
+we simply name the span so we can set its text contents
+when we reach the footnote contents.
+#+Macro: tooltip-text   @@html:<span id="tooltip$1" class="tooltiptext"></span>@@
+
+Now we need HTML for the tooltip tag, which contains
+a tooltip text inside itself (hidden by default).
+#+Macro: begin-tooltip   @@html:<span class="tooltip"><sup>†</sup>@@
+#+Macro: end-tooltip     @@html:</span>@@
+#+Macro: tooltip         {{{begin-tooltip}}}{{{tooltip-text($1)}}}{{{end-tooltip}}}
+
+The final footnote indicator/reference macro
+constructs the HTML footnote indicator if we are exporting to HTML,
+and also constructs an Org style footnote reference,
+but comments it out if we are exporting to HTML.
+#+Macro: fnt   {{{tooltip($1)}}}{{{begin-unless-html}}}([fn:$1]){{{end-unless-html}}}
+
+******* Tooltip or footnote contents
+
+:TODO: commentary
+:TODO: should this use innerHTML, or innerTextContents or similar?
+#+Macro: begin-tooltip-text   @@html:<script>document.getElementById("tooltip$1").innerHTML = @@
+#+Macro: end-tooltip-text     @@html:</script>@@
+
+For the macro(s) for the tooltip/footnote contents, I see two options.
+1. Wrap the contents in a begin/end pair of macros.
+2. Include the contents as an argument to the macro.
+Of course I would prefer avoiding /extra/ macros, as in option (1).
+But option (2) presents a problem; since commas are used to
+separate arguments to macros, 
+Since neither option is perfect, we offer options for both.
+#+Macro: begin-fnc     {{{begin-tooltip-text($1)}}}{{{org-fnct($1)}}}
+#+Macro: end-fnc       {{{end-tooltip-text}}}
+#+Macro: fnc           {{{begin-fnc($1)}}}$2{{{end-fnc}}}
+
 **** ~ox-pandoc~
 
 ~ox-pandoc~ is “another exporter that translates Org-mode file to various other
