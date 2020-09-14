@@ -2011,6 +2011,7 @@ These languages have support built-in, it just has to be activated.
 (require 'ob-R)
 (require 'ob-ditaa)
 (require 'ob-scheme)
+(require 'ob-dot)
 #+end_src
 
 #+Name: evaluate-ditaa-path
