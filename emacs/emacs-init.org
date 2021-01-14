@@ -2570,11 +2570,7 @@ under any heading which is labelled with the ~:TOC:~ tag.
 #+begin_src emacs-lisp
 (use-package toc-org
   ;; Automatically update toc when saving an Org file.
-  :hook (org-mode . toc-org-mode)
-  ;; Use both “:ignore_N:” and ":export_N:” to exlude headings from the TOC.
-  :custom
-    (toc-org-noexport-regexp
-      "\\(^*+\\)\s+.*:\\(ignore\\|noexport\\)\\([@_][0-9]\\)?:\\($\\|[^ ]*?:$\\)"))
+  :hook (org-mode . toc-org-mode))
 #+end_src
 
 I lifted this setup straight from Musa's init.
