@@ -310,6 +310,14 @@ $0
 ,#+end_src
 #+end_src
 
+**** clj: Clojure blocks                     :src:
+
+#+begin_src text
+#+begin_src clojure
+$0
+,#+end_src
+#+end_src
+
 **** dot: Graphviz Dot diagrams              :src:orgdot:
 
 #+begin_src text
@@ -340,6 +348,14 @@ $0
 
 #+begin_src text
 #+begin_example agda2
+$0
+,#+end_example
+#+end_src
+
+***** rbe: Ruby example block               :src:
+
+#+begin_src text
+#+begin_example ruby
 $0
 ,#+end_example
 #+end_src
