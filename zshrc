@@ -58,10 +58,10 @@ PROMPT="${Newline}$Prompt_L1${Newline}$Prompt_L2${Newline}$Prompt_L3"
 # Reset the prompt regularly to keep the clock current
 # If problems occur with refreshing or scroll position jumping, look here.
 # Maybe reference https://github.com/sorin-ionescu/prezto/issues/1512
-TMOUT=1
-TRAPALRM() {
-    zle reset-prompt
-}
+#TMOUT=1
+#TRAPALRM() {
+#    zle reset-prompt
+#}
 
 # END Set the prompt -------------------------------------------------
 
