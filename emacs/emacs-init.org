@@ -5099,3 +5099,25 @@ when you want to start profiling.
 Then run ~explain-pause-top~ to see a ~top~-like view
 of what Emacs has been doing.
 
+** Export code blocks with current background colour
+
+From [[https://emacs.stackexchange.com/a/3512/30156][StackExchange]].
+
+Modified to not explicitely disable the default styling
+(don't need it in my case, but also don't need to disable it)
+and to use ~head-extra~ instead of ~head~, as ~head~ is overwritten
+by the themes I use.
+
+Note, if I set ~HTML_HEAD_EXTRA~ in an Org file,
+then the background colour setting will be lost!
+#+begin_src emacs-lisp
+(defun my-org-inline-css-hook (exporter)
+  "Insert custom inline css"
+  (when (eq exporter 'html)
+    (let ((my-pre-bg (face-background 'default)))
+      ;;(setq org-html-head-include-default-style nil)
+      (setq org-html-head-extra
+            (format "<style>pre.src{background:%s;color:white;} </style>" my-pre-bg)))))
+
+(add-hook 'org-export-before-processing-hook 'my-org-inline-css-hook)
+#+end_src
