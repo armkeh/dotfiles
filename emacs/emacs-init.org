@@ -2501,16 +2501,21 @@ Neat!
 #+end_src
 
 This function will add some colour associations.
+:TODO: use more varied colours. There are subtle and fringe variants of each.
 #+begin_src emacs-lisp
 (defun my/modus-add-org-src-block-faces ()
   (setq org-src-block-faces (append org-src-block-faces
          `(("text"    modus-theme-nuanced-red)
            ("latex"   modus-theme-nuanced-yellow)
+           ("ditaa"   modus-theme-nuanced-yellow)
+           ("dot"     modus-theme-nuanced-yellow)
            ("haskell" modus-theme-nuanced-blue)
+           ("elm"     modus-theme-nuanced-blue)
            ("scala"   modus-theme-nuanced-blue)
            ("amm"     modus-theme-nuanced-blue)
-           ("ruby"    modus-theme-nuanced-red)
-           ("prolog"  modus-theme-nuanced-green)))))
+           ("ruby"    modus-theme-nuanced-green)
+           ("prolog"  modus-theme-nuanced-cyan)
+           ("agda"    modus-theme-nuanced-cyan)))))
 #+end_src
 
 Run the function every time we change themes.
@@ -2529,19 +2534,19 @@ Nuanced magenta for Lisps.
 (defun my/cool-message (arg) (message "hello world"))
 #+end_example
 
-Nuanced blue for C's.
+Nuanced blue for C's and functional languages.
 #+begin_example c
 void mycoolmessage(int arg) {
   printf("hello world");
 }
 #+end_example
 
-Nuanced yellow for shells.
+Nuanced green for shells and shell scripting languages.
 #+begin_example shell
 echo "hello world"
 #+end_example
 
-Nuanced red for HTML-likes.
+Nuanced yellow for HTML-likes.
 #+begin_example html
 <p>Hello World</p>
 #+end_example
@@ -2553,10 +2558,9 @@ Nuanced cyan for JSON and other configuration types.
 }
 #+end_example
 
-Nuanced green for Python.
-#+begin_example python
-def mycoolmessage (arg):
-  print "hello world"
+Nuanced red for text.
+#+begin_example text
+Hello world.
 #+end_example
 
 *** Tables of contents
