@@ -2783,6 +2783,13 @@ Don't display whitespace information via ~whitespace-mode~ in Dired buffers.
 (use-package magit)
 #+end_src
 
+“Forge allows you to work with Git forges, such as Github and Gitlab,
+from the comfort of Magit and the rest of Emacs.” 
+#+begin_src emacs-lisp
+(use-package forge
+  :after magit)
+#+end_src
+
 ** Sending email: ~send-mail~
 
 Whether or not you use Emacs to read your email,
