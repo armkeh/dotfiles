@@ -1144,6 +1144,24 @@ See my [[Key bindings]].
 
 ** Other programming languages
 
+*** Haskell
+
+#+begin_src emacs-lisp
+(use-package haskell-mode)
+#+end_src
+
+*** Elm
+
+#+begin_src emacs-lisp
+(use-package elm-mode)
+#+end_src
+
+*** Clojure
+
+#+begin_src emacs-lisp
+(use-package clojure-mode)
+#+end_src
+
 *** Typescript
 
 I previously used ~typescript-mode~; I am trying out ~web-mode~,
@@ -1260,6 +1278,14 @@ of ~ob-ammonite~; in any case, it enables
 an Ammonite REPL interface via ~term~ mode via ~M-x run-ammonite~.
 #+begin_src emacs-lisp
 (use-package ammonite-term-repl)
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package scala-mode)
+#+end_src
+
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.sc" . scala-mode))
 #+end_src
 
 ** Org mode
@@ -2012,6 +2038,9 @@ These languages have support built-in, it just has to be activated.
 (require 'ob-ditaa)
 (require 'ob-scheme)
 (require 'ob-dot)
+(require 'ob-python)
+(require 'ob-js)
+(require 'ob-clojure)
 #+end_src
 
 #+Name: evaluate-ditaa-path
@@ -2097,6 +2126,12 @@ to Scala minted blocks."
       (buffer-substring-no-properties (point-min) (point-max)))))
 
 (add-hook 'org-export-filter-src-block-functions 'my/ammonite-src-to-scala-src)
+#+end_src
+
+#+begin_src emacs-lisp
+(setq org-babel-clojure-backend 'cider)
+(use-package cider)
+(setq cider-default-repl-command "lein")
 #+end_src
 
 **** Editing source code
