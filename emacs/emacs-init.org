@@ -4245,6 +4245,11 @@ location of the tab.
 (setq whitespace-style '(tab-mark))
 #+end_src
 
+Also, make tabs less wide. I dislike them taking up too much of the screen.
+#+begin_src emacs-lisp
+(setq-default tab-width 2)
+#+end_src
+
 **** Non-breaking spaces
 
 Since I use unicode regularly, I do use non-breaking spaces
