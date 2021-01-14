@@ -3093,8 +3093,11 @@ in the message buffer! Such settings infuriate me.
 I've had problems where contact completion breaks.
 For the moment, I make sure that the contacts are requested
 from ~mu~ upon starting Emacs.
+This function in particular was undefined on one of my systems,
+so first check it is defined as a function.
 #+begin_src emacs-lisp
-(mu4e~request-contacts)
+(when (fboundp 'mu4e~request-contacts)
+  (mu4e~request-contacts))
 #+end_src
 
 Note that the contacts are stored in a hash table,
