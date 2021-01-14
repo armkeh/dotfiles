@@ -85,16 +85,18 @@ elisp files I develop myself.
 - [[#various-packages][Various packages]]
   - [[#elisp-utilities][Elisp utilities]]
   - [[#package-repositories-and-use-package][Package repositories and ~use-package~]]
+    - [[#the-repositories][The repositories]]
     - [[#set-the-load-path-for-manually-downloaded-packages][Set the load path for manually downloaded packages]]
     - [[#bootstrap-use-package][Bootstrap ~use-package~]]
     - [[#update-packages][Update packages]]
   - [[#e-vi-l-mode][E-vi-l mode]]
   - [[#completion-frameworks][Completion frameworks]]
+    - [[#company][Company]]
     - [[#ivy-counsel-and-swiper][Ivy, Counsel and Swiper]]
       - [[#ivy][Ivy]]
       - [[#swiper][Swiper]]
       - [[#counsel][Counsel]]
-    - [[#helm][Helm]]
+    - [[#helm-deprecated][Helm (deprecated)]]
   - [[#eshell][~eshell~]]
   - [[#agda-mode][~agda~ mode]]
     - [[#command-line-arguments][Command line arguments]]
@@ -112,6 +114,9 @@ elisp files I develop myself.
     - [[#activate-agda-input-mode-in-text-prog-and-artist-modes][Activate Agda input mode in ~text~, ~prog~ and ~artist~ modes]]
     - [[#org-agda-mode][Org Agda mode]]
   - [[#other-programming-languages][Other programming languages]]
+    - [[#haskell][Haskell]]
+    - [[#elm][Elm]]
+    - [[#clojure][Clojure]]
     - [[#typescript][Typescript]]
     - [[#racket][Racket]]
     - [[#f][F#]]
@@ -131,6 +136,7 @@ elisp files I develop myself.
       - [[#org-reveal][~org-reveal~]]
       - [[#ox-pandoc][~ox-pandoc~]]
       - [[#ox-tufte][~ox-tufte~]]
+      - [[#ox-koma-letter][~ox-koma-letter~]]
       - [[#html-specific][HTML specific]]
       - [[#require--to-denote-subsuperscripts][Require ~{}~ to denote sub/superscripts]]
     - [[#literate-programming][Literate programming]]
@@ -148,8 +154,11 @@ elisp files I develop myself.
       - [[#inline-images][Inline images]]
       - [[#tag-position][Tag position]]
       - [[#adjusting-image-display-size][Adjusting image display size]]
+      - [[#colour-coded-src-block-backgrounds][Colour-coded ~src~ block backgrounds]]
     - [[#tables-of-contents][Tables of contents]]
     - [[#other-1][Other]]
+      - [[#disable-electric-indent-mode][Disable ~electric-indent-mode~]]
+      - [[#set-todo-keywords][Set TODO keywords]]
       - [[#allow-alphabetical-lists][Allow alphabetical lists]]
       - [[#reveal-hidden-elements-if-they-are-edited][Reveal hidden elements if they are edited]]
       - [[#inline-tasks][Inline tasks]]
@@ -176,6 +185,7 @@ elisp files I develop myself.
     - [[#shortcuts-to-mailboxes-and-bookmarks][Shortcuts to mailboxes and bookmarks]]
     - [[#mu4e-maildirs-extension][~mu4e-maildirs-extension~]]
     - [[#message-composition-settings][Message composition settings]]
+      - [[#contacts][Contacts]]
       - [[#flow][Flow]]
       - [[#html-support-nothing-to-see-here][HTML support (nothing to see here)]]
       - [[#changing-the-from-address-automatically][Changing the ~From~ address automatically]]
@@ -201,7 +211,7 @@ elisp files I develop myself.
   - [[#buffer-navigation-and-management-window-and-theme-management][Buffer navigation and management, window and theme management]]
   - [[#tab-management][Tab management]]
   - [[#other-2][Other]]
-  - [[#number-pad-bindings][Number pad bindings]]
+  - [[#key-redefinitions][Key /redefinitions/]]
 - [[#navigation][Navigation]]
   - [[#jump-between-windows-using-windmove][Jump between windows using ~windmove~]]
   - [[#change-scrolling-shortcut-behaviour][Change scrolling (shortcut) behaviour]]
@@ -222,7 +232,7 @@ elisp files I develop myself.
       - [[#for-older-versions-of-emacs][For older versions of Emacs]]
     - [[#delimiters-parentheses][Delimiters (parentheses)]]
       - [[#highlight-matching-delimiters][Highlight matching delimiters]]
-      - [[#-and--are-not-delimiters][~<~ and ~>~ are not delimiters]]
+      - [[#what-are-and-what-are-not-delimiters][What are and what are not delimiters]]
       - [[#rainbow-delimiters][Rainbow delimiters]]
     - [[#whitespace-display][Whitespace display]]
       - [[#tabs][Tabs]]
@@ -237,6 +247,7 @@ elisp files I develop myself.
     - [[#emoticons-1][Emoticons]]
     - [[#dim-buffers-when-not-in-use][Dim buffers when not in use]]
     - [[#tab-bar][Tab-bar]]
+    - [[#highlight-todos][Highlight TODOs]]
   - [[#automatically-revert-unchanged-files-which-change-on-the-disk][Automatically revert unchanged files which change on the disk]]
   - [[#show-possible-completions-as-i-type-shortcuts][Show possible completions as I type shortcuts]]
   - [[#provide-a-visualisation-of-my-undo-tree][Provide a visualisation of my undo tree]]
@@ -257,6 +268,8 @@ elisp files I develop myself.
 - [[#scratch][Scratch]]
   - [[#aliases-for-common-functions-particularly-useful-for-eshell][Aliases for common functions, particularly useful for eshell]]
   - [[#always-use-spaces-instead-of-tabs][Always use spaces instead of tabs]]
+  - [[#diagnose-hanging][Diagnose hanging]]
+  - [[#export-code-blocks-with-current-background-colour][Export code blocks with current background colour]]
 
 * First: find the my emacs init file
 
@@ -908,6 +921,7 @@ of them have special meaning.
 #+begin_src emacs-lisp
 (add-to-list 'agda-input-user-translations '("op" "⊕"))
 (add-to-list 'agda-input-user-translations '("^<" "﹤"))
+(add-to-list 'agda-input-user-translations '("d<" "⪡"))
 (add-to-list 'agda-input-user-translations '("powset" "℘"))
 (add-to-list 'agda-input-user-translations '("X" "⨉"))
 ;; Lunate sigmas
@@ -2323,6 +2337,8 @@ an emphasis character (right outer boundary characters).
         ?) ;;{
         ?} ;;“
         ?”
+        ;; Single quote
+        ?'
         ;; Punctuation
         ?. ?? ?! ?, ?; ?:
         ;; Dashes
