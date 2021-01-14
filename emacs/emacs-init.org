@@ -1989,9 +1989,12 @@ I have made several edits.
                    (setq id (s-replace " " "-" headline))
                    (if (not (member id ids))
                        (push id ids)
-                       (message-box "Found repeated headline \"%s\" during custom ID generation. Giving up and reverting progress." headline)
-                       (undo)
-                       (setq quit-flag t))
+                       ;;(message-box "Found repeated headline \"%s\" during custom ID generation. Giving up and reverting progress." headline)
+                       ;;(undo)
+                       ;;(setq quit-flag t)
+                     ;; Temporarily disabled to avoid annoyance.
+                       ;(message-box "Found repeated headline \"%s\" during custom ID generation. Be aware that links to a repeated headline will always point to the first occurrence." headline)
+                     )
                    (org-entry-put nil "CUSTOM_ID" id)))))))))))
 
 ;; Whenever html & md export happens, ensure we have headline ids.
