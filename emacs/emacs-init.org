@@ -4499,6 +4499,11 @@ Do show numbers on tabs, for the purpose of quickly changing.
 (setq tab-bar-tab-hints 't)
 #+end_src
 
+Remove the close buttons.
+#+begin_src emacs-lisp
+(setq tab-bar-close-button-show nil)
+#+end_src
+
 *** Highlight TODOs
 
 From Musa's config.
