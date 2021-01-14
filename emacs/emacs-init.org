@@ -2581,6 +2581,12 @@ I lifted this setup straight from Musa's init.
 
 *** Other
 
+**** Disable ~electric-indent-mode~
+
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook (lambda () (electric-indent-mode -1)))
+#+end_src
+
 **** Set TODO keywords
 
 #+begin_src emacs-lisp
