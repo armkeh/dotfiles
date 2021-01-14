@@ -3603,6 +3603,10 @@ into one (conceptual) category: “window”, prefix ~w~.
   "<down>"  '((lambda () (interactive) (windmove-down))
               :which-key "Move focus down")
 
+  "f"  '((lambda () (interactive) (other-frame 1))
+              :which-key "Other frame")
+
+  
   "\\" '((lambda () (interactive)
                  (cascading-find-files my-initial-files))
          :which-key "My initial windows")
