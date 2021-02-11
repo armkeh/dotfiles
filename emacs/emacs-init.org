@@ -124,8 +124,6 @@ elisp files I develop myself.
     - [[#scheme][Scheme]]
     - [[#scala][Scala]]
   - [[#org-mode][Org mode]]
-    - [[#capture][Capture]]
-    - [[#agenda][Agenda]]
     - [[#speed-keys][Speed keys]]
     - [[#exporting][Exporting]]
       - [[#ignoring-content][Ignoring content]]
@@ -264,7 +262,7 @@ elisp files I develop myself.
   - [[#copy-certain-files-to-my-google-drive-after-save][Copy certain files to my Google Drive after save]]
 - [[#temporary-fixes][Temporary fixes]]
   - [[#org-strip-quotes][~org-strip-quotes~]]
-- [[#ideas-for-additions][Ideas for additions]]
+- [[#features-to-be-set-up][Features to be set up]]
 - [[#scratch][Scratch]]
   - [[#aliases-for-common-functions-particularly-useful-for-eshell][Aliases for common functions, particularly useful for eshell]]
   - [[#always-use-spaces-instead-of-tabs][Always use spaces instead of tabs]]
@@ -1319,28 +1317,6 @@ of the extras included in ~org-plus-contrib~.
   :ensure org-plus-contrib
   :config
   (require 'ox-extra))
-#+end_src
-
-*** Capture
-
-I'm beginning to use ~org-capture~ to enable me to log
-ideas/TODO items from anywhere in Emacs in my log file.
-
-#+begin_src emacs-lisp
-(setq org-default-notes-file "~/Dropbox/Organisation/log/log.org")
-#+end_src
-
-Currently I just use the default capture template,
-and manually organise ideas later.
-Once I use this system for a while,
-I should ideally set up other templates to automate some of this.
-
-*** Agenda
-
-My log file is my agenda.
-
-#+begin_src emacs-lisp
-(setq org-agenda-files '("~/Dropbox/Organisation/log/log.org"))
 #+end_src
 
 *** Speed keys
@@ -5049,12 +5025,30 @@ If STRING is nil, return nil."
   (org-unbracket-string "\"" "\"" string))
 #+end_src
 
-* TODO Ideas for additions
+* TODO Features to be set up
 
-- ~C-c n l~ - Move remainder of line to the line below
-  (insert newline at point and remove newline at end of the resulting line)
 
-- ~C-c c l~ - Copy some number of lines before point
+** COMMENT Capture
+
+I'm beginning to use ~org-capture~ to enable me to log
+ideas/TODO items from anywhere in Emacs in my log file.
+
+#+begin_src emacs-lisp
+;;(setq org-default-notes-file "~/Dropbox/Organisation/log/log.org")
+#+end_src
+
+Currently I just use the default capture template,
+and manually organise ideas later.
+Once I use this system for a while,
+I should ideally set up other templates to automate some of this.
+
+** COMMENT Agenda
+
+My log file is my agenda.
+
+#+begin_src emacs-lisp
+;; (setq org-agenda-files '("~/Dropbox/Organisation/log/log.org"))
+#+end_src
 
 * COMMENT Generating the README.md for my Emacs repo
 
