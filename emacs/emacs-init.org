@@ -3533,13 +3533,6 @@ local variable to store the command to invoke ~dired~ with.
   "t" '((lambda () (interactive)
           (my-dired-invocation "~/projects/agda-computability"))
         :which-key "Thesis")
-  "3" '(:ignore t :which-key "3rd year classes")
-  "3m" '((lambda () (interactive)
-          (my-dired-invocation "~/Dropbox/McMaster/3mi3/"))
-        :which-key "3mi3")
-  "3e" '((lambda () (interactive)
-          (my-dired-invocation "~/Dropbox/McMaster/3ea3/"))
-        :which-key "3ea3")
 )
 #+end_src
 
@@ -4658,12 +4651,6 @@ this section is volatile!
 (tab-rename "Blog")
 (tab-new)
 (tab-rename "Blog ꇚ")
-(tab-new)
-(tab-rename "PoPL content")
-(tab-new)
-(tab-rename "PoPL ꇚ")
-(tab-new)
-(tab-rename "PoPL admin")
 #+end_src
 
 Finally, open a few “blank” tab as the rightmost,
@@ -4789,7 +4776,7 @@ because I blog about Agda.
     (magit-status-setup-buffer)))
 #+end_src
 
-****** Principles of Programming Languages
+****** COMMENT Principles of Programming Languages
 
 I use three tabs for my “Principles of Programming Languages”
 course, 3mi3;
