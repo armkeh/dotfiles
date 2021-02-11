@@ -59,7 +59,7 @@ In order to avoid polluting that file, let's set it to use
 a particular one. In fact, let's put it under my version control,
 so I will notice changes to it.
 #+begin_src emacs-lisp
-(setq custom-file "~/Dropbox/Organisation/setup/emacs/custom.el")
+(setq custom-file "~/dotfiles/emacs/custom.el")
 (ignore-errors (load custom-file))
 #+end_src
 
@@ -68,7 +68,7 @@ so I will notice changes to it.
 For examples, this directory includes (symbolic links to)
 elisp files I develop myself.
 #+begin_src emacs-lisp
-(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/elisp")
+(add-to-list 'load-path "~/dotfiles/emacs/elisp")
 #+end_src
 
 * Table of contents                             :TOC_4:
@@ -83,12 +83,12 @@ elisp files I develop myself.
   - [[#theme-change-hook][Theme change hook]]
   - [[#cascading-window-setup][Cascading window setup]]
 - [[#various-packages][Various packages]]
-  - [[#elisp-utilities][Elisp utilities]]
   - [[#package-repositories-and-use-package][Package repositories and ~use-package~]]
     - [[#the-repositories][The repositories]]
     - [[#set-the-load-path-for-manually-downloaded-packages][Set the load path for manually downloaded packages]]
     - [[#bootstrap-use-package][Bootstrap ~use-package~]]
     - [[#update-packages][Update packages]]
+  - [[#elisp-utilities][Elisp utilities]]
   - [[#e-vi-l-mode][E-vi-l mode]]
   - [[#completion-frameworks][Completion frameworks]]
     - [[#company][Company]]
@@ -341,19 +341,8 @@ of the previous (as long as this is possible)."
 
 * Various packages
 
-** Elisp utilities
-
-These utility packages simplify many families of tasks.
-
-~s~ is for ~s~-tring management.
-#+begin_src emacs-lisp
-(use-package s)
-#+end_src
-
-~f~ is for ~f~-ile management.
-#+begin_src emacs-lisp
-(use-package f)
-#+end_src
+The order here matters at least slightly;
+in particular, ~use-package~ must be set up first.
 
 ** Package repositories and ~use-package~
 
@@ -375,7 +364,7 @@ to set the priority for these repositories.
 
 Also used as a scratch directory when I'm working on a package.
 #+begin_src emacs-lisp
-(add-to-list 'load-path "~/Dropbox/Organisation/setup/emacs/downloaded-packages")
+(add-to-list 'load-path "~/dotfiles/emacs/downloaded-packages")
 #+end_src
 
 *** Bootstrap ~use-package~
@@ -409,6 +398,20 @@ I always want to download packages that aren't installed.
   (setq auto-package-update-hide-results t)
   ;; Update installed packages at startup if there is an update pending.
   (auto-package-update-maybe))
+#+end_src
+
+** Elisp utilities
+
+These utility packages simplify many families of tasks.
+
+~s~ is for ~s~-tring management.
+#+begin_src emacs-lisp
+(use-package s)
+#+end_src
+
+~f~ is for ~f~-ile management.
+#+begin_src emacs-lisp
+(use-package f)
 #+end_src
 
 ** COMMENT ~xah-fly-keys~
@@ -2670,7 +2673,7 @@ from the ~subr-x~ package (built-in).
 (yas-global-mode t)
 
 (use-package yankpad)
-(setq yankpad-file "~/Dropbox/Organisation/setup/emacs/yankpad.org")
+(setq yankpad-file "~/dotfiles/emacs/yankpad.org")
 #+end_src
 
 ~yas-wrap-around-region~ controls what is inserted for a snippet's
@@ -2949,7 +2952,7 @@ we register on an idle timer.
 # #+begin_src emacs-lisp
 # (start-process "mbsync-gmail-rest"
 #                "*mbsync gmail-rest*"
-#                "~/Dropbox/Organisation/setup/emacs/mbsync-gmail-rest")
+#                "~/dotfiles/emacs/mbsync-gmail-rest")
 # #+end_src
 # It runs this shell process.
 # #+begin_src shell :tangle mbsync-gmail-rest :shebang "#!/bin/bash"
@@ -3482,9 +3485,8 @@ These shortcuts then don't involve ~dired~, but they are lumped in here anyway.
            (find-file "~/Dropbox/Organisation/org-scratch.org"))
          :which-key "Org scratch")
   "e" '((lambda () (interactive)
-           (find-file "~/Dropbox/Organisation/setup/emacs/emacs-init.org"))
-         :which-key "Emacs init")
-)
+           (find-file "~/dotfiles/emacs/emacs-init.org"))
+         :which-key "Emacs init"))
 #+end_src
 
 **** Files not(?) already opened
@@ -3520,7 +3522,7 @@ local variable to store the command to invoke ~dired~ with.
           (my-dired-invocation "~/Dropbox/Organisation/reading/"))
         :which-key "Organisation")
   "p" '((lambda () (interactive)
-          (my-dired-invocation "~/Dropbox/Projects/"))
+          (my-dired-invocation "~/projects/"))
         :which-key "Projects")
   "m" '((lambda () (interactive)
           (my-dired-invocation "~/Dropbox/McMaster/"))
@@ -3529,7 +3531,7 @@ local variable to store the command to invoke ~dired~ with.
           (my-dired-invocation "~/Dropbox/McMaster/Agda/"))
         :which-key "Agda")
   "t" '((lambda () (interactive)
-          (my-dired-invocation "~/Dropbox/McMaster/Agda/thesis/"))
+          (my-dired-invocation "~/projects/agda-computability"))
         :which-key "Thesis")
   "3" '(:ignore t :which-key "3rd year classes")
   "3m" '((lambda () (interactive)
@@ -3664,6 +3666,8 @@ into one (conceptual) category: “window”, prefix ~w~.
         :which-key "Rename tab")
   "k" '(tab-close
         :which-key "Kill tab")
+  "n" '(tab-new
+        :which-key "New tab")
 
   "<right>" '(tab-next
               :which-key "Next tab")
@@ -4605,18 +4609,19 @@ will be properly applied (when we reopen it).
 For maintainability, most files opened below
 are listed here.
 #+begin_src emacs-lisp
-(setq-local my/organisation-dir "~/Dropbox/Organisation/")
-(setq-local my/log-dir   (concat my/organisation-dir "log/"))
-(setq-local my/setup-dir (concat my/organisation-dir "setup/"))
-(setq-local my/emacs-dir (concat my/setup-dir "emacs/"))
+(setq-local my/log-dir   "~/logs/")
+(setq-local my/scratch-dir "~/logs/scratch/")
+(setq-local my/dotfiles-dir "~/dotfiles/")
+(setq-local my/emacs-dir (concat my/dotfiles-dir "emacs/"))
 (setq-local my/agda-dir  "~/Dropbox/McMaster/Agda/")
 
 (setq-local my/emacs-init   (concat my/emacs-dir "emacs-init.org"))
 (setq-local my/yankpad-file (concat my/emacs-dir "yankpad.org"))
 
-(setq-local my/log-file (concat my/log-dir "log.org"))
+(setq-local my/supervisor-log (concat my/log-dir "supervisors.org"))
+(setq-local my/todo (concat my/log-dir "todo.org"))
 
-(setq-local my/org-scratch  (concat my/organisation-dir "org-scratch.org"))
+(setq-local my/org-scratch  (concat my/scratch-dir "org-scratch.org"))
 (setq-local my/agda-scratch (concat my/agda-dir "agda-scratch.agda"))
 #+end_src
 
@@ -4631,11 +4636,13 @@ will always be present.
 - Third, an ~eshell~ instance (separate from the one
   invoked by my ~eshell~ shortcut).
 #+begin_src emacs-lisp
-(tab-rename "Setup")
+(tab-rename "init")
 (tab-new)
-(tab-rename "Setup ꇚ")
+(tab-rename "dotfiles ꇚ")
 (tab-new)
-(tab-rename "Log/email")
+(tab-rename "Logs")
+(tab-new)
+(tab-rename "email")
 (tab-new)
 (tab-rename "eshell")
 #+end_src
@@ -4665,9 +4672,9 @@ for use when working on other/random things.
 (tab-new)
 (tab-rename "-")
 (tab-new)
-(tab-rename "--")
+(tab-rename "-")
 (tab-new)
-(tab-rename "---")
+(tab-rename "-")
 #+end_src
 
 **** Visit tabs and setup buffers
@@ -4680,13 +4687,13 @@ My ~cascading-find-files~ sometime comes in handy here.
 
 ***** Consistent tabs
 
-First, the ~Setup~ tab.
+First, the ~init~ tab.
 Here I want my Emacs init in my usual three window split
 (two vertically split windows on the left, large single window on the right),
-with ~Messages~ buffer on the lower left
-and the ~Help~ buffer preemptively opened in the upper right.
+with the messages buffer on the lower left
+and a help buffer preemptively opened in the upper right.
 #+begin_src emacs-lisp
-(tab-bar-switch-to-tab "Setup")
+(tab-bar-switch-to-tab "init")
 (find-file my/emacs-init)
 (split-window nil nil 'left)
 ; describe symbol will use the window not in focus, so the left
@@ -4697,19 +4704,31 @@ and the ~Help~ buffer preemptively opened in the upper right.
 (switch-to-buffer "*Messages*")
 #+end_src
 
-For ~Setup ꇚ~, I want my Emacs init on the right a magit buffer on t.
+My init file is part of my ~dotfiles~ repository.
+In the tab for managing that repo,
+I want my Emacs init on the left a magit buffer on the right.
 #+begin_src emacs-lisp
-(tab-bar-switch-to-tab "Setup ꇚ")
+(tab-bar-switch-to-tab "dotfiles ꇚ")
 (find-file my/emacs-init)
 (split-window nil nil 'right)
 (magit-status-setup-buffer)
 #+end_src
 
-The ~Log/email~ tab is similar, but has my log on the left
+The ~Logs~ tab is similar, but has my supervisory report log
+on the left and 
 and my inbox on the right.
 #+begin_src emacs-lisp
-(tab-bar-switch-to-tab "Log/email")
-(find-file my/log-file)
+(tab-bar-switch-to-tab "Logs")
+(find-file my/supervisor-log)
+(split-window nil nil 'left)
+;;(find-file my/todo)
+#+end_src
+
+The ~email~ tab has a scratch file on the left
+and my inbox on the right.
+#+begin_src emacs-lisp
+(tab-bar-switch-to-tab "email")
+(find-file my/org-scratch)
 (split-window nil nil 'left)
 (mu4e-headers-search-bookmark (mu4e-get-bookmark-query ?i))
 #+end_src
@@ -4735,8 +4754,8 @@ I prefer that information buffer in the lower left,
 the master file in the upper left, and the thesis directory on the right.
 The ~git~ tab is setup the same way the ~Setup ꇚ~ tab is.
 #+begin_src emacs-lisp
-(let ((thesis-dir "~/Dropbox/McMaster/Agda/thesis/"))
-  (let ((thesis-master (concat thesis-dir "master.lagda.org")))
+(let ((thesis-dir "~/projects/agda-computability/"))
+  (let ((thesis-master (concat thesis-dir "thesis-master.org")))
     (tab-bar-switch-to-tab "Thesis")
     (find-file thesis-dir)
     (split-window nil nil 'right)
@@ -4778,7 +4797,7 @@ course, 3mi3;
 2. administration environment, and
 3. ~git~ and website management environment.
 #+begin_src emacs-lisp
-(let* ((popl-dir "~/Dropbox/McMaster/PoPL/")
+(let* ((popl-dir "~/teaching/PoPL/")
        (popl-index (concat popl-dir "index.org")))
     (tab-bar-switch-to-tab "PoPL content")
     (find-file popl-dir)
@@ -4790,7 +4809,7 @@ course, 3mi3;
     (split-window nil nil 'right)
     (magit-status-setup-buffer))
 
-(let ((popl-admin-dir "~/Dropbox/McMaster/PoPL-admin/"))
+(let ((popl-admin-dir "~/teaching/PoPL-admin/"))
     (tab-bar-switch-to-tab "PoPL admin")
     (find-file popl-admin-dir)
     (split-window nil nil 'right)
@@ -4808,7 +4827,7 @@ course, 3mi3;
 I like a bunch of files open (in the background) upon startup.
 #+begin_src emacs-lisp
 (setq my/initial-background-files
-  '("~/Dropbox/Organisation/setup/emacs/yankpad.org"
+  '("~/dotfiles/emacs/yankpad.org"
     "~/Dropbox/McMaster/Agda/agda-scratch.agda"))
 #+end_src
 Along with this list, to facilite reseting the session
@@ -4830,7 +4849,7 @@ The last file will be in focus.
 #+begin_src emacs-lisp
 (setq my-initial-files
   '("~/Dropbox/Organisation/log/log.org"
-    "~/Dropbox/Organisation/setup/emacs/emacs-init.org"
+    "~/dotfiles/emacs/emacs-init.org"
     "~/Dropbox/Organisation/org-scratch.org"))
 #+end_src
 As above, we need a list of regular expression matching the
