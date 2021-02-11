@@ -43,20 +43,20 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#1c1f24" "#484854"))
  '(objed-cursor-color "#ff665c")
  '(package-selected-packages
-   '(forge cider inf-ruby ob-prolog clojure-mode haskell-mode org zones el-get hl-todo magit company-quickhelp company-emoji company mu4e-maildirs-extension elm-mode docker ob-ammonite web-mode ob-typescript command-log-mode messages-are-flowing polymode ivy evil counsel swiper xah-fly-keys modus-operendi modus-vivendi modus-operandi-theme modus-vivendi-theme all-the-icons helm auto-package-update toc-org typescript-mode rainbow-delimiters dimmer dimmer-mode auto-dim-other-buffers all-the-icons-dired org-bullets doom-modeline spaceline spaceline-config unicode-fonts geiser yasnippet yankpad wordsmith-mode which-key use-package undo-tree pdf-tools ox-tufte ox-reveal ox-pandoc org-plus-contrib org-mime htmlize general exwm emojify doom-themes dired-single diminish))
+   '(f s ink-mode forge cider inf-ruby ob-prolog clojure-mode haskell-mode org zones el-get hl-todo magit company-quickhelp company-emoji company mu4e-maildirs-extension elm-mode docker ob-ammonite web-mode ob-typescript command-log-mode messages-are-flowing polymode ivy evil counsel swiper xah-fly-keys modus-operendi modus-vivendi modus-operandi-theme modus-vivendi-theme all-the-icons helm auto-package-update toc-org typescript-mode rainbow-delimiters dimmer dimmer-mode auto-dim-other-buffers all-the-icons-dired org-bullets doom-modeline spaceline spaceline-config unicode-fonts geiser yasnippet yankpad wordsmith-mode which-key use-package undo-tree pdf-tools ox-tufte ox-reveal ox-pandoc org-plus-contrib org-mime htmlize general exwm emojify doom-themes dired-single diminish))
  '(pdf-view-midnight-colors (cons "#bbc2cf" "#242730"))
  '(reftex-default-bibliography '("~/Dropbox/McMaster/references.bib") t)
  '(rustic-ansi-faces
    ["#242730" "#ff665c" "#7bc275" "#FCCE7B" "#51afef" "#C57BDB" "#5cEfFF" "#bbc2cf"])
  '(safe-local-variable-values
    '((eval add-hook 'after-save-hook
-           (lambda nil
-             (org-babel-tangle))
-           nil t)
+	   (lambda nil
+	     (org-babel-tangle))
+	   nil t)
      (eval add-hook 'after-save-hook
-           (lambda nil
-             (save-to-drive "org"))
-           nil 'local)
+	   (lambda nil
+	     (save-to-drive "org"))
+	   nil 'local)
      (eval save-to-drive "Org")))
  '(toc-org-noexport-regexp
    "\\(^*+\\) +.*:\\(ignore\\|noexport\\)\\([@_][0-9]\\)?:\\($\\|[^ ]*?:$\\)" t)
