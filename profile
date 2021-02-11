@@ -38,6 +38,10 @@ fi
 if [ -d "$HOME/.cabal/bin" ] ; then
     export PATH="$PATH:$HOME/.cabal/bin"
 fi
+if [ -d "$HOME/.local/bin" ] ; then
+    # Install path used by Stack
+    export PATH="$HOME/.local/bin:$PATH"
+fi
 if [ -d "$HOME/.opam/system/bin" ] ; then
     export PATH="$PATH:$HOME/.opam/system/bin"
 fi
@@ -47,11 +51,10 @@ fi
 
 
 # Switch caps lock to super, using setxkbmap if it's available.
-# ChromeOS's Crostini does not include setxkbmap,
-# but it allows switching this on the ChromeOS side.
-if [ -x "$(command -v setxkbmap)" ] ; then
-    setxkbmap -option caps:super
-fi
+# Removed for now as I set this on the system/keyboard.
+# if [ -x "$(command -v setxkbmap)" ] ; then
+#     setxkbmap -option caps:super
+# fi
 
 # Nodejs (added manually during setup thereof)
 # Must be updated when changing versions
@@ -60,8 +63,6 @@ if [ -d "/usr/local/lib/nodejs/node-v13.8.0-linux-x64/bin" ] ; then
     DISTRO=linux-x64
     PATH="$PATH:/usr/local/lib/nodejs/node-v13.8.0-linux-x64/bin"
 fi
-
-export PATH="$HOME/.cargo/bin:$PATH"
 
 # Disable some legacy docker commands
 export DOCKER_HIDE_LEGACY_COMMANDS=true
