@@ -1,6 +1,8 @@
 *~
 *#
 
+private/*
+
 */downloaded-packages/*
 
 *.emacs.desktop
