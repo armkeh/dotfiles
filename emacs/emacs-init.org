@@ -264,7 +264,6 @@ as subtrees in this directory, and the ~.el~ files will be picked up.
   - [[#smoother-scrolling][Smoother scrolling]]
   - [[#all-the-icons][“All the icons”]]
 - [[#other-3][Other]]
-  - [[#run-the-dropbox-start-command-to-ensure-dropbox-is-running-on-the-system][Run the “dropbox start” command to ensure dropbox is running on the system]]
   - [[#always-use-buffer-input-mode-in-mini-buffer][Always use buffer input mode in mini buffer]]
   - [[#copy-certain-files-to-my-google-drive-after-save][Copy certain files to my Google Drive after save]]
 - [[#temporary-fixes][Temporary fixes]]
@@ -4924,15 +4923,6 @@ the icons.
 #+end_src
 
 * Other
-
-** Run the “dropbox start” command to ensure dropbox is running on the system
-
-I keep the script backed up in my Dropbox itself.
-#+begin_src emacs-lisp
-(start-process-shell-command "dropbox-start"
-                             "*dropbox-start*"
-                             "~/Dropbox/Organisation/scripts/dropbox.py start")
-#+end_src
 
 ** Always use buffer input mode in mini buffer
 
