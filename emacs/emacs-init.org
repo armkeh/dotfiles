@@ -1669,8 +1669,8 @@ It's a good idea to keep a local copy of the ~reveal.js~ packages.
 This will be used if I don't set the root explicitely in a project.
 I should update it regularly if it's being used.
 #+begin_src emacs-lisp
-(setq org-reveal-root
-  "file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/")
+;;(setq org-reveal-root
+;;  "file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/")
 #+end_src
 
 ***** Slide appearance
@@ -3464,7 +3464,7 @@ These shortcuts then don't involve ~dired~, but they are lumped in here anyway.
            (find-file "~/Dropbox/McMaster/Agda/agda-scratch.agda"))
          :which-key "Agda scratch")
   "so" '((lambda () (interactive)
-           (find-file "~/Dropbox/Organisation/org-scratch.org"))
+           (find-file "~/logs/scratch/org-scratch.org"))
          :which-key "Org scratch")
   "e" '((lambda () (interactive)
            (find-file "~/dotfiles/emacs/emacs-init.org"))
@@ -3494,27 +3494,24 @@ local variable to store the command to invoke ~dired~ with.
   "h" '((lambda () (interactive)
           (my-dired-invocation "~"))
         :which-key "Home")
+  "D" '((lambda () (interactive)
+          (my-dired-invocation "~/Downloads/"))
+        :which-key "Downloads")
   "d" '((lambda () (interactive)
-          (my-dired-invocation "~/Dropbox/"))
-        :which-key "Dropbox")
-  "o" '((lambda () (interactive)
-          (my-dired-invocation "~/Dropbox/Organisation/"))
-        :which-key "Organisation")
+          (my-dired-invocation "~/dotfiles/"))
+        :which-key "dotfiles")
+  "l" '((lambda () (interactive)
+          (my-dired-invocation "~/log/"))
+        :which-key "logs")
   "r" '((lambda () (interactive)
-          (my-dired-invocation "~/Dropbox/Organisation/reading/"))
-        :which-key "Organisation")
+          (my-dired-invocation "~/reading/"))
+        :which-key "reading")
   "p" '((lambda () (interactive)
           (my-dired-invocation "~/projects/"))
-        :which-key "Projects")
-  "m" '((lambda () (interactive)
-          (my-dired-invocation "~/Dropbox/McMaster/"))
-        :which-key "McMaster")
-  "a" '((lambda () (interactive)
-          (my-dired-invocation "~/Dropbox/McMaster/Agda/"))
-        :which-key "Agda")
+        :which-key "projects")
   "t" '((lambda () (interactive)
           (my-dired-invocation "~/projects/agda-computability"))
-        :which-key "Thesis")
+        :which-key "thesis")
 )
 #+end_src
 
@@ -4743,7 +4740,7 @@ The ~git~ tab is setup the same way the ~Setup ꇚ~ tab is.
 For the moment, my ~Blog~ tab setup is similar to the thesis setup,
 because I blog about Agda.
 #+begin_src emacs-lisp
-(let ((github-io-dir "~/Dropbox/Organisation/websites/armkeh.github.io/"))
+(let ((github-io-dir "~/projects/armkeh.github.io/"))
   (let ((github-io-main (concat github-io-dir "index.org")))
     (tab-bar-switch-to-tab "Blog")
     (find-file github-io-dir)
