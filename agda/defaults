@@ -1,0 +1,11 @@
+-- See the libraries file.
+
+standard-library
+plfa
+
+--agda-fin-additions
+
+--agda-real
+
+--equality
+--delay-monad

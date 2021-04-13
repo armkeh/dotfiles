@@ -1,0 +1,20 @@
+-- Standard library
+~/libraries/agda/agda-stdlib/standard-library.agda-lib
+
+
+
+-- Programming Language Foundations in Agda, for courses
+~/libraries/agda/plfa.github.io/plfa.agda-lib
+
+
+
+-- My libraries
+-- ~/Dropbox/McMaster/Agda/libraries/personal/agda-fin-additions/agda-fin-additions.agda-lib
+
+
+
+-- Other libraries
+-- ~/Dropbox/McMaster/Agda/libraries/agda-prelude/agda-prelude.agda-lib
+-- ~/Dropbox/McMaster/Agda/libraries/agda-real/agda-real.agda-lib
+-- ~/Dropbox/McMaster/Agda/libraries/equality/equality.agda-lib
+-- ~/Dropbox/McMaster/Agda/libraries/delay-monad/delay-monad.agda-lib
