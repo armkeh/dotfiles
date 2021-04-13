@@ -700,10 +700,13 @@ for dark themes and black for light themes.
 
 ** ~agda~ mode
 
-We need Emacs to locate Agda mode. This command is put in ~.emacs~
+Agda comes with a tool ~agda-mode~ which can be used to locate
+the Elisp files for the ~agda-mode~. It's recommended we
+execute ~agda-mode locate~ when starting Emacs,
+and load the files it reports.
 #+begin_src emacs-lisp
 (load-file (let ((coding-system-for-read 'utf-8))
-                (shell-command-to-string "agda-mode locate")))
+               (shell-command-to-string "agda-mode locate")))
 #+end_src
 
 These packages are installed when setting up Agda,
