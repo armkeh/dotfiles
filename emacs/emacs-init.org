@@ -3855,8 +3855,7 @@ and so use a small font; 9pt seems to be a sweet spot.
 I've built up a small collection of themes.
 #+begin_src emacs-lisp
 (use-package doom-themes)
-(use-package modus-vivendi-theme)
-(use-package modus-operandi-theme)
+(use-package modus-themes)
 #+end_src
 
 By default, I prefer a dark theme,
