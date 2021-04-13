@@ -20,7 +20,7 @@ an ~org~ file for this.
 
 Create a symbolic link to this file in ~~/.emacs.d/~,
 then add to the bottom of ~~/.emacs~ these lines:
-#+BEGIN_EXAMPLE emacs-lisp
+#+begin_example emacs-lisp
 ;; BEGIN my edits
 
 ;; Enable Emacs VC on symlinked files
@@ -34,7 +34,7 @@ then add to the bottom of ~~/.emacs~ these lines:
 (org-babel-load-file "~/.emacs.d/emacs-init.org")
 
 ;; END my edits
-#+END_EXAMPLE
+#+end_example
 
 The separation of files ensures any outside edits to my
 ~.emacs~ are retained.

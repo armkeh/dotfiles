@@ -437,6 +437,14 @@ $0
 #+end_comment
 #+end_src
 
+**** htmle: Export HTML                      :src:
+
+#+begin_src text
+#+begin_export html
+$0
+#+end_export
+#+end_src
+
 *** Line prefixes
 
 **** latexh: LaTeX header setting            :src:orglatexh:
