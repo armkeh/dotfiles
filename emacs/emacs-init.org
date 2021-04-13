@@ -2808,6 +2808,10 @@ from the comfort of Magit and the rest of Emacs.”
 
 ** Sending email: ~send-mail~
 
+#+begin_src emacs-lisp
+(setq mail-user-agent 'mu4e-user-agent)
+#+end_src
+
 Whether or not you use Emacs to read your email,
 you can use it to send emails with the builtin ~send-mail~.
 It can be configured to use your OS default for sending email
@@ -2819,10 +2823,19 @@ I use Gmail exclusively, so the setup is small.
 #+begin_src emacs-lisp
 (require 'smtpmail)
 
-(setq send-mail-function    'smtpmail-send-it
-      smtpmail-smtp-server  "smtp.gmail.com"
-      smtpmail-stream-type  'ssl
-      smtpmail-smtp-service 465)
+(setq message-send-mail-function 'smtpmail-send-it
+   starttls-use-gnutls t
+   smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+   smtpmail-auth-credentials
+     '(("smtp.gmail.com" 587 "markparmstrong@gmail.com" nil))
+   smtpmail-default-smtp-server "smtp.gmail.com"
+   smtpmail-smtp-server "smtp.gmail.com"
+   smtpmail-smtp-service 587)
+#+end_src
+
+#+begin_src emacs-lisp
+(require 'auth-source)
+(setq auth-sources '((:source "~/.authinfo.gpg")))
 #+end_src
 
 If needed, we can create a queue to allow for sending of email
