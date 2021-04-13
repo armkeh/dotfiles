@@ -207,8 +207,8 @@ as subtrees in this directory, and the ~.el~ files will be picked up.
   - [[#invoke-processes][Invoke processes]]
     - [[#yankpad][~yankpad~]]
     - [[#dired-1][~dired~]]
-      - [[#jumping-to-specific-buffers][Jumping to specific buffers]]
-      - [[#files-not-already-opened][Files not(?) already opened]]
+      - [[#jumping-to-specific-files][Jumping to specific files]]
+      - [[#jumping-to-directories][Jumping to directories]]
     - [[#eshell-1][~eshell~]]
     - [[#magit-1][~magit~]]
     - [[#mu4e][~mu4e~]]
@@ -2793,6 +2793,12 @@ Don't display whitespace information via ~whitespace-mode~ in Dired buffers.
      (setq-local whitespace-style nil)))
 #+end_src
 
+Highlighting the whole line we're on helps keep track of what file
+the cursor is on.
+#+begin_src emacs-lisp
+(add-hook 'dired-after-readin-hook 'hl-line-mode)
+#+end_src
+
 ** ~magit~
 
 #+begin_src emacs-lisp
@@ -3477,12 +3483,10 @@ So, I have a shortcut key.
 
 *** ~dired~
 
-**** Jumping to specific buffers
+**** Jumping to specific files
 
-There are some files so commonly used, I want shortcuts directly to them
-(in fact, usually these files are perpetually kept open).
-These shortcuts then don't involve ~dired~, but they are lumped in here anyway.
-
+These are not properly ~dired~ shortcuts, but some files
+I open often enough to want a direct shortcut.
 #+begin_src emacs-lisp
 (general-dired-define-key
   "s" '(:ignore t :which-key "Scratch buffers")
@@ -3497,19 +3501,22 @@ These shortcuts then don't involve ~dired~, but they are lumped in here anyway.
          :which-key "Emacs init"))
 #+end_src
 
-**** Files not(?) already opened
+**** Jumping to directories
 
 I use shortcuts to jump to frequently used directories in ~dired~
 (from any buffer, not just while in ~dired~).
 
-As seen in ~Cosmetics~, I use ~dired-single~ in order to only have one
-~dired~ buffer at a time. In case this changes, I define another
-local variable to store the command to invoke ~dired~ with.
+Some times it is convenient to use a different function to
+invoke ~dired~; in particular, in the past,
+I used ~dired-single~ with the invokation ~dired-single-magic-buffer~,
+in order to avoid having multiple ~dired~ buffers created.
+This turned out to be detrimental once I started keeping
+multiple ~dired~ windows open in different tabs.
 #+begin_src emacs-lisp
 (defun my-dired-invocation (directory)
   "My custom dired invocation.
    It will use my special “magic buffer” for browsing."
-  (dired-single-magic-buffer directory))
+  (dired directory))
 #+end_src
 
 #+begin_src emacs-lisp
