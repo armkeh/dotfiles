@@ -475,8 +475,8 @@ Press ~M-space~ to enter command mode. I also bind ~S-c~ for this.
 ** E-vi-l mode
 
 #+begin_src emacs-lisp
-;(use-package evil)
-;(evil-mode 1)
+(use-package evil)
+(evil-mode 1)
 #+end_src
 
 ** Completion frameworks
