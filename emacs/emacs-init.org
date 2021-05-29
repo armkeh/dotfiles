@@ -113,14 +113,24 @@ We will shortly setup a package manager to ease installation of packages.
 By default, the only package repository is the ELPA repo.
 See the list of packages contained therein [[http://elpa.gnu.org/packages/][here]].
 
-Here we add the MELPA repo and the Org mode repo.
+Here we add the MELPA repo and the NonGNU repo,
+then refresh to get the latest contents.
 #+begin_src emacs-lisp
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
+(package-initialize)
+(package-refresh-contents)
 #+end_src
 
 If needed, we can set ~package-archive-priorities~
 to set the priority for these repositories.
+
+Older versions of Org and the “Org+Contrib” package were hosted at
+http://orgmode.org/elpa/,
+but after Org 9.5, they are no longer distributed there.
+Now Org is best available though GNU ELPA, and there is a new
+“Org-Contrib” package available through NonGNU ELPA
+(the + was dropped from the name.)
 
 ** A package manager – ~use-package~ 
 
@@ -504,10 +514,10 @@ Apply those syntax entry modifications.
 *** Preamble
 
 I use Org for almost everything, and utilise many
-of the extras included in ~org-plus-contrib~.
+of the extras included in ~org-contrib~ (previously ~org-plus-contrib~.)
 #+begin_src emacs-lisp
 (use-package org
-  :ensure org-plus-contrib
+  :ensure org-contrib
   :config
   (require 'ox-extra))
 #+end_src
