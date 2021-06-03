@@ -465,6 +465,7 @@ Side note: I'm honestly uncertain if the “leaking” of
 the syntax entry modifications from temporary buffers is a bug.
 It's likely just unintuitive behaviour.
 It can be observed easily; just modify the entry for i.e. ~<~,
+# matching >, just in case
 and evaluate
 #+begin_example emacs-lisp
 (with-temp-buffer
@@ -1438,9 +1439,6 @@ I make use of ~general~ to organise keybindings.
 #+begin_src emacs-lisp
 (use-package general)
 #+end_src
-
-Someday I need to also setup ~hydra~ for keybindings which may be
-repeated several times.
 
 ** ~general~ definers
 
