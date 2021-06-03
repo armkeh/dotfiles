@@ -3356,6 +3356,22 @@ so the edit can be seen.
 (setq org-catch-invisible-edits 'show)
 #+end_src
 
+** Ediff
+
+By default, when using the GUI, Ediff opens a new frame for
+the controls for the Ediff session.
+I typically use Emacs in fullscreen, and this additional frame
+is usually unwelcome. Instead, use a window in the current frame.
+#+begin_src emacs-lisp
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+#+end_src
+
+I prefer to see the files being compared side by side,
+rather than split vertically.
+#+begin_src emacs-lisp
+(setq ediff-split-window-function 'split-window-horizontally)
+#+end_src
+
 ** Purescript
 
 #+begin_src emacs-lisp
