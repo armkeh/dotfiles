@@ -1452,70 +1452,35 @@ it's better to create a custom function to use instead of
 Setting ~:keymaps~ to ~'override~ ensures that no package will
 override my shortcuts.
 
-I use the “super” key, noted with the ~s-~ prefix,
-for my personal keybindings. Super is not used by packages
-or by Emacs in my experience, so this is a safe way to avoid
-clashes.
-
-So far I have three categories of shortcuts:
-- My main shortcuts, those that don't fall into another category.
-- Shortcuts to navigate around the current buffer and window.
-- Shortcuts to navigate tabs (window configurations).
-- Shortcuts to open a ~dired~ buffer for a certain folder.
 #+begin_src emacs-lisp
 (general-create-definer general-main-define-key
-  :prefix "s-q"
+  :prefix "C-c"
   :keymaps 'override)
 
 (general-create-definer general-window-define-key
-  :prefix "s-w"
+  :prefix "C-c w"
   :keymaps 'override)
 
 (general-create-definer general-tab-define-key
-  :prefix "s-t"
+  :prefix "C-c t"
   :keymaps 'override)
 
 (general-create-definer general-dired-define-key
-  :prefix "s-d"
+  :prefix "C-c d"
+  :keymaps 'override)
+
+(general-create-definer general-shell-define-key
+  :prefix "C-c s"
   :keymaps 'override)
 #+end_src
 
 ** Invoke processes
 
-These bindings invoke various processes, such as ~dired~ or ~eshell~.
-They either have their own definer above, or are bound to a single key combo.
-
-*** COMMENT ~xah-fly-keys~ command mode
-
-#+begin_src emacs-lisp
-(general-define-key
-  "s-c" 'xah-fly-mode-toggle)
-#+end_src
-
 *** ~yankpad~
 
-I use a non-prefixed shortcut for snippet expansion, since
-I do it all the time.
-(at least until yankpad has smart tab expansion).
-#+begin_src emacs-lisp
-(general-define-key
-  "s-f" 'yankpad-expand)
-#+end_src
-
-Alternatively, ~y m~ invokes ~yankpad-map~, which brings up a
-keymap of the last tags of snippets.
 #+begin_src emacs-lisp
 (general-main-define-key
-  "y m" 'yankpad-map)
-#+end_src
-
-Changes to the yankpad file require ~yankpad-reload~ to be run
-to re-cache the snippets. For the moment, it seems like there is
-separate caching for each buffer, meaning this command has to be
-run in every buffer where I want changes to be picked up.
-So, I have a shortcut key.
-#+begin_src emacs-lisp
-(general-main-define-key
+  ;;"f" 'yankpad-expand
   "y r" 'yankpad-reload)
 #+end_src
 
@@ -1558,39 +1523,53 @@ multiple ~dired~ windows open in different tabs.
 #+end_src
 
 #+begin_src emacs-lisp
-(general-dired-define-key
-  "c" '((lambda () (interactive)
-          (my-dired-invocation default-directory))
-        :which-key "Current")
-  "h" '((lambda () (interactive)
-          (my-dired-invocation "~"))
-        :which-key "Home")
-  "D" '((lambda () (interactive)
-          (my-dired-invocation "~/Downloads/"))
-        :which-key "Downloads")
-  "d" '((lambda () (interactive)
-          (my-dired-invocation "~/dotfiles/"))
-        :which-key "dotfiles")
-  "l" '((lambda () (interactive)
-          (my-dired-invocation "~/log/"))
-        :which-key "logs")
-  "r" '((lambda () (interactive)
-          (my-dired-invocation "~/reading/"))
-        :which-key "reading")
-  "p" '((lambda () (interactive)
-          (my-dired-invocation "~/projects/"))
-        :which-key "projects")
-  "t" '((lambda () (interactive)
-          (my-dired-invocation "~/projects/agda-computability"))
-        :which-key "thesis")
-)
+  (general-dired-define-key
+    "c" '((lambda () (interactive)
+            (my-dired-invocation default-directory))
+          :which-key "current")
+    "/" '((lambda () (interactive)
+            (my-dired-invocation "/"))
+          :which-key "root")
+    "h" '((lambda () (interactive)
+            (my-dired-invocation "~"))
+          :which-key "home")
+    "~" '((lambda () (interactive)
+            (my-dired-invocation "~"))
+          :which-key "home")
+    "d" '((lambda () (interactive)
+            (my-dired-invocation "~/dotfiles/"))
+          :which-key "dotfiles")
+    "D" '((lambda () (interactive)
+            (my-dired-invocation "~/Downloads/"))
+          :which-key "Downloads")
+    "l" '((lambda () (interactive)
+            (my-dired-invocation "~/log/"))
+          :which-key "logs")
+    "r" '((lambda () (interactive)
+            (my-dired-invocation "~/reading/"))
+          :which-key "reading")
+    "p" '((lambda () (interactive)
+            (my-dired-invocation "~/projects/"))
+          :which-key "projects")
+    "t" '((lambda () (interactive)
+            (my-dired-invocation "~/teaching/"))
+          :which-key "teaching")
+    "T" '((lambda () (interactive)
+            (my-dired-invocation "~/projects/agda-computability"))
+          :which-key "thesis"))
 #+end_src
 
 *** ~eshell~
 
 #+begin_src emacs-lisp
-(general-define-key
-  "s-s" 'eshell)
+(general-shell-define-key
+  "s" 'eshell)
+
+(setq my/eshell-counter 0)
+(general-shell-define-key
+  "n" (lambda () (interactive)
+        (setq my/eshell-counter (+ 1 my/eshell-counter))
+        (eshell my/eshell-counter)))
 #+end_src
 
 *** ~magit~
