@@ -3005,7 +3005,7 @@ getting autocomplete suggestions, but on my Chromebook
 that slows things down far too much.
 Let's require 4 characters before suggestions are provided.
 #+begin_src emacs-lisp
-   company-minimum-prefix-length 2
+   company-minimum-prefix-length 4
 #+end_src
 
 Search buffers using the same major mode for completion candidates.
