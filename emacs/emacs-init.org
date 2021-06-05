@@ -508,6 +508,13 @@ Apply those syntax entry modifications.
 (setq-default indent-tabs-mode nil)
 #+end_src
 
+** Turn off electric indent mode
+
+I don't use this or appreciate its interference.
+#+begin_src emacs-lisp
+(electric-indent-mode -1)
+#+end_src
+
 * Vital modes and their vital settings
 
 ** Org mode
@@ -694,12 +701,6 @@ and disabled it.
 *** Other
 
 :TODO: Check over and probably refile.
-
-**** Disable ~electric-indent-mode~
-
-#+begin_src emacs-lisp
-(add-hook 'org-mode-hook (lambda () (electric-indent-mode -1)))
-#+end_src
 
 **** Inline tasks
 
