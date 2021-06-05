@@ -1458,6 +1458,14 @@ override my shortcuts.
   :prefix "C-c"
   :keymaps 'override)
 
+(general-create-definer general-appearance-define-key
+  :prefix "C-c a"
+  :keymaps 'override)
+
+(general-create-definer general-buffer-define-key
+  :prefix "C-c b"
+  :keymaps 'override)
+
 (general-create-definer general-window-define-key
   :prefix "C-c w"
   :keymaps 'override)
@@ -1473,6 +1481,10 @@ override my shortcuts.
 (general-create-definer general-shell-define-key
   :prefix "C-c s"
   :keymaps 'override)
+
+(general-create-definer general-other-package-define-key
+  :prefix "C-c p"
+  :keymaps 'override)
 #+end_src
 
 ** Invoke processes
@@ -1481,7 +1493,10 @@ override my shortcuts.
 
 #+begin_src emacs-lisp
 (general-main-define-key
-  ;;"f" 'yankpad-expand
+  "f" 'yankpad-expand)
+
+(general-other-package-define-key
+  "y m" 'yankpad-map
   "y r" 'yankpad-reload)
 #+end_src
 
@@ -1493,16 +1508,17 @@ These are not properly ~dired~ shortcuts, but some files
 I open often enough to want a direct shortcut.
 #+begin_src emacs-lisp
 (general-dired-define-key
-  "s" '(:ignore t :which-key "Scratch buffers")
+  "s" '(:ignore t
+        :which-key "scratch buffers")
   "sa" '((lambda () (interactive)
            (find-file "~/Dropbox/McMaster/Agda/agda-scratch.agda"))
-         :which-key "Agda scratch")
+         :which-key "agda scratch")
   "so" '((lambda () (interactive)
            (find-file "~/logs/scratch/org-scratch.org"))
-         :which-key "Org scratch")
+         :which-key "org scratch")
   "e" '((lambda () (interactive)
            (find-file "~/dotfiles/emacs/emacs-init.org"))
-         :which-key "Emacs init"))
+         :which-key "emacs init"))
 #+end_src
 
 **** Jumping to directories
@@ -1542,7 +1558,7 @@ multiple ~dired~ windows open in different tabs.
           :which-key "dotfiles")
     "D" '((lambda () (interactive)
             (my-dired-invocation "~/Downloads/"))
-          :which-key "Downloads")
+          :which-key "downloads")
     "l" '((lambda () (interactive)
             (my-dired-invocation "~/log/"))
           :which-key "logs")
@@ -1562,211 +1578,195 @@ multiple ~dired~ windows open in different tabs.
 
 *** ~eshell~
 
+:TODO: This will not work if ~eshell~ instances are created without this shortcut. Instead I should count the number of shell buffers existing?
 #+begin_src emacs-lisp
 (general-shell-define-key
   "s" 'eshell)
 
 (setq my/eshell-counter 0)
 (general-shell-define-key
-  "n" (lambda () (interactive)
-        (setq my/eshell-counter (+ 1 my/eshell-counter))
-        (eshell my/eshell-counter)))
+  "n" '((lambda () (interactive)
+          (setq my/eshell-counter (+ 1 my/eshell-counter))
+          (eshell my/eshell-counter))
+        :which-key "new eshell"))
 #+end_src
 
 *** ~magit~
 
-I often find myself using ~s-g~ in place of ~c-g~ when using my keybindings
-(which begin with super). So, I avoid using it for starting ~magit~.
-
 #+begin_src emacs-lisp
-(general-define-key
-  "s-v" 'magit-status
-)
+(general-main-define-key
+  "g" 'magit-status)
 #+end_src
 
 *** ~mu4e~
 
 #+begin_src emacs-lisp
-(general-define-key
-  "s-m" 'mu4e
-)
-#+end_src
-
-*** ~recentf~
-
-#+begin_src emacs-lisp
-(general-define-key
-  "s-r" 'recentf-open-files
-)
+(general-main-define-key
+  "m" 'mu4e)
 #+end_src
 
 *** ~list-processes~
 
 #+begin_src emacs-lisp
-(general-define-key
-  "s-p" 'list-processes
-)
+(general-other-package-define-key
+  "p" 'list-processes)
 #+end_src
 
-** Buffer navigation and management, window and theme management
+** Buffer navigation
 
-Somewhat sinfully, here I group shortcuts relating to the buffer,
-the window(s) and the cosmetics of the frame,
-into one (conceptual) category: “window”, prefix ~w~.
+#+begin_src emacs-lisp
+(general-buffer-define-key
+  "r" '((lambda () (interactive) (revert-buffer () t ()))
+        :which-key "revert buffer")
+
+  "u" '(:ignore t
+        :which-key "undo actions")
+  "u p" '((lambda () (interactive) (undo-propose))
+          :which-key "undo-propose")
+  "u t" '((lambda () (interactive) (undo-tree-visualize))
+          :which-key "undo-tree")
+
+  "t" '((lambda () (interactive) (beginning-of-buffer))
+        :which-key "buffer top")
+  "b" '((lambda () (interactive) (end-of-buffer))
+        :which-key "buffer bottom"))
+#+end_src
+
+** Appearance
+
+#+begin_src emacs-lisp
+(general-appearance-define-key
+  "t"   '(:ignore t
+          :which-key "themes")
+  "t t" '((lambda () (interactive) (toggle-my-themes))
+          :which-key "toggle theme")
+  "t c" '((lambda () (interactive) (disable-all-custom-themes))
+          :which-key "clear theme"))
+#+end_src
+
+#+begin_src emacs-lisp
+(general-appearance-define-key
+  "o"   '(:ignore t
+          :which-key "org cosmetics")
+  "o i"   '(:ignore t
+            :which-key "org indent")
+  "o i y" '((lambda () (interactive) (org-indent-mode 1))
+            :which-key "org indent yes")
+  "o i n" '((lambda () (interactive) (org-indent-mode 0))
+            :which-key "org indent no"))
+#+end_src
+
+These are cosmetics relating to lines in the current buffer.
+#+begin_src emacs-lisp
+(general-appearance-define-key
+  "l"     '(:ignore t
+            :which-key "line cosmetics")
+  "l n"   '(:ignore t
+            :which-key "line numbers")
+  "l n y" '((lambda () (interactive) (display-line-numbers-mode 1))
+            :which-key "line numbers - yes")
+  "l n n" '((lambda () (interactive) (display-line-numbers-mode 0))
+            :which-key "line numbers - no")
+  "l w"   '(:ignore t
+            :which-key "line wrap")
+  "l w y" '((lambda () (interactive) (visual-line-mode 1))
+            :which-key "yes line wrap")
+  "l w n" '((lambda () (interactive) (visual-line-mode 0))
+            :which-key "no line wrap"))
+#+end_src
+
+Sometimes I need to toggle fontlocking.
+#+begin_src emacs-lisp
+(general-appearance-define-key
+  "f"     '(:ignore t
+            :which-key "font lock")
+  "f y"   '((lambda () (interactive)
+              (font-lock-mode t))
+            :which-key "yes font lock")
+  "f n"   '((lambda () (interactive)
+              (font-lock-mode 0))
+            :which-key "no font lock"))
+#+end_src
+
+** Window management
 
 #+begin_src emacs-lisp
 (general-window-define-key
-  "r" '((lambda () (interactive) (revert-buffer () t ()))
-        :which-key "Revert buffer")
-  "u" '((lambda () (interactive) (undo-tree-visualize))
-        :which-key "Undo tree")
-
-  "s"   '(:ignore t
-          :which-key "Session management")
-  "s c" '((lambda () (interactive) (desktop-clear))
-          :which-key "Session clear")
-
-  "b"   '(:ignore t
-          :which-key "Buffer navigation")
-  "b t" '((lambda () (interactive) (beginning-of-buffer))
-          :which-key "Top of buffer")
-  "b b" '((lambda () (interactive) (end-of-buffer))
-          :which-key "Bottom of buffer")
-
-  "t"   '(:ignore t
-          :which-key "Theme management")
-  "t t" '((lambda () (interactive) (toggle-my-themes))
-          :which-key "Toggle theme")
-  "t c" '((lambda () (interactive) (disable-all-custom-themes))
-          :which-key "Clear theme")
-
   "<right>" '((lambda () (interactive) (windmove-right))
-              :which-key "Move focus right")
+              :which-key "move focus right")
   "<left>"  '((lambda () (interactive) (windmove-left))
-              :which-key "Move focus left")
+              :which-key "move focus left")
   "<up>"    '((lambda () (interactive) (windmove-up))
-              :which-key "Move focus up")
+              :which-key "move focus up")
   "<down>"  '((lambda () (interactive) (windmove-down))
-              :which-key "Move focus down")
+              :which-key "move focus down")
 
   "f"  '((lambda () (interactive) (other-frame 1))
-              :which-key "Other frame")
-
+              :which-key "other frame")
   
-  "\\" '((lambda () (interactive)
-                 (cascading-find-files my-initial-files))
-         :which-key "My initial windows")
-  "["  '(winner-undo
-         :which-key "Undo layout change")
-  "]"  '(winner-redo
-         :which-key "Redo layout change")
+  "["  'winner-undo
+  "]"  'winner-redo
 
   "-"     '((lambda () (interactive) (shrink-window 5))
-            :which-key "Shrink window")
+            :which-key "shrink window")
   "="     '((lambda () (interactive) (enlarge-window 5))
-            :which-key "Enlarge window")
+            :which-key "enlarge window")
   "_"     '((lambda () (interactive) (shrink-window 999))
-            :which-key "“Minimise” window")
+            :which-key "minimise window")
   "+"     '((lambda () (interactive) (enlarge-window 999))
-            :which-key "“Maximise”  window")
-
-  "o"   '(:ignore t
-          :which-key "Org cosmetics")
-  "o i"   '(:ignore t
-            :which-key "Org indent")
-  "o i y" '((lambda () (interactive) (org-indent-mode 1))
-            :which-key "Org indent yes")
-  "o i n" '((lambda () (interactive) (org-indent-mode 0))
-            :which-key "Org indent no")
-)
+            :which-key "maximise  window"))
 #+end_src
 
 ** Tab management
 
 #+begin_src emacs-lisp
-(general-tab-define-key
-  "r" '(tab-rename
-        :which-key "Rename tab")
-  "k" '(tab-close
-        :which-key "Kill tab")
-  "n" '(tab-new
-        :which-key "New tab")
+  (general-tab-define-key
+    "r" 'tab-rename
+    "k" 'tab-close
+    "n" 'tab-new
 
-  "<right>" '(tab-next
-              :which-key "Next tab")
-  "<left>"  '(tab-previous
-              :which-key "Previous tab")
-  "<down>"  '(tab-recent
-              :which-key "Recent tab")
-  "<up>"    '(tab-undo
-              :which-key "Undo close tab")
-  "S-<right>" '((lambda () (interactive) (tab-move 1))
-              :which-key "Move left")
-  "S-<left>"  '((lambda () (interactive) (tab-move -1))
-              :which-key "Move right")
+    "<right>" 'tab-next
+    "<left>"  'tab-previous
+    "<down>"  'tab-recent
+    "<up>"    'tab-undo
+    "S-<right>" '((lambda () (interactive) (tab-move 1))
+                :which-key "move tab to left")
+    "S-<left>"  '((lambda () (interactive) (tab-move -1))
+                :which-key "move tab to right")
 
-  "1" (lambda () (interactive) (tab-select 1))
-  "2" (lambda () (interactive) (tab-select 2))
-  "3" (lambda () (interactive) (tab-select 3))
-  "4" (lambda () (interactive) (tab-select 4))
-  "5" (lambda () (interactive) (tab-select 5))
-  "6" (lambda () (interactive) (tab-select 6))
-  "7" (lambda () (interactive) (tab-select 7))
-  "8" (lambda () (interactive) (tab-select 8))
-  "9" (lambda () (interactive) (tab-select 9))
-  "0" (lambda () (interactive) (tab-select 10))
-  "-" (lambda () (interactive) (tab-select 11))
-  "=" (lambda () (interactive) (tab-select 12)))
+    "1" (lambda () (interactive) (tab-select 1))
+    "2" (lambda () (interactive) (tab-select 2))
+    "3" (lambda () (interactive) (tab-select 3))
+    "4" (lambda () (interactive) (tab-select 4))
+    "5" (lambda () (interactive) (tab-select 5))
+    "6" (lambda () (interactive) (tab-select 6))
+    "7" (lambda () (interactive) (tab-select 7))
+    "8" (lambda () (interactive) (tab-select 8))
+    "9" (lambda () (interactive) (tab-select 9))
+    "0" (lambda () (interactive) (tab-select 10))
+    "-" (lambda () (interactive) (tab-select 11))
+    "=" (lambda () (interactive) (tab-select 12)))
+#+end_src
+
+** Counsel
+
+#+begin_src emacs-lisp
+(general-main-define-key
+  "y p" 'counsel-yank-pop)
+#+end_src
+
+** Company
+
+#+begin_src emacs-lisp
+(general-main-define-key
+  "c" 'company-manual-begin)
 #+end_src
 
 ** Other
 
-These are cosmetics relating to lines in the current buffer.
 #+begin_src emacs-lisp
-(general-main-define-key
-  "l"     '(:ignore t
-            :which-key "Line cosmetics")
-  "l n"   '(:ignore t
-            :which-key "Line numbers")
-  "l n y" '((lambda () (interactive) (display-line-numbers-mode 1))
-            :which-key "Line numbers - yes")
-  "l n n" '((lambda () (interactive) (display-line-numbers-mode 0))
-            :which-key "Line numbers - no")
-  "l w"   '(:ignore t
-            :which-key "Line wrap")
-  "l w y" '((lambda () (interactive) (visual-line-mode 1))
-            :which-key "Line wrap - yes")
-  "l w n" '((lambda () (interactive) (visual-line-mode 0))
-            :which-key "Line wrap - no"))
-#+end_src
-
-Line highlighting has been reduced; I don't need this anymore.
-#+begin_example emacs-lisp
-;  "l h"   '(:ignore t
-;            :which-key "Long line highlighting")
-;  "l h y" '((lambda () (interactive) (whitespace-mode 1))
-;            :which-key "Long line hightlight - yes")
-;  "l h n" '((lambda () (interactive) (whitespace-mode 0))
-;            :which-key "Long line hightlight - yes")
-#+end_example
-
-Sometimes I need to toggle fontlocking.
-#+begin_src emacs-lisp
-(general-main-define-key
-  "f"     '(:ignore t
-            :which-key "Font lock")
-  "f y"   '((lambda () (interactive)
-              (font-lock-mode t))
-            :which-key "Font lock - yes")
-  "f n"   '((lambda () (interactive)
-              (font-lock-mode 0))
-            :which-key "Font lock - no"))
-#+end_src
-
-#+begin_src emacs-lisp
-(general-main-define-key
-  "j" 'dad-joke
-)
+(general-other-package-define-key
+  "j" 'dad-joke)
 #+end_src
 
 * Intermediate cosmetics
@@ -2979,11 +2979,11 @@ Enable minibuffer commands in the minibuffer.
 
 **** Counsel
 
+:TODO: Move keybindings to General settings.
 #+begin_src emacs-lisp
 (use-package counsel
  :config
   (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "s-y") 'counsel-yank-pop)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file))
 #+end_src
 
