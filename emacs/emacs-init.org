@@ -3321,10 +3321,10 @@ under any heading which is labelled with the ~:TOC:~ tag.
 
 These words, when appearing at the start of a headline,
 mark that headline as a TODO task in the appropriate state.
-I've added =SOON=, =NEXT=, =WORKING= and =DELEGATED=.
+I've added =SOON=, =NEXT=, =WORKING=, =DELEGATED= and =CANCELLED=.
 #+begin_src emacs-lisp
 (setq org-todo-keywords
-  '((sequence "TODO" "SOON" "NEXT" "WORKING" "DELEGATED" "DONE")))
+  '((sequence "TODO" "SOON" "NEXT" "WORKING" "|" "DELEGATED" "CANCELLED" "DONE")))
 #+end_src
 
 *** Allow alphabetical lists
