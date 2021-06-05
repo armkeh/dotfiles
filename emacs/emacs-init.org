@@ -3278,15 +3278,6 @@ I don't need to see that these modes are active.
 If later I want to rename modes, just add a string argument
 to the above form with a (presumably shorter) name.
 
-** Prompt before quitting Emacs
-
-It's rare that I actually want to close Emacs, so it's not an annoyance
-to prompt first; in fact, it's much preferred to accidentally closing.
-#+begin_src emacs-lisp
-(setq confirm-kill-emacs 'yes-or-no-p)
-#+end_src
-Note that the prompt is skipped if we already have a “do ~x~ before exiting?”
-prompt, such as for saving some files.
 
 ** Kill the open init buffer and reopen it
 
@@ -3437,3 +3428,17 @@ Some notes about this:
 ** Update the ~README~ file
 
 :TODO:
+
+** Prompt before quitting Emacs
+
+It's rare that I actually want to close Emacs, so it's not an annoyance
+to prompt first; in fact, it's much preferred to accidentally closing.
+#+begin_src emacs-lisp
+(setq confirm-kill-emacs 'yes-or-no-p)
+#+end_src
+Note that the prompt is skipped if we already have a “do ~x~ before exiting?”
+prompt, such as for saving some files.
+
+This is the very last setting, because if we don't make it this far,
+I want to be able to fix the error that stopped us reaching here
+and quit without being hassled.
