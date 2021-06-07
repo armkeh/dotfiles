@@ -3532,6 +3532,30 @@ See my keybindings for this above.
 (winner-mode 1)
 #+end_src
 
+
+** ~windmove~
+
+The package ~windmove~ lets us jump between windows in a frame.
+
+#+begin_src emacs-lisp
+(use-package windmove)
+#+end_src
+
+For the uninitiated, a /window/ in Emacs is not the same as
+the OS window. Each OS window is a /frame/, and each pane within
+a frame is called a /window/. (Emacs predates modern terminology).
+
+~windmove~ lets us move between windows with the arrow keys
+while holding a key; by default, the key is ~shift~.
+That conflicts with ~org~ though, so we could use
+~windmove-default-keybindings~ to change it.
+
+Unfortunately, on my system, all the other possibilities seem
+to be taken with system shortcuts (which I cannot modify in ChromeOS),
+or otherwise taken in Emacs.
+
+So instead I've defined shortcuts using ~general~ above.
+
 ** Ediff
 
 By default, when using the GUI, Ediff opens a new frame for
@@ -3546,6 +3570,24 @@ I prefer to see the files being compared side by side,
 rather than split vertically.
 #+begin_src emacs-lisp
 (setq ediff-split-window-function 'split-window-horizontally)
+#+end_src
+
+** ~magit~
+
+Explicitely install ~magit~, “a Git Porcelain inside Emacs”.
+This is a killer feature of Emacs; ~magit~ not only simplifies
+interation with Git, it also expands our capabilities
+in many ways over the CLI.
+:TODO: Explain some here or link to some examples?
+#+begin_src emacs-lisp
+(use-package magit)
+#+end_src
+
+“Forge allows you to work with Git forges, such as Github and Gitlab,
+from the comfort of Magit and the rest of Emacs.” 
+#+begin_src emacs-lisp
+(use-package forge
+  :after magit)
 #+end_src
 
 ** Purescript
