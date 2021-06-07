@@ -284,6 +284,28 @@ of the previous (as long as this is possible)."
 
 :TODO: Create a alternate method for vertical screens, preferably also allowing on-the-fly switching between the two setups.
 
+** Killing a buffer when its associated process finishes
+
+When starting an asynchronous process using ~async-shell-command~,
+a buffer is created and brought into focus in another window
+to show the output of the command.
+
+We can use ~start-process~ or other functions to start
+asynchronous processes without bringing into display,
+if that's desired. Instead of that though,
+I often want to see the output,
+but don't want the buffer to remain once the process
+has finished.
+
+This function can be assigned to a sentinel for a process
+to kill its associated buffer when the process finishes.
+#+begin_src emacs-lisp
+(defun kill-buffer-on-process-finish (process signal)
+  (when (memq (process-status process) '(exit signal))
+    (kill-buffer (process-buffer process))
+    (shell-command-sentinel process signal)))
+#+end_src
+
 * Simple cosmetics
 
 ** First: disable the splashscreen and find the my emacs init file
@@ -839,16 +861,17 @@ it does not take an excessive amount of time when I manually run it.
 (setq mu4e-get-mail-command "mbsync gmail-quick")
 #+end_src
 
-~mu4e~ is supposed to be able to run the get mail command
-and index the mail at set intervals.
-Unfortunately, this process seems to silently fail somewhere.
-So I disable the automatic updating and instead
-register my own idle timers to update mail.
-#+begin_src emacs-lisp
-(setq mu4e-update-interval nil)
-#+end_src
+:TODO: Is background updating working again?
+# ~mu4e~ is supposed to be able to run the get mail command
+# and index the mail at set intervals.
+# Unfortunately, this process seems to silently fail somewhere.
+# So I disable the automatic updating and instead
+# register my own idle timers to update mail.
+# #+begin_src emacs-lisp
+# (setq mu4e-update-interval nil)
+# #+end_src
 
-**** Updating while idle
+**** COMMENT Updating while idle
 
 Here we register a function which updates mail
 to be run when the system is idle.
@@ -1629,6 +1652,24 @@ multiple ~dired~ windows open in different tabs.
 #+begin_src emacs-lisp
 (general-main-define-key
   "m" 'mu4e)
+#+end_src
+
+With insight on performing the buffer kill action
+after the asynchronous
+shell command finishes from [[https://emacs.stackexchange.com/questions/42172/run-elisp-when-async-shell-command-is-done][here]].
+See the ~kill-buffer-on-process-finish~ definition earlier in this file.
+#+begin_src emacs-lisp
+(general-other-package-define-key
+  "m" '((lambda () (interactive)
+          (let* ((output-buffer-name "*mbsync all directories*")
+                 (output-buffer (generate-new-buffer output-buffer-name))
+                 (process (progn
+                         (async-shell-command "mbsync gmail-quick; echo Finished" output-buffer)
+                         (get-buffer-process output-buffer))))
+              (if (process-live-p process)
+                  (set-process-sentinel process #'kill-buffer-on-process-finish) 
+                (message "mbsync all directories is not running, but I expected it to be!"))))
+        :which-key "mbsync all directories"))
 #+end_src
 
 *** ~list-processes~
