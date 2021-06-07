@@ -175,6 +175,20 @@ packages for me.
   (auto-package-update-maybe))
 #+end_src
 
+* Elisp utilities
+
+These utility packages simplify many families of tasks.
+
+~s~ is for ~s~-tring management.
+#+begin_src emacs-lisp
+(use-package s)
+#+end_src
+
+~f~ is for ~f~-ile management.
+#+begin_src emacs-lisp
+(use-package f)
+#+end_src
+
 * Custom Elisp
 
 Some of this code may be moved to separate files later,
