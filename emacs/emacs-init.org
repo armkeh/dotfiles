@@ -3428,6 +3428,29 @@ so the edit can be seen.
 (setq org-catch-invisible-edits 'show)
 #+end_src
 
+** ~which-key~
+
+~which-key-mode~ is a handy minor mode that shows us
+possible completions as we type commands.
+Very useful if you remember only a prefix of the command,
+not the whole thing.
+#+begin_src emacs-lisp
+(use-package which-key)
+(which-key-mode)
+#+end_src
+
+It is also useful for discovery of shortcuts;
+occasionally it is enlightening to take some time
+and browse the possible completions of prefixes as you type.
+
+** ~winner-mode~
+
+~winner-mode~ allows us to undo or redo changes to window layouts.
+See my keybindings for this above.
+#+begin_src emacs-lisp
+(winner-mode 1)
+#+end_src
+
 ** Ediff
 
 By default, when using the GUI, Ediff opens a new frame for
