@@ -1693,7 +1693,7 @@ See the ~kill-buffer-on-process-finish~ definition earlier in this file.
   "p" 'list-processes)
 #+end_src
 
-** Buffer navigation
+** Buffer 
 
 #+begin_src emacs-lisp
 (general-buffer-define-key
@@ -1833,7 +1833,7 @@ Sometimes I need to toggle fontlocking.
 
 #+begin_src emacs-lisp
 (general-main-define-key
-  "y p" 'counsel-yank-pop)
+  "y" 'counsel-yank-pop)
 #+end_src
 
 ** Company
@@ -3359,7 +3359,6 @@ I don't need to see that these modes are active.
 If later I want to rename modes, just add a string argument
 to the above form with a (presumably shorter) name.
 
-
 ** Kill the open init buffer and reopen it
 
 To ensure all these cosmetic changes are picked up,
@@ -3452,6 +3451,8 @@ rather than split vertically.
 #+end_src
 
 * Session setup
+
+:TODO:
 
 * Cleanup
 
