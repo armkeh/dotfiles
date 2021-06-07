@@ -2,7 +2,7 @@
 #+Author: Mark Armstrong
 #+Description: A literate file which generates my collection of snippets for yankpad (with yasnippets).
 
-* Description
+* Documentation
 
 ** Introduction
 
@@ -64,82 +64,49 @@ expand higher in the file (sometimes).
 For that reason, the ~org~ mode snippets come first,
 as they are useful for adding to this file.
 
-* org-mode
-:properties:
-:include: agda2-mode|tex-mode
-:end:
-
-I use ~org~ all the time, so you'll note in the ~:properties:~ drawer
-that I include snippets from lots of other modes, since I often
-write code from other modes in ~org~.
-
-I sometime use Org syntax outside of Org mode, so also see
-the [[Default]] category for more Org-related snippets.
-
-** Other
-
-*** Gmail filters
-
-These XML snippets are for creating filters for my Gmail account,
-based on various criteria.
-
-**** gmfto: Gmail filter by “to”                               :src:gmfto:
-
-#+begin_src xml
-<entry> <category term='filter'></category>
-  <title>$1</title>
-  <apps:property
-      name='to'
-      value='$1'/>
-  <apps:property
-      name='label'
-      value='$2'/>
-  ${3:<apps:property
-      name='shouldMarkAsRead'
-      value='true'/>}
-  ${4:<apps:property
-      name='shouldArchive'
-      value='true'/>}
-</entry>
-#+end_src
-
-**** gmffrom: Gmail filter by “from”                         :src:gmffrom:
-
-#+begin_src xml
-<entry> <category term='filter'></category>
-  <title>$1</title>
-  <apps:property
-      name='from'
-      value='$1'/>
-  <apps:property
-      name='label'
-      value='$2'/>
-  ${3:<apps:property
-      name='shouldMarkAsRead'
-      value='true'/>}
-  ${4:<apps:property
-      name='shouldArchive'
-      value='true'/>}
-</entry>
-#+end_src
-
 * Default                                       :global:
 
-The category “Default” will be used if there is no category for the
-current major mode.
+These snippets are available everywhere.
+Most (at time of writing, all) of my snippets are kept here;
+I don't tend to distinguish based on mode.
+For one thing, I spend most of my time in Org mode,
+and there need snippets from all kinds of programming language modes.
 
-I make these snippets available everywhere else as well by marking
-the category as ~:global:~.
+** Punctuation, parentheses, etc.
 
-** Org related
+*** dblqu: Double quotes                      :src:dblq:
 
-I often use Org syntax outside of Org mode, especially when
-writing literate Agda documents. So many Org syntax snippets
-are included here to be available everywhere.
+#+begin_src text
+“$1” $0
+#+end_src
 
-*** dh: Document header                       :src:orgdh:
+** Math
 
-I usually use what I think is a fairly minimalist document header.
+*** card: Cardinality                         :src:card:
+
+#+begin_src text
+|$1| $0
+#+end_src
+
+*** encode: Encoding                          :src:encode:
+
+#+begin_src text
+⌜$1⌝ $0
+#+end_src
+
+*** decode:eval: Decoding                     :src:decode:
+
+#+begin_src text
+⟦$1⟧ $0
+#+end_src
+
+** Org mode
+
+*** Document headers
+
+**** orgdhmin: Minimal document header       :src:orgdhmin:
+
+I commonly use what I think is a fairly minimalist document header.
 
 #+begin_src text
 #+Title: $1
@@ -148,13 +115,26 @@ I usually use what I think is a fairly minimalist document header.
 
 $0
 #+end_src
-*** ~src~ blocks
+
+**** orgdhblog: Blog post document header    :src:orgdhblog:
+
+:TODO: Probably need to adjust this when I reorganise my website directory some.
+
+#+begin_src text
+#+Title: $1
+#+Author: [[https://armkeh.github.io][Mark Armstrong]] [[file:./../images/markarmstrong.jpg]]
+#+Date: $2
+#+Description: $3
+#+Setupfile: ./../org-html-themes/org/theme-readtheorg-local.setup
+#+end_src
+
+*** ~src~ and ~example~ blocks
 
 Note that the ~,#~ expands to the ~org~ “comment” character ~#~.
 
 This is needed to have a ~#+end_src~ /inside/ a ~src~ block.
 
-**** src: Generic source block               :src:orgsrc:
+**** srcsrc: Generic source block            :src:srcsrc:
 
 #+begin_src text
 #+begin_src $1
@@ -162,7 +142,15 @@ $0
 ,#+end_src
 #+end_src
 
-**** el: Emacs lisp block                    :src:orgel:
+**** exmpl: Generic example block            :src:srcex:
+
+#+begin_src text
+#+begin_example $1
+$0
+,#+end_example
+#+end_src
+
+**** srcel: Emacs lisp block                 :src:srcel:
 
 #+begin_src text
 #+begin_src emacs-lisp
@@ -170,7 +158,15 @@ $0
 ,#+end_src
 #+end_src
 
-**** t: Plaintext                            :src:orgt:
+**** srcele: Emacs lisp example block        :src:srcex:
+
+#+begin_src text
+#+begin_example emacs-lisp
+$0
+,#+end_example
+#+end_src
+
+**** srct: Plaintext                         :src:srct:
 
 #+begin_src text
 #+begin_src text
@@ -178,23 +174,7 @@ $0
 ,#+end_src
 #+end_src
 
-**** latex: LaTeX                            :src:orglatex:
-
-#+begin_src text
-#+begin_src latex
-$0
-,#+end_src
-#+end_src
-
-**** sh: Shell                               :src:orgsh:
-
-#+begin_src text
-#+begin_src shell
-$0
-,#+end_src
-#+end_src
-
-**** ag: Agda code block                     :src:orgag:
+**** srcag: Agda code block                  :src:srcag:
 
 #+begin_src text
 #+begin_src agda2
@@ -202,10 +182,10 @@ $0
 ,#+end_src
 #+end_src
 
-**** ga: Breaking Agda code blocks           :src:orgga:
+**** srcga: Breaking Agda code blocks        :src:srcga:
 
 In Agda-Org mode (a Polymode), the Agda ~src~ blocks
-are in Agda mode, meaning that Org's “demarcate block”
+are in Agda mode, meaning that Org's “demarcate block”, ~C-c C-v d~,
 command isn't available for breaking up source blocks.
 So use this snippet instead.
 #+begin_src text
@@ -214,137 +194,7 @@ So use this snippet instead.
 #+begin_src agda2
 #+end_src
 
-**** oz: Oz code block                       :src:orgoz:
-
-#+begin_src text
-#+begin_src oz :results output :noweb yes
-$0
-,#+end_src
-#+end_src
-
-**** rb: Ruby code block                     :src:orgrb:
-
-#+begin_src text
-#+begin_src ruby
-$0
-,#+end_src
-#+end_src
-
-**** py: Python code block                   :src:orgpy:
-
-#+begin_src text
-#+begin_src python
-$0
-,#+end_src
-#+end_src
-
-**** ic: “Interactive” C block               :src:orgicc:
-
-#+begin_src text
-#+begin_src c :tangle (currently-working-with "${1:generated}")
-$0
-,#+end_src
-#+end_src
-
-**** icn: Inactive “Interactive” C block     :src:orgicn:
-
-#+begin_src text
-#+begin_src c :tangle (not-currently-working-with "${1:generated}")
-$0
-,#+end_src
-#+end_src
-
-**** ich: “Interactive” C header block       :src:orgich:
-
-#+begin_src text
-#+begin_src c :tangle (currently-working-with-header "${1:generated}")
-$0
-,#+end_src
-#+end_src
-
-**** xml: XML block                          :src:orgxml:
-
-#+begin_src text
-#+begin_src xml
-$0
-,#+end_src
-#+end_src
-
-**** fs: F# block                            :src:orgfs:
-
-#+begin_src text
-#+begin_src fsharp
-$0
-,#+end_src
-#+end_src
-
-**** pl: Prolog block                        :src:orgpl:
-
-#+begin_src text
-#+begin_src prolog
-$0
-,#+end_src
-#+end_src
-
-**** sch: Scheme                             :src:orgsch:
-
-#+begin_src text
-#+begin_src scheme
-$0
-,#+end_src
-#+end_src
-
-**** ts: Typescript                            :src:
-
-#+begin_src text
-#+begin_src typescript
-$0
-,#+end_src
-#+end_src
-
-**** amm: Ammonite Scala blocks                :src:
-
-#+begin_src text
-#+begin_src amm
-$0
-,#+end_src
-#+end_src
-
-**** clj: Clojure blocks                     :src:
-
-#+begin_src text
-#+begin_src clojure
-$0
-,#+end_src
-#+end_src
-
-**** dot: Graphviz Dot diagrams              :src:orgdot:
-
-#+begin_src text
-#+begin_src dot :file $1
-$2
-,#+end_src
-#+end_src
-
-**** ~example~ blocks
-
-***** ex: Org example block                 :src:orgex:
-
-#+begin_src text
-#+begin_example $1
-$0
-,#+end_example
-#+end_src
-
-***** ele: Emacs lisp example block         :src:orgex:
-
-#+begin_src text
-#+begin_example emacs-lisp
-$0
-,#+end_example
-#+end_src
-
-***** age: Agda example block               :src:orgex:
+**** srcage: Agda example block              :src:exag:
 
 #+begin_src text
 #+begin_example agda2
@@ -352,7 +202,23 @@ $0
 ,#+end_example
 #+end_src
 
-***** rbe: Ruby example block               :src:
+**** srcsh: Shell                            :src:srcsh:
+
+#+begin_src text
+#+begin_src shell
+$0
+,#+end_src
+#+end_src
+
+**** srcrb: Ruby code block                  :src:srcrb:
+
+#+begin_src text
+#+begin_src ruby
+$0
+,#+end_src
+#+end_src
+
+**** exrb: Ruby example block                :src:exrb:
 
 #+begin_src text
 #+begin_example ruby
@@ -360,20 +226,99 @@ $0
 ,#+end_example
 #+end_src
 
-*** Blocks for LaTeX exports
-
-**** ldisc: Discussion                                         :src:ldisc:
+**** srcpy: Python code block                :src:srcpy:
 
 #+begin_src text
-#+attr_LaTeX: :options [$1]
-#+begin_discussion
+#+begin_src python
 $0
-#+end_discussion
+,#+end_src
 #+end_src
+
+**** srcpl: Prolog block                     :src:srcpl:
+
+#+begin_src text
+#+begin_src prolog
+$0
+,#+end_src
+#+end_src
+
+**** srcps: Purescript                       :src:srcps:
+
+#+begin_src text
+#+begin_src typescript
+$0
+,#+end_src
+#+end_src
+
+**** srcelm: Elm                             :src:srcelm:
+
+#+begin_src text
+#+begin_src typescript
+$0
+,#+end_src
+#+end_src
+
+**** srcts: Typescript                       :src:srcts:
+
+#+begin_src text
+#+begin_src typescript
+$0
+,#+end_src
+#+end_src
+
+**** srclatex: LaTeX                         :src:srclatex:
+
+#+begin_src text
+#+begin_src latex
+$0
+,#+end_src
+#+end_src
+
+**** srcxml: XML block                       :src:srcxml:
+
+#+begin_src text
+#+begin_src xml
+$0
+,#+end_src
+#+end_src
+
+**** srcsch: Scheme                          :src:srcsch:
+
+#+begin_src text
+#+begin_src scheme
+$0
+,#+end_src
+#+end_src
+
+**** srcamm: Ammonite Scala blocks           :src:srcamm:
+
+#+begin_src text
+#+begin_src amm
+$0
+,#+end_src
+#+end_src
+
+**** srcclj: Clojure blocks                  :src:srcclj:
+
+#+begin_src text
+#+begin_src clojure
+$0
+,#+end_src
+#+end_src
+
+**** srcdot: Graphviz Dot diagrams           :src:srcdot:
+
+#+begin_src text
+#+begin_src dot :file $1
+$2
+,#+end_src
+#+end_src
+
+** Other Org
 
 *** Other blocks
 
-**** c: Center                                               :src:orgcntr:
+**** orgcntr: Center                         :src:orgcntr:
 
 #+begin_src text
 #+begin_center
@@ -381,15 +326,7 @@ $0
 #+end_center
 #+end_src
 
-**** e: Example                                                :src:orgex:
-
-#+begin_src text
-#+begin_example $1
-$0
-#+end_example
-#+end_src
-
-**** quot: Quote                                             :src:orgquot:
+**** orgquot: Quote                          :src:orgquot:
 
 #+begin_src text
 #+begin_quote
