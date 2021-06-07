@@ -156,11 +156,23 @@ then install the most recent version of “use-package”.
 #+end_src
 
 I always want to download packages that aren't installed.
-Someday, I should get into the habit of controlling the update
-process and checking over the changes to packages myself;
-so far, I can't be bothered.
 #+begin_src emacs-lisp
 (setq use-package-always-ensure t)
+#+end_src
+
+** Update packages
+
+For the moment, I use the ~auto-package-update~ to automatically update
+packages for me.
+#+begin_src emacs-lisp
+(use-package auto-package-update
+  :config
+  ;; Delete residual old versions
+  (setq auto-package-update-delete-old-versions t)
+  ;; Do not bother me when updates have taken place.
+  (setq auto-package-update-hide-results t)
+  ;; Update installed packages at startup if there is an update pending.
+  (auto-package-update-maybe))
 #+end_src
 
 * Custom Elisp
