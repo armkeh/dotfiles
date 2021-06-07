@@ -3428,6 +3428,87 @@ so the edit can be seen.
 (setq org-catch-invisible-edits 'show)
 #+end_src
 
+** ~dired~
+
+~dired~ (for DIRectory EDitor) is Emacs builtin utility
+for browsing directories and operating on their contents.
+
+Herein are my (fairly minimal) modifications to its behaviour.
+
+*** File information
+
+~dired~ makes use of switches for ~ls~.
+
+I like the following switches:
+| ~--group-directories-first~ | group directories before files                             |
+| ~-a~                        | do not ignore entries starting with .                      |
+| ~-B~                        | do not list implied entries ending with ~                  |
+| ~-g~                        | long listing format, but do not list owner                 |
+| ~-G~                        | in a long listing, don't print group names                 |
+| ~-h~                        | print human readable size                                  |
+| ~-L~                        | show information for /references/ rather than symbolic links |
+
+#+begin_src emacs-lisp
+(setq dired-listing-switches
+      "--group-directories-first -aBDgGhL --time-style \"+  %Y %b %d %H:%M  \"")
+#+end_src
+
+*** Cosmetic
+
+Don't display whitespace information via ~whitespace-mode~ in Dired buffers.
+#+begin_src emacs-lisp
+(add-hook 'dired-mode-hook
+  (lambda ()
+     (setq-local whitespace-style nil)))
+#+end_src
+
+Highlighting the whole line we're on helps keep track of what file
+the cursor is on.
+#+begin_src emacs-lisp
+(add-hook 'dired-after-readin-hook 'hl-line-mode)
+#+end_src
+
+** ~eshell~
+
+The Eshell is a wonderful shell-like command interpreter inside of Emacs.
+I find it's not appropriate for intensive command line tasks,
+but it's nice not to have to leave Emacs for simple tasks.
+(Note there are alternatives for this purpose, including
+ popping up an external shell inside of Emacs.)
+#+begin_src emacs-lisp
+(use-package eshell)
+#+end_src
+
+Jeremias Queiroz posted a “fancy eshell prompt” setup on [[https://www.reddit.com/r/emacs/comments/6f0rkz/my_fancy_eshell_prompt/][Reddit]],
+from which I derived this setup, but I've modified it to use
+builtin face colours to improve portability across themes.
+For instance, the ~default~ colour will most likely be white
+for dark themes and black for light themes.
+#+begin_src emacs-lisp
+(setq eshell-prompt-function
+  (lambda ()
+    (let ((default  (face-attribute 'default :foreground))
+          (green    (face-attribute 'success :foreground))
+          (red      (face-attribute 'error   :foreground))
+          (blue     (face-attribute 'link    :foreground))
+          (yellow   (face-attribute 'warning :foreground)))
+    (concat
+    (propertize "┌—["                 'face  `(:foreground ,green))
+    (propertize (user-login-name)     'face  `(:foreground ,red))
+    (propertize "@"                   'face  `(:foreground ,blue))
+    (propertize (system-name)         'face  `(:foreground ,red))
+    (propertize "]──["                'face  `(:foreground ,green))
+    (propertize (format-time-string "%a %b %d" (current-time)) 'face `(:foreground ,yellow))
+    (propertize "]──["                'face `(:foreground ,green))
+    (propertize (format-time-string "%H:%M" (current-time)) 'face `(:foreground ,yellow))
+    (propertize "]\n"                 'face `(:foreground ,green))
+    (propertize "│ "                  'face `(:foreground ,green))
+    (propertize (concat (eshell/pwd)) 'face `(:foreground ,blue))
+    (propertize "\n"                  'face `(:foreground ,green))
+    (propertize "└─►"                 'face `(:foreground ,green))
+    (propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground ,default))))))
+#+end_src
+
 ** ~which-key~
 
 ~which-key-mode~ is a handy minor mode that shows us
