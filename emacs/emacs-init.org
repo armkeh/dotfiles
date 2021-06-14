@@ -116,15 +116,6 @@ so I will be more able to notice changes to it.
 (ignore-errors (load custom-file))
 #+end_src
 
-** Make sure we have the right PATH
-
-See https://github.com/purcell/exec-path-from-shell
-#+begin_src emacs-lisp
-(use-package exec-path-from-shell)
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-#+end_src
-
 ** Basic package management
 
 ~package~ gives us the basic tools to add packages from repositories
@@ -200,6 +191,15 @@ packages for me.
   (setq auto-package-update-hide-results t)
   ;; Update installed packages at startup if there is an update pending.
   (auto-package-update-maybe))
+#+end_src
+
+** Make sure we have the right PATH
+
+See https://github.com/purcell/exec-path-from-shell
+#+begin_src emacs-lisp
+(use-package exec-path-from-shell)
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
 #+end_src
 
 * Elisp utilities
