@@ -54,15 +54,24 @@ to retire them for good, or fit them in here.
 
 * How to use this file
 
-I don't like to export this file to ~~/.emacs~, since that file
-may be modified by Emacs itself or sometimes other programs.
+I don't like to export this file to the proper Emacs init file,
+since that file may be modified by Emacs itself
+or sometimes other programs.
+(See below where we [[Set a “custom” file]], which should
+ avoid most modifications on Emacs' end;
+ I've still had external programs feel it's appropriate
+ to edit the file without my explicit permission
+ (the Agda installation process in particular.))
 I like to keep that file a bit bare so I can catch any changes
 made to it by entities other than myself.
 
-So instead, I create a symbolic link to this file in ~~/.emacs.d/~,
-then add to ~~/.emacs~ these lines:
+So instead, I create a symbolic link to this file in ~~/.config/emacs/~,
+then add to ~~/.config/emacs/init.el~
+(see https://www.gnu.org/software/emacs/manual/html_node/emacs/Find-Init.html
+ for a discussion of the acceptable locations for the init file)
+these lines:
 #+name: dotemacs-expected-elisp
-#+begin_src emacs-lisp :tangle /tmp/.emacs
+#+begin_src emacs-lisp :tangle /tmp/init.el
 ;; BEGIN my edits
 
 ;; Enable editing of version controlled files through symlinks.
