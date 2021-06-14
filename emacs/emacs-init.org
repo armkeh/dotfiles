@@ -637,41 +637,6 @@ These languages have support built-in, it just has to be activated.
 (setq org-ditaa-jar-path "/usr/bin/ditaa")
 #+end_src
 
-#+Name: evaluate-geiser-implementation
-#+begin_src emacs-lisp
-;;(setq geiser-default-implementation 'guile)
-#+end_src
-
-For other languages, separate packages are needed.
-#+Name: evaluate-fsharp
-#+begin_src emacs-lisp
-;;(use-package ob-fsharp)
-#+end_src
-
-~ob-oz~ comes with a Mozart2 installation;
-if there's a problem, make sure the Mozart2 Elisp directory
-is in the path.
-#+Name: evaluate-oz
-#+begin_src emacs-lisp
-;;(require 'ob-oz)
-#+end_src
-
-There are at least two packages for Org babel support for Racket,
-but neither are on MELPA. Neither one seems to stand out as
-more or less fully featured.
-- [[https://github.com/hasu/emacs-ob-racket][emacs-ob-racket]]
-  is more recently maintained.
-- [[https://github.com/xchrishawk/ob-racket][ob-racket]]
-  has not been updated in 4 years.
-So I choose ~emacs-ob-racket~. For the moment, I just saved it
-to my ~emacs.d~; probably it should be put somewhere better,
-but I will do that when I next set up my system 😀.
-#+Name: evaluate-racket
-#+begin_src emacs-lisp
-;;(add-to-list 'load-path "/home/markparmstrong/.emacs.d/ob-racket")
-;;(require 'ob-racket)
-#+end_src
-
 For shell code, we need to initialise via this function.
 See [[https://emacs.stackexchange.com/questions/37692/how-to-fix-symbols-function-definition-is-void-org-babel-get-header][here]].
 #+Name: evaluate-shell-init
