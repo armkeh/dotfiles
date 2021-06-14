@@ -3021,7 +3021,7 @@ Again, note that nothing will show up in LaTeX exports!
 
 :TODO: Better documentation here.
 
-**** Ivy
+*** Ivy
 
 #+begin_src emacs-lisp
 (use-package ivy
@@ -3049,7 +3049,7 @@ Enable minibuffer commands in the minibuffer.
 )
 #+end_src
 
-**** Swiper
+*** Swiper
 
 #+begin_src emacs-lisp
 (use-package swiper
@@ -3058,7 +3058,7 @@ Enable minibuffer commands in the minibuffer.
   (global-set-key (kbd "C-s") 'swiper))
 #+end_src
 
-**** Counsel
+*** Counsel
 
 :TODO: Move keybindings to General settings.
 #+begin_src emacs-lisp
@@ -3066,6 +3066,23 @@ Enable minibuffer commands in the minibuffer.
  :config
   (global-set-key (kbd "M-x") 'counsel-M-x)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file))
+#+end_src
+
+*** Prescient
+
+#+begin_quote
+~prescient.el~ is a library which sorts and filters lists of candidates,
+such as appear when you use a package like Ivy or Company.
+Extension packages such as ~ivy-prescient.el~ and ~company-prescient.el~ adapt
+the library for usage with various frameworks.
+#+end_quote
+
+In particular, I like to have recently run invoked commands appear
+as the first suggestions when I use ~M-x~.
+#+begin_src emacs-lisp
+(use-package prescient)
+(use-package ivy-prescient)
+(ivy-prescient-mode)
 #+end_src
 
 ** COMpleting ANYthing; Company
