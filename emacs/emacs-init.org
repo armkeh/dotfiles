@@ -973,6 +973,17 @@ change the name. See the documentation of this variable.
 (setq mu4e-change-filenames-when-moving t)
 #+end_src
 
+**** Change file names when moving emails
+
+To work nicely with ~mbsync~, we should
+change the file name when moving mail between mail directories;
+otherwise the UID portion of the name becomes stale
+and possibly causes issues such as duplicate UIDs
+or UIDs out of range.
+#+begin_src emacs-lisp
+(setq mu4e-change-filenames-when-moving t)
+#+end_src
+
 *** Viewing emails
 
 **** Email list
@@ -1682,7 +1693,7 @@ See the ~kill-buffer-on-process-finish~ definition earlier in this file.
           (let* ((output-buffer-name "*mbsync all directories*")
                  (output-buffer (generate-new-buffer output-buffer-name))
                  (process (progn
-                         (async-shell-command "mbsync gmail-quick; echo Finished" output-buffer)
+                         (async-shell-command "mbsync gmail-quick" output-buffer)
                          (get-buffer-process output-buffer))))
               (if (process-live-p process)
                   (set-process-sentinel process #'kill-buffer-on-process-finish) 
