@@ -72,22 +72,40 @@ then add to ~~/.emacs~ these lines:
 
 ;; Delete the old tangled and compiled init file.
 ;; Shouldn't be necessary, but better safe than sorry.
-(delete-file "~/.emacs.d/emacs-init.el")
-(delete-file "~/.emacs.d/emacs-init.elc")
+(delete-file "~/.config/emacs/emacs-init.el")
+(delete-file "~/.config/emacs/emacs-init.elc")
 
 ;; Load my init file.
-(org-babel-load-file "~/.emacs.d/emacs-init.org")
+(org-babel-load-file "~/.config/emacs/emacs-init.org")
 
 ;; END my edits
 #+end_src
 
-In [[Cleanup]] below, we check the contents of the ~~/.emacs~ file against this,
-to warn me if changes are made. Hence why it is tangled to the ~/tmp~ directory.
+In [[Cleanup]] below, we check the contents of the proper Emacs init file
+against the above contents,
+to warn me if changes are made.
+Hence why the above source block is tangled to ~/tmp/init.el~.
 
 * Environment setup and package management
 
 Before we really begin, we ensure environment settings are correct
 and setup ~use-package~ as a package manager.
+
+** Set a “custom” file
+
+Emacs will, by default, insert all sorts of “custom” settings
+into our actual init file
+(~~/.emacs~, ~/.emacs.el~, ~./emacs.d/init.el~, or ~/.config/emacs/init.el~;
+ see [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Find-Init.html]])
+especially those set via GUIs.
+
+In order to avoid polluting that file, let's set it to use
+a particular one. In fact, let's put it under my version control,
+so I will be more able to notice changes to it.
+#+begin_src emacs-lisp
+(setq custom-file "~/dotfiles/emacs/custom.el")
+(ignore-errors (load custom-file))
+#+end_src
 
 ** Make sure we have the right PATH
 
@@ -314,7 +332,7 @@ This way, if something goes wrong below, I am positioned to fix it
 right away.
 #+begin_src emacs-lisp
 (setq inhibit-splash-screen t)
-(setq my/emacs-init-file "~/.emacs.d/emacs-init.org")
+(setq my/emacs-init-file "~/.config/emacs/emacs-init.org")
 (find-file my/emacs-init-file)
 #+end_src
 This file will be closed and re-opened below, to ensure
@@ -445,20 +463,6 @@ kill my init buffer that we opened earlier and reopen it.
 #+begin_src emacs-lisp
 (setq user-full-name "Mark Armstrong")
 (setq user-mail-address "markparmstrong@gmail.com")
-#+end_src
-
-** Set a “custom” file
-
-Emacs will, by default, insert all sorts of “custom” settings
-into our ~.emacs~ file (or whichever of the default init locations we use),
-especially those set via GUIs.
-
-In order to avoid polluting that file, let's set it to use
-a particular one. In fact, let's put it under my version control,
-so I will be more able to notice changes to it.
-#+begin_src emacs-lisp
-(setq custom-file "~/dotfiles/emacs/custom.el")
-(ignore-errors (load custom-file))
 #+end_src
 
 ** Set a directory for non-package manager managed elisp files
@@ -2453,12 +2457,12 @@ and wastes time; most of this init is not relevant for that session.
 So, we'll set a different init file, constructed from the relevant
 portions of this file.
 #+begin_src emacs-lisp
-(setq org-export-async-init-file
-  "~/.emacs.d/org-async-init.el") 
+;(setq org-export-async-init-file
+;  "~/.config/emacs/org-async-init.el") 
 #+end_src
 
 Some default settings.
-#+begin_src emacs-lisp :noweb yes :tangle ~/.emacs.d/org-async-init.el
+#+begin_src emacs-lisp :noweb yes :tangle ~/.config/emacs/org-async-init.el
 ;; Org export init, tangled from my Emacs init
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -2473,7 +2477,7 @@ Some default settings.
 
 :TODO: There must be a better way to generate this file.
 These settings are from this exporting section.
-#+begin_src emacs-lisp :noweb yes :tangle ~/.emacs.d/org-async-init.el
+#+begin_src emacs-lisp :noweb yes :tangle ~/.config/emacs/org-async-init.el
 <<export-ignore-headlines>>
 <<export-ignore-sections>>
 <<export-preserve-indentation>>
@@ -2496,14 +2500,10 @@ These settings are from this exporting section.
 
 We also need code evaluation settings, as code blocks may need
 to be evaluated for export.
-#+begin_src emacs-lisp :noweb yes :tangle ~/.emacs.d/org-async-init.el
+#+begin_src emacs-lisp :noweb yes :tangle ~/.config/emacs/org-async-init.el
 <<evaluate-no-confirm>>
 <<evaluate-languages>>
 <<evaluate-ditaa-path>>
-<<evaluate-geiser-implementation>>
-<<evaluate-fsharp>>
-<<evaluate-oz>>
-<<evaluate-racket>>
 <<evaluate-shell-init>>
 <<evaluate-plantuml-path>>
 #+end_src
@@ -3819,26 +3819,28 @@ course, 3mi3;
 
 * Cleanup
 
-** Check the contents of ~~/.emacs~
+** Check the contents of the (proper/system) init file
 
-It is not uncommon for ~~/.emacs~ to be modified without my direct action;
-either because of some setting change I consent to without thinking about it,
+It is not uncommon for the Emacs init file to be modified
+without my direct action;
+either because of some setting change
+I consent to without thinking about it,
 or some well-meaning process making a change I presumably want.
 
 It is for that reason that this file is not directly tangled to ~~/.emacs~.
-Erasing those changes by re-writing the content of that file every time I start Emacs
-is probably not what I actually want.
+Erasing those changes by re-writing the content
+of that file every time I start Emacs is probably not what I actually want.
 
 That said, I should be made aware of the fact that a change has been made;
 either I will want to just undo the settings, or more likely, I will want
 to migrate them to their proper place in this file.
 
 Using the copy of the expected ~.emacs~ content which is tangled to ~/tmp/.emacs~ above,
-this code checks the contents of ~~/.emacs~. If it is not as expected, show a popup message
-and then displays a diff buffer to alert me to the changes.
+this code checks the contents of ~~/.emacs~. If it is not as expected,
+show a popup message and then displays a diff buffer to alert me to the changes.
 #+begin_src emacs-lisp :noweb yes :results raw
-(let* ((dotemacs-file "~/.emacs")
-       (dotemacs-backup "/tmp/.emacs")
+(let* ((dotemacs-file "~/.config/emacs/init.el")
+       (dotemacs-backup "/tmp/init.el")
        (dotemacs-contents
         (with-temp-buffer
           (insert-file-contents dotemacs-file)
@@ -3848,13 +3850,13 @@ and then displays a diff buffer to alert me to the changes.
           (insert-file-contents dotemacs-backup)
           (buffer-string))))
   (unless (equal dotemacs-contents dotemacs-expected)
-    (message-box ".emacs content has been modified from my expected contents!\n\nOpening a diff buffer.")
+    (message-box "~/.config/emacs/init.el content has been modified from my expected contents!\n\nOpening a diff buffer.")
     (diff dotemacs-file dotemacs-backup)))
 #+end_src
 
 Some notes about this:
 - I initially attempted to accomplish this comparison by somehow
-  comparing the text of the ~~/.emacs~ file to the text of the
+  comparing the text of the Emacs init file to the text of the
   ~src~ block above directly, avoiding the need to tangle that block to ~/tmp~.
   Unfortunately, I couldn't find a satisfying way to obtain the text
   of the ~src~ block in this file as a string.
@@ -3864,7 +3866,7 @@ Some notes about this:
     and Emacs lacks a form for string literals.
     - I could convert it to a string using the ~string~ function,
       but then comments would be lost. I followed this line briefly anyway,
-      trying to read in the contents of ~.emacs~ as Elisp code,
+      trying to read in the contents of Emacs init file as Elisp code,
       and then compare the code instead of comparing strings.
       This gets a bit too complicated though and makes
       the difference reporting less satisfying, as it cannot show
