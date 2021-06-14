@@ -817,7 +817,7 @@ I initially followed the guide
 to set it up, but I've customised things heavily at this point.
 
 #+begin_src emacs-lisp
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 (require 'mu4e)
 #+end_src
 
