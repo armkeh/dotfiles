@@ -3263,9 +3263,7 @@ with ~undo-propose~ to help visualise the changes.
 
 * Final cosmetics
 
-** The modeline
-
-*** Use the Spacemacs modeline
+** Modeline styling
 
 While I don't use Spacemacs, I do like it's sleek modeline.
 #+begin_src emacs-lisp
@@ -3278,11 +3276,7 @@ of ~spaceline-spacemacs-theme~ is supposed to improve compatibility.
 (spaceline-emacs-theme)
 #+end_src
 
-**** Information to display
-
-:TODO:
-
-**** Colour the modeline
+*** Colour the modeline
 
 This setting changes the colour of the start of the modeline
 when the file has been modified and not saved,
@@ -3326,18 +3320,31 @@ In fact, let's make that colouring constant across themes.
 (powerline-reset)
 #+end_src
 
-**** Flash on error
+** Flash on error
 
 The doom themes package comes with a function to make
 the mode line flash on error.
 #+begin_src emacs-lisp
+(use-package doom-themes)
 (require 'doom-themes-ext-visual-bell)
 (doom-themes-visual-bell-config)
 #+end_src
 I'd previously just used ~visible-bell~, but it's a bit nosier
 than necessary.
 
-**** Diminish minor mode names
+** COMMENT Add a little scrollbar to the modeline
+
+:TODO: Need to use an alternate approach to modeline styling; probably moody.
+# See https://github.com/tarsius/moody
+# and https://github.com/jdtsmith/mlscroll
+#+begin_src emacs-lisp
+(use-package mlscroll)
+(setq mlscroll-right-align nil)
+(setq mlscroll-alter-percent-position 'replace)
+(mlscroll-mode 1)
+#+end_src
+
+** Diminish minor mode names
 
 I use a lot of minor modes, so the mode list takes up a lot
 of space on the mode line.
@@ -3533,7 +3540,6 @@ See my keybindings for this above.
 #+begin_src emacs-lisp
 (winner-mode 1)
 #+end_src
-
 
 ** ~windmove~
 
