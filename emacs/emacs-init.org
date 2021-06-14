@@ -3876,7 +3876,50 @@ Some notes about this:
 
 ** Update the ~README~ file
 
-:TODO:
+#+begin_src org :tangle ~/dotfiles/emacs/README.org
+#+Options: toc:nil
+
+# This file is tangled from emacs-init.org,
+# and should not be modified directly.
+
+This directory contains the files that make up my Emacs setup.
+
+Below are the contents of my literate Emacs initialisation file.
+
+See also my
+- [[./yankpad.org][Yankpad snippets file]]
+  - (Frequently used text expansions.)
+
+#+TOC: headlines 2
+
+#+include: ~/dotfiles/emacs/emacs-init.org
+#+end_src
+
+#+begin_src emacs-lisp
+(let* ((readme-directory "~/dotfiles/emacs/")
+       (readme-org (concat readme-directory "README.org"))
+       (readme-md  (concat readme-directory "README.md")))
+  (with-temp-buffer
+    ;; We need to visit the Org readme; we will want to close it afterwards
+    ;; unless we were already visiting it.
+    (let ((was-already-visiting-org (find-buffer-visiting readme-org))
+          (was-already-visiting-md  (find-buffer-visiting readme-md)))
+      (find-file readme-org)
+      ;; Export it to a new buffer; exporting expands the included files.
+      (org-md-export-as-markdown)
+      ;; At the top, place a warning not to edit the file.
+      (beginning-of-buffer)
+      (insert "<!-- This file is tangled from README.org,\n")
+      (insert "     which itself is tangled and imports from emacs-init.org.\n")
+      (insert "     This file should not be modified directly.-->\n\n")
+      ;; Now write it to a file.
+      (write-file "~/dotfiles/emacs/README.md")
+      ;; And clean up.
+      (unless was-already-visiting-org
+        (kill-buffer (find-buffer-visiting readme-org)))
+      (unless was-already-visiting-md
+        (kill-buffer (find-buffer-visiting readme-md))))))
+#+end_src
 
 ** Prompt before quitting Emacs
 
