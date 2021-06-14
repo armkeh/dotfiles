@@ -2196,10 +2196,10 @@ See [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Regexp-Special.h
       "[:space:]"
       (string
         ;; Opening delimiters; the comments prevent check-parens from getting mad 😀.
-        ?( ;;)
-        ?{ ;;}
-        ?“ ;;”
-        ?[ ;]
+        ?\( ;;)
+        ?\{ ;;}
+        ?“  ;;”
+        ?\[ ;;]
         ;; Dashes
         ?— ?– ?-))) ;; Do not move the dash. It will break the regexp.
 #+end_src
@@ -2210,19 +2210,19 @@ an emphasis character (right outer boundary characters).
   (setcar (nthcdr 1 org-emphasis-regexp-components)
     (concat
       (string ;[
-         ?]) ;; Do not move the bracket. It will break the regexp.
+         ?\]) ;; Do not move the bracket. It will break the regexp.
       ;; All whitespace characters.
       "[:space:]"
       (string
         ;; Closing delimiters, with matching comments as above.
-           ;;(
-        ?) ;;{
-        ?} ;;“
+            ;;(
+        ?\) ;;{
+        ?\} ;;“
         ?”
         ;; Single quote
         ?'
         ;; Punctuation
-        ?. ?? ?! ?, ?; ?:
+        ?. ?? ?! ?, ?\; ?:
         ;; Dashes
         ?– ?— ?-))) ;; Do not move the dash. It will break the regexp.
 #+end_src
