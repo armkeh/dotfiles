@@ -3882,6 +3882,20 @@ Some notes about this:
 
 ** Update the ~README~ file
 
+I want my ~README.md~ file for this directory
+to be automatically kept up to date when changes are made.
+To that end, we create both a ~README.org~ file
+and include in this init file code to export
+that ~README.org~ to a ~README.md~ file.
+
+First, the ~README.org~ is tangled from here.
+Note that this by itself is not sufficient to act as the README;
+the ~include~ command will not be honoured by GitHub's Org rendering.
+So this file is just an inbetween to allow us to export
+the ~README.md~ file.
+(We could overwrite ~README.org~ instead, if we prefer
+ to stick entirely to Org; since it's automated,
+ I don't mind using Markdown.)
 #+begin_src org :tangle ~/dotfiles/emacs/README.org
 #+Options: toc:nil
 
@@ -3901,7 +3915,13 @@ See also my
 #+include: ~/dotfiles/emacs/emacs-init.org
 #+end_src
 
-#+begin_src emacs-lisp
+Now, we include in this file code
+to automatically export the ~README.org~ file to ~README.md~;
+this will run every time Emacs starts,
+keeping the README up to date.
+I will notice the file has changed when checking the Git repo status,
+an regularly commit the changes.
+#+begin_src emacs-lisp :results none
 (let* ((readme-directory "~/dotfiles/emacs/")
        (readme-org (concat readme-directory "README.org"))
        (readme-md  (concat readme-directory "README.md")))
