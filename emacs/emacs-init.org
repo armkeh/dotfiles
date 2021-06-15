@@ -2879,7 +2879,7 @@ I have made several edits.
   (interactive)
   (let ((generated-ids ())
         (prefix "org-anchor-"))
-    (flet ((append-counter (x n) (concat x "^" (number-to-string n))))
+    (cl-flet ((append-counter (x n) (concat x "^" (number-to-string n))))
       (org-map-entries
        (lambda ()
          (let* ((heading-components (org-heading-components))
