@@ -810,6 +810,11 @@ to set it up, but I've customised things heavily at this point.
 (require 'mu4e)
 #+end_src
 
+Run ~mu~ in debug mode, so if something fails we get more information.
+#+begin_src emacs-lisp
+(setq mu4e-mu-debug t)
+#+end_src
+
 *** Basic setup
 
 **** The mail directories
@@ -820,11 +825,21 @@ Note that there should be an archive box here, but I don't make
 use of an archive mailbox.
 #+begin_src emacs-lisp
 (setq
-  mu4e-maildir       "~/.mail/gmail"
   mu4e-drafts-folder "/Drafts"
   mu4e-sent-folder   "/Sent Mail"
   mu4e-trash-folder  "/Trash")
 #+end_src
+
+Previously I would set ~mu4e-maildir~ here;
+that is no longer a variable in new versions of ~mu4e~.
+Instead the mail directory is taken from ~mu~;
+set it with with, e.g., ~mu init --maildir=~/.mail/gmail~.
+(Note: it may also be necessary to set the ~--my-address~ flag;
+ I'm not certain.)
+You can check the setting with
+#+begin_example emacs-lisp
+(mu4e-root-maildir)
+#+end_example
 
 **** Get mail command
 
@@ -839,7 +854,18 @@ a fair chunk of time to synchronise.
 The ~mu4e~ get mail command uses the former, to ensure
 it does not take an excessive amount of time when I manually run it.
 #+begin_src emacs-lisp
-(setq mu4e-get-mail-command "mbsync gmail-quick")
+(setq
+  mu4e-get-mail-command "mbsync gmail-quick"
+  mu4e-update-interval 300 ;; 5 minutes
+  mu4e-headers-auto-update t)
+#+end_src
+
+Don't take over the minibuffer with a status notification
+when indexing messages.
+If something's going wrong, flip this setting
+as a first step in the diagnosis.
+#+begin_src emacs-lisp
+(setq mu4e-hide-index-messages t)
 #+end_src
 
 :TODO: Is background updating working again?
@@ -958,10 +984,10 @@ This controls the information shown in the email lists.
   otherwise it will show the recipient.
 #+begin_src emacs-lisp
 (setq mu4e-headers-fields
-    '( (:date       . 22)
-       (:flags      . 4)
-       (:from-or-to . 22)
-       (:subject    . nil)))
+  '( (:date       . 22)
+     (:flags      . 4)
+     (:from-or-to . 22)
+     (:subject    . nil)))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -972,7 +998,7 @@ Don't organise by threads; I find organising by date preferable.
 #+begin_src emacs-lisp
 (setq mu4e-headers-show-threads nil)
 #+end_src
-This can be toggled with `P` in the email list.
+This can be toggled with ~P~ in the email list.
 
 By default, related mail is also included; for instance,
 if I reply to a message in a list, the reply will show up in the list.
@@ -1179,6 +1205,17 @@ So we are safe to restore the original ~user-mail-address~.
 Don't prompt me upon quitting ~mu4e~.
 #+begin_src emacs-lisp
 (setq mu4e-confirm-quit nil)
+#+end_src
+
+*** Start up ~mu4e~ so ~mu~ is running
+
+We start ~mu4e~ here in case, for instance,
+we use a bookmark to open a ~mu4e~ buffer
+before we've started ~mu4e~ correctly.
+Without this, we might get an error asking if we started ~mu4e.~
+(In particular, I was encountering a ~root maildir unknown~ error.)
+#+begin_src emacs-lisp
+(mu4e)
 #+end_src
 
 ** ~agda~ mode
