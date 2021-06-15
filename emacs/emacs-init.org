@@ -794,17 +794,6 @@ After sending an email, kill the buffer.
 (setq message-kill-buffer-on-exit t)
 #+end_src
 
-*** Sending HTML mail
-
-I usually prefer to send plaintext email, but if I want to send
-HTML for any reason, that can be done from Emacs as well.
-
-~org-mime~ allows sending of HTML emails written in Org markdown;
-I don't use it yet, as I only send plaintext, but it may be handy later.
-#+begin_src emacs-lisp
-(use-package org-mime)
-#+end_src
-
 ** Reading email: ~mu4e~ (with isync)
 
 :TODO: Check for cleanup of mu4e settings.
