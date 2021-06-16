@@ -1,0 +1,28 @@
+#+Title: My literate Syncthing settings
+#+Author: Mark Armstrong
+#+Description: A literate setup for Syncthing.
+
+* Introduction
+
+[[https://syncthing.net/][Syncthing]] is “a *continuous file synchonization* program”.
+I use it as a “personal cloud storage” solution,
+though it is not truly cloud storage;
+everything is stored on my machines only.
+
+I have found Syncthing very easy and intuitive to use,
+and together with a backup solution on one of the synced machines,
+it has perfectly replaced cloud storage solutions for me.
+
+* Supervisor entry for auto-starting Syncthing
+
+This file creates an entry for Syncthing with Supervisor,
+for the purpose of automatically starting Syncthing on system boot.
+Put a symbolic link to this file in ~/etc/supervisor/conf.d/~.
+#+begin_src conf :tangle ./conf/syncthing.conf
+[program:syncthing]
+autorestart = True
+directory = /home/markparmstrong
+user = markparmstrong
+command = /usr/bin/syncthing -no-browser -home="/home/markparmstrong/.config/syncthing"
+environment = STNORESTART="1", HOME="/home/markparmstrong"
+#+end_src
