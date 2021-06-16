@@ -1,0 +1,405 @@
+#+Title: Shell and terminal emulators settings
+#+Author: Mark Armstrong
+#+Description: Settings and customisations for my shells and terminal emulators.
+
+* Shells
+
+I mostly use ~zsh~ these days, but retain and maintain settings
+for ~bash~ as a fallback, as it is still the default in some places.
+
+** Aliases
+
+Nothing to see here yet;
+those aliases I used to use are long forgotten and abandoned.
+
+** Profiles
+
+*** ~profile~
+:PROPERTIES:
+:header-args: :tangle ./shell/.profile
+:END:
+
+#+begin_src shell
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
+
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+	. "$HOME/.bashrc"
+    fi
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+
+
+# My settings
+
+# Tool install directories
+
+if [ -d "/usr/local/texlive/2020" ] ; then
+  export MANPATH="$MANPATH:/usr/local/texlive/2020/texmf-dist/doc/man"
+  export INFOPATH="$INFOPATH:/usr/local/texlive/2020/texmf-dist/doc/info"
+  export PATH=/usr/local/texlive/2020/bin/x86_64-linux:$PATH
+fi
+if [ -d "/opt/ghc/bin" ] ; then
+    export PATH="$PATH:/opt/ghc/bin"
+fi
+if [ -d "$HOME/.cabal/bin" ] ; then
+    export PATH="$PATH:$HOME/.cabal/bin"
+fi
+if [ -d "$HOME/.local/bin" ] ; then
+    # Install path used by Stack
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+if [ -d "$HOME/.opam/system/bin" ] ; then
+    export PATH="$PATH:$HOME/.opam/system/bin"
+fi
+if [ -d "$HOME/.cargo//bin" ] ; then
+    export PATH="$PATH:$HOME/.cargo/bin"
+fi
+
+
+# Switch caps lock to super, using setxkbmap if it's available.
+# Removed for now as I set this on the system/keyboard.
+# if [ -x "$(command -v setxkbmap)" ] ; then
+#     setxkbmap -option caps:super
+# fi
+
+# Nodejs (added manually during setup thereof)
+# Must be updated when changing versions
+if [ -d "/usr/local/lib/nodejs/node-v13.8.0-linux-x64/bin" ] ; then
+    VERSION=v13.8.0
+    DISTRO=linux-x64
+    PATH="$PATH:/usr/local/lib/nodejs/node-v13.8.0-linux-x64/bin"
+fi
+
+# Disable some legacy docker commands
+export DOCKER_HIDE_LEGACY_COMMANDS=true
+#+end_src
+
+*** ~bash~ profile
+:PROPERTIES:
+:header-args: :tangle ./shell/.bash_profile
+:END:
+
+#+begin_src shell
+if [ -f ~/.profile ]; then
+    source ~/.profile
+fi
+
+if [ -f ~/.bashrc ]; then
+    source ~/.bashrc
+fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
+#+end_src
+
+*** ~zsh~ profile
+:PROPERTIES:
+:header-args: :tangle ./shell/.zprofile
+:END:
+
+#+begin_src shell
+if [ -f ~/.profile ]; then
+    source ~/.profile
+fi
+
+if [ -f ~/.zshrc ]; then
+    source ~/.zshrc
+fi
+#+end_src
+
+** Run commands
+*** ~bash~ run commands
+:PROPERTIES:
+:header-args: :tangle ./shell/.bashrc
+:END:
+
+#+begin_src shell
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
+fi
+
+
+
+# Code to split the current directory path if it's too long,
+# taken from Stack Overflow.
+# https://askubuntu.com/questions/17723/
+# I want to eventually edit it to show more than just the current directory
+# on the right.
+get_bash_w() {
+  # Returns the same working directory that the \W bash prompt command
+  echo $(pwd | sed 's@'"$HOME"'@~@')
+}
+split_pwd() {
+  # Split pwd into the first element, elipsis (...) and the last subfolder
+  # /usr/local/share/doc --> /usr/.../doc
+  # ~/project/folder/subfolder --> ~/project/../subfolder
+  split=5
+  W=$(get_bash_w)
+  if [ $(echo $W | grep -o '/' | wc -l) -gt $split ]; then
+    echo $W | cut -d'/' -f1-$split | xargs -I{} echo {}"/../${W##*/}"
+  else
+    echo $W
+  fi
+}
+
+
+
+# Colour settings taken from Stack Overflow
+# https://stackoverflow.com/questions/10466749/
+# Use by putting ${COLOUR} into your string
+RESTORE=$(echo -en '\001\033[0m\002')
+RED=$(echo -en '\001\033[00;31m\002')
+GREEN=$(echo -en '\001\033[00;32m\002')
+YELLOW=$(echo -en '\001\033[00;33m\002')
+BLUE=$(echo -en '\001\033[00;34m\002')
+MAGENTA=$(echo -en '\001\033[00;35m\002')
+PURPLE=$(echo -en '\001\033[00;35m\002')
+CYAN=$(echo -en '\001\033[00;36m\002')
+LIGHTGRAY=$(echo -en '\001\033[00;37m\002')
+LRED=$(echo -en '\001\033[01;31m\002')
+LGREEN=$(echo -en '\001\033[01;32m\002')
+LYELLOW=$(echo -en '\001\033[01;33m\002')
+LBLUE=$(echo -en '\001\033[01;34m\002')
+LMAGENTA=$(echo -en '\001\033[01;35m\002')
+LPURPLE=$(echo -en '\001\033[01;35m\002')
+LCYAN=$(echo -en '\001\033[01;36m\002')
+WHITE=$(echo -en '\001\033[01;37m\002')
+
+if [ "$color_prompt" = yes ]; then
+    # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    # Replaced with my custom prompt:
+
+    # Unicode box drawing symbols to connect everything.
+    PS1_TopRight="${LGREEN}┌─["
+    PS1_Break="${LGREEN}]──["
+    PS1_EndLine="${LGREEN}]"
+    PS1_Vertical="${LGREEN}│"
+    
+    # The prompt itself (the last line).
+    PS1_Prompt="${LGREEN}└─►${RESTORE} $ "
+
+    # The user and host, as usually shown.
+    PS1_UserHost="${LRED}\u${LMAGENTA}@\h"
+
+    # Date and time.
+    PS1_Date="${YELLOW}\d"
+    PS1_Time="${LYELLOW}\t"
+
+    # PWD
+    PS1_PWD="${LBLUE}\w"
+
+    # Putting all the pieces together.
+    PS1_L1="$PS1_TopRight$PS1_UserHost$PS1_Break$PS1_Date$PS1_Break$PS1_Time$PS1_EndLine"
+    PS1_L2="$PS1_Vertical $PS1_PWD"
+    PS1_L3="$PS1_Prompt"
+    PS1="\n$PS1_L1\n$PS1_L2\n$PS1_L3"
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    #alias grep='grep --color=auto'
+    #alias fgrep='fgrep --color=auto'
+    #alias egrep='egrep --color=auto'
+fi
+
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# some more ls aliases
+#alias ll='ls -l'
+#alias la='ls -A'
+#alias l='ls -CF'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+#+end_src
+
+*** ~zsh~ run commands
+:PROPERTIES:
+:header-args: :tangle ./shell/.zshrc
+:END:
+
+#+begin_src shell
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.zsh-histfile
+HISTSIZE=1000
+SAVEHIST=99999
+unsetopt beep
+bindkey -e
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/markparmstrong/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+# Beginning of my customisations
+
+# Set the prompt -----------------------------------------------------
+# See http://zsh.sourceforge.net/Intro/intro_14.html
+
+# Note the wrapping of unprinted characters in %{ %} delimiters
+
+# Colours
+Connector_colour="%{%F{046}%}" # Light green
+User_colour="%{%F{196}%}"      # Light red
+Host_colour="%{%F{201}%}"      # Light purple
+Date_colour="%{%F{214}%}"      # Orangey yellow
+Time_colour="%{%F{226}%}"      # Light yellow
+PWD_colour="%{%F{51}%}"        # Cyan
+Clear_colour="%{%f%}"
+
+# Unicode box drawing symbols to connect everything.
+Prompt_TopRight="$Connector_colour┌─["
+Prompt_Break="$Connector_colour]──["
+Prompt_EndLine="$Connector_colour]"
+Prompt_Vertical="$Connector_colour│"
+
+# %f undoes colour setting
+Prompt_Prompt="$Connector_colour└─►$Clear_colour $ "
+
+# Note that %D{s} formats s using strftime
+Prompt_UserHost="$User_colour%n$Host_colour@%M"
+Prompt_Date="$Date_colour%D{%a %b %d}"
+Prompt_Time="$Time_colour%D{%T}"
+
+# A shortened PWD, code taken from
+# https://unix.stackexchange.com/questions/273529/shorten-path-in-zsh-prompt/273567#273567
+Prompt_PWD="$PWD_colour%(5~|%-1~/…/%3~|%4~)"
+
+Prompt_L1="$Prompt_TopRight$Prompt_UserHost$Prompt_Break$Prompt_Date$Prompt_Break$Prompt_Time$Prompt_EndLine"
+Prompt_L2="$Prompt_Vertical $Prompt_PWD"
+Prompt_L3="$Prompt_Prompt"
+
+# This is supposedly a portable solution
+Newline=$'\n'
+
+PROMPT="${Newline}$Prompt_L1${Newline}$Prompt_L2${Newline}$Prompt_L3"
+
+# Reset the prompt regularly to keep the clock current
+# If problems occur with refreshing or scroll position jumping, look here.
+# Maybe reference https://github.com/sorin-ionescu/prezto/issues/1512
+#TMOUT=1
+#TRAPALRM() {
+#    zle reset-prompt
+#}
+
+# END Set the prompt -------------------------------------------------
+
+# Force colourised ls output
+alias ls='ls --color=auto'
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/markparmstrong/.sdkman"
+[[ -s "/home/markparmstrong/.sdkman/bin/sdkman-init.sh" ]] && source "/home/markparmstrong/.sdkman/bin/sdkman-init.sh"
+#+end_src
+
+* Terminal emulators
+
+No settings here as of yet.
+I do as much as I can out of (GUI) Emacs,
+so the out-of-the-box experience usually suffices
+for my terminal emulator.
