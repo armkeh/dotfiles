@@ -7,7 +7,6 @@
    [default bold shadow italic underline success warning error])
  '(ansi-color-names-vector
    ["#000000" "#a80000" "#005f00" "#8b3800" "#0030a6" "#721045" "#005589" "#ffffff"])
- '(bibtex-completion-bibliography "~/Dropbox/McMaster/references.bib" t)
  '(custom-safe-themes
    '("00c76aa2e529fbfaf53f94806a9245437530517bd5586ab75501eba0930ad050" "a8e4738b03da5e8c5770c17b9fb9d20a1b305b117ed4e035c0b6e4cb6f291a2b" "5e6543bb81a38dc8ab98129f1a40bf64c329d2224a1c5300b41a7a6dea3cfa3a" "397f58254bd7808f68e38e0a812ce452e79f759d46b9e2ccd319cabe8a83add9" "88380a535b965f1172ced30e751f5abf31047f15eae17adf323ba415a9408617" "98da47acc5b1078e3eb222e3020579efd85e5fdcc24bde86a285ee472606a734" "cd4a50c11d395cb67bae52e94606e8098c82c4397d2ebacca7ec37e4f47d673c" "70292d08825e9c07a3d9517b99d9a944b30957c8aa18be2c0a019595ad049a3a" "9371bb1d80e91807157958a847e18712e5043af7563a055ad03904c2d90e5078" "6edf762b89c629f7f19571a1da2baae181bed8bb4733630efbee0903094a0b50" "c17157e15c1c1bfbff9692c32ffe22f28d8c85a45f59324c849764edeca69e60" "e074be1c799b509f52870ee596a5977b519f6d269455b84ed998666cf6fc802a" "fa3bdd59ea708164e7821574822ab82a3c51e262d419df941f26d64d015c90ee" "43c808b039893c885bdeec885b4f7572141bd9392da7f0bd8d8346e02b2ec8da" "e838d6375a73fda607820c65eb3ea1f9336be7bd9a5528c9161e10c4aa663b5b" "e3c87e869f94af65d358aa279945a3daf46f8185f1a5756ca1c90759024593dd" default))
  '(default-input-method "Agda")
@@ -48,16 +47,6 @@
  '(reftex-default-bibliography '("~/Dropbox/McMaster/references.bib") t)
  '(rustic-ansi-faces
    ["#242730" "#ff665c" "#7bc275" "#FCCE7B" "#51afef" "#C57BDB" "#5cEfFF" "#bbc2cf"])
- '(safe-local-variable-values
-   '((eval add-hook 'after-save-hook
-           (lambda nil
-             (org-babel-tangle))
-           nil t)
-     (eval add-hook 'after-save-hook
-           (lambda nil
-             (save-to-drive "org"))
-           nil 'local)
-     (eval save-to-drive "Org")))
  '(toc-org-noexport-regexp
    "\\(^*+\\) +.*:\\(ignore\\|noexport\\)\\([@_][0-9]\\)?:\\($\\|[^ ]*?:$\\)" t)
  '(vc-annotate-background "#242730")
