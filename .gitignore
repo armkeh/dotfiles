@@ -1,8 +1,5 @@
 *~
 *#
 
+# Private directory for files with information that should not be shared publically.
 private/*
-
-*/downloaded-packages/*
-
-*.emacs.desktop

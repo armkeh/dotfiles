@@ -1,0 +1,27 @@
+#+Title: My dotfiles
+#+Author: Mark Armstrong
+#+Description: README for my system setup (dot) files repository.
+#+Options: toc:nil
+
+This repository contains my “dotfiles”, i.e.,
+the various configurations and settings for my machine(s).
+
+Of particular note are my [[./emacs][Emacs]] configuration files.
+
+See also my settings for [[./shell.org][shells and terminal emulators]],
+and for:
+- [[./mbsync.org][mbsync]] (isync), my e-mail mailbox synchroniser.
+- [[./syncthing.org][Syncthing]], my “cloud storage” solution
+  (which doesn't actually involve a “cloud”.)
+
+* COMMENT gitignore
+
+Uncomment this section to tangle the file.
+
+#+begin_src text :tangle .gitignore
+*~
+*#
+
+# Private directory for files with information that should not be shared publically.
+private/*
+#+end_src
