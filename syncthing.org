@@ -17,12 +17,24 @@ it has perfectly replaced cloud storage solutions for me.
 
 This file creates an entry for Syncthing with Supervisor,
 for the purpose of automatically starting Syncthing on system boot.
-Put a symbolic link to this file in ~/etc/supervisor/conf.d/~.
-#+begin_src conf :tangle ./conf/syncthing.conf
+Put a symbolic link tothe tangled
+[[./conf/syncthing.conf]] in [[/etc/supervisor/conf.d/]].
+
+Before tangling, set your username here.
+The ~conf~ file below uses this entry for the user and user's home directory.
+#+name: user
+#+begin_src text
+armkeh
+#+end_src
+
+And this is the actual ~conf~ file contents,
+with the user's name entered using
+[[https://orgmode.org/manual/Noweb-Reference-Syntax.html][Noweb reference syntax]].
+#+begin_src conf :tangle ./conf/syncthing.conf :noweb tangle
 [program:syncthing]
 autorestart = True
-directory = /home/markparmstrong
-user = markparmstrong
-command = /usr/bin/syncthing -no-browser -home="/home/markparmstrong/.config/syncthing"
-environment = STNORESTART="1", HOME="/home/markparmstrong"
+directory = /home/<<user>>/
+user = <<user>>
+command = /usr/bin/syncthing -no-browser -home="/home/<<user>>/.config/syncthing"
+environment = STNORESTART="1", HOME="/home/<<user>>"
 #+end_src
