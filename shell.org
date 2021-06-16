@@ -2,6 +2,10 @@
 #+Author: Mark Armstrong
 #+Description: Settings and customisations for my shells and terminal emulators.
 
+:TODO: Cleanup of this file is still to be done.
+No documentation is completed, and a not insignificant portion
+of each file is from a default file, settigns that I may not wish to keep.
+
 * Shells
 
 I mostly use ~zsh~ these days, but retain and maintain settings
