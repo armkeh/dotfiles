@@ -202,9 +202,9 @@ See https://github.com/purcell/exec-path-from-shell
   (exec-path-from-shell-initialize))
 #+end_src
 
-** Set a directory for non-package manager managed elisp files
+** Set a directory for non-package manager managed Elisp files
 
-This directory is for elisp files I develop myself
+This directory is for Elisp files I develop myself
 or that I download without use of a package manager.
 
 This form is used, instead of ~add-to-load-path~,
@@ -480,7 +480,7 @@ kill my init buffer that we opened earlier and reopen it.
 (find-file my/emacs-init-file)
 #+end_src
 
-* Vital settings
+* Vital non-mode-specific settings
 
 ** User information
 
@@ -590,7 +590,7 @@ I don't use this or appreciate its interference.
 (electric-indent-mode -1)
 #+end_src
 
-* Vital modes and their vital settings
+* Vital modes and vital mode-specific settings
 
 ** Org mode
 
@@ -2063,11 +2063,7 @@ kill my init buffer that we opened earlier and reopen it.
 (find-file my/emacs-init-file)
 #+end_src
 
-* Intermediate modes and intermediate mode settings
-
-** Org mode
-
-The remaining Org mode settings, including export settings, are found here.
+* Intermediate modes and intermediate mode-specific settings
 
 ** Org mode cosmetics
 
@@ -3403,7 +3399,7 @@ kill my init buffer that we opened earlier and reopen it.
 (find-file my/emacs-init-file)
 #+end_src
 
-* Final modes and final mode settings
+* Final modes and final mode-specific settings
 
 ** Org mode
 
