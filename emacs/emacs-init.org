@@ -202,7 +202,22 @@ See https://github.com/purcell/exec-path-from-shell
   (exec-path-from-shell-initialize))
 #+end_src
 
-* Elisp utilities
+** Set a directory for non-package manager managed elisp files
+
+This directory is for elisp files I develop myself
+or that I download without use of a package manager.
+
+This form is used, instead of ~add-to-load-path~,
+so that subdirectories are searched.
+See https://www.emacswiki.org/emacs/LoadPath
+This is useful so that git repositories can be added here
+as subtrees in this directory, and the ~.el~ files will be picked up.
+#+begin_src emacs-lisp
+(let ((default-directory "~/dotfiles/emacs/elisp"))
+  (normal-top-level-add-subdirs-to-load-path))
+#+end_src
+
+** Elisp utilities
 
 These utility packages simplify many families of tasks.
 
@@ -472,21 +487,6 @@ kill my init buffer that we opened earlier and reopen it.
 #+begin_src emacs-lisp
 (setq user-full-name "Mark Armstrong")
 (setq user-mail-address "markparmstrong@gmail.com")
-#+end_src
-
-** Set a directory for non-package manager managed elisp files
-
-This directory is for elisp files I develop myself
-or that I download without use of a package manager.
-
-This form is used, instead of ~add-to-load-path~,
-so that subdirectories are searched.
-See https://www.emacswiki.org/emacs/LoadPath
-This is useful so that git repositories can be added here
-as subtrees in this directory, and the ~.el~ files will be picked up.
-#+begin_src emacs-lisp
-(let ((default-directory  "~/dotfiles/emacs/elisp"))
-  (normal-top-level-add-subdirs-to-load-path))
 #+end_src
 
 ** Automatically revert unchanged files which change on the disk
