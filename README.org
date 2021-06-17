@@ -24,4 +24,8 @@ Uncomment this section to tangle the file.
 
 # Private directory for files with information that should not be shared publically.
 private/*
+
+# Directories which store deprecated settings or downloaded files.
+deprecated/*
+*/deprecated/*
 #+end_src
