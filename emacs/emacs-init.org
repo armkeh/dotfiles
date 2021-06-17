@@ -26,31 +26,90 @@ I try to tag headings in this file.
 
 ** The file layout
 
-- Simple cosmetics
+- [[How to use this file]]
+  - Instructions on how this file is to incorporated
+    into ones Emacs init.
+  - Includes the contents of my “actual” Emacs init file,
+    which carries out the incorporation of this file into my init.
+- [[Environment setup and package management]]
+  - Carries out environment variable setup
+    and sets up package management
+    that is used to install and set up packages
+    in the remainder of the document.
+- [[Custom Elisp]]
+  - Elisp utilities I have written which have somewhat general purpose,
+    so that it is not appropriate for them to be tucked in
+    with the settings for a particular package.
+  - Some of these utilities are simply waiting
+    for a better longterm home.
+- [[Simple cosmetics]]
   - Harmless cosmetic changes, that make the worst case of a
     crash during initialisation more comfortable.
     - Nothing that should affect performance.
-  - Activate my themes.
-  - Toggle the visual features that are significant,
-    such as turning off scroll and menu bars.
-- Vital
-  - Activate packages I use near constantly, such as Org mode.
-    - And change any settings for them that are vital.
-  - Establish my frequent shortcuts.
-- Near vital
-  - Support for programming language specific modes.
-  - 
-- Tab and window setup
-
-* Deprecation list                              :TODO:
-
-These settings were deprecated when I migrated to this version.
-Sometime soon I should check them over and decide whether
-to retire them for good, or fit them in here.
-- Smooth scrolling
-  - (Not certain that ever worked well.)
-- ~~/dotfiles/emacs/downloaded-packages~
-  - Do I need these at all?
+  - Activation of my themes.
+  - Toggle some basic features. Including but not limited to:
+    - For instance, disable splash screens, menus and scroll bars,
+    - and enable line numbers and highlighting of parentheses.
+- [[Vital non-mode-specific settings]]
+  - Change Emacs settings that are vitally important,
+    but which are not tied to a specific mode.
+  - I identify these settings as
+    “will I encounter unexpected behaviour or be likely
+     to make mistakes when carrying out basic tasks
+     if these settings are not established?” 
+  - For instance,
+    - automatically revert buffers when they've
+      changed on the disk,
+    - set up proper consideration of delimiters,
+    - use spaces instead of tabs everywhere, and
+    - ensure indentation behaves correctly.
+- [[Vital modes and vital mode-specific settings]]
+  - Activate packages I use near constantly, including:
+    - Org mode,
+    - mu4e, and
+    - while I am working on my thesis at least, Agda mode.
+  - And change any settings for them that are vital.
+- [[Keybindings]]
+  - Set up my keybindings.
+  - At time of writing, I use [[https://github.com/noctuid/general.el][general]] for all of this setup.
+- [[Intermediate cosmetics]]
+  - Cosmetics which are not absolutely vital,
+    but make me significantly more comfortable and at home.
+  - Or cosmetics that may be vital, but were not simple enough
+    to set up to go higher, where a failure
+    would have more significant repercussions.
+  - Including
+    - display of some whitespace characters,
+    - colouring of delimiters,
+    - visuals that assist with distinguish the buffer in use more.
+- [[Intermediate modes and intermediate mode-specific settings]]
+  - Additional modes and additional settings for modes installed above
+    which are not vital, but important.
+  - Including:
+    - The majority of settings Org mode,
+      in particular cosmetic settings
+      and exportation settings.
+    - Completion and snippets setup.
+    - Undo assistants setup.
+- [[Final cosmetics]]
+  - Any cosmetic settings that didn't fit in above.
+  - These should be truly “just for comfort” settings.
+- [[Final modes and final mode-specific settings]]
+  - Any modes that didn't fit in above.
+  - In the future, this section may need to be broken up
+    if the number of headings here becomes excessive.
+- [[Session setup]]
+  - Code to open my starting tabs and files,
+    setting up the session for me.
+- [[Cleanup]]
+  - Any final tasks, including
+    - checking that the actual init file has not been tampered with,
+    - generating the README for the Emacs directory
+      of my dotfiles repo automatically,
+    - and as the last action, add a prompt before
+      quitting Emacs; if we reach the end of this file,
+      everything has gone well and we should be ready to start work,
+      so we are unlikely to want to leave Emacs anytime soon.
 
 * How to use this file
 

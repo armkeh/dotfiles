@@ -14,94 +14,92 @@ See also my
 
 # Table of Contents
 
-1.  [Introduction](#orgb74bf0d)
-    1.  [The file layout](#orgefca64a)
-2.  [Deprecation list](#org29839ae):TODO:
-3.  [How to use this file](#org0620098)
-4.  [Environment setup and package management](#orgd8ff6b3)
-    1.  [Set a “custom” file](#org6efaf86)
-    2.  [Basic package management](#orga033377)
-    3.  [Set package repositories](#org2cdb7b6)
-    4.  [A package manager – `use-package`](#orge6e3587)
-    5.  [Update packages](#orgb5ceff2)
-    6.  [Make sure we have the right PATH](#orge7e2a56)
-5.  [Elisp utilities](#orga8dd341)
-6.  [Custom Elisp](#orgb7b40f5)
-    1.  [Toggle themes](#org7c519cb)
-    2.  [Theme change hook](#org2d3dd70)
-    3.  [Cascading window setup](#org7c2d5f7)
-    4.  [Killing a buffer when its associated process finishes](#orge2b0fde)
-7.  [Simple cosmetics](#org22bbbfc)
-    1.  [First: disable the splashscreen and find the my emacs init file](#org267081b)
-    2.  [Disable unnecessary interface elements](#orgb49898d)
-    3.  [Fonts](#orge1c3be2)
-    4.  [Line and column information](#orge0d783f)
-    5.  [Themes](#org9780799)
-    6.  [Highlight matching delimters](#org3d5bbf1)
-    7.  [Kill the open init buffer and reopen it](#orgc7339cc)
-8.  [Vital settings](#orgbc502ee)
-    1.  [User information](#orgcb75a8f)
-    2.  [Set a directory for non-package manager managed elisp files](#org6892d40)
-    3.  [Automatically revert unchanged files which change on the disk](#org0cd3f4f)
-    4.  [Set what characters qualify as delimiters](#orgdc893b9)
-    5.  [Always use spaces instead of tabs](#org307e55c)
-    6.  [Turn off electric indent mode](#org9ca2462)
-9.  [Vital modes and their vital settings](#orgd52f0c0)
-    1.  [Org mode](#orgcdca06d)
-    2.  [Sending email: `send-mail`](#org42a97f6)
-    3.  [Reading email: `mu4e` (with isync)](#org410b2bc)
-    4.  [`agda` mode](#org9076b21)
-10. [Keybindings](#org2dc535c)
-    1.  [`general` definers](#orgac77fec)
-    2.  [Invoke processes](#orge7531bb)
-    3.  [Buffer](#org958cb8b)
-    4.  [Appearance](#org44edc69)
-    5.  [Window management](#orged86732)
-    6.  [Tab management](#org766fdb4)
-    7.  [Counsel](#orgf159df2)
-    8.  [Company](#org585f8ed)
-    9.  [Other](#org8feef36)
-11. [Intermediate cosmetics](#org511fb30)
-    1.  [Whitespace display](#orgd6e39ad)
-    2.  [Rainbow delimiters](#org3b1c49b)
-    3.  [Tab-bar](#org7408263)
-    4.  [A more noticable divider between windows](#orgd9909d1)
-    5.  [Dim buffers when not in use](#orgda9f34c)
-    6.  [Kill the open init buffer and reopen it](#org4064bd2)
-12. [Intermediate modes and intermediate mode settings](#org36722fc)
-    1.  [Org mode](#orgf5542a7)
-    2.  [Org mode cosmetics](#org9ad6899)
-    3.  [Org mode exportation settings](#org802d957)
-    4.  [A completion framework; Ivy, Counsel and Swiper](#orgd4082d1)
-    5.  [COMpleting ANYthing; Company](#org4d1784f)
-    6.  [Snippets](#org63bc10c)
-    7.  [Previewing before undoing; `undo-propose`](#org46bdca1)
-13. [Final cosmetics](#org6b0b690)
-    1.  [Modeline styling](#orgea22878)
-    2.  [Flash on error](#orge808a76)
-    3.  [Diminish minor mode names](#org0359258)
-    4.  [Kill the open init buffer and reopen it](#org31d416f)
-14. [Final modes and final mode settings](#org30d6277)
-    1.  [Org mode](#orgf05d260)
-    2.  [`dired`](#org2a712f4)
-    3.  [`eshell`](#orgaed2069)
-    4.  [`which-key`](#org93cca91)
-    5.  [`winner-mode`](#org87a4602)
-    6.  [`windmove`](#org98474df)
-    7.  [Ediff](#org60f85f0)
-    8.  [`magit`](#org8ef6855)
-    9.  [Purescript](#org2fb8410)
-15. [Session setup](#org2d6e2ba)
-    1.  [Filepaths](#org389b7a0)
-    2.  [Create tabs](#org7eb08fe)
-    3.  [Visit tabs and setup buffers](#orga4e9624)
-16. [Cleanup](#orgf4be061)
-    1.  [Check the contents of the (proper/system) init file](#orge253c4c)
-    2.  [Update the `README` file](#org6eb46c9)
-    3.  [Prompt before quitting Emacs](#orgff6ec3b)
+1.  [Introduction](#orgac06626)
+    1.  [The file layout](#org0f8de1f)
+2.  [How to use this file](#orga9f3474)
+3.  [Environment setup and package management](#org776dbfa)
+    1.  [Set a “custom” file](#org69ad75c)
+    2.  [Basic package management](#orgbc4b1b9)
+    3.  [Set package repositories](#orgf255c52)
+    4.  [A package manager – `use-package`](#orgbd3ea64)
+    5.  [Update packages](#org1c2d181)
+    6.  [Make sure we have the right PATH](#orgf15ff42)
+    7.  [Set a directory for non-package manager managed Elisp files](#org0b4e5b8)
+    8.  [Elisp utilities](#orgdc9eb14)
+4.  [Custom Elisp](#org4a7ee8d)
+    1.  [Toggle themes](#org2dcffca)
+    2.  [Theme change hook](#org05e4aba)
+    3.  [Cascading window setup](#org205cbba)
+    4.  [Killing a buffer when its associated process finishes](#org7a4a93e)
+5.  [Simple cosmetics](#orgc177521)
+    1.  [First: disable the splashscreen and find the my emacs init file](#org1ba1756)
+    2.  [Disable unnecessary interface elements](#org4118bd5)
+    3.  [Fonts](#org2dba6f5)
+    4.  [Line and column information](#orgb5ad1e2)
+    5.  [Themes](#org9069ed7)
+    6.  [Highlight matching delimters](#org5a75684)
+    7.  [Kill the open init buffer and reopen it](#orgb32a52c)
+6.  [Vital non-mode-specific settings](#org438f39f)
+    1.  [User information](#orge6ab4cd)
+    2.  [Automatically revert unchanged files which change on the disk](#orgdb23477)
+    3.  [Set what characters qualify as delimiters](#org94e31b0)
+    4.  [Always use spaces instead of tabs](#org06db2a1)
+    5.  [Turn off electric indent mode](#orgab691c0)
+7.  [Vital modes and vital mode-specific settings](#org2b138e2)
+    1.  [Org mode](#org4a2f7a0)
+    2.  [Sending email: `send-mail`](#orgf307fc8)
+    3.  [Reading email: `mu4e` (with isync)](#org1e63f7e)
+    4.  [`agda` mode](#org49c5ef1)
+8.  [Keybindings](#org86e4de9)
+    1.  [`general` definers](#orgb73a9ea)
+    2.  [Invoke processes](#org02007ca)
+    3.  [Buffer](#orgd9f3c3b)
+    4.  [Appearance](#orgf505a3c)
+    5.  [Window management](#org77ae9cb)
+    6.  [Tab management](#org3dbca45)
+    7.  [Counsel](#org3c2dec3)
+    8.  [Company](#org7ba7eb2)
+    9.  [Other](#orgcc42759)
+9.  [Intermediate cosmetics](#org03a680a)
+    1.  [Whitespace display](#org068f41b)
+    2.  [Rainbow delimiters](#org7e70fec)
+    3.  [Tab-bar](#orga6f3e8c)
+    4.  [A more noticable divider between windows](#orge59957c)
+    5.  [Dim buffers when not in use](#org88c27fc)
+    6.  [Kill the open init buffer and reopen it](#orge023140)
+10. [Intermediate modes and intermediate mode-specific settings](#org05f9061)
+    1.  [Org mode cosmetics](#org532499d)
+    2.  [Org mode exportation settings](#orgcf5b0c8)
+    3.  [A completion framework; Ivy, Counsel and Swiper](#org1e2d958)
+    4.  [COMpleting ANYthing; Company](#org86c4901)
+    5.  [Snippets](#orgc1eda75)
+    6.  [Previewing before undoing; `undo-propose`](#orgcb44cd5)
+11. [Final cosmetics](#org416e12c)
+    1.  [Modeline styling](#org16f04f0)
+    2.  [Flash on error](#orgb8d0764)
+    3.  [Diminish minor mode names](#org89d2cfa)
+    4.  [Kill the open init buffer and reopen it](#org8485938)
+12. [Final modes and final mode-specific settings](#orgda3e698)
+    1.  [Org mode](#orgf56919f)
+    2.  [`dired`](#org56116b9)
+    3.  [`eshell`](#org34a8ace)
+    4.  [`which-key`](#orgf7f1355)
+    5.  [`winner-mode`](#orgb2762e2)
+    6.  [`windmove`](#orgcbee3c6)
+    7.  [Ediff](#orgcd9a8a8)
+    8.  [`magit`](#orgb38fab1)
+    9.  [Purescript](#orge14d78c)
+13. [Session setup](#orgd165e45)
+    1.  [Filepaths](#orgb67e1ae)
+    2.  [Create tabs](#org602ad44)
+    3.  [Visit tabs and setup buffers](#orga9d49bd)
+14. [Cleanup](#orgc9a3890)
+    1.  [Check the contents of the (proper/system) init file](#org70b235c)
+    2.  [Update the `README` file](#org05e3eaa)
+    3.  [Prompt before quitting Emacs](#org848b85b)
 
 
-<a id="orgb74bf0d"></a>
+<a id="orgac06626"></a>
 
 # Introduction
 
@@ -122,49 +120,104 @@ For the sake of searching for settings via their “theme”,
 I try to tag headings in this file.
 
 
-<a id="orgefca64a"></a>
+<a id="org0f8de1f"></a>
 
 ## The file layout
 
--   Simple cosmetics
+-   [2](#orga9f3474)
+    -   Instructions on how this file is to incorporated
+        into ones Emacs init.
+    -   Includes the contents of my “actual” Emacs init file,
+        which carries out the incorporation of this file into my init.
+-   [3](#org776dbfa)
+    -   Carries out environment variable setup
+        and sets up package management
+        that is used to install and set up packages
+        in the remainder of the document.
+-   [4](#org4a7ee8d)
+    -   Elisp utilities I have written which have somewhat general purpose,
+        so that it is not appropriate for them to be tucked in
+        with the settings for a particular package.
+    -   Some of these utilities are simply waiting
+        for a better longterm home.
+-   [5](#orgc177521)
     -   Harmless cosmetic changes, that make the worst case of a
         crash during initialisation more comfortable.
         -   Nothing that should affect performance.
-    -   Activate my themes.
-    -   Toggle the visual features that are significant,
-        such as turning off scroll and menu bars.
--   Vital
-    -   Activate packages I use near constantly, such as Org mode.
-        -   And change any settings for them that are vital.
-    -   Establish my frequent shortcuts.
--   Near vital
-    -   Support for programming language specific modes.
-    -
--   Tab and window setup
+    -   Activation of my themes.
+    -   Toggle some basic features. Including but not limited to:
+        -   For instance, disable splash screens, menus and scroll bars,
+        -   and enable line numbers and highlighting of parentheses.
+-   [6](#org438f39f)
+    -   Change Emacs settings that are vitally important,
+        but which are not tied to a specific mode.
+    -   I identify these settings as
+        “will I encounter unexpected behaviour or be likely
+         to make mistakes when carrying out basic tasks
+         if these settings are not established?”
+    -   For instance,
+        -   automatically revert buffers when they've
+            changed on the disk,
+        -   set up proper consideration of delimiters,
+        -   use spaces instead of tabs everywhere, and
+        -   ensure indentation behaves correctly.
+-   [7](#org2b138e2)
+    -   Activate packages I use near constantly, including:
+        -   Org mode,
+        -   mu4e, and
+        -   while I am working on my thesis at least, Agda mode.
+    -   And change any settings for them that are vital.
+-   [8](#org86e4de9)
+    -   Set up my keybindings.
+    -   At time of writing, I use [general](https://github.com/noctuid/general.el) for all of this setup.
+-   [9](#org03a680a)
+    -   Cosmetics which are not absolutely vital,
+        but make me significantly more comfortable and at home.
+    -   Or cosmetics that may be vital, but were not simple enough
+        to set up to go higher, where a failure
+        would have more significant repercussions.
+    -   Including
+        -   display of some whitespace characters,
+        -   colouring of delimiters,
+        -   visuals that assist with distinguish the buffer in use more.
+-   [10](#org05f9061)
+    -   Additional modes and additional settings for modes installed above
+        which are not vital, but important.
+    -   Including:
+        -   The majority of settings Org mode,
+            in particular cosmetic settings
+            and exportation settings.
+        -   Completion and snippets setup.
+        -   Undo assistants setup.
+-   [11](#org416e12c)
+    -   Any cosmetic settings that didn't fit in above.
+    -   These should be truly “just for comfort” settings.
+-   [12](#orgda3e698)
+    -   Any modes that didn't fit in above.
+    -   In the future, this section may need to be broken up
+        if the number of headings here becomes excessive.
+-   [13](#orgd165e45)
+    -   Code to open my starting tabs and files,
+        setting up the session for me.
+-   [14](#orgc9a3890)
+    -   Any final tasks, including
+        -   checking that the actual init file has not been tampered with,
+        -   generating the README for the Emacs directory
+            of my dotfiles repo automatically,
+        -   and as the last action, add a prompt before
+            quitting Emacs; if we reach the end of this file,
+            everything has gone well and we should be ready to start work,
+            so we are unlikely to want to leave Emacs anytime soon.
 
 
-<a id="org29839ae"></a>
-
-# Deprecation list     :TODO:
-
-These settings were deprecated when I migrated to this version.
-Sometime soon I should check them over and decide whether
-to retire them for good, or fit them in here.
-
--   Smooth scrolling
-    -   (Not certain that ever worked well.)
--   `~/dotfiles/emacs/downloaded-packages`
-    -   Do I need these at all?
-
-
-<a id="org0620098"></a>
+<a id="orga9f3474"></a>
 
 # How to use this file
 
 I don't like to export this file to the proper Emacs init file,
 since that file may be modified by Emacs itself
 or sometimes other programs.
-(See below where we [4.1](#org6efaf86), which should
+(See below where we [3.1](#org69ad75c), which should
  avoid most modifications on Emacs' end;
  I've still had external programs feel it's appropriate
  to edit the file without my explicit permission
@@ -195,13 +248,13 @@ these lines:
     
     ;; END my edits
 
-In [16](#orgf4be061) below, we check the contents of the proper Emacs init file
+In [14](#orgc9a3890) below, we check the contents of the proper Emacs init file
 against the above contents,
 to warn me if changes are made.
 Hence why the above source block is tangled to `/tmp/init.el`.
 
 
-<a id="orgd8ff6b3"></a>
+<a id="org776dbfa"></a>
 
 # Environment setup and package management
 
@@ -209,7 +262,7 @@ Before we really begin, we ensure environment settings are correct
 and setup `use-package` as a package manager.
 
 
-<a id="org6efaf86"></a>
+<a id="org69ad75c"></a>
 
 ## Set a “custom” file
 
@@ -227,7 +280,7 @@ so I will be more able to notice changes to it.
     (ignore-errors (load custom-file))
 
 
-<a id="orga033377"></a>
+<a id="orgbc4b1b9"></a>
 
 ## Basic package management
 
@@ -239,7 +292,7 @@ to Emacs.
 We will shortly setup a package manager to ease installation of packages.
 
 
-<a id="org2cdb7b6"></a>
+<a id="orgf255c52"></a>
 
 ## Set package repositories
 
@@ -265,7 +318,7 @@ Now Org is best available though GNU ELPA, and there is a new
 (the + was dropped from the name.)
 
 
-<a id="orge6e3587"></a>
+<a id="orgbd3ea64"></a>
 
 ## A package manager – `use-package`
 
@@ -294,7 +347,7 @@ I always want to download packages that aren't installed.
     (setq use-package-always-ensure t)
 
 
-<a id="orgb5ceff2"></a>
+<a id="org1c2d181"></a>
 
 ## Update packages
 
@@ -311,7 +364,7 @@ packages for me.
       (auto-package-update-maybe))
 
 
-<a id="orge7e2a56"></a>
+<a id="orgf15ff42"></a>
 
 ## Make sure we have the right PATH
 
@@ -322,9 +375,26 @@ See <https://github.com/purcell/exec-path-from-shell>
       (exec-path-from-shell-initialize))
 
 
-<a id="orga8dd341"></a>
+<a id="org0b4e5b8"></a>
 
-# Elisp utilities
+## Set a directory for non-package manager managed Elisp files
+
+This directory is for Elisp files I develop myself
+or that I download without use of a package manager.
+
+This form is used, instead of `add-to-load-path`,
+so that subdirectories are searched.
+See <https://www.emacswiki.org/emacs/LoadPath>
+This is useful so that git repositories can be added here
+as subtrees in this directory, and the `.el` files will be picked up.
+
+    (let ((default-directory "~/dotfiles/emacs/elisp"))
+      (normal-top-level-add-subdirs-to-load-path))
+
+
+<a id="orgdc9eb14"></a>
+
+## Elisp utilities
 
 These utility packages simplify many families of tasks.
 
@@ -337,7 +407,7 @@ These utility packages simplify many families of tasks.
     (use-package f)
 
 
-<a id="orgb7b40f5"></a>
+<a id="org4a7ee8d"></a>
 
 # Custom Elisp
 
@@ -345,7 +415,7 @@ Some of this code may be moved to separate files later,
 but it's small and collected here for now.
 
 
-<a id="org7c519cb"></a>
+<a id="org2dcffca"></a>
 
 ## Toggle themes
 
@@ -382,7 +452,7 @@ These functions allow me to clear and toggle my themes.
             (load-theme my/dark-theme t))))
 
 
-<a id="org2d3dd70"></a>
+<a id="org05e4aba"></a>
 
 ## Theme change hook
 
@@ -397,7 +467,7 @@ This code snippet, taken from the linked reddit post, defines one I can use.
       (run-hooks 'after-load-theme-hook))
 
 
-<a id="org7c2d5f7"></a>
+<a id="org205cbba"></a>
 
 ## Cascading window setup
 
@@ -442,7 +512,7 @@ The process is:
 :TODO: Create a alternate method for vertical screens, preferably also allowing on-the-fly switching between the two setups.
 
 
-<a id="orge2b0fde"></a>
+<a id="org7a4a93e"></a>
 
 ## Killing a buffer when its associated process finishes
 
@@ -466,12 +536,12 @@ to kill its associated buffer when the process finishes.
         (shell-command-sentinel process signal)))
 
 
-<a id="org22bbbfc"></a>
+<a id="orgc177521"></a>
 
 # Simple cosmetics
 
 
-<a id="org267081b"></a>
+<a id="org1ba1756"></a>
 
 ## First: disable the splashscreen and find the my emacs init file
 
@@ -486,7 +556,7 @@ This file will be closed and re-opened below, to ensure
 all cosmetic changes show correctly.
 
 
-<a id="orgb49898d"></a>
+<a id="org4118bd5"></a>
 
 ## Disable unnecessary interface elements
 
@@ -498,7 +568,7 @@ or scroll bars.
     (scroll-bar-mode -1)
 
 
-<a id="orge1c3be2"></a>
+<a id="org2dba6f5"></a>
 
 ## Fonts
 
@@ -509,7 +579,7 @@ and so use a small font; 9pt seems to be a sweet spot.
                  '(font . "Cousine-9"))
 
 
-<a id="orge0d783f"></a>
+<a id="orgb5ad1e2"></a>
 
 ## Line and column information
 
@@ -559,7 +629,7 @@ Using `whitespace-mode` to highlight lines exceeding a certain number
 of characters was my preferred approach at that time.
 
 
-<a id="org9780799"></a>
+<a id="org9069ed7"></a>
 
 ## Themes
 
@@ -580,7 +650,7 @@ but like to toggle between it and the light `modus-operandi` at need.
     (load-theme my/dark-theme t)
 
 
-<a id="org3d5bbf1"></a>
+<a id="org5a75684"></a>
 
 ## Highlight matching delimters
 
@@ -605,7 +675,7 @@ to be black.
                              :weight ultra-bold)))))
 
 
-<a id="orgc7339cc"></a>
+<a id="orgb32a52c"></a>
 
 ## Kill the open init buffer and reopen it
 
@@ -616,12 +686,12 @@ kill my init buffer that we opened earlier and reopen it.
     (find-file my/emacs-init-file)
 
 
-<a id="orgbc502ee"></a>
+<a id="org438f39f"></a>
 
-# Vital settings
+# Vital non-mode-specific settings
 
 
-<a id="orgcb75a8f"></a>
+<a id="orge6ab4cd"></a>
 
 ## User information
 
@@ -629,24 +699,7 @@ kill my init buffer that we opened earlier and reopen it.
     (setq user-mail-address "markparmstrong@gmail.com")
 
 
-<a id="org6892d40"></a>
-
-## Set a directory for non-package manager managed elisp files
-
-This directory is for elisp files I develop myself
-or that I download without use of a package manager.
-
-This form is used, instead of `add-to-load-path`,
-so that subdirectories are searched.
-See <https://www.emacswiki.org/emacs/LoadPath>
-This is useful so that git repositories can be added here
-as subtrees in this directory, and the `.el` files will be picked up.
-
-    (let ((default-directory  "~/dotfiles/emacs/elisp"))
-      (normal-top-level-add-subdirs-to-load-path))
-
-
-<a id="org0cd3f4f"></a>
+<a id="orgdb23477"></a>
 
 ## Automatically revert unchanged files which change on the disk
 
@@ -662,7 +715,7 @@ gets behind some other way, but with automatic reverts
 it's less likely I trip over my own changes.
 
 
-<a id="orgdc893b9"></a>
+<a id="org94e31b0"></a>
 
 ## Set what characters qualify as delimiters
 
@@ -738,14 +791,14 @@ Apply those syntax entry modifications.
     (add-hook 'text-mode-hook 'my/unicode-delimiter-syntax)
 
 
-<a id="org307e55c"></a>
+<a id="org06db2a1"></a>
 
 ## Always use spaces instead of tabs
 
     (setq-default indent-tabs-mode nil)
 
 
-<a id="org9ca2462"></a>
+<a id="orgab691c0"></a>
 
 ## Turn off electric indent mode
 
@@ -754,12 +807,12 @@ I don't use this or appreciate its interference.
     (electric-indent-mode -1)
 
 
-<a id="orgd52f0c0"></a>
+<a id="org2b138e2"></a>
 
-# Vital modes and their vital settings
+# Vital modes and vital mode-specific settings
 
 
-<a id="orgcdca06d"></a>
+<a id="org4a2f7a0"></a>
 
 ## Org mode
 
@@ -892,16 +945,17 @@ of the extras included in `org-contrib` (previously `org-plus-contrib`.)
         (setq org-src-fontify-natively t)
 
 
-### Other
+### Reveal hidden elements if they are edited
 
-:TODO: Check over and probably refile.
+Folding a document raises the possibility of accidentally editing
+hidden portions. Org provides a way to defend against this:
+On making an “invisible” edit, the hidden portion will be unfolded
+so the edit can be seen.
 
-1.  Inline tasks
-
-        (require 'org-inlinetask)
+    (setq org-catch-invisible-edits 'show)
 
 
-<a id="org42a97f6"></a>
+<a id="orgf307fc8"></a>
 
 ## Sending email: `send-mail`
 
@@ -943,7 +997,7 @@ After sending an email, kill the buffer.
     (setq message-kill-buffer-on-exit t)
 
 
-<a id="org410b2bc"></a>
+<a id="org1e63f7e"></a>
 
 ## Reading email: `mu4e` (with isync)
 
@@ -1239,7 +1293,7 @@ Without this, we might get an error asking if we started `mu4e.`
     (mu4e)
 
 
-<a id="org9076b21"></a>
+<a id="org49c5ef1"></a>
 
 ## `agda` mode
 
@@ -1565,7 +1619,7 @@ We need to install Polymode.
     (require 'org-agda-mode)
 
 
-<a id="org2dc535c"></a>
+<a id="org86e4de9"></a>
 
 # Keybindings
 
@@ -1574,7 +1628,7 @@ I make use of `general` to organise keybindings.
     (use-package general)
 
 
-<a id="orgac77fec"></a>
+<a id="orgb73a9ea"></a>
 
 ## `general` definers
 
@@ -1621,7 +1675,7 @@ override my shortcuts.
       :keymaps 'override)
 
 
-<a id="orge7531bb"></a>
+<a id="org02007ca"></a>
 
 ## Invoke processes
 
@@ -1759,7 +1813,7 @@ See the `kill-buffer-on-process-finish` definition earlier in this file.
       "p" 'list-processes)
 
 
-<a id="org958cb8b"></a>
+<a id="orgd9f3c3b"></a>
 
 ## Buffer
 
@@ -1780,7 +1834,7 @@ See the `kill-buffer-on-process-finish` definition earlier in this file.
             :which-key "buffer bottom"))
 
 
-<a id="org44edc69"></a>
+<a id="orgf505a3c"></a>
 
 ## Appearance
 
@@ -1833,7 +1887,7 @@ Sometimes I need to toggle fontlocking.
                 :which-key "no font lock"))
 
 
-<a id="orged86732"></a>
+<a id="org77ae9cb"></a>
 
 ## Window management
 
@@ -1863,7 +1917,7 @@ Sometimes I need to toggle fontlocking.
                 :which-key "maximise  window"))
 
 
-<a id="org766fdb4"></a>
+<a id="org3dbca45"></a>
 
 ## Tab management
 
@@ -1895,7 +1949,7 @@ Sometimes I need to toggle fontlocking.
       "=" (lambda () (interactive) (tab-select 12)))
 
 
-<a id="orgf159df2"></a>
+<a id="org3c2dec3"></a>
 
 ## Counsel
 
@@ -1903,7 +1957,7 @@ Sometimes I need to toggle fontlocking.
       "y" 'counsel-yank-pop)
 
 
-<a id="org585f8ed"></a>
+<a id="org7ba7eb2"></a>
 
 ## Company
 
@@ -1911,7 +1965,7 @@ Sometimes I need to toggle fontlocking.
       "c" 'company-manual-begin)
 
 
-<a id="org8feef36"></a>
+<a id="orgcc42759"></a>
 
 ## Other
 
@@ -1919,12 +1973,12 @@ Sometimes I need to toggle fontlocking.
       "j" 'dad-joke)
 
 
-<a id="org511fb30"></a>
+<a id="org03a680a"></a>
 
 # Intermediate cosmetics
 
 
-<a id="orgd6e39ad"></a>
+<a id="org068f41b"></a>
 
 ## Whitespace display
 
@@ -1979,7 +2033,7 @@ and there is no ability to do so only in particular places.
 Otherwise I would use that rather than highlighting.
 
 
-<a id="org3b1c49b"></a>
+<a id="org7e70fec"></a>
 
 ## Rainbow delimiters
 
@@ -2027,7 +2081,7 @@ delimiters to avoid breaking all delimiter matching
 later in this file.
 
 
-<a id="org7408263"></a>
+<a id="orga6f3e8c"></a>
 
 ## Tab-bar
 
@@ -2060,7 +2114,7 @@ and I can close tabs by other commands easily enough.
     (setq tab-bar-close-button-show nil)
 
 
-<a id="orgd9909d1"></a>
+<a id="orge59957c"></a>
 
 ## A more noticable divider between windows
 
@@ -2073,7 +2127,7 @@ between windows. `window-divider-mode` provides this.
     (window-divider-mode)
 
 
-<a id="orgda9f34c"></a>
+<a id="org88c27fc"></a>
 
 ## Dim buffers when not in use
 
@@ -2114,7 +2168,7 @@ I like this behaviour; it could be changed by changing
 the variable `dimmer-watch-frame-focus-events`.
 
 
-<a id="org4064bd2"></a>
+<a id="orge023140"></a>
 
 ## Kill the open init buffer and reopen it
 
@@ -2125,19 +2179,12 @@ kill my init buffer that we opened earlier and reopen it.
     (find-file my/emacs-init-file)
 
 
-<a id="org36722fc"></a>
+<a id="org05f9061"></a>
 
-# Intermediate modes and intermediate mode settings
-
-
-<a id="orgf5542a7"></a>
-
-## Org mode
-
-The remaining Org mode settings, including export settings, are found here.
+# Intermediate modes and intermediate mode-specific settings
 
 
-<a id="org9ad6899"></a>
+<a id="org532499d"></a>
 
 ## Org mode cosmetics
 
@@ -2455,7 +2502,7 @@ The remaining Org mode settings, including export settings, are found here.
         (my/modus-add-org-src-block-faces)
 
 
-<a id="org802d957"></a>
+<a id="orgcf5b0c8"></a>
 
 ## Org mode exportation settings
 
@@ -3125,7 +3172,7 @@ Again, note that nothing will show up in LaTeX exports!
                  '(:exports . "results"))
 
 
-<a id="orgd4082d1"></a>
+<a id="org1e2d958"></a>
 
 ## A completion framework; Ivy, Counsel and Swiper
 
@@ -3186,7 +3233,7 @@ as the first suggestions when I use `M-x`.
     (ivy-prescient-mode)
 
 
-<a id="org4d1784f"></a>
+<a id="org86c4901"></a>
 
 ## COMpleting ANYthing; Company
 
@@ -3275,7 +3322,7 @@ Add emoji support. For instance, `:smile:` completes to 😄.
       :config (add-to-list 'company-backends 'company-emoji))
 
 
-<a id="org63bc10c"></a>
+<a id="orgc1eda75"></a>
 
 ## Snippets
 
@@ -3335,7 +3382,7 @@ Taken without additional commentary for now from Musa's init.
     (setq company-backends (mapcar #'my/company-backend-with-yankpad company-backends))
 
 
-<a id="org46bdca1"></a>
+<a id="orgcb44cd5"></a>
 
 ## Previewing before undoing; `undo-propose`
 
@@ -3368,12 +3415,12 @@ For the moment, I will stick to the builtin undo behaviour,
 with `undo-propose` to help visualise the changes.
 
 
-<a id="org6b0b690"></a>
+<a id="org416e12c"></a>
 
 # Final cosmetics
 
 
-<a id="orgea22878"></a>
+<a id="org16f04f0"></a>
 
 ## Modeline styling
 
@@ -3430,7 +3477,7 @@ In fact, let's make that colouring constant across themes.
     (powerline-reset)
 
 
-<a id="orge808a76"></a>
+<a id="orgb8d0764"></a>
 
 ## Flash on error
 
@@ -3445,7 +3492,7 @@ I'd previously just used `visible-bell`, but it's a bit nosier
 than necessary.
 
 
-<a id="org0359258"></a>
+<a id="org89d2cfa"></a>
 
 ## Diminish minor mode names
 
@@ -3471,7 +3518,7 @@ If later I want to rename modes, just add a string argument
 to the above form with a (presumably shorter) name.
 
 
-<a id="org31d416f"></a>
+<a id="org8485938"></a>
 
 ## Kill the open init buffer and reopen it
 
@@ -3482,12 +3529,12 @@ kill my init buffer that we opened earlier and reopen it.
     (find-file my/emacs-init-file)
 
 
-<a id="org30d6277"></a>
+<a id="orgda3e698"></a>
 
-# Final modes and final mode settings
+# Final modes and final mode-specific settings
 
 
-<a id="orgf05d260"></a>
+<a id="orgf56919f"></a>
 
 ## Org mode
 
@@ -3536,17 +3583,7 @@ used in most export formats (at least HTML and LaTeX.)
     (setq org-list-allow-alphabetical t)
 
 
-### Reveal hidden elements if they are edited
-
-Folding a document raises the possibility of accidentally editing
-hidden portions. Org provides a way to defend against this:
-On making an “invisible” edit, the hidden portion will be unfolded
-so the edit can be seen.
-
-    (setq org-catch-invisible-edits 'show)
-
-
-<a id="org2a712f4"></a>
+<a id="org56116b9"></a>
 
 ## `dired`
 
@@ -3632,7 +3669,7 @@ the cursor is on.
     (add-hook 'dired-after-readin-hook 'hl-line-mode)
 
 
-<a id="orgaed2069"></a>
+<a id="org34a8ace"></a>
 
 ## `eshell`
 
@@ -3674,7 +3711,7 @@ for dark themes and black for light themes.
         (propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground ,default))))))
 
 
-<a id="org93cca91"></a>
+<a id="orgf7f1355"></a>
 
 ## `which-key`
 
@@ -3691,7 +3728,7 @@ occasionally it is enlightening to take some time
 and browse the possible completions of prefixes as you type.
 
 
-<a id="org87a4602"></a>
+<a id="orgb2762e2"></a>
 
 ## `winner-mode`
 
@@ -3701,7 +3738,7 @@ See my keybindings for this above.
     (winner-mode 1)
 
 
-<a id="org98474df"></a>
+<a id="orgcbee3c6"></a>
 
 ## `windmove`
 
@@ -3725,7 +3762,7 @@ or otherwise taken in Emacs.
 So instead I've defined shortcuts using `general` above.
 
 
-<a id="org60f85f0"></a>
+<a id="orgcd9a8a8"></a>
 
 ## Ediff
 
@@ -3742,7 +3779,7 @@ rather than split vertically.
     (setq ediff-split-window-function 'split-window-horizontally)
 
 
-<a id="org8ef6855"></a>
+<a id="orgb38fab1"></a>
 
 ## `magit`
 
@@ -3761,14 +3798,14 @@ from the comfort of Magit and the rest of Emacs.”
       :after magit)
 
 
-<a id="org2fb8410"></a>
+<a id="orge14d78c"></a>
 
 ## Purescript
 
     (use-package purescript-mode)
 
 
-<a id="org2d6e2ba"></a>
+<a id="orgd165e45"></a>
 
 # Session setup
 
@@ -3779,7 +3816,7 @@ will be properly applied (when we reopen it).
     (kill-buffer "emacs-init.org")
 
 
-<a id="org389b7a0"></a>
+<a id="orgb67e1ae"></a>
 
 ## Filepaths
 
@@ -3802,7 +3839,7 @@ are listed here.
     (setq-local my/agda-scratch (concat my/agda-dir "agda-scratch.agda"))
 
 
-<a id="org7eb08fe"></a>
+<a id="org602ad44"></a>
 
 ## Create tabs
 
@@ -3849,7 +3886,7 @@ for use when working on other/random things.
     (tab-rename "-")
 
 
-<a id="orga4e9624"></a>
+<a id="orga9d49bd"></a>
 
 ## Visit tabs and setup buffers
 
@@ -3964,12 +4001,12 @@ we get unique buffers.
     (tab-select 1)
 
 
-<a id="orgf4be061"></a>
+<a id="orgc9a3890"></a>
 
 # Cleanup
 
 
-<a id="orge253c4c"></a>
+<a id="org70b235c"></a>
 
 ## Check the contents of the (proper/system) init file
 
@@ -4025,7 +4062,7 @@ Some notes about this:
             the actual file contents.
 
 
-<a id="org6eb46c9"></a>
+<a id="org05e3eaa"></a>
 
 ## Update the `README` file
 
@@ -4093,7 +4130,7 @@ an regularly commit the changes.
             (kill-buffer (find-buffer-visiting readme-md))))))
 
 
-<a id="orgff6ec3b"></a>
+<a id="org848b85b"></a>
 
 ## Prompt before quitting Emacs
 
