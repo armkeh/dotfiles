@@ -738,14 +738,14 @@ and disabled it.
 (setq org-src-fontify-natively t)
 #+end_src
 
-*** Other
+*** Reveal hidden elements if they are edited
 
-:TODO: Check over and probably refile.
-
-**** Inline tasks
-
+Folding a document raises the possibility of accidentally editing
+hidden portions. Org provides a way to defend against this:
+On making an “invisible” edit, the hidden portion will be unfolded
+so the edit can be seen.
 #+begin_src emacs-lisp
-(require 'org-inlinetask)
+(setq org-catch-invisible-edits 'show)
 #+end_src
 
 ** Sending email: ~send-mail~
@@ -3446,17 +3446,6 @@ Note that the labels used in the plaintext Org do not affect the labels
 used in most export formats (at least HTML and LaTeX.)
 #+begin_src emacs-lisp
 (setq org-list-allow-alphabetical t)
-#+end_src
-
-*** Reveal hidden elements if they are edited
-
-Folding a document raises the possibility of accidentally editing
-hidden portions. Org provides a way to defend against this:
-On making an “invisible” edit, the hidden portion will be unfolded
-so the edit can be seen.
-
-#+begin_src emacs-lisp
-(setq org-catch-invisible-edits 'show)
 #+end_src
 
 ** ~dired~
