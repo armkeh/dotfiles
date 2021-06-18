@@ -22,8 +22,98 @@ And it simplifies the “binary search” approach to debugging,
 where we recursively disable roughly half the init file in order
 to find the source of some bug.
 
+** Tags
+
 For the sake of searching for settings via their “theme”,
 I try to tag headings in this file.
+
+Here is a list of notable tags.
+Included is a snippet of code to construct a sparse tree
+to bring into view only those headings with that tag
+while viewing this file in Emacs.
+- ~:org:~; settings for Org mode.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "org")
+  #+end_example
+
+- ~:mail:~; settings for receiving, reading and sending emails.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "mail")
+  #+end_example
+
+- ~:programming:~; settings for any programming languages.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "programming")
+  #+end_example
+
+- ~:vc:~; settings for version control and related notions,
+  such as “diff” and “undo” utilities.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "vc")
+  #+end_example
+
+- ~:completion:~; settings for completion frameworks and related notions,
+  such as snippets.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "completion")
+  #+end_example
+
+- ~:delimiter:~; settings pertaining to delimiters.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "delimiter")
+  #+end_example
+
+- ~:line:~; settings pertaining to the notion of a line.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "line")
+  #+end_example
+
+- ~:space:~; settings dealing with whitespace.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "space")
+  #+end_example
+
+- ~:font:~; settings for font.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "font")
+  #+end_example
+
+- ~:theme:~; settings for theme or other appearance details.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "theme")
+  #+end_example
+
+- ~:buffer:~; settings dealing with the notion of buffers.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "buffer")
+  #+end_example
+
+- ~:window:~; settings dealing with the notion of Emacs windows
+  (not OS windows.)
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "window")
+  #+end_example
+
+- ~:tab:~; settings dealing with the tab bar.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "tab")
+  #+end_example
+
+- ~:basic:~; settings for basic elements of Emacs.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "basic")
+  #+end_example
+
+- ~:simplify:~; settings to remove or hide elements of Emacs I do not use.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "simplify")
+  #+end_example
+
+- ~:cleanup:~; portions of the file which are just for cleanup,
+  not really for adjusting settings.
+  #+begin_example emacs-lisp
+(org-match-sparse-tree nil "cleanup")
+  #+end_example
 
 ** The file layout
 
@@ -410,7 +500,7 @@ to kill its associated buffer when the process finishes.
 
 * Simple cosmetics
 
-** First: disable the splashscreen and find the my emacs init file
+** Disable the splashscreen and open this file :basic:simplify:
 
 This way, if something goes wrong below, I am positioned to fix it
 right away.
@@ -422,7 +512,7 @@ right away.
 This file will be closed and re-opened below, to ensure
 all cosmetic changes show correctly.
 
-** Disable unnecessary interface elements
+** Disable unnecessary interface elements      :basic:simplify:
 
 I don't use the menubar, toolbar (icons usually below the menu),
 or scroll bars.
@@ -432,7 +522,7 @@ or scroll bars.
 (scroll-bar-mode -1)
 #+end_src
 
-** Fonts
+** Fonts                                       :font:
 
 I like the Cousine font, and usually use a small 11in screen,
 and so use a small font; 9pt seems to be a sweet spot.
@@ -441,7 +531,7 @@ and so use a small font; 9pt seems to be a sweet spot.
              '(font . "Cousine-9"))
 #+end_src
 
-** Line and column information
+** Line and column information                 :line:
 
 *** Line numbers
 
@@ -488,7 +578,7 @@ but I found it to cause noticable lag.
 Using ~whitespace-mode~ to highlight lines exceeding a certain number
 of characters was my preferred approach at that time.
 
-** Themes
+** Themes                                      :theme:
 
 I use Protesilaos Stavrou's [[https://protesilaos.com/modus-themes/][Modus themes]], which
 “[conform] with the highest standard for colour contrast
@@ -508,7 +598,7 @@ but like to toggle between it and the light ~modus-operandi~ at need.
 (load-theme my/dark-theme t)
 #+end_src
 
-** Highlight matching delimters
+** Highlight matching delimiters               :delimiter:
 
 *** Highlight matching delimiters
 
@@ -531,7 +621,7 @@ to be black.
                          :weight ultra-bold)))))
 #+end_src
 
-** Kill the open init buffer and reopen it
+** Kill the open init buffer and reopen it     :cleanup:
 
 To ensure all these cosmetic changes are picked up,
 kill my init buffer that we opened earlier and reopen it.
@@ -542,14 +632,14 @@ kill my init buffer that we opened earlier and reopen it.
 
 * Vital non-mode-specific settings
 
-** User information
+** User information                            :basic:
 
 #+begin_src emacs-lisp
 (setq user-full-name "Mark Armstrong")
 (setq user-mail-address "markparmstrong@gmail.com")
 #+end_src
 
-** Automatically revert unchanged files which change on the disk
+** Automatically revert unchanged files which change on the disk :vc:
 
 Ideally this helps us avoid conflicts, in case I edit open files elsewhere.
 Note reverting will not take place if there are unsaved changes,
@@ -563,7 +653,7 @@ conflicts can still happen if one system is offline or the syncing
 gets behind some other way, but with automatic reverts
 it's less likely I trip over my own changes.
 
-** Set what characters qualify as delimiters
+** Set what characters qualify as delimiters   :delimiter:
 
 *** Angle brackets are not delimiters to me
 
@@ -637,13 +727,13 @@ Apply those syntax entry modifications.
 (add-hook 'text-mode-hook 'my/unicode-delimiter-syntax)
 #+end_src
 
-** Always use spaces instead of tabs
+** Always use spaces instead of tabs           :space:
 
 #+begin_src emacs-lisp
 (setq-default indent-tabs-mode nil)
 #+end_src
 
-** Turn off electric indent mode
+** Turn off electric indent mode               :space:
 
 I don't use this or appreciate its interference.
 #+begin_src emacs-lisp
@@ -652,7 +742,7 @@ I don't use this or appreciate its interference.
 
 * Vital modes and vital mode-specific settings
 
-** Org mode
+** Org mode                                    :org:
 
 *** Preamble
 
@@ -808,7 +898,7 @@ so the edit can be seen.
 (setq org-catch-invisible-edits 'show)
 #+end_src
 
-** Sending email: ~send-mail~
+** Sending email: ~send-mail~                    :mail:
 
 :TODO: Check for cleanup of send-mail settings.
 
@@ -854,7 +944,7 @@ After sending an email, kill the buffer.
 (setq message-kill-buffer-on-exit t)
 #+end_src
 
-** Reading email: ~mu4e~ (with isync)
+** Reading email: ~mu4e~ (with isync)            :mail:
 
 :TODO: Check for cleanup of mu4e settings.
 
@@ -1278,7 +1368,7 @@ Without this, we might get an error asking if we started ~mu4e.~
 (mu4e)
 #+end_src
 
-** ~agda~ mode
+** ~agda~ mode                                   :programming:
 
 :TODO: Check for cleanup of Agda settings.
 
@@ -1627,7 +1717,7 @@ override my shortcuts.
 
 ** Invoke processes
 
-*** ~yankpad~
+*** ~yankpad~                                   :completion:
 
 #+begin_src emacs-lisp
 (general-main-define-key
@@ -1729,14 +1819,14 @@ multiple ~dired~ windows open in different tabs.
         :which-key "new eshell"))
 #+end_src
 
-*** ~magit~
+*** ~magit~                                     :vc:
 
 #+begin_src emacs-lisp
 (general-main-define-key
   "g" 'magit-status)
 #+end_src
 
-*** ~mu4e~
+*** ~mu4e~                                      :mail:
 
 #+begin_src emacs-lisp
 (general-main-define-key
@@ -1768,7 +1858,7 @@ See the ~kill-buffer-on-process-finish~ definition earlier in this file.
   "p" 'list-processes)
 #+end_src
 
-** Buffer 
+** Buffer                                      :buffer:
 
 #+begin_src emacs-lisp
 (general-buffer-define-key
@@ -1788,7 +1878,7 @@ See the ~kill-buffer-on-process-finish~ definition earlier in this file.
         :which-key "buffer bottom"))
 #+end_src
 
-** Appearance
+** Appearance                                  :theme:
 
 #+begin_src emacs-lisp
 (general-appearance-define-key
@@ -1844,7 +1934,7 @@ Sometimes I need to toggle fontlocking.
             :which-key "no font lock"))
 #+end_src
 
-** Window management
+** Window management                           :window:
 
 #+begin_src emacs-lisp
 (general-window-define-key
@@ -1873,7 +1963,7 @@ Sometimes I need to toggle fontlocking.
             :which-key "maximise  window"))
 #+end_src
 
-** Tab management
+** Tab management                              :tab:
 
 #+begin_src emacs-lisp
   (general-tab-define-key
@@ -1904,14 +1994,14 @@ Sometimes I need to toggle fontlocking.
     "=" (lambda () (interactive) (tab-select 12)))
 #+end_src
 
-** Counsel
+** Counsel                                     :completion:
 
 #+begin_src emacs-lisp
 (general-main-define-key
   "y" 'counsel-yank-pop)
 #+end_src
 
-** Company
+** Company                                     :completion:
 
 #+begin_src emacs-lisp
 (general-main-define-key
@@ -1930,7 +2020,7 @@ without leaving me work environment 😀.
 
 * Intermediate cosmetics
 
-** Whitespace display
+** Whitespace display                          :space:
 
 *** Tabs
 
@@ -1983,7 +2073,7 @@ The visualisation is done by changing the display table,
 and there is no ability to do so only in particular places.
 Otherwise I would use that rather than highlighting.
 
-** Rainbow delimiters
+** Rainbow delimiters                          :delimiter:
 
 Above, I have settings for highlighting the delimiter
 matching the one under the cursor.
@@ -2028,7 +2118,7 @@ regular expressions, which require some commented out
 delimiters to avoid breaking all delimiter matching
 later in this file.
 
-** Tab-bar
+** Tab-bar                                     :tab:
 
 #+begin_src emacs-lisp
 (tab-bar-mode)
@@ -2063,7 +2153,7 @@ and I can close tabs by other commands easily enough.
 (setq tab-bar-close-button-show nil)
 #+end_src
 
-** A more noticable divider between windows
+** A more noticable divider between windows    :window:
 
 One problem with a fill column ruler is that it can seem like
 it is the divider between windows.
@@ -2074,7 +2164,7 @@ between windows. ~window-divider-mode~ provides this.
 (window-divider-mode)
 #+end_src
 
-** Dim buffers when not in use
+** Dim buffers when not in use                 :buffer:
 
 The package ~dimmer~ will dim inactive windows to emphasise which
 window has focus.
@@ -2117,7 +2207,7 @@ notices that it does not have focus in the windowing system.
 I like this behaviour; it could be changed by changing
 the variable ~dimmer-watch-frame-focus-events~.
 
-** Kill the open init buffer and reopen it
+** Kill the open init buffer and reopen it     :cleanup:
 
 To ensure all these cosmetic changes are picked up,
 kill my init buffer that we opened earlier and reopen it.
@@ -2128,7 +2218,7 @@ kill my init buffer that we opened earlier and reopen it.
 
 * Intermediate modes and intermediate mode-specific settings
 
-** Org mode cosmetics
+** Org mode cosmetics                          :org:
 
 **** Indent text based on heading by default
 
@@ -2508,7 +2598,7 @@ Nuanced red for text.
 Hello world.
 #+end_example
 
-** Org mode exportation settings
+** Org mode exportation settings               :org:
 
 *** Export in the background
 
@@ -3087,7 +3177,7 @@ Again, note that nothing will show up in LaTeX exports!
              '(:exports . "results"))
 #+end_src
 
-** A completion framework; Ivy, Counsel and Swiper
+** A completion framework; Ivy, Counsel and Swiper :completion:
 
 :TODO: Better documentation here.
 
@@ -3155,7 +3245,7 @@ as the first suggestions when I use ~M-x~.
 (ivy-prescient-mode)
 #+end_src
 
-** COMpleting ANYthing; Company
+** COMpleting ANYthing; Company                :completion:
 
 :TODO: Review these settings, and consider reformatting to avoid open parenthese across codeblocks.
 
@@ -3253,7 +3343,7 @@ Add emoji support. For instance, ~:smile:~ completes to 😄.
   :config (add-to-list 'company-backends 'company-emoji))
 #+end_src
 
-** Snippets
+** Snippets                                    :completion:
 
 I use ~yasnippets~ for text expansion, and ~yankpad~ to organise my
 snippets.
@@ -3316,7 +3406,7 @@ Taken without additional commentary for now from Musa's init.
 (setq company-backends (mapcar #'my/company-backend-with-yankpad company-backends))
 #+end_src
 
-** Previewing before undoing; ~undo-propose~
+** Previewing before undoing; ~undo-propose~     :vc:
 
 The ~undo-propose~ package is a fairly minimal addition to
 the builtin undo features of Emacs
@@ -3348,7 +3438,7 @@ with ~undo-propose~ to help visualise the changes.
 
 * Final cosmetics
 
-** Modeline styling
+** Modeline styling                            :theme:
 
 While I don't use Spacemacs, I do like it's sleek modeline.
 #+begin_src emacs-lisp
@@ -3453,7 +3543,7 @@ I don't need to see that these modes are active.
 If later I want to rename modes, just add a string argument
 to the above form with a (presumably shorter) name.
 
-** Kill the open init buffer and reopen it
+** Kill the open init buffer and reopen it     :cleanup:
 
 To ensure all these cosmetic changes are picked up,
 kill my init buffer that we opened earlier and reopen it.
@@ -3464,7 +3554,7 @@ kill my init buffer that we opened earlier and reopen it.
 
 * Final modes and final mode-specific settings
 
-** Org mode
+** Org mode                                    :org:
 
 *** Speed keys
 
@@ -3592,7 +3682,7 @@ for dark themes and black for light themes.
     (propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground ,default))))))
 #+end_src
 
-** ~which-key~
+** ~which-key~                                   :completion:
 
 ~which-key-mode~ is a handy minor mode that shows us
 possible completions as we type commands.
@@ -3607,7 +3697,7 @@ It is also useful for discovery of shortcuts;
 occasionally it is enlightening to take some time
 and browse the possible completions of prefixes as you type.
 
-** ~winner-mode~
+** ~winner-mode~                                 :window:
 
 ~winner-mode~ allows us to undo or redo changes to window layouts.
 See my keybindings for this above.
@@ -3615,7 +3705,7 @@ See my keybindings for this above.
 (winner-mode 1)
 #+end_src
 
-** ~windmove~
+** ~windmove~                                    :window:
 
 The package ~windmove~ lets us jump between windows in a frame.
 
@@ -3638,7 +3728,7 @@ or otherwise taken in Emacs.
 
 So instead I've defined shortcuts using ~general~ above.
 
-** Ediff
+** Ediff                                       :vc:
 
 By default, when using the GUI, Ediff opens a new frame for
 the controls for the Ediff session.
@@ -3654,7 +3744,7 @@ rather than split vertically.
 (setq ediff-split-window-function 'split-window-horizontally)
 #+end_src
 
-** ~magit~
+** ~magit~                                       :vc:
 
 Explicitely install ~magit~, “a Git Porcelain inside Emacs”.
 This is a killer feature of Emacs; ~magit~ not only simplifies
@@ -3672,7 +3762,7 @@ from the comfort of Magit and the rest of Emacs.”
   :after magit)
 #+end_src
 
-** Purescript
+** Purescript                                  :programming:
 
 #+begin_src emacs-lisp
 (use-package purescript-mode)

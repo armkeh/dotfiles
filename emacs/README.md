@@ -14,92 +14,93 @@ See also my
 
 # Table of Contents
 
-1.  [Introduction](#orgac06626)
-    1.  [The file layout](#org0f8de1f)
-2.  [How to use this file](#orga9f3474)
-3.  [Environment setup and package management](#org776dbfa)
-    1.  [Set a “custom” file](#org69ad75c)
-    2.  [Basic package management](#orgbc4b1b9)
-    3.  [Set package repositories](#orgf255c52)
-    4.  [A package manager – `use-package`](#orgbd3ea64)
-    5.  [Update packages](#org1c2d181)
-    6.  [Make sure we have the right PATH](#orgf15ff42)
-    7.  [Set a directory for non-package manager managed Elisp files](#org0b4e5b8)
-    8.  [Elisp utilities](#orgdc9eb14)
-4.  [Custom Elisp](#org4a7ee8d)
-    1.  [Toggle themes](#org2dcffca)
-    2.  [Theme change hook](#org05e4aba)
-    3.  [Cascading window setup](#org205cbba)
-    4.  [Killing a buffer when its associated process finishes](#org7a4a93e)
-5.  [Simple cosmetics](#orgc177521)
-    1.  [First: disable the splashscreen and find the my emacs init file](#org1ba1756)
-    2.  [Disable unnecessary interface elements](#org4118bd5)
-    3.  [Fonts](#org2dba6f5)
-    4.  [Line and column information](#orgb5ad1e2)
-    5.  [Themes](#org9069ed7)
-    6.  [Highlight matching delimters](#org5a75684)
-    7.  [Kill the open init buffer and reopen it](#orgb32a52c)
-6.  [Vital non-mode-specific settings](#org438f39f)
-    1.  [User information](#orge6ab4cd)
-    2.  [Automatically revert unchanged files which change on the disk](#orgdb23477)
-    3.  [Set what characters qualify as delimiters](#org94e31b0)
-    4.  [Always use spaces instead of tabs](#org06db2a1)
-    5.  [Turn off electric indent mode](#orgab691c0)
-7.  [Vital modes and vital mode-specific settings](#org2b138e2)
-    1.  [Org mode](#org4a2f7a0)
-    2.  [Sending email: `send-mail`](#orgf307fc8)
-    3.  [Reading email: `mu4e` (with isync)](#org1e63f7e)
-    4.  [`agda` mode](#org49c5ef1)
-8.  [Keybindings](#org86e4de9)
-    1.  [`general` definers](#orgb73a9ea)
-    2.  [Invoke processes](#org02007ca)
-    3.  [Buffer](#orgd9f3c3b)
-    4.  [Appearance](#orgf505a3c)
-    5.  [Window management](#org77ae9cb)
-    6.  [Tab management](#org3dbca45)
-    7.  [Counsel](#org3c2dec3)
-    8.  [Company](#org7ba7eb2)
-    9.  [Other](#orgcc42759)
-9.  [Intermediate cosmetics](#org03a680a)
-    1.  [Whitespace display](#org068f41b)
-    2.  [Rainbow delimiters](#org7e70fec)
-    3.  [Tab-bar](#orga6f3e8c)
-    4.  [A more noticable divider between windows](#orge59957c)
-    5.  [Dim buffers when not in use](#org88c27fc)
-    6.  [Kill the open init buffer and reopen it](#orge023140)
-10. [Intermediate modes and intermediate mode-specific settings](#org05f9061)
-    1.  [Org mode cosmetics](#org532499d)
-    2.  [Org mode exportation settings](#orgcf5b0c8)
-    3.  [A completion framework; Ivy, Counsel and Swiper](#org1e2d958)
-    4.  [COMpleting ANYthing; Company](#org86c4901)
-    5.  [Snippets](#orgc1eda75)
-    6.  [Previewing before undoing; `undo-propose`](#orgcb44cd5)
-11. [Final cosmetics](#org416e12c)
-    1.  [Modeline styling](#org16f04f0)
-    2.  [Flash on error](#orgb8d0764)
-    3.  [Diminish minor mode names](#org89d2cfa)
-    4.  [Kill the open init buffer and reopen it](#org8485938)
-12. [Final modes and final mode-specific settings](#orgda3e698)
-    1.  [Org mode](#orgf56919f)
-    2.  [`dired`](#org56116b9)
-    3.  [`eshell`](#org34a8ace)
-    4.  [`which-key`](#orgf7f1355)
-    5.  [`winner-mode`](#orgb2762e2)
-    6.  [`windmove`](#orgcbee3c6)
-    7.  [Ediff](#orgcd9a8a8)
-    8.  [`magit`](#orgb38fab1)
-    9.  [Purescript](#orge14d78c)
-13. [Session setup](#orgd165e45)
-    1.  [Filepaths](#orgb67e1ae)
-    2.  [Create tabs](#org602ad44)
-    3.  [Visit tabs and setup buffers](#orga9d49bd)
-14. [Cleanup](#orgc9a3890)
-    1.  [Check the contents of the (proper/system) init file](#org70b235c)
-    2.  [Update the `README` file](#org05e3eaa)
-    3.  [Prompt before quitting Emacs](#org848b85b)
+-   [Introduction](#orgc348a9b)
+    -   [Tags](#org91bfbff)
+    -   [The file layout](#org92165a9)
+-   [How to use this file](#org6c9fd85)
+-   [Environment setup and package management](#org4339e89)
+    -   [Set a “custom” file](#org68cd2b7)
+    -   [Basic package management](#org0d057e1)
+    -   [Set package repositories](#org208d7ba)
+    -   [A package manager – `use-package`](#org0741a6a)
+    -   [Update packages](#org7d7fd90)
+    -   [Make sure we have the right PATH](#org6d1d8d9)
+    -   [Set a directory for non-package manager managed Elisp files](#org9146692)
+    -   [Elisp utilities](#orgb90af10)
+-   [Custom Elisp](#org7ae909e)
+    -   [Toggle themes](#org2b40bce)
+    -   [Theme change hook](#org94aa338)
+    -   [Cascading window setup](#orgd3c426b)
+    -   [Killing a buffer when its associated process finishes](#org987465f)
+-   [Simple cosmetics](#orgcb5ae53)
+    -   [Disable the splashscreen and open this file](#orga12b2ee):basic:simplify:
+    -   [Disable unnecessary interface elements](#org436695a):basic:simplify:
+    -   [Fonts](#org08aa7bf):font:
+    -   [Line and column information](#orgab16306):line:
+    -   [Themes](#org67dad0c):theme:
+    -   [Highlight matching delimiters](#org46f7f3e):delimiter:
+    -   [Kill the open init buffer and reopen it](#orgc5870ff):cleanup:
+-   [Vital non-mode-specific settings](#org654a893)
+    -   [User information](#org0bcfe95):basic:
+    -   [Automatically revert unchanged files which change on the disk](#orgcea5b81):vc:
+    -   [Set what characters qualify as delimiters](#org19929ac):delimiter:
+    -   [Always use spaces instead of tabs](#org5aaf0c6):space:
+    -   [Turn off electric indent mode](#org722f9b4):space:
+-   [Vital modes and vital mode-specific settings](#orgb076443)
+    -   [Org mode](#orgc4773ec):org:
+    -   [Sending email: `send-mail`](#orgbfd654e):mail:
+    -   [Reading email: `mu4e` (with isync)](#org5b8166c):mail:
+    -   [`agda` mode](#orgba2bc87):programming:
+-   [Keybindings](#org04a8fd1)
+    -   [`general` definers](#org0940e83)
+    -   [Invoke processes](#orge697fa5)
+    -   [Buffer](#orga876d3a):buffer:
+    -   [Appearance](#orgcb82d6d):theme:
+    -   [Window management](#org65cf8a3):window:
+    -   [Tab management](#orgedebb28):tab:
+    -   [Counsel](#org16cbb16):completion:
+    -   [Company](#org88c452d):completion:
+    -   [Other](#org8f70d28)
+-   [Intermediate cosmetics](#orgf874f45)
+    -   [Whitespace display](#org8c30e1a):space:
+    -   [Rainbow delimiters](#org24dce42):delimiter:
+    -   [Tab-bar](#orgb0c4999):tab:
+    -   [A more noticable divider between windows](#org57168d1):window:
+    -   [Dim buffers when not in use](#org8520884):buffer:
+    -   [Kill the open init buffer and reopen it](#orge6067af):cleanup:
+-   [Intermediate modes and intermediate mode-specific settings](#org6117f7b)
+    -   [Org mode cosmetics](#orgea16af3):org:
+    -   [Org mode exportation settings](#org10a97d9):org:
+    -   [A completion framework; Ivy, Counsel and Swiper](#org32a4d88):completion:
+    -   [COMpleting ANYthing; Company](#orgf15c356):completion:
+    -   [Snippets](#org734b596):completion:
+    -   [Previewing before undoing; `undo-propose`](#orgf38f976):vc:
+-   [Final cosmetics](#org6ec82f0)
+    -   [Modeline styling](#org7a2fb08):theme:
+    -   [Flash on error](#org7052d68)
+    -   [Diminish minor mode names](#org38ce04d)
+    -   [Kill the open init buffer and reopen it](#org5d3725a):cleanup:
+-   [Final modes and final mode-specific settings](#org61cc501)
+    -   [Org mode](#org01cb888):org:
+    -   [`dired`](#org4e8632b)
+    -   [`eshell`](#orgb6cf2b8)
+    -   [`which-key`](#org2fc890c):completion:
+    -   [`winner-mode`](#orge4c99d2):window:
+    -   [`windmove`](#org3ebfe0c):window:
+    -   [Ediff](#org285fe34):vc:
+    -   [`magit`](#org6dcf9c8):vc:
+    -   [Purescript](#org9a6b996):programming:
+-   [Session setup](#orgdaace2d)
+    -   [Filepaths](#orgb8f3dfd)
+    -   [Create tabs](#orgfb9d051)
+    -   [Visit tabs and setup buffers](#orgaf58626)
+-   [Cleanup](#orgbf4666a)
+    -   [Check the contents of the (proper/system) init file](#org56c5a61)
+    -   [Update the `README` file](#orgc834a58)
+    -   [Prompt before quitting Emacs](#org7f9ebe1)
 
 
-<a id="orgac06626"></a>
+<a id="orgc348a9b"></a>
 
 # Introduction
 
@@ -116,31 +117,109 @@ And it simplifies the “binary search” approach to debugging,
 where we recursively disable roughly half the init file in order
 to find the source of some bug.
 
+
+<a id="org91bfbff"></a>
+
+## Tags
+
 For the sake of searching for settings via their “theme”,
 I try to tag headings in this file.
 
+Here is a list of notable tags.
+Included is a snippet of code to construct a sparse tree
+to bring into view only those headings with that tag
+while viewing this file in Emacs.
 
-<a id="org0f8de1f"></a>
+-   `:org:`; settings for Org mode.
+    
+        (org-match-sparse-tree nil "org")
+
+-   `:mail:`; settings for receiving, reading and sending emails.
+    
+        (org-match-sparse-tree nil "mail")
+
+-   `:programming:`; settings for any programming languages.
+    
+        (org-match-sparse-tree nil "programming")
+
+-   `:vc:`; settings for version control and related notions,
+    such as “diff” and “undo” utilities.
+    
+        (org-match-sparse-tree nil "vc")
+
+-   `:completion:`; settings for completion frameworks and related notions,
+    such as snippets.
+    
+        (org-match-sparse-tree nil "completion")
+
+-   `:delimiter:`; settings pertaining to delimiters.
+    
+        (org-match-sparse-tree nil "delimiter")
+
+-   `:line:`; settings pertaining to the notion of a line.
+    
+        (org-match-sparse-tree nil "line")
+
+-   `:space:`; settings dealing with whitespace.
+    
+        (org-match-sparse-tree nil "space")
+
+-   `:font:`; settings for font.
+    
+        (org-match-sparse-tree nil "font")
+
+-   `:theme:`; settings for theme or other appearance details.
+    
+        (org-match-sparse-tree nil "theme")
+
+-   `:buffer:`; settings dealing with the notion of buffers.
+    
+        (org-match-sparse-tree nil "buffer")
+
+-   `:window:`; settings dealing with the notion of Emacs windows
+    (not OS windows.)
+    
+        (org-match-sparse-tree nil "window")
+
+-   `:tab:`; settings dealing with the tab bar.
+    
+        (org-match-sparse-tree nil "tab")
+
+-   `:basic:`; settings for basic elements of Emacs.
+    
+        (org-match-sparse-tree nil "basic")
+
+-   `:simplify:`; settings to remove or hide elements of Emacs I do not use.
+    
+        (org-match-sparse-tree nil "simplify")
+
+-   `:cleanup:`; portions of the file which are just for cleanup,
+    not really for adjusting settings.
+    
+        (org-match-sparse-tree nil "cleanup")
+
+
+<a id="org92165a9"></a>
 
 ## The file layout
 
--   [2](#orga9f3474)
+-   [How to use this file](#org6c9fd85)
     -   Instructions on how this file is to incorporated
         into ones Emacs init.
     -   Includes the contents of my “actual” Emacs init file,
         which carries out the incorporation of this file into my init.
--   [3](#org776dbfa)
+-   [Environment setup and package management](#org4339e89)
     -   Carries out environment variable setup
         and sets up package management
         that is used to install and set up packages
         in the remainder of the document.
--   [4](#org4a7ee8d)
+-   [Custom Elisp](#org7ae909e)
     -   Elisp utilities I have written which have somewhat general purpose,
         so that it is not appropriate for them to be tucked in
         with the settings for a particular package.
     -   Some of these utilities are simply waiting
         for a better longterm home.
--   [5](#orgc177521)
+-   [Simple cosmetics](#orgcb5ae53)
     -   Harmless cosmetic changes, that make the worst case of a
         crash during initialisation more comfortable.
         -   Nothing that should affect performance.
@@ -148,7 +227,7 @@ I try to tag headings in this file.
     -   Toggle some basic features. Including but not limited to:
         -   For instance, disable splash screens, menus and scroll bars,
         -   and enable line numbers and highlighting of parentheses.
--   [6](#org438f39f)
+-   [Vital non-mode-specific settings](#org654a893)
     -   Change Emacs settings that are vitally important,
         but which are not tied to a specific mode.
     -   I identify these settings as
@@ -161,16 +240,16 @@ I try to tag headings in this file.
         -   set up proper consideration of delimiters,
         -   use spaces instead of tabs everywhere, and
         -   ensure indentation behaves correctly.
--   [7](#org2b138e2)
+-   [Vital modes and vital mode-specific settings](#orgb076443)
     -   Activate packages I use near constantly, including:
         -   Org mode,
         -   mu4e, and
         -   while I am working on my thesis at least, Agda mode.
     -   And change any settings for them that are vital.
--   [8](#org86e4de9)
+-   [Keybindings](#org04a8fd1)
     -   Set up my keybindings.
     -   At time of writing, I use [general](https://github.com/noctuid/general.el) for all of this setup.
--   [9](#org03a680a)
+-   [Intermediate cosmetics](#orgf874f45)
     -   Cosmetics which are not absolutely vital,
         but make me significantly more comfortable and at home.
     -   Or cosmetics that may be vital, but were not simple enough
@@ -180,7 +259,7 @@ I try to tag headings in this file.
         -   display of some whitespace characters,
         -   colouring of delimiters,
         -   visuals that assist with distinguish the buffer in use more.
--   [10](#org05f9061)
+-   [Intermediate modes and intermediate mode-specific settings](#org6117f7b)
     -   Additional modes and additional settings for modes installed above
         which are not vital, but important.
     -   Including:
@@ -189,17 +268,17 @@ I try to tag headings in this file.
             and exportation settings.
         -   Completion and snippets setup.
         -   Undo assistants setup.
--   [11](#org416e12c)
+-   [Final cosmetics](#org6ec82f0)
     -   Any cosmetic settings that didn't fit in above.
     -   These should be truly “just for comfort” settings.
--   [12](#orgda3e698)
+-   [Final modes and final mode-specific settings](#org61cc501)
     -   Any modes that didn't fit in above.
     -   In the future, this section may need to be broken up
         if the number of headings here becomes excessive.
--   [13](#orgd165e45)
+-   [Session setup](#orgdaace2d)
     -   Code to open my starting tabs and files,
         setting up the session for me.
--   [14](#orgc9a3890)
+-   [Cleanup](#orgbf4666a)
     -   Any final tasks, including
         -   checking that the actual init file has not been tampered with,
         -   generating the README for the Emacs directory
@@ -210,14 +289,14 @@ I try to tag headings in this file.
             so we are unlikely to want to leave Emacs anytime soon.
 
 
-<a id="orga9f3474"></a>
+<a id="org6c9fd85"></a>
 
 # How to use this file
 
 I don't like to export this file to the proper Emacs init file,
 since that file may be modified by Emacs itself
 or sometimes other programs.
-(See below where we [3.1](#org69ad75c), which should
+(See below where we [Set a “custom” file](#org68cd2b7), which should
  avoid most modifications on Emacs' end;
  I've still had external programs feel it's appropriate
  to edit the file without my explicit permission
@@ -248,13 +327,13 @@ these lines:
     
     ;; END my edits
 
-In [14](#orgc9a3890) below, we check the contents of the proper Emacs init file
+In [Cleanup](#orgbf4666a) below, we check the contents of the proper Emacs init file
 against the above contents,
 to warn me if changes are made.
 Hence why the above source block is tangled to `/tmp/init.el`.
 
 
-<a id="org776dbfa"></a>
+<a id="org4339e89"></a>
 
 # Environment setup and package management
 
@@ -262,7 +341,7 @@ Before we really begin, we ensure environment settings are correct
 and setup `use-package` as a package manager.
 
 
-<a id="org69ad75c"></a>
+<a id="org68cd2b7"></a>
 
 ## Set a “custom” file
 
@@ -280,7 +359,7 @@ so I will be more able to notice changes to it.
     (ignore-errors (load custom-file))
 
 
-<a id="orgbc4b1b9"></a>
+<a id="org0d057e1"></a>
 
 ## Basic package management
 
@@ -292,7 +371,7 @@ to Emacs.
 We will shortly setup a package manager to ease installation of packages.
 
 
-<a id="orgf255c52"></a>
+<a id="org208d7ba"></a>
 
 ## Set package repositories
 
@@ -318,7 +397,7 @@ Now Org is best available though GNU ELPA, and there is a new
 (the + was dropped from the name.)
 
 
-<a id="orgbd3ea64"></a>
+<a id="org0741a6a"></a>
 
 ## A package manager – `use-package`
 
@@ -347,7 +426,7 @@ I always want to download packages that aren't installed.
     (setq use-package-always-ensure t)
 
 
-<a id="org1c2d181"></a>
+<a id="org7d7fd90"></a>
 
 ## Update packages
 
@@ -364,7 +443,7 @@ packages for me.
       (auto-package-update-maybe))
 
 
-<a id="orgf15ff42"></a>
+<a id="org6d1d8d9"></a>
 
 ## Make sure we have the right PATH
 
@@ -375,7 +454,7 @@ See <https://github.com/purcell/exec-path-from-shell>
       (exec-path-from-shell-initialize))
 
 
-<a id="org0b4e5b8"></a>
+<a id="org9146692"></a>
 
 ## Set a directory for non-package manager managed Elisp files
 
@@ -392,7 +471,7 @@ as subtrees in this directory, and the `.el` files will be picked up.
       (normal-top-level-add-subdirs-to-load-path))
 
 
-<a id="orgdc9eb14"></a>
+<a id="orgb90af10"></a>
 
 ## Elisp utilities
 
@@ -407,7 +486,7 @@ These utility packages simplify many families of tasks.
     (use-package f)
 
 
-<a id="org4a7ee8d"></a>
+<a id="org7ae909e"></a>
 
 # Custom Elisp
 
@@ -415,7 +494,7 @@ Some of this code may be moved to separate files later,
 but it's small and collected here for now.
 
 
-<a id="org2dcffca"></a>
+<a id="org2b40bce"></a>
 
 ## Toggle themes
 
@@ -452,7 +531,7 @@ These functions allow me to clear and toggle my themes.
             (load-theme my/dark-theme t))))
 
 
-<a id="org05e4aba"></a>
+<a id="org94aa338"></a>
 
 ## Theme change hook
 
@@ -467,7 +546,7 @@ This code snippet, taken from the linked reddit post, defines one I can use.
       (run-hooks 'after-load-theme-hook))
 
 
-<a id="org205cbba"></a>
+<a id="orgd3c426b"></a>
 
 ## Cascading window setup
 
@@ -512,7 +591,7 @@ The process is:
 :TODO: Create a alternate method for vertical screens, preferably also allowing on-the-fly switching between the two setups.
 
 
-<a id="org7a4a93e"></a>
+<a id="org987465f"></a>
 
 ## Killing a buffer when its associated process finishes
 
@@ -536,14 +615,14 @@ to kill its associated buffer when the process finishes.
         (shell-command-sentinel process signal)))
 
 
-<a id="orgc177521"></a>
+<a id="orgcb5ae53"></a>
 
 # Simple cosmetics
 
 
-<a id="org1ba1756"></a>
+<a id="orga12b2ee"></a>
 
-## First: disable the splashscreen and find the my emacs init file
+## Disable the splashscreen and open this file     :basic:simplify:
 
 This way, if something goes wrong below, I am positioned to fix it
 right away.
@@ -556,9 +635,9 @@ This file will be closed and re-opened below, to ensure
 all cosmetic changes show correctly.
 
 
-<a id="org4118bd5"></a>
+<a id="org436695a"></a>
 
-## Disable unnecessary interface elements
+## Disable unnecessary interface elements     :basic:simplify:
 
 I don't use the menubar, toolbar (icons usually below the menu),
 or scroll bars.
@@ -568,9 +647,9 @@ or scroll bars.
     (scroll-bar-mode -1)
 
 
-<a id="org2dba6f5"></a>
+<a id="org08aa7bf"></a>
 
-## Fonts
+## Fonts     :font:
 
 I like the Cousine font, and usually use a small 11in screen,
 and so use a small font; 9pt seems to be a sweet spot.
@@ -579,9 +658,9 @@ and so use a small font; 9pt seems to be a sweet spot.
                  '(font . "Cousine-9"))
 
 
-<a id="orgb5ad1e2"></a>
+<a id="orgab16306"></a>
 
-## Line and column information
+## Line and column information     :line:
 
 
 ### Line numbers
@@ -629,9 +708,9 @@ Using `whitespace-mode` to highlight lines exceeding a certain number
 of characters was my preferred approach at that time.
 
 
-<a id="org9069ed7"></a>
+<a id="org67dad0c"></a>
 
-## Themes
+## Themes     :theme:
 
 I use Protesilaos Stavrou's [Modus themes](https://protesilaos.com/modus-themes/), which
 “[conform] with the highest standard for colour contrast
@@ -650,9 +729,9 @@ but like to toggle between it and the light `modus-operandi` at need.
     (load-theme my/dark-theme t)
 
 
-<a id="org5a75684"></a>
+<a id="org46f7f3e"></a>
 
-## Highlight matching delimters
+## Highlight matching delimiters     :delimiter:
 
 
 ### Highlight matching delimiters
@@ -675,9 +754,9 @@ to be black.
                              :weight ultra-bold)))))
 
 
-<a id="orgb32a52c"></a>
+<a id="orgc5870ff"></a>
 
-## Kill the open init buffer and reopen it
+## Kill the open init buffer and reopen it     :cleanup:
 
 To ensure all these cosmetic changes are picked up,
 kill my init buffer that we opened earlier and reopen it.
@@ -686,22 +765,22 @@ kill my init buffer that we opened earlier and reopen it.
     (find-file my/emacs-init-file)
 
 
-<a id="org438f39f"></a>
+<a id="org654a893"></a>
 
 # Vital non-mode-specific settings
 
 
-<a id="orge6ab4cd"></a>
+<a id="org0bcfe95"></a>
 
-## User information
+## User information     :basic:
 
     (setq user-full-name "Mark Armstrong")
     (setq user-mail-address "markparmstrong@gmail.com")
 
 
-<a id="orgdb23477"></a>
+<a id="orgcea5b81"></a>
 
-## Automatically revert unchanged files which change on the disk
+## Automatically revert unchanged files which change on the disk     :vc:
 
 Ideally this helps us avoid conflicts, in case I edit open files elsewhere.
 Note reverting will not take place if there are unsaved changes,
@@ -715,9 +794,9 @@ gets behind some other way, but with automatic reverts
 it's less likely I trip over my own changes.
 
 
-<a id="org94e31b0"></a>
+<a id="org19929ac"></a>
 
-## Set what characters qualify as delimiters
+## Set what characters qualify as delimiters     :delimiter:
 
 
 ### Angle brackets are not delimiters to me
@@ -791,30 +870,30 @@ Apply those syntax entry modifications.
     (add-hook 'text-mode-hook 'my/unicode-delimiter-syntax)
 
 
-<a id="org06db2a1"></a>
+<a id="org5aaf0c6"></a>
 
-## Always use spaces instead of tabs
+## Always use spaces instead of tabs     :space:
 
     (setq-default indent-tabs-mode nil)
 
 
-<a id="orgab691c0"></a>
+<a id="org722f9b4"></a>
 
-## Turn off electric indent mode
+## Turn off electric indent mode     :space:
 
 I don't use this or appreciate its interference.
 
     (electric-indent-mode -1)
 
 
-<a id="org2b138e2"></a>
+<a id="orgb076443"></a>
 
 # Vital modes and vital mode-specific settings
 
 
-<a id="org4a2f7a0"></a>
+<a id="orgc4773ec"></a>
 
-## Org mode
+## Org mode     :org:
 
 
 ### Preamble
@@ -832,7 +911,7 @@ of the extras included in `org-contrib` (previously `org-plus-contrib`.)
 
 :TODO: Check over the Org literate programming section.
 
-1.  Execution
+-   Execution
 
     By default, Emacs will query whether we *actually* want to
     execute code when we evaluate a code block. Also, it seems to
@@ -905,7 +984,7 @@ of the extras included in `org-contrib` (previously `org-plus-contrib`.)
         (use-package cider)
         (setq cider-default-repl-command "lein")
 
-2.  Editing source code
+-   Editing source code
 
     When I choose to edit a source block in a separate buffer,
     that source block becomes my main focus.
@@ -955,9 +1034,9 @@ so the edit can be seen.
     (setq org-catch-invisible-edits 'show)
 
 
-<a id="orgf307fc8"></a>
+<a id="orgbfd654e"></a>
 
-## Sending email: `send-mail`
+## Sending email: `send-mail`     :mail:
 
 :TODO: Check for cleanup of send-mail settings.
 
@@ -997,9 +1076,9 @@ After sending an email, kill the buffer.
     (setq message-kill-buffer-on-exit t)
 
 
-<a id="org1e63f7e"></a>
+<a id="org5b8166c"></a>
 
-## Reading email: `mu4e` (with isync)
+## Reading email: `mu4e` (with isync)     :mail:
 
 :TODO: Check for cleanup of mu4e settings.
 
@@ -1020,7 +1099,7 @@ Run `mu` in debug mode, so if something fails we get more information.
 
 ### Basic setup
 
-1.  The mail directories
+-   The mail directories
 
     `mu4e` needs to know where my mail directory lives,
     and the paths of certain important mailboxes relative to that.
@@ -1042,7 +1121,7 @@ Run `mu` in debug mode, so if something fails we get more information.
     
         (mu4e-root-maildir)
 
-2.  Get mail command
+-   Get mail command
 
     I use isync (whose executable is called `mbsync`) to manage
     my local mail directory.
@@ -1069,7 +1148,7 @@ Run `mu` in debug mode, so if something fails we get more information.
     
     :TODO: Is background updating working again?
 
-3.  Change file names when moving emails
+-   Change file names when moving emails
 
     To work nicely with `mbsync`, we should
     change the file name when moving mail between mail directories;
@@ -1082,7 +1161,7 @@ Run `mu` in debug mode, so if something fails we get more information.
 
 ### Viewing emails
 
-1.  Email list
+-   Email list
 
     This controls the information shown in the email lists.
     
@@ -1111,7 +1190,7 @@ Run `mu` in debug mode, so if something fails we get more information.
     
         (setq mu4e-headers-include-related nil)
 
-2.  Individual mail
+-   Individual mail
 
     Show images by default, and prefer to use `imagemagick` to do so.
     
@@ -1130,7 +1209,7 @@ Run `mu` in debug mode, so if something fails we get more information.
     
         (setq mu4e-view-show-addresses 't)
 
-3.  HTML support
+-   HTML support
 
     Emacs is not the ideal environment to read HTML emails;
     for that reason, if there is a plaintext version available,
@@ -1186,7 +1265,7 @@ in the message buffer! Such settings infuriate me.
 
     (add-hook 'mu4e-compose-mode-hook 'turn-off-auto-fill)
 
-1.  Contacts
+-   Contacts
 
     I've had problems where contact completion breaks.
     For the moment, I make sure that the contacts are requested
@@ -1200,7 +1279,7 @@ in the message buffer! Such settings infuriate me.
     Note that the contacts are stored in a hash table,
     and so I am unsure of how to actually see them in Emacs.
 
-2.  Flow
+-   Flow
 
     I write emails the way I write all my documents:
     trying as best I can to respect a maximum line length of 80 characters.
@@ -1229,7 +1308,7 @@ in the message buffer! Such settings infuriate me.
     so I choose to do nothing,
     and potentially have my emails flow broken on mobile screens.
 
-3.  HTML support (nothing to see here)
+-   HTML support (nothing to see here)
 
     Note that there is a `org-mu4e` package that comes with `mu4e`,
     which would allow for sending HTML email using `mu4e`,
@@ -1237,7 +1316,7 @@ in the message buffer! Such settings infuriate me.
     The `org-mime` package above is probably the correct path
     if I ever want to send HTML emails.
 
-4.  Changing the `From` address automatically
+-   Changing the `From` address automatically
 
     I use my personal Gmail to collect all of my emails,
     but when replying I like to send back from whichever
@@ -1293,9 +1372,9 @@ Without this, we might get an error asking if we started `mu4e.`
     (mu4e)
 
 
-<a id="org49c5ef1"></a>
+<a id="orgba2bc87"></a>
 
-## `agda` mode
+## `agda` mode     :programming:
 
 :TODO: Check for cleanup of Agda settings.
 
@@ -1474,7 +1553,7 @@ This code can be used to test out many of the redefined faces.
 
 ### Add unicode characters to Agda's translations
 
-1.  Punctuation and parentheses
+-   Punctuation and parentheses
 
         (add-to-list 'agda-input-user-translations '(";;" "﹔"))
         (add-to-list 'agda-input-user-translations '(";;" "⨾"))
@@ -1486,7 +1565,7 @@ This code can be used to test out many of the redefined faces.
         (add-to-list 'agda-input-user-translations '("}" "⁆"))
         (add-to-list 'agda-input-user-translations '("..." "…"))
 
-2.  Arrows
+-   Arrows
 
         (add-to-list 'agda-input-user-translations '("pto" "⇀"))
         (add-to-list 'agda-input-user-translations '("into" "↪"))
@@ -1495,7 +1574,7 @@ This code can be used to test out many of the redefined faces.
         (add-to-list 'agda-input-user-translations '("=v" "⇓"))
         (add-to-list 'agda-input-user-translations '("eval" "⇓"))
 
-3.  Correct mistakes on subscripts/superscripts
+-   Correct mistakes on subscripts/superscripts
 
     I often accidentally hold the shift key for too long when entering
     subscripts and superscripts; these translations account for that.
@@ -1521,7 +1600,7 @@ This code can be used to test out many of the redefined faces.
         (add-to-list 'agda-input-user-translations '("_(" "₉"))
         (add-to-list 'agda-input-user-translations '("_)" "₀"))
 
-4.  Emoticons
+-   Emoticons
 
         (add-to-list 'agda-input-user-translations '(":)" "😀"))
         (add-to-list 'agda-input-user-translations '("grin" "😀"))
@@ -1534,13 +1613,13 @@ This code can be used to test out many of the redefined faces.
     
     😀 😁 😐 🙁 😵
 
-5.  Better access to prime symbols
+-   Better access to prime symbols
 
         (add-to-list 'agda-input-user-translations '("''" "″"))
         (add-to-list 'agda-input-user-translations '("'''" "‴"))
         (add-to-list 'agda-input-user-translations '("''''" "⁗"))
 
-6.  Small, halfwidth and fullwidth math symbols
+-   Small, halfwidth and fullwidth math symbols
 
     These can be useful where use of the normal symbols
     is restricted; for instance, in `ditaa` diagrams many
@@ -1567,7 +1646,7 @@ This code can be used to test out many of the redefined faces.
         (add-to-list 'agda-input-user-translations '("h->" "￫"))
         (add-to-list 'agda-input-user-translations '("hd" "￬"))
 
-7.  Other
+-   Other
 
         (add-to-list 'agda-input-user-translations '("op" "⊕"))
         (add-to-list 'agda-input-user-translations '("^<" "﹤"))
@@ -1584,7 +1663,7 @@ This code can be used to test out many of the redefined faces.
     
         (add-to-list 'agda-input-user-translations '("git" "ꇚ"))
 
-8.  Activate the new additions
+-   Activate the new additions
 
         (agda-input-setup)
 
@@ -1619,7 +1698,7 @@ We need to install Polymode.
     (require 'org-agda-mode)
 
 
-<a id="org86e4de9"></a>
+<a id="org04a8fd1"></a>
 
 # Keybindings
 
@@ -1628,7 +1707,7 @@ I make use of `general` to organise keybindings.
     (use-package general)
 
 
-<a id="orgb73a9ea"></a>
+<a id="org0940e83"></a>
 
 ## `general` definers
 
@@ -1675,12 +1754,12 @@ override my shortcuts.
       :keymaps 'override)
 
 
-<a id="org02007ca"></a>
+<a id="orge697fa5"></a>
 
 ## Invoke processes
 
 
-### `yankpad`
+### `yankpad`     :completion:
 
     (general-main-define-key
       "f" 'yankpad-expand)
@@ -1692,7 +1771,7 @@ override my shortcuts.
 
 ### `dired`
 
-1.  Jumping to specific files
+-   Jumping to specific files
 
     These are not properly `dired` shortcuts, but some files
     I open often enough to want a direct shortcut.
@@ -1710,7 +1789,7 @@ override my shortcuts.
                    (find-file "~/dotfiles/emacs/emacs-init.org"))
                  :which-key "emacs init"))
 
-2.  Jumping to directories
+-   Jumping to directories
 
     I use shortcuts to jump to frequently used directories in `dired`
     (from any buffer, not just while in `dired`).
@@ -1778,13 +1857,13 @@ override my shortcuts.
             :which-key "new eshell"))
 
 
-### `magit`
+### `magit`     :vc:
 
     (general-main-define-key
       "g" 'magit-status)
 
 
-### `mu4e`
+### `mu4e`     :mail:
 
     (general-main-define-key
       "m" 'mu4e)
@@ -1813,9 +1892,9 @@ See the `kill-buffer-on-process-finish` definition earlier in this file.
       "p" 'list-processes)
 
 
-<a id="orgd9f3c3b"></a>
+<a id="orga876d3a"></a>
 
-## Buffer
+## Buffer     :buffer:
 
     (general-buffer-define-key
       "r" '((lambda () (interactive) (revert-buffer () t ()))
@@ -1834,9 +1913,9 @@ See the `kill-buffer-on-process-finish` definition earlier in this file.
             :which-key "buffer bottom"))
 
 
-<a id="orgf505a3c"></a>
+<a id="orgcb82d6d"></a>
 
-## Appearance
+## Appearance     :theme:
 
     (general-appearance-define-key
       "t"   '(:ignore t
@@ -1887,9 +1966,9 @@ Sometimes I need to toggle fontlocking.
                 :which-key "no font lock"))
 
 
-<a id="org77ae9cb"></a>
+<a id="org65cf8a3"></a>
 
-## Window management
+## Window management     :window:
 
     (general-window-define-key
       "<right>" '((lambda () (interactive) (windmove-right))
@@ -1917,9 +1996,9 @@ Sometimes I need to toggle fontlocking.
                 :which-key "maximise  window"))
 
 
-<a id="org3dbca45"></a>
+<a id="orgedebb28"></a>
 
-## Tab management
+## Tab management     :tab:
 
     (general-tab-define-key
       "r" 'tab-rename
@@ -1949,38 +2028,42 @@ Sometimes I need to toggle fontlocking.
       "=" (lambda () (interactive) (tab-select 12)))
 
 
-<a id="org3c2dec3"></a>
+<a id="org16cbb16"></a>
 
-## Counsel
+## Counsel     :completion:
 
     (general-main-define-key
       "y" 'counsel-yank-pop)
 
 
-<a id="org7ba7eb2"></a>
+<a id="org88c452d"></a>
 
-## Company
+## Company     :completion:
 
     (general-main-define-key
       "c" 'company-manual-begin)
 
 
-<a id="orgcc42759"></a>
+<a id="org8f70d28"></a>
 
 ## Other
 
+I like dad jokes, and occasionally like to torture those around me
+without leaving me work environment 😀.
+
+    (use-package dad-joke)
     (general-other-package-define-key
       "j" 'dad-joke)
 
 
-<a id="org03a680a"></a>
+<a id="orgf874f45"></a>
 
 # Intermediate cosmetics
 
 
-<a id="org068f41b"></a>
+<a id="org8c30e1a"></a>
 
-## Whitespace display
+## Whitespace display     :space:
 
 
 ### Tabs
@@ -2033,9 +2116,9 @@ and there is no ability to do so only in particular places.
 Otherwise I would use that rather than highlighting.
 
 
-<a id="org7e70fec"></a>
+<a id="org24dce42"></a>
 
-## Rainbow delimiters
+## Rainbow delimiters     :delimiter:
 
 Above, I have settings for highlighting the delimiter
 matching the one under the cursor.
@@ -2081,9 +2164,9 @@ delimiters to avoid breaking all delimiter matching
 later in this file.
 
 
-<a id="orga6f3e8c"></a>
+<a id="orgb0c4999"></a>
 
-## Tab-bar
+## Tab-bar     :tab:
 
     (tab-bar-mode)
 
@@ -2114,9 +2197,9 @@ and I can close tabs by other commands easily enough.
     (setq tab-bar-close-button-show nil)
 
 
-<a id="orge59957c"></a>
+<a id="org57168d1"></a>
 
-## A more noticable divider between windows
+## A more noticable divider between windows     :window:
 
 One problem with a fill column ruler is that it can seem like
 it is the divider between windows.
@@ -2127,9 +2210,9 @@ between windows. `window-divider-mode` provides this.
     (window-divider-mode)
 
 
-<a id="org88c27fc"></a>
+<a id="org8520884"></a>
 
-## Dim buffers when not in use
+## Dim buffers when not in use     :buffer:
 
 The package `dimmer` will dim inactive windows to emphasise which
 window has focus.
@@ -2168,9 +2251,9 @@ I like this behaviour; it could be changed by changing
 the variable `dimmer-watch-frame-focus-events`.
 
 
-<a id="orge023140"></a>
+<a id="orge6067af"></a>
 
-## Kill the open init buffer and reopen it
+## Kill the open init buffer and reopen it     :cleanup:
 
 To ensure all these cosmetic changes are picked up,
 kill my init buffer that we opened earlier and reopen it.
@@ -2179,16 +2262,16 @@ kill my init buffer that we opened earlier and reopen it.
     (find-file my/emacs-init-file)
 
 
-<a id="org05f9061"></a>
+<a id="org6117f7b"></a>
 
 # Intermediate modes and intermediate mode-specific settings
 
 
-<a id="org532499d"></a>
+<a id="orgea16af3"></a>
 
-## Org mode cosmetics
+## Org mode cosmetics     :org:
 
-1.  Indent text based on heading by default
+-   Indent text based on heading by default
 
     Although it wastes some space, it's generally easier to read
     Org files if the contents of a heading are indented
@@ -2200,7 +2283,7 @@ kill my init buffer that we opened earlier and reopen it.
     by using the `startup` setting `noindent`.
     (I.e., put `#+startup: noindent` in the file.)
 
-2.  Hide emphasis markers by default
+-   Hide emphasis markers by default
 
     Emphasis markers, the markup syntax that
     makes particular portions of the text bold, italicized, etc.,
@@ -2272,7 +2355,7 @@ kill my init buffer that we opened earlier and reopen it.
         ;    (add-hook 'post-command-hook
         ;      'org-toggle-emphasis-markers-at-point nil t)))
 
-3.  Emphasis marker regexps
+-   Emphasis marker regexps
 
     We can change the behaviour of Org emphasis markers
     in terms of what characters are allowed to occur around
@@ -2359,7 +2442,7 @@ kill my init buffer that we opened earlier and reopen it.
     
     NOTE the extra closing parenthesis to end the `with-eval-after-load`!
     
-    1.  Test it out
+    -   Test it out
     
         Here are tests of all the `pre` and `post` values at time of writing.
         
@@ -2395,7 +2478,7 @@ kill my init buffer that we opened earlier and reopen it.
             *test*;
             *test*:
 
-4.  Highlight math mode blocks
+-   Highlight math mode blocks
 
     Org mode supports some LaTeX content inline.
     In particular, we can use math mode syntax `$…$` and
@@ -2406,7 +2489,7 @@ kill my init buffer that we opened earlier and reopen it.
     
     :TODO: What does `entities` refer to here?
 
-5.  Pretty bullets
+-   Pretty bullets
 
     Replace the plain asterisk bullets preceding Org headings
     with fancier characters; a collection is used, so that
@@ -2415,7 +2498,7 @@ kill my init buffer that we opened earlier and reopen it.
         (use-package org-bullets
           :hook (org-mode . org-bullets-mode))
 
-6.  Replace the ellipsis `...`
+-   Replace the ellipsis `...`
 
     By default, folded portions of the document are
     presented by an ellipsis, `...`. Let's replace that.
@@ -2436,14 +2519,14 @@ kill my init buffer that we opened earlier and reopen it.
               nil ;; all frames
               :foreground 'unspecified)))
 
-7.  Inline images
+-   Inline images
 
     We can configure Org to automatically inline linked images
     when opening documents.
     
         (setq org-startup-with-inline-images t)
 
-8.  Tag position
+-   Tag position
 
     By default (as of Org 9.1.9),
     tags get shifted to the 77th column.
@@ -2454,7 +2537,7 @@ kill my init buffer that we opened earlier and reopen it.
     
         (setq org-tags-column 48)
 
-9.  Adjusting image display size
+-   Adjusting image display size
 
     I like to use inline images in Org mode, but of course
     I don't want large images to be shown at full size!
@@ -2463,7 +2546,7 @@ kill my init buffer that we opened earlier and reopen it.
     
         (setq org-image-actual-width 100)
 
-10. Colour-coded `src` block backgrounds
+-   Colour-coded `src` block backgrounds
 
     The Modus themes allow for colour-coded
     backgrounds of Org `src` blocks,
@@ -2502,9 +2585,9 @@ kill my init buffer that we opened earlier and reopen it.
         (my/modus-add-org-src-block-faces)
 
 
-<a id="orgcf5b0c8"></a>
+<a id="org10a97d9"></a>
 
-## Org mode exportation settings
+## Org mode exportation settings     :org:
 
 
 ### Export in the background
@@ -2676,7 +2759,7 @@ to be evaluated for export.
 
 ### Ignoring content
 
-1.  Headings
+-   Headings
 
     Use the `:ignore:` tag on headlines to omit the headline when
     exporting, but keep its contents.
@@ -2689,7 +2772,7 @@ to be evaluated for export.
         ;;;; noexport is in the list by default
         ;; (add-to-list 'org-export-exclude-tags "noexport")
 
-2.  Drawers
+-   Drawers
 
     Ignore all drawers when exporting, by default.
     
@@ -2765,7 +2848,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
 
 ### LaTeX export settings
 
-1.  Default LaTeX compiler
+-   Default LaTeX compiler
 
     I use a lot of unicode, and I find `xelatex` and `lualatex`
     handle that more easily than `pdflatex`.
@@ -2779,7 +2862,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
     
         (setq org-latex-compiler "lualatex")
 
-2.  LaTeX compilation process
+-   LaTeX compilation process
 
     I use `latexmk` to automatically run as many passes as needed
     to resolve references, etc.
@@ -2823,7 +2906,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
     </tbody>
     </table>
 
-3.  Custom document classes
+-   Custom document classes
 
     I want a `report` class that begins with `chapter`'s, rather than
     `part`'s.
@@ -2850,7 +2933,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
               ("\\subsection{%s}" . "\\subsection*{%s}")
               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
 
-4.  Use `minted` for code blocks
+-   Use `minted` for code blocks
 
     First, make sure we load the `minted` package.
     
@@ -2867,7 +2950,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
     
         (setq org-latex-listings 'minted)
     
-    1.  Default options for `minted`
+    -   Default options for `minted`
     
         One reason to use `minted` or `listings` over the simple `verbatim` is
         that it can put decent-looking linebreaks where necessary
@@ -2879,7 +2962,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
             (setq org-latex-minted-options
               '(("breaklines" "true")))
     
-    2.  Don't box unicode characters
+    -   Don't box unicode characters
     
         Since I primarily export Agda code, which is full of unicode characters,
         and most `minted` styles enclose those characters in a red `fbox`,
@@ -2894,14 +2977,14 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
         
             (add-to-list 'org-latex-packages-alist '("" "etoolbox"))
     
-    3.  Treat `agda2` source as `Haskell` for listings
+    -   Treat `agda2` source as `Haskell` for listings
     
         Unfortunately, `minted` doesn't support Agda,
         so we simply have Org tell it that it's Haskell code.
         
             (add-to-list 'org-latex-minted-langs '(agda2 "Haskell"))
     
-    4.  Alternative: use `listings` in place of `minted`
+    -   Alternative: use `listings` in place of `minted`
     
         As a step between using `verbatim` blocks and
         using `minted` for source code,
@@ -2919,7 +3002,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
             (setq org-latex-listings t) ;; As opposed to 'minted
             (add-to-list 'org-latex-listings-langs '(agda2 "Haskell"))
 
-5.  `hyperref` setup
+-   `hyperref` setup
 
     The `LaTeX` `hyperref` package gives us better links.
     I don't care for varying link colours, so I set them all to
@@ -2941,7 +3024,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
         "
         )
 
-6.  More flexible tables
+-   More flexible tables
 
     Adding the `tabularx` package as a dependency gives us
     more flexible tables when we need them.
@@ -2951,7 +3034,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
         (add-to-list 'org-latex-packages-alist
           '("" "tabularx"))
 
-7.  Image handling
+-   Image handling
 
     I prefer to be explicit about how images are handled during export.
     So, I turn off some defaults of how they are handled in LaTeX.
@@ -2969,7 +3052,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
 
 ### HTML export settings
 
-1.  Change the “Created” postamble to “Last update”
+-   Change the “Created” postamble to “Last update”
 
     By default, `org-html-postamble` is set to `auto`.
     We overwrite that to `t` so that the postamble is constructed
@@ -2986,7 +3069,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
              <p class=\"creator\">Created using %c</p>
              <p class=\"validation\">%v</p>")))
 
-2.  Ensure useful HTML anchors
+-   Ensure useful HTML anchors
 
     This code snippet is borrowed from Musa's
     [init](https://github.com/alhassy/emacs.d/#Ensuring-Useful-HTML-Anchors).
@@ -3072,7 +3155,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
 
 ### Additional export formats
 
-1.  `org-reveal`
+-   `org-reveal`
 
     I make use of `org-reveal` to create `reveal.js` slide decks.
     This is way easier than dealing with `beamer` in LaTeX,
@@ -3087,7 +3170,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
     of whatever project we're working on.
     :TODO: Add instructions on how to do that here.
     
-    1.  Theme
+    -   Theme
     
         `reveal.js` comes with many themes; `black` is the current default
         at time of writing this. I set it just to be sure it stays consistent.
@@ -3108,7 +3191,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
         
         (list from the [`reveal.js` github](https://github.com/hakimel/reveal.js/#theming)).
     
-    2.  Title page
+    -   Title page
     
         The default title slide includes title and date, with the formatting
         
@@ -3128,7 +3211,7 @@ we can use a setting to *require* that sub/superscripts be enclosed in brackets
                <h4>%a</h4>
                <h5>%d</h5>")
 
-2.  `ox-pandoc`
+-   `ox-pandoc`
 
     `ox-pandoc` is “another exporter that translates Org-mode file to various other
     formats via Pandoc”.
@@ -3172,9 +3255,9 @@ Again, note that nothing will show up in LaTeX exports!
                  '(:exports . "results"))
 
 
-<a id="org1e2d958"></a>
+<a id="org32a4d88"></a>
 
-## A completion framework; Ivy, Counsel and Swiper
+## A completion framework; Ivy, Counsel and Swiper     :completion:
 
 :TODO: Better documentation here.
 
@@ -3233,9 +3316,9 @@ as the first suggestions when I use `M-x`.
     (ivy-prescient-mode)
 
 
-<a id="org86c4901"></a>
+<a id="orgf15c356"></a>
 
-## COMpleting ANYthing; Company
+## COMpleting ANYthing; Company     :completion:
 
 :TODO: Review these settings, and consider reformatting to avoid open parenthese across codeblocks.
 
@@ -3322,9 +3405,9 @@ Add emoji support. For instance, `:smile:` completes to 😄.
       :config (add-to-list 'company-backends 'company-emoji))
 
 
-<a id="orgc1eda75"></a>
+<a id="org734b596"></a>
 
-## Snippets
+## Snippets     :completion:
 
 I use `yasnippets` for text expansion, and `yankpad` to organise my
 snippets.
@@ -3382,9 +3465,9 @@ Taken without additional commentary for now from Musa's init.
     (setq company-backends (mapcar #'my/company-backend-with-yankpad company-backends))
 
 
-<a id="orgcb44cd5"></a>
+<a id="orgf38f976"></a>
 
-## Previewing before undoing; `undo-propose`
+## Previewing before undoing; `undo-propose`     :vc:
 
 The `undo-propose` package is a fairly minimal addition to
 the builtin undo features of Emacs
@@ -3415,14 +3498,14 @@ For the moment, I will stick to the builtin undo behaviour,
 with `undo-propose` to help visualise the changes.
 
 
-<a id="org416e12c"></a>
+<a id="org6ec82f0"></a>
 
 # Final cosmetics
 
 
-<a id="org16f04f0"></a>
+<a id="org7a2fb08"></a>
 
-## Modeline styling
+## Modeline styling     :theme:
 
 While I don't use Spacemacs, I do like it's sleek modeline.
 
@@ -3477,7 +3560,7 @@ In fact, let's make that colouring constant across themes.
     (powerline-reset)
 
 
-<a id="orgb8d0764"></a>
+<a id="org7052d68"></a>
 
 ## Flash on error
 
@@ -3492,7 +3575,7 @@ I'd previously just used `visible-bell`, but it's a bit nosier
 than necessary.
 
 
-<a id="org89d2cfa"></a>
+<a id="org38ce04d"></a>
 
 ## Diminish minor mode names
 
@@ -3518,9 +3601,9 @@ If later I want to rename modes, just add a string argument
 to the above form with a (presumably shorter) name.
 
 
-<a id="org8485938"></a>
+<a id="org5d3725a"></a>
 
-## Kill the open init buffer and reopen it
+## Kill the open init buffer and reopen it     :cleanup:
 
 To ensure all these cosmetic changes are picked up,
 kill my init buffer that we opened earlier and reopen it.
@@ -3529,14 +3612,14 @@ kill my init buffer that we opened earlier and reopen it.
     (find-file my/emacs-init-file)
 
 
-<a id="orgda3e698"></a>
+<a id="org61cc501"></a>
 
 # Final modes and final mode-specific settings
 
 
-<a id="orgf56919f"></a>
+<a id="org01cb888"></a>
 
-## Org mode
+## Org mode     :org:
 
 
 ### Speed keys
@@ -3583,7 +3666,7 @@ used in most export formats (at least HTML and LaTeX.)
     (setq org-list-allow-alphabetical t)
 
 
-<a id="org56116b9"></a>
+<a id="org4e8632b"></a>
 
 ## `dired`
 
@@ -3669,7 +3752,7 @@ the cursor is on.
     (add-hook 'dired-after-readin-hook 'hl-line-mode)
 
 
-<a id="org34a8ace"></a>
+<a id="orgb6cf2b8"></a>
 
 ## `eshell`
 
@@ -3711,9 +3794,9 @@ for dark themes and black for light themes.
         (propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground ,default))))))
 
 
-<a id="orgf7f1355"></a>
+<a id="org2fc890c"></a>
 
-## `which-key`
+## `which-key`     :completion:
 
 `which-key-mode` is a handy minor mode that shows us
 possible completions as we type commands.
@@ -3728,9 +3811,9 @@ occasionally it is enlightening to take some time
 and browse the possible completions of prefixes as you type.
 
 
-<a id="orgb2762e2"></a>
+<a id="orge4c99d2"></a>
 
-## `winner-mode`
+## `winner-mode`     :window:
 
 `winner-mode` allows us to undo or redo changes to window layouts.
 See my keybindings for this above.
@@ -3738,9 +3821,9 @@ See my keybindings for this above.
     (winner-mode 1)
 
 
-<a id="orgcbee3c6"></a>
+<a id="org3ebfe0c"></a>
 
-## `windmove`
+## `windmove`     :window:
 
 The package `windmove` lets us jump between windows in a frame.
 
@@ -3762,9 +3845,9 @@ or otherwise taken in Emacs.
 So instead I've defined shortcuts using `general` above.
 
 
-<a id="orgcd9a8a8"></a>
+<a id="org285fe34"></a>
 
-## Ediff
+## Ediff     :vc:
 
 By default, when using the GUI, Ediff opens a new frame for
 the controls for the Ediff session.
@@ -3779,9 +3862,9 @@ rather than split vertically.
     (setq ediff-split-window-function 'split-window-horizontally)
 
 
-<a id="orgb38fab1"></a>
+<a id="org6dcf9c8"></a>
 
-## `magit`
+## `magit`     :vc:
 
 Explicitely install `magit`, “a Git Porcelain inside Emacs”.
 This is a killer feature of Emacs; `magit` not only simplifies
@@ -3798,14 +3881,14 @@ from the comfort of Magit and the rest of Emacs.”
       :after magit)
 
 
-<a id="orge14d78c"></a>
+<a id="org9a6b996"></a>
 
-## Purescript
+## Purescript     :programming:
 
     (use-package purescript-mode)
 
 
-<a id="orgd165e45"></a>
+<a id="orgdaace2d"></a>
 
 # Session setup
 
@@ -3816,7 +3899,7 @@ will be properly applied (when we reopen it).
     (kill-buffer "emacs-init.org")
 
 
-<a id="orgb67e1ae"></a>
+<a id="orgb8f3dfd"></a>
 
 ## Filepaths
 
@@ -3839,7 +3922,7 @@ are listed here.
     (setq-local my/agda-scratch (concat my/agda-dir "agda-scratch.agda"))
 
 
-<a id="org602ad44"></a>
+<a id="orgfb9d051"></a>
 
 ## Create tabs
 
@@ -3886,7 +3969,7 @@ for use when working on other/random things.
     (tab-rename "-")
 
 
-<a id="orga9d49bd"></a>
+<a id="orgaf58626"></a>
 
 ## Visit tabs and setup buffers
 
@@ -3955,7 +4038,7 @@ we get unique buffers.
 
 ### Volatile tabs
 
-1.  Thesis
+-   Thesis
 
     My thesis involves Agda, so I want the Agda information buffer open.
     I prefer that information buffer in the lower left,
@@ -3976,7 +4059,7 @@ we get unique buffers.
             (split-window nil nil 'right)
             (magit-status-setup-buffer)))
 
-2.  Blog (and personal website)
+-   Blog (and personal website)
 
     For the moment, my `Blog` tab setup is similar to the thesis setup,
     because I blog about Agda.
@@ -4001,12 +4084,12 @@ we get unique buffers.
     (tab-select 1)
 
 
-<a id="orgc9a3890"></a>
+<a id="orgbf4666a"></a>
 
 # Cleanup
 
 
-<a id="org70b235c"></a>
+<a id="org56c5a61"></a>
 
 ## Check the contents of the (proper/system) init file
 
@@ -4062,7 +4145,7 @@ Some notes about this:
             the actual file contents.
 
 
-<a id="org05e3eaa"></a>
+<a id="orgc834a58"></a>
 
 ## Update the `README` file
 
@@ -4130,7 +4213,7 @@ an regularly commit the changes.
             (kill-buffer (find-buffer-visiting readme-md))))))
 
 
-<a id="org848b85b"></a>
+<a id="org7f9ebe1"></a>
 
 ## Prompt before quitting Emacs
 
