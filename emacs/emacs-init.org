@@ -3440,17 +3440,6 @@ with ~undo-propose~ to help visualise the changes.
 
 ** Modeline styling                            :theme:
 
-While I don't use Spacemacs, I do like it's sleek modeline.
-#+begin_src emacs-lisp
-(use-package spaceline)
-#+end_src
-
-Using ~spaceline-emacs-theme~ instead
-of ~spaceline-spacemacs-theme~ is supposed to improve compatibility.
-#+begin_src emacs-lisp
-(spaceline-emacs-theme)
-#+end_src
-
 *** Colour the modeline
 
 This setting changes the colour of the start of the modeline
@@ -3492,6 +3481,24 @@ In fact, let's make that colouring constant across themes.
                              :background "gold1"))))
  '(spaceline-read-only  ((t (:foreground "black"
                              :background "seashell1")))))
+#+end_src
+
+*** Add styling via a package
+
+While I don't use Spacemacs, I do like it's sleek modeline.
+#+begin_src emacs-lisp
+(use-package spaceline)
+#+end_src
+
+Using ~spaceline-emacs-theme~ instead
+of ~spaceline-spacemacs-theme~ is supposed to improve compatibility.
+#+begin_src emacs-lisp
+(spaceline-emacs-theme)
+#+end_src
+
+Force the underlying ~power-line~ to reload,
+to ensure all settings are correct.
+#+begin_src emacs-lisp
 (powerline-reset)
 #+end_src
 
