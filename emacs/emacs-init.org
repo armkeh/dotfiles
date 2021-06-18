@@ -1920,7 +1920,10 @@ Sometimes I need to toggle fontlocking.
 
 ** Other
 
+I like dad jokes, and occasionally like to torture those around me
+without leaving me work environment 😀.
 #+begin_src emacs-lisp
+(use-package dad-joke)
 (general-other-package-define-key
   "j" 'dad-joke)
 #+end_src
