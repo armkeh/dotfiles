@@ -3,6 +3,7 @@
 #+Description: My (heavily organised) emacs initialisation settings,
 #+Description: along with commentary, mostly to help me remember
 #+Description: why things are set as they are.
+#+Options: num:nil
 
 * Introduction
 
