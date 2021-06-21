@@ -557,6 +557,14 @@ It wastes some screen space, but is good for my sanity.
 (setq display-line-numbers-width-start t)
 #+end_src
 
+*** Display the column number as well as the line number
+
+Toggle on display of the current column number,
+alongside the line number, on the modeline.
+#+begin_src emacs-lisp
+(column-number-mode)
+#+end_src
+
 *** Fill column display
 
 Traditionally, it's good style to keep lines under 80 characters wide.
