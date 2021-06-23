@@ -2141,22 +2141,44 @@ later in this file.
 
 ** Tab-bar                                     :tab:
 
+I make use of ~tab-bar-mode~.
+But note that these are not like tabs in most other applications,
+where you have a tab for each open file!
+That functionality is provided by ~tab-line-mode~,
+not ~tab-bar-mode~, and I find it unnecessary in Emacs;
+buffer switching and handling mechanisms are sufficient.
+
+~tab-bar-mode~ tabs instead act as saved window configurations.
 #+begin_src emacs-lisp
 (tab-bar-mode)
 #+end_src
 
-#+begin_src emacs-lisp
-#+end_src
-
-Do show numbers on tabs, for the purpose of quickly changing.
+Show numbers on the tabs, so I can easily change tabs
+using keyboard shortcuts by number.
 #+begin_src emacs-lisp
 (setq tab-bar-tab-hints 't)
 #+end_src
 
-Remove the close buttons; hitting them by mistake is annoying,
+Remove the close buttons on tabs.
+Hitting them by mistake is annoying,
 and I can close tabs by other commands easily enough.
 #+begin_src emacs-lisp
 (setq tab-bar-close-button-show nil)
+#+end_src
+
+Setting the ~tab-bar-format~ controls the order
+in which elements appear on the tab bar.
+We stick to just the tabs
+(with group support, so if we group tabs
+ the groups with collapse/expand),
+and any global information (which would normally be shown in the modeline)
+on the right side after a gap.
+This includes the time, if we enable ~display-time-mode~.
+#+begin_src emacs-lisp
+(setq tab-bar-format
+  '(tab-bar-format-tabs-groups
+    tab-bar-format-align-right
+    tab-bar-format-global))
 #+end_src
 
 ** A more noticable divider between windows    :window:
@@ -3556,12 +3578,22 @@ can actually be used as a scrollbar. Neat!
 (mlscroll-mode 1)
 #+end_src
 
+** Show the clock
 
+Let's display the current time, with updates every minute.
 
+First set the format for the clock.
+- ~%a~ for abbreviated day of the week name.
+- ~%b~ for abbreviated month name.
+- ~%d~ for day of the month.
+- ~%R~ for hour and minute, separated by a ~:~, in 24-hour format.
 #+begin_src emacs-lisp
+(setq display-time-format "%a %b %d %R")
 #+end_src
 
+Now activate the mode.
 #+begin_src emacs-lisp
+(display-time-mode)
 #+end_src
 
 ** Kill the open init buffer and reopen it     :cleanup:
@@ -3620,6 +3652,48 @@ Note that the labels used in the plaintext Org do not affect the labels
 used in most export formats (at least HTML and LaTeX.)
 #+begin_src emacs-lisp
 (setq org-list-allow-alphabetical t)
+#+end_src
+
+** Alerts for emails
+
+The ~mu4e-alert~ package provides the ability to get
+various kinds of alert about incoming mail using ~mu4e~.
+#+begin_src emacs-lisp
+(use-package mu4e-alert)
+#+end_src
+
+Use the Emacs ~notifications~ libraries to send
+desktop notifications (OS-level notifications.)
+This should work on Linux systems.
+We can set ~lib-notify~ instead (for Linux),
+but this way we don't rely on that library being installed.
+#+begin_src emacs-lisp
+(mu4e-alert-set-default-style 'notifications)
+(add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
+#+end_src
+
+Show the unread email count (or however we format the alert)
+in the global information area, which usually shows on the modeline.
+I actually show that on the tab-bar instead.
+#+begin_src emacs-lisp
+(mu4e-alert-enable-mode-line-display)
+#+end_src
+
+Only alert for emails coming into the inbox.
+Don't worry about other mail directories.
+(I direct some less urgent mail to other directories,
+ and don't want to be bothered by notifications from them.)
+#+begin_src emacs-lisp
+(setq mu4e-alert-interesting-mail-query
+        (concat
+         "flag:unread maildir:/Inbox"))
+#+end_src
+
+Only show the count of unread emails in the notifications,
+not the senders or subjects.
+:TODO: Does this stop the message spam?
+#+begin_src emacs-lisp
+(setq mu4e-alert-email-notification-types '(count))
 #+end_src
 
 ** ~dired~
