@@ -3516,13 +3516,14 @@ The Doom modeline provides ~doom-modeline-set-modeline~
 The minor mode listing is disabled by default.
 This also disables the ~minion~ button if using that
 (which provides a pop-up menu which lists and allows toggling
- of minor modes.
+ of minor modes.)
 #+begin_src emacs-lisp
 (setq doom-modeline-minor-modes t)
 #+end_src
 
 *** Activate the Doom modeline
 
+Once everything is set, actually activate the new modeline.
 #+begin_src emacs-lisp
 (doom-modeline-mode 1)
 #+end_src
@@ -3555,29 +3556,13 @@ can actually be used as a scrollbar. Neat!
 (mlscroll-mode 1)
 #+end_src
 
-** Diminish minor mode names
 
-I use a lot of minor modes, so the mode list takes up a lot
-of space on the mode line.
 
-~diminish~ alleviates this by allowing us to hide modes
-or give them shorter names.
 #+begin_src emacs-lisp
-(use-package diminish)
 #+end_src
 
-I don't need to see that these modes are active.
 #+begin_src emacs-lisp
-(eval-after-load "yas-minor-mode" '(diminish 'yas-minor-mode))
-(eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
-(eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
-(eval-after-load "which-key" '(diminish 'which-key-mode))
-(eval-after-load "org-indent" '(diminish 'org-indent-mode))
 #+end_src
-:TODO: Add more modes to diminish, consider giving some briefer names instead.q
-
-If later I want to rename modes, just add a string argument
-to the above form with a (presumably shorter) name.
 
 ** Kill the open init buffer and reopen it     :cleanup:
 
@@ -3802,6 +3787,20 @@ from the comfort of Magit and the rest of Emacs.”
 
 #+begin_src emacs-lisp
 (use-package purescript-mode)
+#+end_src
+
+** ~minions~; see and toggle minor modes
+
+The ~minions~ package implements a handy pop-up menu
+for toggling minor modes.
+While I don't really care for a GUI menu for toggling,
+it is a convenient way to view the minor modes that are active
+(along with commonly used ones that are inactive),
+without taking extra space on the modeline
+or opening a help buffer.
+#+begin_src emacs-lisp
+(use-package minions)
+(minions-mode 1)
 #+end_src
 
 * Session setup
