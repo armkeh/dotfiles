@@ -606,9 +606,17 @@ but like to toggle between it and the light ~modus-operandi~ at need.
 (load-theme my/dark-theme t)
 #+end_src
 
-** Highlight matching delimiters               :delimiter:
+The ~modus-themes-region~ setting
+changes the highlighting of selected text.
+By default, the background of the selection is gray,
+and all text is given the a neutral foreground colour.
+Instead, let's use just a tinted background,
+and leave the foreground colours as they are.
+#+begin_src emacs-lisp
+(setq modus-themes-region 'bg-only)
+#+end_src
 
-*** Highlight matching delimiters
+** Highlight matching delimiters               :delimiter:theme:
 
 It's useful to highlight the matching delimiter when the cursor
 is on its match, especially when coding in Lisps.
@@ -616,18 +624,23 @@ is on its match, especially when coding in Lisps.
 (show-paren-mode 1)
 #+end_src
 
-Since I use ~rainbow-delimiters~ (setup below) it's actually distinctive
-to colour the matching delimiter in plain white,
-rather than the default red.
-In case we're in a light theme though, set the background
-to be black.
+The Modus themes give various settings for highlighting the match;
+the ~intense~ option applies a saturated background colour,
+and ~intense-bold~ is the same but it also applies the bold face.
 #+begin_src emacs-lisp
+(setq modus-themes-paren-match 'intense-bold)
+#+end_src
+
+This older code achieved a similar effect by making the background
+of the matching delimiter black and the foreground white
+(which stood out against my usually rainbow coloured delimiters.)
+#+begin_example emacs-lisp
 (custom-theme-set-faces
  'user
  '(show-paren-match ((t (:foreground "white"
                          :background "black"
                          :weight ultra-bold)))))
-#+end_src
+#+end_example
 
 ** Kill the open init buffer and reopen it     :cleanup:
 
@@ -2132,22 +2145,7 @@ later in this file.
 (tab-bar-mode)
 #+end_src
 
-The default colouring is a basic Emacs grey;
-let's spruce it up.
 #+begin_src emacs-lisp
-(custom-theme-set-faces
- 'user
- '(tab-bar ((t
-     (:foreground "black"
-      :background "DarkSlateGray4"))))
-  '(tab-bar-tab ((t
-     (:foreground "black"
-      :background "DarkSlateGray3"
-      :box (:line-width 1 :style released-button)))))
-  '(tab-bar-tab-inactive ((t
-     (:foreground "black"
-      :background "DarkSlateGray4"
-      :box (:line-width 1 :style released-button))))))
 #+end_src
 
 Do show numbers on tabs, for the purpose of quickly changing.
@@ -2214,6 +2212,14 @@ Note that by default, all windows will be dimmer when Emacs
 notices that it does not have focus in the windowing system.
 I like this behaviour; it could be changed by changing
 the variable ~dimmer-watch-frame-focus-events~.
+
+The developer of the ~modus~ themes I use recommends
+using RGB colour space with ~dimmer~;
+they say that colour space “remains faithful
+to the hueness of the colours used by the themes.”
+#+begin_src emacs-lisp
+(setq dimmer-use-colorspace :rgb)
+#+end_src
 
 ** Kill the open init buffer and reopen it     :cleanup:
 
@@ -2525,45 +2531,54 @@ so set the width of all images to be just 100 pixels.
 
 **** Colour-coded ~src~ block backgrounds
 
-The Modus themes allow for colour-coded
-backgrounds of Org ~src~ blocks,
-where the colour depends on the language.
-Neat!
-
+We can colour the background of Org source blocks
+based on the language. Neat!
+The nuanced colours of the Modus themes are specifically intended
+for this application.
 #+begin_src emacs-lisp
-(use-package modus-themes)
-(setq modus-themes-org-blocks 'rainbow)
+(setq org-src-block-faces
+  '(;; Lisps
+    ("emacs-lisp" modus-themes-nuanced-magenta)
+    ("elisp"      modus-themes-nuanced-magenta)
+    ("clojure"    modus-themes-nuanced-magenta)
+
+    ;; ML family functional
+    ("purescript" modus-themes-nuanced-blue)
+    ("elm"        modus-themes-nuanced-blue)
+    ("haskell"    modus-themes-nuanced-blue)
+    ("scala"      modus-themes-nuanced-blue)
+    ("amm"        modus-themes-nuanced-blue)
+
+    ;; Imperative languages
+    ("c"          modus-themes-nuanced-green)
+    ("ruby"       modus-themes-nuanced-green)
+    ("python"     modus-themes-nuanced-green)
+    ("sh"         modus-themes-nuanced-green)
+    ("bash"       modus-themes-nuanced-green)
+    ("zsh"        modus-themes-nuanced-green)
+
+    ;; Logical and proof assistants
+    ("agda2"      modus-themes-nuanced-cyan)
+    ("prolog"     modus-themes-nuanced-cyan)
+
+    ;; Plaintext, data and configuration formats
+    ("text"       modus-themes-nuanced-red)
+    ("html"       modus-themes-nuanced-red)
+    ("latex"      modus-themes-nuanced-red)
+    ("ditaa"      modus-themes-nuanced-red)
+    ("dot"        modus-themes-nuanced-red)
+
+    ;; Configuration and pure data
+    ("xml"        modus-themes-nuanced-yellow)
+    ("css"        modus-themes-nuanced-yellow)
+    ("json"       modus-themes-nuanced-yellow)
+    ("conf"       modus-themes-nuanced-yellow)
+    ("docker"     modus-themes-nuanced-yellow)))
 #+end_src
 
-This function will add some colour associations.
-:TODO: use more varied colours. There are subtle and fringe variants of each.
+We may need to Org for the changes to take effect.
 #+begin_src emacs-lisp
-(defun my/modus-add-org-src-block-faces ()
-  (setq org-src-block-faces (append org-src-block-faces
-         `(("text"       modus-theme-nuanced-red)
-           ("emacs-lisp" modus-theme-nuanced-magenta)
-           ("elisp"      modus-theme-nuanced-magenta)
-           ("clojure"    modus-theme-nuanced-magenta)
-           ("latex"      modus-theme-nuanced-yellow)
-           ("ditaa"      modus-theme-nuanced-yellow)
-           ("dot"        modus-theme-nuanced-yellow)
-           ("haskell"    modus-theme-nuanced-blue)
-           ("elm"        modus-theme-nuanced-blue)
-           ("scala"      modus-theme-nuanced-blue)
-           ("amm"        modus-theme-nuanced-blue)
-           ("ruby"       modus-theme-nuanced-green)
-           ("prolog"     modus-theme-nuanced-cyan)
-           ("agda"       modus-theme-nuanced-cyan)))))
-#+end_src
-
-Run the function every time we change themes.
-#+begin_src emacs-lisp
-(add-hook 'after-load-theme-hook 'my/modus-add-org-src-block-faces)
-#+end_src
-
-Run it now to apply the change, since the theme is already set.
-#+begin_src emacs-lisp
-(my/modus-add-org-src-block-faces)
+(org-mode-restart)
 #+end_src
 
 ***** COMMENT Test it out
@@ -2577,33 +2592,37 @@ Nuanced magenta for Lisps.
 (defun my/cool-message (arg) (message "hello world"))
 #+end_example
 
-Nuanced blue for C's and functional languages.
-#+begin_example c
-void mycoolmessage(int arg) {
-  printf("hello world");
-}
+Nuanced blue for the ML family of functional languages.
+#+begin_example purescript
+main :: Effect Unit
+main = do
+  log "Hello World!"
 #+end_example
 
-Nuanced green for shells and shell scripting languages.
-#+begin_example shell
+Nuanced green for imperative languages,
+including shell languages.
+#+begin_example sh
 echo "hello world"
 #+end_example
 
-Nuanced yellow for HTML-likes.
+Nuanced cyan for logical languages and proof assistants.
+#+begin_example agda2
+hello world
+#+end_example
+
+Nuanced red for HTML, LaTeX, and other languages
+intended to produce documents to be read or viewed.
+Plaintext and ASCII (or other) drawing languages included here.
 #+begin_example html
 <p>Hello World</p>
 #+end_example
 
-Nuanced cyan for JSON and other configuration types.
-#+begin_example json
-{
-    "test": "HelloWorld"
+Nuanced yellow for configuration filetypes
+and pure data languages, such as XML and JSON.
+#+begin_example css
+hello {
+    world: Red;
 }
-#+end_example
-
-Nuanced red for text.
-#+begin_example text
-Hello world.
 #+end_example
 
 ** Org mode exportation settings               :org:
@@ -3448,66 +3467,64 @@ with ~undo-propose~ to help visualise the changes.
 
 ** Modeline styling                            :theme:
 
-*** Colour the modeline
+*** Add styling via ~doom-modeline~
 
-This setting changes the colour of the start of the modeline
-when the file has been modified and not saved,
-a nice subtle reminder to save.
+I previously used Spaceline, the Spacemacs modeline,
+which is a very nice appearing modeline replacement.
+Now prefer Doom modeline, which is a fair bit more “plain”,
+but still very nice in appearance,
+and is compatible with far modeline additions
+(in particular, the modeline scroll bar I like;
+ see [[Add a little scrollbar to the modeline]].)
 #+begin_src emacs-lisp
-(setq spaceline-highlight-face-func
-  'spaceline-highlight-face-modified)
+(use-package doom-modeline)
 #+end_src
 
-In fact, let's make that colouring constant across themes.
+Do display an icon indicating if the file in the buffer
+has changed from the disk.
+Note that even without this,
+the filepath will change colours when the file has been modified.
 #+begin_src emacs-lisp
-(custom-theme-set-faces
- 'user
- ;; The active buffer has a fairly vibrant blue modeline
- '(mode-line         ((t (:foreground "black"
-                          :background "DeepSkyBlue1"))))
- '(powerline-active0 ((t (:foreground "black"
-                          :background "DeepSkyBlue2"))))
- '(powerline-active1 ((t (:foreground "black"
-                          :background "DeepSkyBlue3"))))
- '(powerline-active2 ((t (:foreground "black"
-                             :background "DeepSkyBlue4"))))
-
- ;; The inactive buffers have less vibrant gray/blue modelines
- '(mode-line-inactive  ((t (:foreground "black"
-                            :background "LightSkyBlue1"))))
- '(powerline-inactive0 ((t (:foreground "black"
-                            :background "LightSkyBlue2"))))
- '(powerline-inactive1 ((t (:foreground "black"
-                            :background "LightSkyBlue3"))))
- '(powerline-inactive2 ((t (:foreground "black"
-                             :background "LightSkyBlue4"))))
-
- ;; Highlighting based on save status of buffer
- '(spaceline-unmodified ((t (:foreground "black"
-                             :background "green1"))))
- '(spaceline-modified   ((t (:foreground "black"
-                             :background "gold1"))))
- '(spaceline-read-only  ((t (:foreground "black"
-                             :background "seashell1")))))
+(setq doom-modeline-buffer-state-icon t)
 #+end_src
 
-*** Add styling via a package
-
-While I don't use Spacemacs, I do like it's sleek modeline.
+I find the Doom modeline takes a little too much
+vertical space by default; it will always take
+at least as much vertical space as needed for its contents,
+so set its height to ~0~ to make it as short as possible.
 #+begin_src emacs-lisp
-(use-package spaceline)
+(setq doom-modeline-height 0)
 #+end_src
 
-Using ~spaceline-emacs-theme~ instead
-of ~spaceline-spacemacs-theme~ is supposed to improve compatibility.
+*** Set up the items on the ~doom-modeline~
+
+I like to strip down the amount of information on the modeline
+to what I might actually make use of.
+The Doom modeline provides ~doom-modeline-set-modeline~ 
 #+begin_src emacs-lisp
-(spaceline-emacs-theme)
+(doom-modeline-def-modeline 'my/doom-modeline
+  ;; Left side
+  '(remote-host buffer-info buffer-encoding buffer-position)
+  ;; Right side
+  '(major-mode minor-modes input-method process mu4e))
+
+(defun my/doom-modeline-setter ()
+   (doom-modeline-set-modeline 'my/doom-modeline 'default))
+(add-hook 'doom-modeline-mode-hook 'my/doom-modeline-setter)
 #+end_src
 
-Force the underlying ~power-line~ to reload,
-to ensure all settings are correct.
+The minor mode listing is disabled by default.
+This also disables the ~minion~ button if using that
+(which provides a pop-up menu which lists and allows toggling
+ of minor modes.
 #+begin_src emacs-lisp
-(powerline-reset)
+(setq doom-modeline-minor-modes t)
+#+end_src
+
+*** Activate the Doom modeline
+
+#+begin_src emacs-lisp
+(doom-modeline-mode 1)
 #+end_src
 
 ** Flash on error
@@ -3522,11 +3539,15 @@ the mode line flash on error.
 I'd previously just used ~visible-bell~, but it's a bit nosier
 than necessary.
 
-** COMMENT Add a little scrollbar to the modeline
+** Add a little scrollbar to the modeline
 
-:TODO: Need to use an alternate approach to modeline styling; probably moody.
-# See https://github.com/tarsius/moody
-# and https://github.com/jdtsmith/mlscroll
+While I disable the usual scrollbars to save space,
+they can be useful for giving a visualisation
+of where we are in the buffer.
+There are a few ways to add such a visual representation
+to the modeline instead; the ~mlscroll~ package
+is one, and the small horizontal scrollbar it
+can actually be used as a scrollbar. Neat!
 #+begin_src emacs-lisp
 (use-package mlscroll)
 (setq mlscroll-right-align nil)
