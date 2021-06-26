@@ -524,11 +524,34 @@ or scroll bars.
 
 ** Fonts                                       :font:
 
-I like the Cousine font, and usually use a small 11in screen,
-and so use a small font; 9pt seems to be a sweet spot.
+I currently use the [[https://github.com/be5invis/Iosevka][Iosevka]] family of fonts,
+because of their efficient saving of horizontal space.
+
+Set it as the default font and the fixed-pitch font.
 #+begin_src emacs-lisp
-(add-to-list 'default-frame-alist
-             '(font . "Cousine-9"))
+(set-face-attribute 'default nil :family "ttf-iosevka" :height 90)
+(set-face-attribute 'fixed-pitch nil :family "ttf-iosevka" :height 90)
+#+end_src
+
+*** COMMENT Installation steps
+
+See https://shreyas.ragavan.co/docs/linux-notes/
+for inspiration for installation steps.
+Actual steps:
+#+begin_src she
+cd ~
+
+mkdir temp
+
+cd temp
+
+wget "https://github.com/be5invis/Iosevka/releases/download/v7.1.1/super-ttc-iosevka-7.1.1.zip"
+
+unzip -u super-ttc-iosevka-7.1.1.zip
+
+sudo cp iosevka.ttc /usr/share/fonts
+
+fc-cache -fv
 #+end_src
 
 ** Line and column information                 :line:
