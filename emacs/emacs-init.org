@@ -1754,12 +1754,37 @@ override my shortcuts.
   :prefix "C-c s"
   :keymaps 'override)
 
-(general-create-definer general-other-package-define-key
+(general-create-definer general-project-define-key
   :prefix "C-c p"
+  :keymaps 'override)
+
+(general-create-definer general-other-package-define-key
+  :prefix "C-c o"
   :keymaps 'override)
 #+end_src
 
 ** Invoke processes
+
+*** ~imenu~                                     :movement:
+
+#+begin_src emacs-lisp
+(general-main-define-key
+  "i" 'counsel-imenu)
+#+end_src
+
+*** ~avy~                                       :movement:
+
+#+begin_src emacs-lisp
+(general-main-define-key
+  "j" 'avy-goto-char-timer)
+#+end_src
+
+*** ~treemacs~
+
+#+begin_src emacs-lisp
+(general-project-define-key
+  "t" 'treemacs)
+#+end_src
 
 *** ~yankpad~                                   :completion:
 
