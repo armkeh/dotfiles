@@ -127,6 +127,12 @@ to find the source of some bug.
 For the sake of searching for settings via their “theme”,
 I try to tag headings in this file.
 
+Unfortunately, GitHub's rendering of Org does not include tags,
+so these do not show up on GitHub.
+But in other formats, you can search by these tags
+to find related sections of this file.
+On GitHub you may resort to viewing the raw file.
+
 Here is a list of notable tags.
 Below, in the raw file, are snippets of code to construct a sparse tree
 to bring into view only those headings with that tag
