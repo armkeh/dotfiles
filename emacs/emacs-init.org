@@ -3533,6 +3533,60 @@ when undoing/redoing (though I have not experienced this personally.)
 For the moment, I will stick to the builtin undo behaviour,
 with ~undo-propose~ to help visualise the changes.
 
+** Jumping through the buffer by characters    :movement:
+
+A bit of common wisdom to avoid RSI (repetivie strain injuries)
+says to avoid moving between keyboard and mouse frequently;
+leave your hands in a (properly relaxed and comfortable)
+keyboard position as much as possible.
+With this in mind, we should have ways to move the cursor
+that don't involve the mouse, but also don't involve
+mashing the arrow keys or similar.
+
+[[https://github.com/abo-abo/avy][~avy~]] is a
+“package for jumping to visible text using a char-based decision tree”.
+We invoke a command, type one, two or a small handful of characters,
+and then can use homerow keys to decide which instance of those characters
+on-screen to jump to.
+We can even jump to other windows!
+#+begin_src emacs-lisp
+(use-package avy)
+#+end_src
+
+** Viewing files (and contents) using a tree layout :movement:
+
+A common feature for modern text editors and IDEs
+is a narrow left window (or in other terminology, frame),
+showing the layout of the local directories and files as a tree,
+allowing for quick opening of other files in the current project.
+
+Of course, Emacs has packages that provide this;
+[[https://github.com/Alexander-Miller/treemacs][Treemacs]] is one such.
+#+begin_src emacs-lisp
+(use-package treemacs)
+#+end_src
+
+If I am keeping the Treemacs window open, I want it to not take
+too much space. As we move the cursor through the list,
+the full filepath of items is expanded in the echo area ansyway.
+#+begin_src emacs-lisp
+(setq treemacs-width 20)
+#+end_src
+
+Since the window is narrow, don't indent much.
+#+begin_src emacs-lisp
+(setq treemacs-indentation 1)
+#+end_src
+
+Icons are a nice visual tool to help ease visual identification
+of files which may have similar names but different types,
+but I find the default size is too large, taking up precious space.
+The default size is 22. 44 is recommended for high-DPI screens,
+but I use 11 to reserve space.
+#+begin_src emacs-lisp
+(treemacs-resize-icons 11)
+#+end_src
+
 * Final cosmetics
 
 ** Modeline styling                            :theme:
