@@ -4339,6 +4339,11 @@ an regularly commit the changes.
     (let ((was-already-visiting-intermediate (find-buffer-visiting readme-intermediate-filepath))
           (was-already-visiting-final        (find-buffer-visiting readme-final-filepath)))
       (find-file readme-intermediate-filepath)
+      ;; Make a temporary save to the final filepath;
+      ;; essentially copying the intermediate file to the final filepath.
+      ;; Not doing this before exporting will break relative links
+      ;; in the init file, as they will be prefixed with `../`.
+      (write-file readme-final-filepath)
       ;; Export it to a new buffer; exporting expands the included files.
       (org-org-export-as-org)
       ;; At the top, place a warning not to edit the file.
