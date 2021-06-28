@@ -3967,10 +3967,11 @@ from the comfort of Magit and the rest of Emacs.”
   :after magit)
 #+end_src
 
-** Purescript                                  :programming:
+** ~diff-hl~
 
 #+begin_src emacs-lisp
-(use-package purescript-mode)
+(use-package diff-hl)
+(global-diff-hl-mode)
 #+end_src
 
 ** ~minions~; see and toggle minor modes
@@ -3985,6 +3986,12 @@ or opening a help buffer.
 #+begin_src emacs-lisp
 (use-package minions)
 (minions-mode 1)
+#+end_src
+
+** Purescript                                  :programming:
+
+#+begin_src emacs-lisp
+(use-package purescript-mode)
 #+end_src
 
 * Session setup
