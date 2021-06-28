@@ -1086,10 +1086,10 @@ This controls the information shown in the email lists.
   otherwise it will show the recipient.
 #+begin_src emacs-lisp
 (setq mu4e-headers-fields
-  '( (:date       . 22)
-     (:flags      . 4)
-     (:from-or-to . 22)
-     (:subject    . nil)))
+  '((:date       . 22)
+    (:flags      . 6)
+    (:from-or-to . 22)
+    (:subject    . nil)))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1107,6 +1107,30 @@ if I reply to a message in a list, the reply will show up in the list.
 I find this unintuitive, especially since I don't organise by threads.
 #+begin_src emacs-lisp
 (setq mu4e-headers-include-related nil)
+#+end_src
+
+Use fancy characters, including unicode,
+for the flags and marks in the email list.
+#+begin_src emacs-lisp
+(setq mu4e-use-fancy-chars t)
+#+end_src
+
+Let's set the symbols used for the above ourselves.
+This list originated from a
+[[https://github.com/djcb/mu/issues/733][GitHub issue discussion]].
+#+begin_src emacs-lisp
+(setq
+  mu4e-headers-draft-mark     '("D" . "📝 ") ;; ✒ ✏
+  mu4e-headers-flagged-mark   '("F" . "🏴 ")
+  mu4e-headers-new-mark       '("N" . "★ ")
+  mu4e-headers-passed-mark    '("P" . "→ ") ;; ↪
+  mu4e-headers-replied-mark   '("R" . "← ")
+  mu4e-headers-seen-mark      '("S" . "") ;; ✓ 🗸 ✔
+  mu4e-headers-trashed-mark   '("T" . "✗ ") ;; 🗑
+  mu4e-headers-attach-mark    '("a" . "📎 ")
+  mu4e-headers-encrypted-mark '("x" . "🔐 ")
+  mu4e-headers-signed-mark    '("s" . "🔏 ")
+  mu4e-headers-unread-mark    '("u" . "✉ "))
 #+end_src
 
 **** Individual mail
