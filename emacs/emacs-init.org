@@ -2568,6 +2568,7 @@ for this application.
 
     ;; Plaintext, data and configuration formats
     ("text"       modus-themes-nuanced-red)
+    ("org"        modus-themes-nuanced-red)
     ("html"       modus-themes-nuanced-red)
     ("latex"      modus-themes-nuanced-red)
     ("ditaa"      modus-themes-nuanced-red)
