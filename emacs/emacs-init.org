@@ -4265,7 +4265,7 @@ the ~include~ command will not be honoured by GitHub's Org rendering.
 So this file is just an inbetween to allow us to export
 the final version of the ~README.org~ file.
 #+begin_src org :tangle ~/dotfiles/emacs/private/README-intermediate.org
-#+Options: toc:nil
+#+Options: toc:nil tags:t timestamp:nil
 
 # This file is tangled from emacs-init.org,
 # and should not be modified directly.
@@ -4278,7 +4278,9 @@ See also my
 - [[./yankpad.org][Yankpad snippets file]]
   - (Frequently used text expansions.)
 
-#+TOC: headlines 2
+,* Table of contents  :TOC_2:
+
+,* The contents       :ignore:
 
 #+include: ~/dotfiles/emacs/emacs-init.org
 #+end_src
