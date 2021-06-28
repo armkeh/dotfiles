@@ -3574,7 +3574,7 @@ The Doom modeline provides ~doom-modeline-set-modeline~
 #+begin_src emacs-lisp
 (doom-modeline-def-modeline 'my/doom-modeline
   ;; Left side
-  '(remote-host buffer-info buffer-encoding buffer-position)
+  '(window-number remote-host buffer-info buffer-encoding buffer-position)
   ;; Right side
   '(major-mode minor-modes input-method process mu4e))
 
@@ -3851,25 +3851,31 @@ See my keybindings for this above.
 ** ~windmove~                                    :window:
 
 The package ~windmove~ lets us jump between windows in a frame.
-
 #+begin_src emacs-lisp
 (use-package windmove)
 #+end_src
 
-For the uninitiated, a /window/ in Emacs is not the same as
-the OS window. Each OS window is a /frame/, and each pane within
-a frame is called a /window/. (Emacs predates modern terminology).
+(For the uninitiated, a /window/ in Emacs is not the same as
+ the OS window. Each OS window is a /frame/, and each pane within
+ a frame is called a /window/. Emacs predates modern terminology.)
 
 ~windmove~ lets us move between windows with the arrow keys
 while holding a key; by default, the key is ~shift~.
 That conflicts with ~org~ though, so we could use
 ~windmove-default-keybindings~ to change it.
 
-Unfortunately, on my system, all the other possibilities seem
-to be taken with system shortcuts (which I cannot modify in ChromeOS),
-or otherwise taken in Emacs.
+** ~windnum~
 
-So instead I've defined shortcuts using ~general~ above.
+While ~windmove~ is wonderful, if we have several windows
+in the frame, it can be tedious to move between them,
+since it may required several commands in a row.
+In the case, perhaps we prefer to jump straight to windows,
+by assigning each window a number and jumping based on those numbers.
+The ~winum~ package facilitates this.
+#+begin_src emacs-lisp
+(use-package winum)
+(winum-mode)
+#+end_src
 
 ** Ediff                                       :vc:
 
