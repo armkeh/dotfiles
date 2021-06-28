@@ -1054,106 +1054,14 @@ it does not take an excessive amount of time when I manually run it.
   mu4e-headers-auto-update t)
 #+end_src
 
+**** Index quietly
+
 Don't take over the minibuffer with a status notification
 when indexing messages.
 If something's going wrong, flip this setting
 as a first step in the diagnosis.
 #+begin_src emacs-lisp
 (setq mu4e-hide-index-messages t)
-#+end_src
-
-:TODO: Is background updating working again?
-# ~mu4e~ is supposed to be able to run the get mail command
-# and index the mail at set intervals.
-# Unfortunately, this process seems to silently fail somewhere.
-# So I disable the automatic updating and instead
-# register my own idle timers to update mail.
-# #+begin_src emacs-lisp
-# (setq mu4e-update-interval nil)
-# #+end_src
-
-**** COMMENT Updating while idle
-
-Here we register a function which updates mail
-to be run when the system is idle.
-
-We set it so that every fifth time the function is run,
-all mail is synced.
-The other times, only my quick channel is synced.
-
-We need a ticker variable to accomplish this.
-#+begin_src emacs-lisp
-(defvar my/mu4e-update-ticker 0
-  "Ticker variable for use with `my/mu4e-get-mail-command`.
-   Once a certain value is reached, sync all mail
-   and reset the ticker.")
-#+end_src
-
-This function locally overrides ~mu4e-get-mail-command~ and
-then invokes ~mu4e-update-mail-and-index~ (running in the background)
-#+begin_src emacs-lisp
-(defun my/mu4e-update-mail-and-index (the-command)
-  "Run `mu4e-update-mail-and-index` after setting
-   a custom `mu4e-get-mail-command`."
-  (let ((mu4e-get-mail-command the-command))
-    (mu4e-update-mail-and-index t)))
-#+end_src
-
-Now we use the above function and ticker in the lambda
-we register on an idle timer.
-#+begin_src emacs-lisp
-(run-with-idle-timer 600 t (lambda ()
-  (if (< my/mu4e-update-ticker 4)
-      (progn (setq my/mu4e-update-ticker (+ my/mu4e-update-ticker 1)) 
-             (my/mu4e-update-mail-and-index mu4e-get-mail-command))
-      (progn (setq my/mu4e-update-ticker 0)
-             (my/mu4e-update-mail-and-index "mbsync -a")))))
-#+end_src
-
-# This is a bit of a dumb asynchronous process to update the rest of
-# the mailboxes. Dumb in the sense that if anything ever goes wrong,
-# I won't know about it.
-# #+begin_src emacs-lisp
-# (start-process "mbsync-gmail-rest"
-#                "*mbsync gmail-rest*"
-#                "~/dotfiles/emacs/mbsync-gmail-rest")
-# #+end_src
-# It runs this shell process.
-# #+begin_src shell :tangle mbsync-gmail-rest :shebang "#!/bin/bash"
-# while :
-# do
-#   echo "Beginning sync"
-#   date
-#   mbsync gmail-rest
-#   echo ""
-#   echo "Indexing with mu"
-#   mu index -m ~/.mail/gmail
-#   echo "Ended sync, sleeping for 30m"
-#   echo ""
-#   echo ""
-#   echo ""
-#   sleep 30m
-# done
-# #+end_src
-# By default, we would be prompted whether we want to kill this process
-# upon exiting Emacs; I will always answer yes, so it's best
-# just not to have it ask.
-# #+begin_src emacs-lisp
-# (set-process-query-on-exit-flag (get-process "mbsync-gmail-rest") nil)
-# #+end_src
-
-~mu4e~ has an annoying habit of hogging the minibuffer while
-updating and indexing; unfortunately this means I prefer
-to silence its updating and indexing messages.
-#+begin_src emacs-lisp
-(setq mu4e-hide-index-messages t)
-#+end_src
-
-~mu/mu4e~ normally keeps the base filename the same when moving
-mail to a different folder; with isync, it works better to
-change the name. See the documentation of this variable.
-#+begin_src emacs-lisp
-(setq mu4e-change-filenames-when-moving t)
 #+end_src
 
 **** Change file names when moving emails
@@ -1386,6 +1294,9 @@ The ~mu4e-compose-mode-hook~ runs
 after the message has been formed.
 So we are safe to restore the original ~user-mail-address~.
 #+begin_src emacs-lisp
+;; Initialise the variable used below.
+(setq my/user-mail-address-backup nil)
+
 (add-hook 'mu4e-compose-mode-hook
   (defun my/restore-user-mail-address ()
     "Restore the user-mail-address based on the value
@@ -1912,7 +1823,7 @@ See the ~kill-buffer-on-process-finish~ definition earlier in this file.
           (let* ((output-buffer-name "*mbsync all directories*")
                  (output-buffer (generate-new-buffer output-buffer-name))
                  (process (progn
-                         (async-shell-command "mbsync gmail-quick" output-buffer)
+                         (async-shell-command "mbsync -a" output-buffer)
                          (get-buffer-process output-buffer))))
               (if (process-live-p process)
                   (set-process-sentinel process #'kill-buffer-on-process-finish) 
@@ -3769,9 +3680,13 @@ desktop notifications (OS-level notifications.)
 This should work on Linux systems.
 We can set ~lib-notify~ instead (for Linux),
 but this way we don't rely on that library being installed.
+But in my current workflow, desktop notifications
+are in fact an unnecessary distraction;
+I already receive notifications in Emacs, on my phone
+and on my watch. So this is commented out for now.
 #+begin_src emacs-lisp
-(mu4e-alert-set-default-style 'notifications)
-(add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
+;;(mu4e-alert-set-default-style 'notifications)
+;;(add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
 #+end_src
 
 Show the unread email count (or however we format the alert)
@@ -3785,10 +3700,15 @@ Only alert for emails coming into the inbox.
 Don't worry about other mail directories.
 (I direct some less urgent mail to other directories,
  and don't want to be bothered by notifications from them.)
+Do include all mail in the inbox, even if it is read;
+I follow a “zero inbox” approach, so the number of emails
+in the inbox is the number of emails I still have to deal with today,
+even if some or all are marked as read.
 #+begin_src emacs-lisp
 (setq mu4e-alert-interesting-mail-query
-        (concat
-         "flag:unread maildir:/Inbox"))
+   (concat
+      ;;"flag:unread"
+      "maildir:/Inbox"))
 #+end_src
 
 Only show the count of unread emails in the notifications,
