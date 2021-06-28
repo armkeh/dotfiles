@@ -32,92 +32,52 @@ For the sake of searching for settings via their “theme”,
 I try to tag headings in this file.
 
 Here is a list of notable tags.
-Included is a snippet of code to construct a sparse tree
+Below, in the raw file, are snippets of code to construct a sparse tree
 to bring into view only those headings with that tag
 while viewing this file in Emacs.
 - ~:org:~; settings for Org mode.
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "org")
-  #+end_example
-
 - ~:mail:~; settings for receiving, reading and sending emails.
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "mail")
-  #+end_example
-
 - ~:programming:~; settings for any programming languages.
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "programming")
-  #+end_example
-
 - ~:vc:~; settings for version control and related notions,
   such as “diff” and “undo” utilities.
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "vc")
-  #+end_example
-
 - ~:completion:~; settings for completion frameworks and related notions,
   such as snippets.
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "completion")
-  #+end_example
-
 - ~:delimiter:~; settings pertaining to delimiters.
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "delimiter")
-  #+end_example
-
 - ~:line:~; settings pertaining to the notion of a line.
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "line")
-  #+end_example
-
 - ~:space:~; settings dealing with whitespace.
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "space")
-  #+end_example
-
 - ~:font:~; settings for font.
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "font")
-  #+end_example
-
 - ~:theme:~; settings for theme or other appearance details.
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "theme")
-  #+end_example
-
 - ~:buffer:~; settings dealing with the notion of buffers.
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "buffer")
-  #+end_example
-
 - ~:window:~; settings dealing with the notion of Emacs windows
   (not OS windows.)
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "window")
-  #+end_example
-
 - ~:tab:~; settings dealing with the tab bar.
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "tab")
-  #+end_example
-
 - ~:basic:~; settings for basic elements of Emacs.
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "basic")
-  #+end_example
-
 - ~:simplify:~; settings to remove or hide elements of Emacs I do not use.
-  #+begin_example emacs-lisp
-(org-match-sparse-tree nil "simplify")
-  #+end_example
-
 - ~:cleanup:~; portions of the file which are just for cleanup,
   not really for adjusting settings.
-  #+begin_example emacs-lisp
+
+*** COMMENT Constructing sparse trees from the tags
+
+Execute these snippets to quickly find headings with a tag.
+#+begin_example emacs-lisp
+(org-match-sparse-tree nil "org")
+(org-match-sparse-tree nil "mail")
+(org-match-sparse-tree nil "programming")
+(org-match-sparse-tree nil "vc")
+(org-match-sparse-tree nil "completion")
+(org-match-sparse-tree nil "delimiter")
+(org-match-sparse-tree nil "line")
+(org-match-sparse-tree nil "space")
+(org-match-sparse-tree nil "font")
+(org-match-sparse-tree nil "theme")
+(org-match-sparse-tree nil "buffer")
+(org-match-sparse-tree nil "window")
+(org-match-sparse-tree nil "tab")
+(org-match-sparse-tree nil "basic")
+(org-match-sparse-tree nil "simplify")
 (org-match-sparse-tree nil "cleanup")
-  #+end_example
+#+end_example
+
 
 ** The file layout
 
