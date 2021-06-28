@@ -3209,6 +3209,64 @@ Again, note that nothing will show up in LaTeX exports!
              '(:exports . "results"))
 #+end_src
 
+*** Letters
+
+When writing a letter, I use
+[[https://www.ctan.org/pkg/scrlttr2][the Koma-Script letter class]]
+for LaTeX, rather than the default letter class.
+There is a nice package giving support for using Org mode
+to organise the letter.
+#+begin_src emacs-lisp
+(require 'ox-koma-letter)
+#+end_src
+
+Here's a sample Org document to produce a simple letter.
+I have it set to tangle to [[/tmp/letter-template.org]],
+so I can quickly copy it when I want to write a letter.
+#+begin_src org :tangle /tmp/letter-template.org
+#+Title: A title for the produced PDF, not shown on the page unless set to do so
+#+Author: Mark Armstrong
+#+Date: The date
+
+,* My contact info                               :noexport:
+
+#+Email: markparmstrong@gmail.com
+#+Phone_number: 111-111-1111
+#+URL: armkeh.github.io
+
+,* Preamble                                      :noexport:
+
+#+Subject: Computer programming part-time/summer camp instructor position
+
+Disregard the title. Use only subject, and center it.
+#+Options: title:nil subject:centered
+
+Include my email, phone and URL in my address.
+Make sure to set these above!
+#+Options: email:t phone:t url:t
+
+Don't print the foldmarks.
+#+Options: foldmarks:nil
+
+#+LCO: UScommercial9
+
+,* To                                            :to:
+
+Their mailing address
+
+,* From                                          :from:
+
+My mailing address
+
+,* Dear recipient,
+
+Here is my awesome letter.
+
+,* All the best,                                 :closing:
+
+Mark Armstrong
+#+end_src
+
 ** A completion framework; Ivy, Counsel and Swiper :completion:
 
 :TODO: Better documentation here.
