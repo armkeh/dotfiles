@@ -3,6 +3,7 @@
 
 # Private directory for files with information that should not be shared publically.
 private/*
+*/private/*
 
 # Directories which store deprecated settings or downloaded files.
 deprecated/*

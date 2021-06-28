@@ -42,7 +42,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#1c1f24" "#484854"))
  '(objed-cursor-color "#ff665c")
  '(package-selected-packages
-   '(mlscroll ml-scroll ivy-prescient prescient dad-joke undo-propose purescript-mode ob-markdown modus-themes exec-path-from-shell ammonite-term-repl f s ink-mode forge cider inf-ruby ob-prolog clojure-mode haskell-mode org zones el-get hl-todo magit company-quickhelp company-emoji company mu4e-maildirs-extension elm-mode docker ob-ammonite web-mode ob-typescript command-log-mode messages-are-flowing polymode ivy evil counsel swiper xah-fly-keys modus-operendi modus-vivendi modus-operandi-theme modus-vivendi-theme all-the-icons helm auto-package-update toc-org typescript-mode rainbow-delimiters dimmer dimmer-mode auto-dim-other-buffers all-the-icons-dired org-bullets doom-modeline spaceline spaceline-config unicode-fonts geiser yasnippet yankpad wordsmith-mode which-key use-package undo-tree pdf-tools ox-tufte ox-reveal ox-pandoc org-plus-contrib org-mime htmlize general exwm emojify doom-themes dired-single diminish))
+   '(git-gutter diff-hl winum popper treemacs avy mu4e-alert doomline minions mlscroll ml-scroll ivy-prescient prescient dad-joke undo-propose purescript-mode ob-markdown modus-themes exec-path-from-shell ammonite-term-repl f s ink-mode forge cider inf-ruby ob-prolog clojure-mode haskell-mode org zones el-get hl-todo magit company-quickhelp company-emoji company mu4e-maildirs-extension elm-mode docker ob-ammonite web-mode ob-typescript command-log-mode messages-are-flowing polymode ivy evil counsel swiper xah-fly-keys modus-operendi modus-vivendi modus-operandi-theme modus-vivendi-theme all-the-icons helm auto-package-update toc-org typescript-mode rainbow-delimiters dimmer dimmer-mode auto-dim-other-buffers all-the-icons-dired org-bullets doom-modeline spaceline spaceline-config unicode-fonts geiser yasnippet yankpad wordsmith-mode which-key use-package undo-tree pdf-tools ox-tufte ox-reveal ox-pandoc org-plus-contrib org-mime htmlize general exwm emojify doom-themes dired-single diminish))
  '(pdf-view-midnight-colors (cons "#bbc2cf" "#242730"))
  '(reftex-default-bibliography '("~/Dropbox/McMaster/references.bib") t)
  '(rustic-ansi-faces
@@ -81,19 +81,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(mode-line ((t (:foreground "black" :background "DeepSkyBlue1"))))
- '(mode-line-inactive ((t (:foreground "black" :background "LightSkyBlue1"))))
- '(nobreak-space ((t (:underline t))))
- '(powerline-active0 ((t (:foreground "black" :background "DeepSkyBlue2"))))
- '(powerline-active1 ((t (:foreground "black" :background "DeepSkyBlue3"))))
- '(powerline-active2 ((t (:foreground "black" :background "DeepSkyBlue4"))))
- '(powerline-inactive0 ((t (:foreground "black" :background "LightSkyBlue2"))))
- '(powerline-inactive1 ((t (:foreground "black" :background "LightSkyBlue3"))))
- '(powerline-inactive2 ((t (:foreground "black" :background "LightSkyBlue4"))))
- '(show-paren-match ((t (:foreground "white" :background "black" :weight ultra-bold))))
- '(spaceline-modified ((t (:foreground "black" :background "gold1"))))
- '(spaceline-read-only ((t (:foreground "black" :background "seashell1"))))
- '(spaceline-unmodified ((t (:foreground "black" :background "green1"))))
- '(tab-bar ((t (:foreground "white" :background "DarkSlateGray4"))))
- '(tab-bar-tab ((t (:foreground "white" :background "DarkSlateGray3" :box (:line-width 1 :style released-button)))))
- '(tab-bar-tab-inactive ((t (:foreground "white" :background "DarkSlateGray4" :box (:line-width 1 :style released-button))))))
+ '(nobreak-space ((t (:underline t)))))
