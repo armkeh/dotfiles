@@ -4007,6 +4007,12 @@ or opening a help buffer.
 (use-package purescript-mode)
 #+end_src
 
+** Elm
+
+#+begin_src emacs-lisp
+(use-package elm-mode)
+#+end_src
+
 * Session setup
 
 First, we opened my init file earlier;
