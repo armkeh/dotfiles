@@ -1815,6 +1815,7 @@ override my shortcuts.
   "f" 'yankpad-expand)
 
 (general-other-package-define-key
+  "y i" 'yankpad-insert
   "y m" 'yankpad-map
   "y r" 'yankpad-reload)
 #+end_src
@@ -2036,10 +2037,30 @@ Sometimes I need to toggle fontlocking.
   "<up>"    '((lambda () (interactive) (windmove-up))
               :which-key "move focus up")
   "<down>"  '((lambda () (interactive) (windmove-down))
-              :which-key "move focus down")
+              :which-key "move focus down"))
+#+end_src
 
+Also, let's add a shortcut to jump right to the minibuffer,
+assuming it is active.
+The space key is low and wide, just like the minibuffer,
+so it seems a natural choice.
+#+begin_src emacs-lisp
+(defun switch-to-minibuffer-window ()
+    "Switch to the minibuffer window, if it's active.
+     Otherwise do nothing."
+    (interactive)
+    (when (active-minibuffer-window)
+        (select-window (active-minibuffer-window))))
+
+(general-window-define-key
+  "SPC" '((lambda () (interactive) (switch-to-minibuffer-window))
+              :which-key "move focus to minibuffer"))
+#+end_src
+
+#+begin_src emacs-lisp
+(general-window-define-key
   "f"  '((lambda () (interactive) (other-frame 1))
-              :which-key "other frame")
+         :which-key "other frame")
   
   "["  'winner-undo
   "]"  'winner-redo
