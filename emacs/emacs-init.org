@@ -3625,12 +3625,16 @@ Taken without additional commentary for now from Musa's init.
 (setq company-backends (mapcar #'my/company-backend-with-yankpad company-backends))
 #+end_src
 
-** Previewing before undoing; ~undo-propose~     :vc:
+** Walking through undo history; undo-propose  :vc:
 
 The ~undo-propose~ package is a fairly minimal addition to
 the builtin undo features of Emacs
 (which can be confusing, but are very powerful,
  since undo-ing is an action which can be undone.)
+#+begin_src emacs-lisp
+(use-package undo-propose)
+#+end_src
+
 What ~undo-propose~ does is open a new, read-only buffer
 in which the undoing is to be done
 (~undo~ and ~undo-only~ are wrapped so as to be allowed,
@@ -3641,9 +3645,20 @@ It provides commands to
   - or as the chain of undo actions performed (~C-c C-c~),
 - run a diff against the original buffer (~C-c C-d~), or
 - be discarded entirely (~C-c C-k~.)
-#+begin_src emacs-lisp
-(use-package undo-propose)
-#+end_src
+
+Notice that undo history can be viewed as
+a very crude local version control.
+Local in two senses;
+- in space, because the history is only available on our current machine, and
+- in time, because the history is lost when the buffer is closed
+  (or Emacs closes.)
+Still, this history can be of use, and when combined with automatic backups
+(see [[Organising automatic backups]] and [[Walking through backups; backup-walker]]),
+and usually further an actual version control system such as Git,
+we can be reasonably assured we will not find ourselves
+wanting to recover some deleted work and being unable to.
+
+*** What about undo-tree?
 
 In the past, I have used ~undo-tree~ to visualise
 the changes to a file as a tree,
@@ -3654,6 +3669,19 @@ and ~undo-tree~ has been known to cause corruptions
 when undoing/redoing (though I have not experienced this personally.)
 For the moment, I will stick to the builtin undo behaviour,
 with ~undo-propose~ to help visualise the changes.
+
+** Walking through backups; backup-walker
+
+The ~backup-walker~ package gives us the resources
+to actually make use of the backups Emacs generates as
+a crude offline version control.
+It enables us to traverse backwards and forwards in time
+through the backups, seeing a diff at each step.
+Try it out with ~backup-walker-start~,
+and move back and forth with ~n~ and ~p~.
+#+begin_src emacs-lisp
+(use-package backup-walker)
+#+end_src
 
 ** Jumping through the buffer by characters    :movement:
 
