@@ -3958,7 +3958,7 @@ used in most export formats (at least HTML and LaTeX.)
   '("~/logs/personal/todo.org"))
 #+end_src
 
-** Alerts for emails
+** Alerts for emails                           :mail:
 
 The ~mu4e-alert~ package provides the ability to get
 various kinds of alert about incoming mail using ~mu4e~.
@@ -4051,7 +4051,7 @@ the cursor is on.
 (add-hook 'dired-after-readin-hook 'hl-line-mode)
 #+end_src
 
-** Eshell
+** Eshell                                      :programming:
 
 The Eshell is a wonderful shell-like command interpreter inside of Emacs.
 I find it's not appropriate for intensive command line tasks,
