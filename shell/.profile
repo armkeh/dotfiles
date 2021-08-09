@@ -4,64 +4,62 @@
 # see /usr/share/doc/bash/examples/startup-files for examples.
 # the files are located in the bash-doc package.
 
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
-#umask 022
-
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
+# Guix
+if [ -d "$HOME/.guix-profile" ] ; then
+  # This setup based on that done by the Guix System
+  for profile in "$HOME/.guix-profile" "$HOME/.config/guix/current"
+  do
+    if [ -f "$profile/etc/profile" ]
+    then
+      # Load the user profile's settings.
+      GUIX_PROFILE="$profile" ; \
+        . "$profile/etc/profile"
+    else
+      # At least define this one so that basic things just work
+      # when the user installs their first package.
+      export PATH="$profile/bin:$PATH"
     fi
+  done
 fi
 
-# set PATH so it includes user's private bin if it exists
+# Nix
+if [ -d "$HOME/.nix-profile" ] ; then
+  source ~/.nix-profile/etc/profile.d/nix.sh
+fi
+
+if [ -d "$HOME/.local/bin" ] ; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+if [ -d "$HOME/local/bin" ] ; then
+    export PATH="$HOME/local/bin:$PATH"
+fi
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
-
-
-# My settings
-
 # Tool install directories
 
-if [ -d "/usr/local/texlive/2020" ] ; then
-  export MANPATH="$MANPATH:/usr/local/texlive/2020/texmf-dist/doc/man"
-  export INFOPATH="$INFOPATH:/usr/local/texlive/2020/texmf-dist/doc/info"
-  export PATH=/usr/local/texlive/2020/bin/x86_64-linux:$PATH
-fi
+# Haskell tools
 if [ -d "/opt/ghc/bin" ] ; then
     export PATH="$PATH:/opt/ghc/bin"
 fi
 if [ -d "$HOME/.cabal/bin" ] ; then
     export PATH="$PATH:$HOME/.cabal/bin"
 fi
-if [ -d "$HOME/.local/bin" ] ; then
-    # Install path used by Stack
-    export PATH="$HOME/.local/bin:$PATH"
-fi
+
+# OCaml package manager
 if [ -d "$HOME/.opam/system/bin" ] ; then
     export PATH="$PATH:$HOME/.opam/system/bin"
 fi
-if [ -d "$HOME/.cargo//bin" ] ; then
+
+# Rust's package manager
+if [ -d "$HOME/.cargo/bin" ] ; then
     export PATH="$PATH:$HOME/.cargo/bin"
 fi
 
-
-# Switch caps lock to super, using setxkbmap if it's available.
-# Removed for now as I set this on the system/keyboard.
-# if [ -x "$(command -v setxkbmap)" ] ; then
-#     setxkbmap -option caps:super
-# fi
-
-# Nodejs (added manually during setup thereof)
-# Must be updated when changing versions
-if [ -d "/usr/local/lib/nodejs/node-v13.8.0-linux-x64/bin" ] ; then
-    VERSION=v13.8.0
-    DISTRO=linux-x64
-    PATH="$PATH:/usr/local/lib/nodejs/node-v13.8.0-linux-x64/bin"
+# The Go path used by Golang by default
+if [ -d "$HOME/go/bin" ] ; then
+    export PATH="$PATH:$HOME/.cargo/bin"
 fi
 
 # Disable some legacy docker commands

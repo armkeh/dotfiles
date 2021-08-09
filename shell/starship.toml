@@ -1,0 +1,68 @@
+command_timeout = 1000
+
+format="""
+[┌─⟨$shell⟩──⟨$username$hostname⟩](bold green)\
+[──⟨${custom.date}⟩──⟨$time⟩](bold green)\
+[──⟨$character$status$cmd_duration⟩](bold green)
+[│ $directory](bold green)
+([│ $elm$golang$nodejs$purescript$python$ruby](bold green)\n)\
+([│ $git_branch($git_commit)($git_status$git_metrics)](bold green)\n)\
+[${custom.zsh_prompt}${custom.other_prompt} \\$ ](bold green)
+"""
+
+[shell]
+disabled = false
+format ="[$indicator](green)"
+
+[username]
+show_always = true
+format = "[$user]($style)"
+
+[hostname]
+format = "@[$hostname](magenta)"
+
+[custom.date]
+command = "date +'%a %b %d'"
+format = "[$output](bright-blue)"
+when = "true"
+shell = ["bash", "--noprofile", "--norc"]
+
+[time]
+disabled = false
+time_format = "%T"
+style = "bold blue"
+format = "[$time]($style)"
+
+[character]
+success_symbol = "✓"
+error_symbol = ""
+vicmd_symbol = ""
+format = "$symbol"
+
+[status]
+disabled = false
+format = "[$symbol$status]($style)"
+
+[cmd_duration]
+min_time = 0
+show_milliseconds = true
+style = "bold bright-blue"
+format = " ⏱[$duration]($style)"
+
+[directory]
+truncation_length = 20
+truncate_to_repo = false
+truncation_symbol = "…"
+
+[git_metrics]
+disabled = false
+
+[custom.zsh_prompt]
+format = "[%3{└─►%}](bold green)"
+when = '[ "$STARSHIP_SHELL" == "zsh" ]'
+shell = ["bash", "--noprofile", "--norc"]
+
+[custom.other_prompt]
+format = "[└─►](bold green)"
+when = '[ ! "$STARSHIP_SHELL" == "zsh" ]'
+shell = ["bash", "--noprofile", "--norc"]

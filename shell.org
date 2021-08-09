@@ -2,104 +2,216 @@
 #+Author: Mark Armstrong
 #+Description: Settings and customisations for my shells and terminal emulators.
 
-:TODO: Cleanup of this file is still to be done.
-No documentation is completed, and a not insignificant portion
-of each file is from a default file, settigns that I may not wish to keep.
+* Preamble
 
-* Shells
+Herein are my settings for shells and terminal emulators.
 
-I mostly use ~zsh~ these days, but retain and maintain settings
-for ~bash~ as a fallback, as it is still the default in some places.
+I mostly use ~zsh~ as my shell these days,
+but retain and maintain settings for ~bash~;
+mostly as a fallback, as it is the default on a lot of systems.
 
-** Aliases
+* Register shells with the system
 
-Nothing to see here yet;
-those aliases I used to use are long forgotten and abandoned.
+For a shell to be set as the default shell,
+it needs to be registered as a valid shell
+in ~/etc/shells/~.
+This seems to be updated automatically using system package managers
+(such as ~apt~ on Debian based systems),
+but in my usage of Guix I had to update it manually.
 
-** Profiles
+Then we can set the default shell using
+#+begin_src sh
+chsh -s $(which SHELL)
+#+end_src
+replacing SHELL with the appropriate shell.
 
-*** ~profile~
+Note this operation requires the user password;
+in the Linux VM on Chromebooks using Crostini,
+there isn't a user password by default,
+so we must set one first using the command
+#+begin_src sh
+sudo passwd $USER
+#+end_src
+
+* Order of shell startup file execution
+
+Before proceeding, it is a good idea to clarify the usage and purpose
+of the various shell setting files.
+
+In particular, I make use both of “profile” and “run commands” files.
+
+The distinction is that “profile” files are used
+for (interactive) login shells,
+and “run commands” for (interactive) /non/-login shells.
+
+To ensure consistency, the usual practice is to source
+the relevant “run command file” from the relevant “profile” file.
+
+Just don't introduce a circular dependency!
+
+See [[https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/][this blog post]]
+on the startup file loading order for ~bash~ and ~zsh~,
+which informed me on the above.
+
+* Profiles
+
+** ~profile~
 :PROPERTIES:
-:header-args: :tangle ./shell/.profile
+:header-args:sh: :tangle ./shell/.profile
 :END:
 
-#+begin_src shell
+*** Introduction
+
+Standard description, inherited from (what I assume is)
+the default Debian ~~/.profile~.
+#+begin_src sh
 # ~/.profile: executed by the command interpreter for login shells.
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
 # exists.
 # see /usr/share/doc/bash/examples/startup-files for examples.
 # the files are located in the bash-doc package.
+#+end_src
 
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
-#umask 022
+*** Path updates
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
+Package manager binary install locations.
+#+begin_src sh
+# Guix
+if [ -d "$HOME/.guix-profile" ] ; then
+  # This setup based on that done by the Guix System
+  for profile in "$HOME/.guix-profile" "$HOME/.config/guix/current"
+  do
+    if [ -f "$profile/etc/profile" ]
+    then
+      # Load the user profile's settings.
+      GUIX_PROFILE="$profile" ; \
+        . "$profile/etc/profile"
+    else
+      # At least define this one so that basic things just work
+      # when the user installs their first package.
+      export PATH="$profile/bin:$PATH"
     fi
+  done
 fi
 
-# set PATH so it includes user's private bin if it exists
+# Nix
+if [ -d "$HOME/.nix-profile" ] ; then
+  source ~/.nix-profile/etc/profile.d/nix.sh
+fi
+#+end_src
+
+The ~~/.local/bin~ or ~/local/bin~,
+and sometimes the older convention ~~/bin~,
+are often used for user-specific binaries.
+(See [[https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html][the XDG base directory specification]].)
+#+begin_src sh
+if [ -d "$HOME/.local/bin" ] ; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+if [ -d "$HOME/local/bin" ] ; then
+    export PATH="$HOME/local/bin:$PATH"
+fi
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
+#+end_src
 
-
-
-# My settings
-
+And some other install locations I've encountered.
+I should occasionally trim these if I stop using some languages.
+#+begin_src sh
 # Tool install directories
 
-if [ -d "/usr/local/texlive/2020" ] ; then
-  export MANPATH="$MANPATH:/usr/local/texlive/2020/texmf-dist/doc/man"
-  export INFOPATH="$INFOPATH:/usr/local/texlive/2020/texmf-dist/doc/info"
-  export PATH=/usr/local/texlive/2020/bin/x86_64-linux:$PATH
-fi
+# Haskell tools
 if [ -d "/opt/ghc/bin" ] ; then
     export PATH="$PATH:/opt/ghc/bin"
 fi
 if [ -d "$HOME/.cabal/bin" ] ; then
     export PATH="$PATH:$HOME/.cabal/bin"
 fi
-if [ -d "$HOME/.local/bin" ] ; then
-    # Install path used by Stack
-    export PATH="$HOME/.local/bin:$PATH"
-fi
+
+# OCaml package manager
 if [ -d "$HOME/.opam/system/bin" ] ; then
     export PATH="$PATH:$HOME/.opam/system/bin"
 fi
-if [ -d "$HOME/.cargo//bin" ] ; then
+
+# Rust's package manager
+if [ -d "$HOME/.cargo/bin" ] ; then
     export PATH="$PATH:$HOME/.cargo/bin"
 fi
 
-
-# Switch caps lock to super, using setxkbmap if it's available.
-# Removed for now as I set this on the system/keyboard.
-# if [ -x "$(command -v setxkbmap)" ] ; then
-#     setxkbmap -option caps:super
-# fi
-
-# Nodejs (added manually during setup thereof)
-# Must be updated when changing versions
-if [ -d "/usr/local/lib/nodejs/node-v13.8.0-linux-x64/bin" ] ; then
-    VERSION=v13.8.0
-    DISTRO=linux-x64
-    PATH="$PATH:/usr/local/lib/nodejs/node-v13.8.0-linux-x64/bin"
+# The Go path used by Golang by default
+if [ -d "$HOME/go/bin" ] ; then
+    export PATH="$PATH:$HOME/.cargo/bin"
 fi
+#+end_src
 
+*** Tool settings
+
+Some Docker documentation I read recommended avoiding bad habits
+by disabling legacy commands, so let's do that.
+#+begin_src sh
 # Disable some legacy docker commands
 export DOCKER_HIDE_LEGACY_COMMANDS=true
 #+end_src
 
-*** ~bash~ profile
+*** COMMENT Removed
 :PROPERTIES:
-:header-args: :tangle ./shell/.bash_profile
+:header-args:sh: :tangle no
 :END:
 
-#+begin_src shell
+**** Sourcing run commands (“rc” files)
+
+The default ~~/.profile~ on Debian
+sources ~~/.bashrc~ if we are using ~bash~ and the file exists,
+
+I already source ~~/.bashrc~ from ~~/.bash_profile~, so this is redundant.
+#+begin_src sh
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+  # include .bashrc if it exists
+  if [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+  fi
+fi
+#+end_src
+
+**** Replace caps lock with the super key
+
+I've removed this as I instead perform the replacement
+through OS settings or the keyboard firmware.
+#+begin_src sh
+# Switch caps lock to super, using setxkbmap if it's available.
+# if [ -x "$(command -v setxkbmap)" ] ; then
+#     setxkbmap -option caps:super
+# fi
+#+end_src
+
+**** File permissions
+
+This ~umask~ setting is suggested as an option
+by the default Debian ~~/.profile~.
+The default is ~0022~ —which is equivalent to the below ~022~—
+which
+“Assigns permissions so that only you have read/write access for files,
+ and read/write/search for directories you own.
+ All others have read access only to your files,
+ and read/search access to your directories.”
+See [[https://stackoverflow.com/a/13269502][this StackOverflow answer]]
+for details (it's the source of the above quote).
+#+begin_src sh
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+#+end_src
+
+** ~bash~ profile
+:PROPERTIES:
+:header-args:sh: :tangle ./shell/.bash_profile
+:END:
+
+Just source the relevant files.
+No interesting ~bash~ specific setup, at least yet.
+#+begin_src sh
 if [ -f ~/.profile ]; then
     source ~/.profile
 fi
@@ -111,12 +223,14 @@ fi
 export PATH="$HOME/.cargo/bin:$PATH"
 #+end_src
 
-*** ~zsh~ profile
+** ~zsh~ profile
 :PROPERTIES:
-:header-args: :tangle ./shell/.zprofile
+:header-args:sh: :tangle ./shell/.zprofile
 :END:
 
-#+begin_src shell
+As with ~bash~, just source the relevant files.
+No interesting ~zsh~ specific setup, at least yet.
+#+begin_src sh
 if [ -f ~/.profile ]; then
     source ~/.profile
 fi
@@ -126,189 +240,92 @@ if [ -f ~/.zshrc ]; then
 fi
 #+end_src
 
-** Run commands
-*** ~bash~ run commands
+* Run commands
+
+** ~bash~ run commands
 :PROPERTIES:
-:header-args: :tangle ./shell/.bashrc
+:header-args:sh: :tangle ./shell/.bashrc
 :END:
 
-#+begin_src shell
+*** Header
+
+Standard, default. I should probably rewrite this eventually.
+#+begin_src sh
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
+#+end_src
 
+*** Basic settings
+
+**** Interactivity check
+
+If not running interactively
+(for instance, if this system is the remote
+ during a data transfer using ~scp~ or ~sftp~)
+then it can be extremely detrimental to apply some of these settings;
+in particular, printing to standard output is likely to cause errors.
+So we leave in place this (default) check and early return
+for the case that we are not running interactively.
+See [[https://unix.stackexchange.com/a/257613][this excellent answer]]
+to a question on StackExchange regarding the necessity of these lines
+for more information.
+# Silly case statements with their unmatched parens… ((
+#+begin_src sh
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+  *i*) ;;
+    *) return;;
 esac
+#+end_src
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
+**** History
+
+Save lots of history; it's just a plaintext file, afterall.
+We could, in ~bash~ 4.3 or later,
+instead set these to ~-1~ for unlimited history.
+On earlier versions, setting them to an empty string
+should have the same effect.
+But if we ever reach one hundred million entries,
+I think we can safely discard some.
+#+begin_src sh
+HISTSIZE=100000000
+HISTFILESIZE=100000000
+#+end_src
+Note that ~HISTSIZE~ is the number of lines to store
+in memory while running,
+whereas ~HISTFILESIZE~ is the number of lines that are allowed
+in the history file during session startup.
+
+The ~ignoreboth~ option for ~HISTCONTROL~ causes us to ignore
+commands which are prepended by a space
+(giving us a way to avoid entering a command into history;
+ useful if it contains sensitive information such as a password)
+and duplicate entries which are entered in succession.
+#+begin_src sh
 HISTCONTROL=ignoreboth
+#+end_src
 
-# append to the history file, don't overwrite it
+And finally, we set the ~histappend~ option
+to not overwrite history on each session.
+#+begin_src sh
 shopt -s histappend
+#+end_src
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+**** Window size
 
+Check the window size after each command;
+not doing this can mess with some terminal software.
+#+begin_src sh
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
+#+end_src
 
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
+**** Completions and the like
 
-# make less more friendly for non-text input files, see lesspipe(1)
-#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
-
-
-
-# Code to split the current directory path if it's too long,
-# taken from Stack Overflow.
-# https://askubuntu.com/questions/17723/
-# I want to eventually edit it to show more than just the current directory
-# on the right.
-get_bash_w() {
-  # Returns the same working directory that the \W bash prompt command
-  echo $(pwd | sed 's@'"$HOME"'@~@')
-}
-split_pwd() {
-  # Split pwd into the first element, elipsis (...) and the last subfolder
-  # /usr/local/share/doc --> /usr/.../doc
-  # ~/project/folder/subfolder --> ~/project/../subfolder
-  split=5
-  W=$(get_bash_w)
-  if [ $(echo $W | grep -o '/' | wc -l) -gt $split ]; then
-    echo $W | cut -d'/' -f1-$split | xargs -I{} echo {}"/../${W##*/}"
-  else
-    echo $W
-  fi
-}
-
-
-
-# Colour settings taken from Stack Overflow
-# https://stackoverflow.com/questions/10466749/
-# Use by putting ${COLOUR} into your string
-RESTORE=$(echo -en '\001\033[0m\002')
-RED=$(echo -en '\001\033[00;31m\002')
-GREEN=$(echo -en '\001\033[00;32m\002')
-YELLOW=$(echo -en '\001\033[00;33m\002')
-BLUE=$(echo -en '\001\033[00;34m\002')
-MAGENTA=$(echo -en '\001\033[00;35m\002')
-PURPLE=$(echo -en '\001\033[00;35m\002')
-CYAN=$(echo -en '\001\033[00;36m\002')
-LIGHTGRAY=$(echo -en '\001\033[00;37m\002')
-LRED=$(echo -en '\001\033[01;31m\002')
-LGREEN=$(echo -en '\001\033[01;32m\002')
-LYELLOW=$(echo -en '\001\033[01;33m\002')
-LBLUE=$(echo -en '\001\033[01;34m\002')
-LMAGENTA=$(echo -en '\001\033[01;35m\002')
-LPURPLE=$(echo -en '\001\033[01;35m\002')
-LCYAN=$(echo -en '\001\033[01;36m\002')
-WHITE=$(echo -en '\001\033[01;37m\002')
-
-if [ "$color_prompt" = yes ]; then
-    # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    # Replaced with my custom prompt:
-
-    # Unicode box drawing symbols to connect everything.
-    PS1_TopRight="${LGREEN}┌─["
-    PS1_Break="${LGREEN}]──["
-    PS1_EndLine="${LGREEN}]"
-    PS1_Vertical="${LGREEN}│"
-    
-    # The prompt itself (the last line).
-    PS1_Prompt="${LGREEN}└─►${RESTORE} $ "
-
-    # The user and host, as usually shown.
-    PS1_UserHost="${LRED}\u${LMAGENTA}@\h"
-
-    # Date and time.
-    PS1_Date="${YELLOW}\d"
-    PS1_Time="${LYELLOW}\t"
-
-    # PWD
-    PS1_PWD="${LBLUE}\w"
-
-    # Putting all the pieces together.
-    PS1_L1="$PS1_TopRight$PS1_UserHost$PS1_Break$PS1_Date$PS1_Break$PS1_Time$PS1_EndLine"
-    PS1_L2="$PS1_Vertical $PS1_PWD"
-    PS1_L3="$PS1_Prompt"
-    PS1="\n$PS1_L1\n$PS1_L2\n$PS1_L3"
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    #alias grep='grep --color=auto'
-    #alias fgrep='fgrep --color=auto'
-    #alias egrep='egrep --color=auto'
-fi
-
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# some more ls aliases
-#alias ll='ls -l'
-#alias la='ls -A'
-#alias l='ls -CF'
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
+:TODO: Study this and commentate it. Check if it's necessary or not too.
+#+begin_src sh
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -321,89 +338,532 @@ if ! shopt -oq posix; then
 fi
 #+end_src
 
-*** ~zsh~ run commands
+The ~**~ pattern for pathname expansion can be useful.
+#+begin_src sh
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+shopt -s globstar
+#+end_src
+
+**** Configure other tools
+
+The ~lesspipe~ utility expands the capabilities of ~less~,
+allowing it to better handle various kinds of files,
+such as archive files, images, or PDFs.
+#+begin_src sh
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x $(which lesspipe) ] && eval "$(SHELL=/bin/sh lesspipe)"
+#+end_src
+
+**** Source aliases
+
+I keep my ~alias~ definitions in this non-shell specific file,
+using it for all shells.
+#+begin_src sh
+# Source my alias definitions.
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
+fi
+#+end_src
+
+*** Set up the prompt
+
+I now use the cross-shell Starship prompt, created in Rust.
+See [[https://starship.rs/]],
+and my settings for it [[The Starship prompt][below]].
+#+begin_src sh
+if [ -x $(which starship) ]; then
+  eval "$(starship init bash)"
+fi
+#+end_src
+
+*** COMMENT Prompt setup
+
+This setup is deprecated as I now use the Starship prompt.
+:TODO: Clean it up and make it a fallback.
+
+See the colour table
+[[https://www.calmar.ws/vim/256-xterm-24bit-rgb-color-chart.html][here]].
+
+First, note that I've removed the lines from the RC file
+which set the ~color_prompt~ variable; here they are if needed.
+# Match that case expression's (
+#+begin_src sh :tangle no
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+  xterm-color|*-256color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+# force_color_prompt=yes
+if [ -n "$force_color_prompt" ]; then
+  if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
+  else
+    color_prompt=
+  fi
+fi
+#+end_src
+
+#+begin_src sh
+PS1_TopRight="┌─["
+PS1_Break="]──["
+PS1_EndLine="]"
+PS1_Vertical="│"
+PS1_Preprompt="└─►"
+PS1_SimplePrompt="$"
+
+if [ "$color_prompt" = yes ]; then
+  # Use `tput` to define some colours.
+  # We stick to the first 16.
+  # All these "strings" have zero width, so wrap them in \[\]
+  # to ensure proper cursor placement around the prompt.
+  FG_RED="\[$(tput setaf 9)\]"
+  FG_GREEN="\[$(tput setaf 10)\]"
+  FG_YELLOW="\[$(tput setaf 11)\]"
+  FG_BLUE="\[$(tput setaf 12)\]"
+  FG_MAGENTA="\[$(tput setaf 13)\]"
+  FG_CYAN="\[$(tput setaf 14)\]"
+  FG_DEFAULT="\[$(tput init)\]"
+
+  # Unicode box drawing symbols to connect everything.
+  PS1_Colour_TopRight="$FG_GREEN$PS1_TopRight"
+  PS1_Colour_Break="$FG_GREEN$PS1_Break"
+  PS1_Colour_EndLine="$FG_GREEN$PS1_EndLine"
+  PS1_Colour_Vertical="$FG_GREEN$PS1_Vertical"
+
+  # The prompt itself (the last line).
+  PS1_Colour_Prompt="$FG_GREEN$PS1_Preprompt$FG_DEFAULT $PS1_SimplePrompt "
+
+  # The user and host, as usually shown.
+  PS1_Colour_UserHost="$FG_RED\u$FG_MAGENTA@\h"
+
+  # Date and time.
+  PS1_Colour_Date="$FG_YELLOW\d"
+  PS1_Colour_Time="$FG_BLUE\t"
+
+  # PWD
+  PS1_Colour_PWD="$FG_CYAN\w"
+
+  # Dumped here for now. See https://jon.sprig.gs/blog/post/1940
+  GIT_PS1_DESCRIBE_STYLE='contains'
+  GIT_PS1_SHOWCOLORHINTS='y'
+  GIT_PS1_SHOWDIRTYSTATE='y'
+  GIT_PS1_SHOWSTASHSTATE='y'
+  GIT_PS1_SHOWUNTRACKEDFILES='y'
+  GIT_PS1_SHOWUPSTREAM='auto'
+
+  # Putting all the pieces together.
+  PS1_Colour_L11="${PS1_Colour_TopRight}bash$PS1_Colour_Break"
+  PS1_Colour_L12="$PS1_Colour_UserHost$PS1_Colour_Break"
+  PS1_Colour_L13="$PS1_Colour_Date$PS1_Colour_Break$PS1_Colour_Time$PS1_Colour_EndLine"
+  PS1_Colour_L1="$PS1_Colour_L11$PS1_Colour_L12$PS1_Colour_L13"
+  PS1_Colour_L2="$PS1_Colour_Vertical $PS1_Colour_PWD \$(__git_ps1)"
+  PS1_Colour_L3="$PS1_Colour_Prompt"
+  PS1="\n$PS1_Colour_L1\n$PS1_Colour_L2\n$PS1_Colour_L3"
+else
+  PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+#+end_src
+
+** ~zsh~ run commands
 :PROPERTIES:
-:header-args: :tangle ./shell/.zshrc
+:header-args:sh: :tangle ./shell/.zshrc
 :END:
 
-#+begin_src shell
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.zsh-histfile
-HISTSIZE=1000
-SAVEHIST=99999
-unsetopt beep
+*** Basic settings
+
+**** Keybindings
+
+First and foremost: Set Emacs keybindings.
+#+begin_src sh
 bindkey -e
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
+#+end_src
+
+**** History
+
+Go crazy with the history; it's just a plaintext file after all.
+#+begin_src sh
+HISTFILE=~/.zsh-histfile
+HISTSIZE=100000000
+SAVEHIST=100000000
+#+end_src
+
+**** Audio
+
+Don't beep after a successful completion.
+#+begin_src sh
+unsetopt list_beep
+#+end_src
+
+**** Completion settings
+
+:TODO: Is this really needed? It's added by the initial setup.
+#+begin_src sh
 zstyle :compinstall filename '/home/markparmstrong/.zshrc'
 
 autoload -Uz compinit
 compinit
-# End of lines added by compinstall
-
-# Beginning of my customisations
-
-# Set the prompt -----------------------------------------------------
-# See http://zsh.sourceforge.net/Intro/intro_14.html
-
-# Note the wrapping of unprinted characters in %{ %} delimiters
-
-# Colours
-Connector_colour="%{%F{046}%}" # Light green
-User_colour="%{%F{196}%}"      # Light red
-Host_colour="%{%F{201}%}"      # Light purple
-Date_colour="%{%F{214}%}"      # Orangey yellow
-Time_colour="%{%F{226}%}"      # Light yellow
-PWD_colour="%{%F{51}%}"        # Cyan
-Clear_colour="%{%f%}"
-
-# Unicode box drawing symbols to connect everything.
-Prompt_TopRight="$Connector_colour┌─["
-Prompt_Break="$Connector_colour]──["
-Prompt_EndLine="$Connector_colour]"
-Prompt_Vertical="$Connector_colour│"
-
-# %f undoes colour setting
-Prompt_Prompt="$Connector_colour└─►$Clear_colour $ "
-
-# Note that %D{s} formats s using strftime
-Prompt_UserHost="$User_colour%n$Host_colour@%M"
-Prompt_Date="$Date_colour%D{%a %b %d}"
-Prompt_Time="$Time_colour%D{%T}"
-
-# A shortened PWD, code taken from
-# https://unix.stackexchange.com/questions/273529/shorten-path-in-zsh-prompt/273567#273567
-Prompt_PWD="$PWD_colour%(5~|%-1~/…/%3~|%4~)"
-
-Prompt_L1="$Prompt_TopRight$Prompt_UserHost$Prompt_Break$Prompt_Date$Prompt_Break$Prompt_Time$Prompt_EndLine"
-Prompt_L2="$Prompt_Vertical $Prompt_PWD"
-Prompt_L3="$Prompt_Prompt"
-
-# This is supposedly a portable solution
-Newline=$'\n'
-
-PROMPT="${Newline}$Prompt_L1${Newline}$Prompt_L2${Newline}$Prompt_L3"
-
-# Reset the prompt regularly to keep the clock current
-# If problems occur with refreshing or scroll position jumping, look here.
-# Maybe reference https://github.com/sorin-ionescu/prezto/issues/1512
-#TMOUT=1
-#TRAPALRM() {
-#    zle reset-prompt
-#}
-
-# END Set the prompt -------------------------------------------------
-
-# Force colourised ls output
-alias ls='ls --color=auto'
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/markparmstrong/.sdkman"
-[[ -s "/home/markparmstrong/.sdkman/bin/sdkman-init.sh" ]] && source "/home/markparmstrong/.sdkman/bin/sdkman-init.sh"
 #+end_src
 
-* Terminal emulators
+**** Source my aliases
+
+I use the same set of alias definitions here as I do for ~bash~.
+#+begin_src sh
+# Source my alias definitions.
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
+fi
+#+end_src
+
+*** Set up the prompt
+
+Same as in ~bash~, use the cross-shell Starship prompt.
+See [[https://starship.rs/]]
+and my settings for it [[The Starship prompt][below]].
+#+begin_src sh
+if [ -x $(which starship) ]; then
+  eval "$(starship init zsh)"
+fi
+#+end_src
+
+*** COMMENT Prompt setup file
+:PROPERTIES:
+:header-args:sh: :tangle ./shell/zsh-prompt
+:END:
+
+This section deprecated as I have moved to using the Starship prompt.
+:TODO: Clean it up and make it a fallback.
+
+This is tangled to a separate file due to its large size.
+
+See [[http://zsh.sourceforge.net/Intro/intro_14.html][the Z shell introduction chapter]]
+regarding prompting for some basic information, and for more details,
+[[https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html][the chapter on prompt expansion]]
+which discusses escape sequences.
+In particular, 
+[[https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html#Visual-effects][note the section on visual effects]].
+
+As with ~bash~, my end goal is a nicely coloured, multiline prompt
+which uses unicode box characters to arrange the information.
+
+We start with the colour definitions.
+The ~%F~ escape sequence sets the foreground colour. ~%f~ clears it.
+#+begin_src sh
+# Colours
+Connector_colour="%F{10}" # Bright green
+User_colour="%F{9}"       # Bright red
+Host_colour="%F{13}"      # Bright purple
+Date_colour="%F{11}"      # Bright yellow
+Time_colour="%F{12}"      # Bright blue
+PWD_colour="%F{14}"       # Bright cyan
+Clear_colour="%f"
+#+end_src
+
+#+begin_src sh
+# Unicode box drawing symbols to connect everything.
+Prompt_TopRight="${Connector_colour}┌─["
+Prompt_Break="${Connector_colour}]──["
+Prompt_EndLine="${Connector_colour}]"
+Prompt_Vertical="${Connector_colour}│"
+#+end_src
+
+#+begin_src sh
+# Be extra vigilant about informing zsh of the width of
+# the colouring sequences and especially the unicode characters
+# in the last line;
+# I've encountered issues with the width of this last line before.
+Prompt_Prompt="%{${Connector_colour}%}%3{└─►%}%{${Clear_colour}%} $ "
+#+end_src
+
+#+begin_src sh
+# Note that %D{s} formats s using strftime
+Prompt_UserHost="${User_colour}%n${Host_colour}@%M"
+Prompt_Date="${Date_colour}%D{%a %b %d}"
+Prompt_Time="${Time_colour}%D{%T}"
+#+end_src
+
+#+begin_src sh
+Prompt_PWD="${PWD_colour}%~"
+#+end_src
+
+#+begin_src sh
+Prompt_L1="${Prompt_TopRight}zsh$Prompt_Break$Prompt_UserHost$Prompt_Break$Prompt_Date$Prompt_Break$Prompt_Time$Prompt_EndLine"
+Prompt_L2="${Prompt_Vertical} ${Prompt_PWD}"
+Prompt_L3="${Prompt_Prompt}"
+#+end_src
+
+#+begin_src sh
+# This is supposedly a portable solution
+Newline=$'\n'
+#+end_src
+
+#+begin_src sh
+PROMPT="${Newline}$Prompt_L1${Newline}$Prompt_L2${Newline}$Prompt_L3"
+#+end_src
+
+*** COMMENT Source the prompt setup file
+
+This line is deprecated as I now use Starship prompt.
+
+#+begin_src sh
+. ~/dotfiles/shell/zsh-prompt
+#+end_src
+
+* Aliases
+:PROPERTIES:
+:header-args:sh: :tangle ./shell/.aliases
+:END:
+
+** Basic commands
+
+Variants on directory listing.
+#+begin_src sh
+alias lsl='ls -l'
+alias lsa='ls -A'
+alias lsla='ls -lA'
+#+end_src
+
+** Include some flags by default
+
+In particular, if colours are supported, make use of them
+in ~ls~, ~grep~, and related commands.
+This is taken from the default ~bash~ RC file from Debian.
+#+begin_src sh
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+#+end_src
+
+** Guix
+
+#+begin_src sh
+alias gp='guix package'
+alias gps='guix package -s'
+alias gpi='guix package -i'
+#+end_src
+
+* The Starship prompt
+:PROPERTIES:
+:header-args:toml: :tangle ./shell/starship.toml
+:END:
+
+** Prompt-wide configuration
+
+I've found it takes a little longer than the default timeout of 500ms
+to set up my prompt when in a Git repository;
+let's double that timeout value.
+#+begin_src toml
+command_timeout = 1000
+#+end_src
+
+** The shape of the prompt
+
+This is also a prompt-wide configuration setting,
+but deserves its own section.
+A modification of ~format~ at the top of the configuration
+changes the formatting of the whole prompt;
+this format string can refer to modules using ~$module~ syntax,
+and may include other characters to connect them.
+I like to use unicode box drawing characters to connect things.
+
+Define ~format~ as a multiline string.
+I break the definition up into several source blocks,
+in order to better commentate specific parts.
+#+begin_src toml
+format="""
+#+end_src
+
+# Note the `:padline no` settings on the below blocks to avoid newlines being put between the contents.
+
+The first line of prompt I think of as containing “global” information;
+the shell in use, the user and hostname,
+the date and time (that the last command finished)
+and the return status of the last command along with the time it took.
+#+begin_src toml :padline no
+[┌─⟨$shell⟩──⟨$username$hostname⟩](bold green)\
+[──⟨${custom.date}⟩──⟨$time⟩](bold green)\
+[──⟨$character$status$cmd_duration⟩](bold green)
+#+end_src
+
+The next line contains the current directory path.
+#+begin_src toml :padline no
+[│ $directory](bold green)
+#+end_src
+
+Starship has support to show information about
+the installed versions of several tools.
+By default this information is shown if the directory
+contains files indicating it's relevant.
+If it's present, let's display this information below the path.
+(Note this whole portion is wrapped in parentheses
+ (and so is the newline to separate it from the directory path);
+ that makes this portion of the string conditional,
+ so it will not display if all the variables referenced here are empty.)
+#+begin_src toml :padline no
+([│ $elm$golang$nodejs$purescript$python$ruby](bold green)\n)\
+#+end_src
+
+And if we are in a Git repository, let's then display Git information.
+#+begin_src toml :padline no
+([│ $git_branch($git_commit)($git_status$git_metrics)](bold green)\n)\
+#+end_src
+
+Finally, show the prompt line itself.
+I've found that I need to adjust this line for ~zsh~;
+see the custom module definitions below.
+#+begin_src toml :padline no
+[${custom.zsh_prompt}${custom.other_prompt} \\$ ](bold green)
+#+end_src
+
+And end the multiline string.
+#+begin_src toml :padline no
+"""
+#+end_src
+
+** Module settings
+
+*** Shell, user and host information
+
+Show me the shell I'm using.
+#+begin_src toml
+[shell]
+disabled = false
+format ="[$indicator](green)"
+#+end_src
+
+Always show the username, even if it's
+the same one that's logged in
+and it's not root.
+#+begin_src toml
+[username]
+show_always = true
+format = "[$user]($style)"
+#+end_src
+
+We could also always show the hostname by setting ~ssh_only~ to false;
+I've chosen not to for now.
+#+begin_src toml
+[hostname]
+format = "@[$hostname](magenta)"
+#+end_src
+
+*** Dates and times
+
+I like the date to be separated from the time in my prompt,
+so I need a separate module for date.
+Not a problem; the ~date~ command fetches the date for us.
+#+begin_src toml
+[custom.date]
+command = "date +'%a %b %d'"
+format = "[$output](bright-blue)"
+when = "true"
+shell = ["bash", "--noprofile", "--norc"]
+#+end_src
+
+So in the time module, we only want the clock time, not the date.
+#+begin_src toml
+[time]
+disabled = false
+time_format = "%T"
+style = "bold blue"
+format = "[$time]($style)"
+#+end_src
+
+*** Previous command information
+
+The ~character~ module shows one of three symbols
+based on the result of the last command.
+It's intended to be placed right before the user input area,
+but I place it in my first line alongside the ~status~ module.
+By only showing the ~success~ symbol, this makes up for the fact
+that ~status~ does not have a way to show the command succeeded.
+#+begin_src toml
+[character]
+success_symbol = "✓"
+error_symbol = ""
+vicmd_symbol = ""
+format = "$symbol"
+#+end_src
+
+We use ~status~ to report if the command failed,
+as it's more specific;
+there are symbols for program error, “file not executable” errors,
+“command not found” errors, etc.
+#+begin_src toml
+[status]
+disabled = false
+format = "[$symbol$status]($style)"
+#+end_src
+
+Also report the time the last command took.
+Note that even though I set the minimum time to report to 0,
+commands that take no time still won't show a time.
+#+begin_src toml
+[cmd_duration]
+min_time = 0
+show_milliseconds = true
+style = "bold bright-blue"
+format = " ⏱[$duration]($style)"
+#+end_src
+
+*** Directory and Git information
+
+Don't truncate the directory path, unless it's excessively long.
+#+begin_src toml
+[directory]
+truncation_length = 20
+truncate_to_repo = false
+truncation_symbol = "…"
+#+end_src
+
+Show me metrics for my Git repositories;
+how many lines have I added and deleted?
+#+begin_src toml
+[git_metrics]
+disabled = false
+#+end_src
+
+*** Final prompt line
+
+I've found the width of the last line of my prompt
+when using unicode box characters and arrow heads
+is not detected correctly by ~zsh~; when I invoke the autocompletion,
+the input text position is set incorrectly, causing duplication of text.
+So I use two custom modules to format this last line,
+with one only displaying when the shell is ~zsh~,
+and the other displaying when the shell is not ~zsh~.
+For the ~zsh~ one, we hardcode the length of those unicode characters
+using the ~%n{...%}~ form that ~zsh~ recognizes (but ~bash~ does not).
+#+begin_src toml
+[custom.zsh_prompt]
+format = "[%3{└─►%}](bold green)"
+when = '[ "$STARSHIP_SHELL" == "zsh" ]'
+shell = ["bash", "--noprofile", "--norc"]
+
+[custom.other_prompt]
+format = "[└─►](bold green)"
+when = '[ ! "$STARSHIP_SHELL" == "zsh" ]'
+shell = ["bash", "--noprofile", "--norc"]
+#+end_src
+
+* Terminal emulator settings
 
 No settings here as of yet.
 I do as much as I can out of (GUI) Emacs,
 so the out-of-the-box experience usually suffices
 for my terminal emulator.
+
