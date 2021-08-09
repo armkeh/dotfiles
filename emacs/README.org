@@ -19,13 +19,14 @@ See also my
   - [[#the-file-layout][The file layout]]
 - [[#how-to-use-this-file][How to use this file]]
 - [[#environment-setup-and-package-management][Environment setup and package management]]
-  - [[#set-a-custom-file][Set a “custom” file]]
+  - [[#set-a-custom-file][Set a custom file]]
   - [[#basic-package-management][Basic package management]]
   - [[#set-package-repositories][Set package repositories]]
-  - [[#a-package-manager--use-package][A package manager – ~use-package~]]
+  - [[#setup-use-package-a-package-management-tool][Setup use-package, a package management tool]]
   - [[#update-packages][Update packages]]
-  - [[#make-sure-we-have-the-right-path][Make sure we have the right PATH]]
-  - [[#set-a-directory-for-non-package-manager-managed-elisp-files][Set a directory for non-package manager managed Elisp files]]
+  - [[#make-sure-we-have-the-right-path][Make sure we have the right path]]
+  - [[#add-directories-to-the-emacs-load-path][Add directories to the Emacs load path]]
+  - [[#set-a-custom-directory-for-non-package-manager-managed-elisp-files][Set a custom directory for non-package manager managed Elisp files]]
   - [[#elisp-utilities][Elisp utilities]]
 - [[#custom-elisp][Custom Elisp]]
   - [[#toggle-themes][Toggle themes]]
@@ -43,16 +44,19 @@ See also my
 - [[#vital-non-mode-specific-settings][Vital non-mode-specific settings]]
   - [[#user-information][User information]]
   - [[#automatically-revert-unchanged-files-which-change-on-the-disk][Automatically revert unchanged files which change on the disk]]
+  - [[#organise-automatic-backups][Organise automatic backups]]
   - [[#set-what-characters-qualify-as-delimiters][Set what characters qualify as delimiters]]
-  - [[#always-use-spaces-instead-of-tabs][Always use spaces instead of tabs]]
+  - [[#set-the-tab-width][Set the tab width]]
+  - [[#almost-always-use-spaces-instead-of-tabs][(Almost) always use spaces instead of tabs]]
   - [[#turn-off-electric-indent-mode][Turn off electric indent mode]]
 - [[#vital-modes-and-vital-mode-specific-settings][Vital modes and vital mode-specific settings]]
   - [[#org-mode][Org mode]]
-  - [[#sending-email-send-mail][Sending email: ~send-mail~]]
-  - [[#reading-email-mu4e-with-isync][Reading email: ~mu4e~ (with isync)]]
-  - [[#agda-mode][~agda~ mode]]
+  - [[#sending-email][Sending email]]
+  - [[#reading-email-with-mu4e-and-isync][Reading email: with mu4e and isync]]
+  - [[#agda-mode][Agda mode]]
+  - [[#system-package-management][System package management]]
 - [[#keybindings][Keybindings]]
-  - [[#general-definers][~general~ definers]]
+  - [[#general-definers][General definers]]
   - [[#invoke-processes][Invoke processes]]
   - [[#buffer][Buffer]]
   - [[#appearance][Appearance]]
@@ -71,13 +75,16 @@ See also my
 - [[#intermediate-modes-and-intermediate-mode-specific-settings][Intermediate modes and intermediate mode-specific settings]]
   - [[#org-mode-cosmetics][Org mode cosmetics]]
   - [[#org-mode-exportation-settings][Org mode exportation settings]]
-  - [[#a-completion-framework-ivy-counsel-and-swiper][A completion framework; Ivy, Counsel and Swiper]]
+  - [[#improving-search-ctrlf-control-f][Improving search; CTRLF (control f)]]
+  - [[#a-completion-framework-selectrum][A completion framework; Selectrum]]
   - [[#completing-anything-company][COMpleting ANYthing; Company]]
   - [[#snippets][Snippets]]
-  - [[#previewing-before-undoing-undo-propose][Previewing before undoing; ~undo-propose~]]
+  - [[#walking-through-undo-history-undo-propose][Walking through undo history; undo-propose]]
+  - [[#walking-through-backups-backup-walker][Walking through backups; backup-walker]]
   - [[#jumping-through-the-buffer-by-characters][Jumping through the buffer by characters]]
   - [[#viewing-files-and-contents-using-a-tree-layout][Viewing files (and contents) using a tree layout]]
 - [[#final-cosmetics][Final cosmetics]]
+  - [[#icon-support][Icon support]]
   - [[#modeline-styling][Modeline styling]]
   - [[#flash-on-error][Flash on error]]
   - [[#add-a-little-scrollbar-to-the-modeline][Add a little scrollbar to the modeline]]
@@ -86,25 +93,33 @@ See also my
 - [[#final-modes-and-final-mode-specific-settings][Final modes and final mode-specific settings]]
   - [[#org-mode-1][Org mode]]
   - [[#alerts-for-emails][Alerts for emails]]
-  - [[#dired][~dired~]]
-  - [[#eshell][~eshell~]]
-  - [[#which-key][~which-key~]]
-  - [[#winner-mode][~winner-mode~]]
-  - [[#windmove][~windmove~]]
-  - [[#windnum][~windnum~]]
+  - [[#dired][Dired]]
+  - [[#eshell][Eshell]]
+  - [[#which-key][Which key]]
+  - [[#winner-mode][Winner mode]]
+  - [[#easier-movement-between-windows--windmove][Easier movement between windows – Windmove]]
+  - [[#window-numbers--winum][Window numbers – Winum]]
   - [[#ediff][Ediff]]
-  - [[#magit][~magit~]]
+  - [[#magit][Magit]]
   - [[#show-uncommitted-changes-to-files-as-we-view-them][Show uncommitted changes to files as we view them]]
-  - [[#minions-see-and-toggle-minor-modes][~minions~; see and toggle minor modes]]
+  - [[#minions-see-and-toggle-minor-modes][Minions; see and toggle minor modes]]
+  - [[#language-server-protocol][Language server protocol]]
+  - [[#json][JSON]]
+  - [[#dhall-configuration-language][Dhall configuration language]]
   - [[#purescript][Purescript]]
   - [[#elm][Elm]]
+  - [[#golang][Golang]]
+  - [[#yaml-configuration-language][YAML configuration language]]
+  - [[#toml-configuration-language][TOML configuration language]]
+  - [[#geiser-emacsscheme][Geiser Emacs/Scheme]]
+  - [[#geiser-guile-scheme-support][Geiser Guile scheme support]]
 - [[#session-setup][Session setup]]
   - [[#filepaths][Filepaths]]
   - [[#create-tabs][Create tabs]]
   - [[#visit-tabs-and-setup-buffers][Visit tabs and setup buffers]]
 - [[#cleanup][Cleanup]]
   - [[#check-the-contents-of-the-propersystem-init-file][Check the contents of the (proper/system) init file]]
-  - [[#update-the-readme-file][Update the ~README~ file]]
+  - [[#update-the-readme-file][Update the README file]]
   - [[#prompt-before-quitting-emacs][Prompt before quitting Emacs]]
 
 * Introduction
@@ -154,7 +169,8 @@ while viewing this file in Emacs.
   (not OS windows.)
 - ~:tab:~; settings dealing with the tab bar.
 - ~:basic:~; settings for basic elements of Emacs.
-- ~:simplify:~; settings to remove or hide elements of Emacs I do not use.
+- ~:simplify:~; settings to remove or reduce the visual presence
+  of elements of Emacs I either do not use at all or don't use often.
 - ~:cleanup:~; portions of the file which are just for cleanup,
   not really for adjusting settings.
 
@@ -194,8 +210,7 @@ while viewing this file in Emacs.
   - For instance,
     - automatically revert buffers when they've
       changed on the disk,
-    - set up proper consideration of delimiters,
-    - use spaces instead of tabs everywhere, and
+    - set up proper consideration of delimiters, and
     - ensure indentation behaves correctly.
 - [[Vital modes and vital mode-specific settings]]
   - Activate packages I use near constantly, including:
@@ -293,7 +308,7 @@ Hence why the above source block is tangled to ~/tmp/init.el~.
 Before we really begin, we ensure environment settings are correct
 and setup ~use-package~ as a package manager.
 
-** Set a “custom” file
+** Set a custom file
 
 Emacs will, by default, insert all sorts of “custom” settings
 into our actual init file
@@ -343,7 +358,7 @@ Now Org is best available though GNU ELPA, and there is a new
 “Org-Contrib” package available through NonGNU ELPA
 (the + was dropped from the name.)
 
-** A package manager – ~use-package~
+** Setup use-package, a package management tool
 
 The ~use-package~ package provides an easy-to-use interface
 to install and customise packages.
@@ -386,7 +401,7 @@ packages for me.
   (auto-package-update-maybe))
 #+end_src
 
-** Make sure we have the right PATH
+** Make sure we have the right path
 
 See https://github.com/purcell/exec-path-from-shell
 #+begin_src emacs-lisp
@@ -395,15 +410,52 @@ See https://github.com/purcell/exec-path-from-shell
   (exec-path-from-shell-initialize))
 #+end_src
 
-** Set a directory for non-package manager managed Elisp files
+** Add directories to the Emacs load path
+
+Elisp files installed as part of a package
+from an external package manager are, by convention,
+installed under a relevant ~share~ directory.
+
+Here we check if those install locations exist on the system,
+and if so, add their subdirectories to the Emacs load path.
+
+Rather than simply adding to ~load-path~, we recursively add
+all subdirectories of the directory in question
+using the ~normal-top-level-add-subdirs-to-loadpath~.
+This function works out of the directory
+pointed to by the ~default-directory~ variable;
+so we rebind that locally before the call
+(and make use of dynamic scoping).
+See https://www.emacswiki.org/emacs/LoadPath.
+
+The Debian package manager ~apt~ installs
+to an ~emacs/site-lisp~ folder.
+#+begin_src emacs-lisp
+(let ((default-directory "/usr/local/share/emacs/site-lisp/"))
+  (when (file-directory-p default-directory)
+    (normal-top-level-add-subdirs-to-load-path)))
+#+end_src
+
+Guix and Nix both install Elisp under the ~share/emacs~ directories
+within their profile folder.
+I only use a single profile, so no need to hunt out the correct one.
+#+begin_src emacs-lisp
+(let ((default-directory "~/.guix-profile/share/emacs/"))
+  (when (file-directory-p default-directory)
+    (normal-top-level-add-subdirs-to-load-path)))
+
+(let ((dir "~/.nix-profile/share/emacs/"))
+  (when (file-directory-p dir)
+    (normal-top-level-add-subdirs-to-load-path)))
+#+end_src
+
+** Set a custom directory for non-package manager managed Elisp files
 
 This directory is for Elisp files I develop myself
 or that I download without use of a package manager.
 
-This form is used, instead of ~add-to-load-path~,
-so that subdirectories are searched.
-See https://www.emacswiki.org/emacs/LoadPath
-This is useful so that git repositories can be added here
+As above, add recursively add all subdirectories of this directory
+to the load path, so that git repositories can be added here
 as subtrees in this directory, and the ~.el~ files will be picked up.
 #+begin_src emacs-lisp
 (let ((default-directory "~/dotfiles/emacs/elisp"))
@@ -567,13 +619,41 @@ or scroll bars.
 
 ** Fonts                                        :font:
 
+:TODO: Check if these fonts are installed on the system first, so we don't end up with unknown font settings.
+
 I currently use the [[https://github.com/be5invis/Iosevka][Iosevka]] family of fonts,
 because of their efficient saving of horizontal space.
-
 Set it as the default font and the fixed-pitch font.
+Again, for space saving, I like a relatively small font;
+100 seems to be a sweet spot with this font;
+smaller makes some unicode characters hard to see.
 #+begin_src emacs-lisp
-(set-face-attribute 'default nil :family "ttf-iosevka" :height 90)
-(set-face-attribute 'fixed-pitch nil :family "ttf-iosevka" :height 90)
+(set-face-attribute 'default nil :family "Iosevka" :height 100)
+(set-face-attribute 'fixed-pitch nil :family "Iosevka")
+#+end_src
+Notice that for the default font, we specify an explicit height;
+the heights for other fonts are relative to this.
+(So if their heights were to be specified, it should be as a multiplier,
+ e.g. ~:height 1.5~.)
+
+I also install the Google Noto fonts which have better unicode coverage.
+But I find that the characters come out to large,
+causing extra space between lines. So scale down the Noto faces.
+#+begin_src emacs-lisp
+(add-to-list
+  'face-font-rescale-alist
+  '(".*Noto.*" . 0.8))
+#+end_src
+
+Symbola is also a great font to install for coverage,
+but the license situation for it is a bit tricky.
+I can install it using ~apt~, but it's not available using Guix;
+so I've moved away from using it.
+
+I've also found I need to explicitly set some “fallback” fonts.
+In particular, for symbols such as Emoji.
+#+begin_src emacs-lisp
+(set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
 #+end_src
 
 ** Line and column information                  :line:
@@ -719,6 +799,61 @@ conflicts can still happen if one system is offline or the syncing
 gets behind some other way, but with automatic reverts
 it's less likely I trip over my own changes.
 
+** Organise automatic backups                   :vc:
+
+(These settings form the basis for
+ a crude form of offline version control
+ for [[Walking through undo history; undo-propose][undo-propose]]
+ and [[Walking through backups; backup-walker][backup-walker]]
+ which provide utilities to make use of undos and backups
+ as version control.)
+
+Emacs, by default, creates an automatic backup of
+the contents of a file before each editing session for the file
+See [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Backup-Files.html][the manual]]
+for all of the details of how and when this is done.
+
+By default, the backup file is placed in the same directory,
+and tagged as a backup by appending ~~~ to its name.
+This creates a fair bit of clutter;
+we can set a location to store all backups to avoid that.
+#+begin_src emacs-lisp
+(setq backup-directory-alist '(("." . "~/emacs-backups")))
+#+end_src
+
+We can use these backups as a crude form of offline version control.
+We ask Emacs to number them by setting ~version-control~,
+and also to limit the amount of history through ~kept-old-versions~.
+Setting ~delete-old-versions~ prevents asking for confirmation
+before deleting the excess versions.
+#+begin_src emacs-lisp
+(setq version-control t)
+(setq kept-old-versions 50)
+(setq delete-old-versions t)
+#+end_src
+
+Do backup files even if they are covered by version control;
+we still want this local crude version control
+as an added history.
+#+begin_src emacs-lisp
+(setq vc-make-backup-files t)
+#+end_src
+
+As we said above, by default, Emacs makes a new backup
+for each editing session on the file.
+But since I leave Emacs open almost perpetually,
+that can be quite infrequent.
+This snippet from
+[[https://github.com/alhassy/emacs.d#automatic-backups][Musa Alhassy's init]]
+“tricks” Emacs into making a backup each time we save.
+#+begin_src emacs-lisp
+(defun my/force-backup-of-buffer ()
+  "Lie to Emacs, telling it the curent buffer has yet to be backed up."
+  (setq buffer-backed-up nil))
+
+(add-hook 'before-save-hook  'my/force-backup-of-buffer)
+#+end_src
+
 ** Set what characters qualify as delimiters    :delimiter:
 
 *** Angle brackets are not delimiters to me
@@ -793,11 +928,33 @@ Apply those syntax entry modifications.
 (add-hook 'text-mode-hook 'my/unicode-delimiter-syntax)
 #+end_src
 
-** Always use spaces instead of tabs            :space:
+** Set the tab width                            :space:
 
+I usually use spaces instead of tabs,
+but when I do see tabs, I want them to be narrow.
+Indentation should not take up large amounts of the screen.
+#+begin_src emacs-lisp
+(setq-default tab-width 2)
+#+end_src
+
+** (Almost) always use spaces instead of tabs   :space:
+
+Many modes check this variable to decide whether to insert
+spaces or tabs when pressing the tab key to indent.
+I prefer spaces, so set it to ~nil~ so tabs aren't used.
 #+begin_src emacs-lisp
 (setq-default indent-tabs-mode nil)
 #+end_src
+
+Not all modes use this setting; in particular, I've noticed
+Go mode does not. But that's appropriate, as the
+(strongly recommended) Go formatting style uses tabs.
+
+Notice (elsewhere) the variable ~org-src-tab-acts-natively~;
+if this is set to non-nil, then tabs inside ~src~ blocks
+will act according to the behaviour of the appropriate mode,
+even though Org in general seems to use spacing for indenting
+(regardless of the setting of ~indent-tabs-mode~.
 
 ** Turn off electric indent mode                :space:
 
@@ -913,6 +1070,10 @@ to Scala minted blocks."
 (setq cider-default-repl-command "lein")
 #+end_src
 
+#+begin_src emacs-lisp
+(use-package ob-go)
+#+end_src
+
 **** Editing source code
 
 When I choose to edit a source block in a separate buffer,
@@ -943,10 +1104,8 @@ change the major mode for a particular language.
 
 It's convenient to have ~<tab>~ act as it would in the source language
 when editing code blocks in the Org buffer.
-However, for some reason I have found this irritating
-and disabled it.
 #+begin_src emacs-lisp
-;;(setq org-src-tab-acts-natively t)
+(setq org-src-tab-acts-natively t)
 #+end_src
 
 :TODO:
@@ -964,7 +1123,7 @@ so the edit can be seen.
 (setq org-catch-invisible-edits 'show)
 #+end_src
 
-** Sending email: ~send-mail~                   :mail:
+** Sending email                                :mail:
 
 :TODO: Check for cleanup of send-mail settings.
 
@@ -1010,7 +1169,7 @@ After sending an email, kill the buffer.
 (setq message-kill-buffer-on-exit t)
 #+end_src
 
-** Reading email: ~mu4e~ (with isync)           :mail:
+** Reading email: with mu4e and isync           :mail:
 
 :TODO: Check for cleanup of mu4e settings.
 
@@ -1022,7 +1181,6 @@ I initially followed the guide
 to set it up, but I've customised things heavily at this point.
 
 #+begin_src emacs-lisp
-(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 (require 'mu4e)
 #+end_src
 
@@ -1215,7 +1373,7 @@ and are also useful for programmatically jumping to maildirs.
     :key ?i))
 #+end_src
 
-*** ~mu4e-maildirs-extension~
+*** Maildirs extension to show read/total counts per mail directory
 
 The package ~mu4e-maildirs-extension~ causes the display of
 the read/total count for each mail directory in the list.
@@ -1291,7 +1449,7 @@ but it is apparently depricated.
 The ~org-mime~ package above is probably the correct path
 if I ever want to send HTML emails.
 
-**** Changing the ~From~ address automatically
+**** Changing the from address automatically
 
 I use my personal Gmail to collect all of my emails,
 but when replying I like to send back from whichever
@@ -1340,7 +1498,7 @@ Don't prompt me upon quitting ~mu4e~.
 (setq mu4e-confirm-quit nil)
 #+end_src
 
-*** Start up ~mu4e~ so ~mu~ is running
+*** Start up mu4e so that mu is running at startup
 
 We start ~mu4e~ here in case, for instance,
 we use a bookmark to open a ~mu4e~ buffer
@@ -1351,7 +1509,7 @@ Without this, we might get an error asking if we started ~mu4e.~
 (mu4e)
 #+end_src
 
-** ~agda~ mode                                  :programming:
+** Agda mode                                    :programming:
 
 :TODO: Check for cleanup of Agda settings.
 
@@ -1613,7 +1771,7 @@ in my tab names.
 (agda-input-setup)
 #+end_src
 
-*** Activate Agda input mode in ~text~, ~prog~ and ~artist~ modes
+*** Activate Agda input mode in text, prog and artist modes
 
 Agda input mode makes it extremely easy to use unicode in documents,
 something I strongly prefer to do.
@@ -1645,6 +1803,15 @@ We need to install Polymode.
 (require 'org-agda-mode)
 #+end_src
 
+** System package management
+
+:TODO:
+
+Note that this depends upon the ~geiser~ and ~geiser-guile~ packages.
+#+begin_src emacs-lisp
+(use-package guix)
+#+end_src
+
 * Keybindings
 
 I make use of ~general~ to organise keybindings.
@@ -1652,7 +1819,7 @@ I make use of ~general~ to organise keybindings.
 (use-package general)
 #+end_src
 
-** ~general~ definers
+** General definers
 
 You can use ~general-define-key~ directly to define shortcuts,
 ideally using the keyword argument ~:prefix~ to avoid repeating
@@ -1704,39 +1871,40 @@ override my shortcuts.
 
 ** Invoke processes
 
-*** ~imenu~                                     :movement:
+*** imenu                                       :movement:
 
 #+begin_src emacs-lisp
 (general-main-define-key
   "i" 'counsel-imenu)
 #+end_src
 
-*** ~avy~                                       :movement:
+*** avy                                         :movement:
 
 #+begin_src emacs-lisp
 (general-main-define-key
   "j" 'avy-goto-char-timer)
 #+end_src
 
-*** ~treemacs~
+*** treemacs
 
 #+begin_src emacs-lisp
 (general-project-define-key
   "t" 'treemacs)
 #+end_src
 
-*** ~yankpad~                                   :completion:
+*** yankpad                                     :completion:
 
 #+begin_src emacs-lisp
 (general-main-define-key
   "f" 'yankpad-expand)
 
 (general-other-package-define-key
+  "y i" 'yankpad-insert
   "y m" 'yankpad-map
   "y r" 'yankpad-reload)
 #+end_src
 
-*** ~dired~
+*** dired
 
 **** Jumping to specific files
 
@@ -1812,7 +1980,7 @@ multiple ~dired~ windows open in different tabs.
           :which-key "thesis"))
 #+end_src
 
-*** ~eshell~
+*** eshell
 
 :TODO: This will not work if ~eshell~ instances are created without this shortcut. Instead I should count the number of shell buffers existing?
 #+begin_src emacs-lisp
@@ -1827,14 +1995,14 @@ multiple ~dired~ windows open in different tabs.
         :which-key "new eshell"))
 #+end_src
 
-*** ~magit~                                     :vc:
+*** magit                                       :vc:
 
 #+begin_src emacs-lisp
 (general-main-define-key
   "g" 'magit-status)
 #+end_src
 
-*** ~mu4e~                                      :mail:
+*** mu4e                                        :mail:
 
 #+begin_src emacs-lisp
 (general-main-define-key
@@ -1859,7 +2027,7 @@ See the ~kill-buffer-on-process-finish~ definition earlier in this file.
         :which-key "mbsync all directories"))
 #+end_src
 
-*** ~list-processes~
+*** list-processes
 
 #+begin_src emacs-lisp
 (general-other-package-define-key
@@ -1953,10 +2121,30 @@ Sometimes I need to toggle fontlocking.
   "<up>"    '((lambda () (interactive) (windmove-up))
               :which-key "move focus up")
   "<down>"  '((lambda () (interactive) (windmove-down))
-              :which-key "move focus down")
+              :which-key "move focus down"))
+#+end_src
 
+Also, let's add a shortcut to jump right to the minibuffer,
+assuming it is active.
+The space key is low and wide, just like the minibuffer,
+so it seems a natural choice.
+#+begin_src emacs-lisp
+(defun switch-to-minibuffer-window ()
+    "Switch to the minibuffer window, if it's active.
+     Otherwise do nothing."
+    (interactive)
+    (when (active-minibuffer-window)
+        (select-window (active-minibuffer-window))))
+
+(general-window-define-key
+  "SPC" '((lambda () (interactive) (switch-to-minibuffer-window))
+              :which-key "move focus to minibuffer"))
+#+end_src
+
+#+begin_src emacs-lisp
+(general-window-define-key
   "f"  '((lambda () (interactive) (other-frame 1))
-              :which-key "other frame")
+         :which-key "other frame")
   
   "["  'winner-undo
   "]"  'winner-redo
@@ -2038,16 +2226,26 @@ so I use ~whitespace-mode~ to alert me to the presence of tabs.
 (global-whitespace-mode t)
 #+end_src
 
-Setting ~whitespace-style~ to ~tab-mark~ visualises tabs
+Adding ~faces~ to ~whitespace-style~ enables the use of faces
+to visualise whitespace.
+We then add more values to specify what kinds of whitespace
+are visualised with faces; for instance, ~tabs~ to visualise tabs.
+Adding ~tab-mark~ visualises tabs
 by changing the display table to show a character at the
 location of the tab.
 #+begin_src emacs-lisp
-(setq whitespace-style '(tab-mark))
+(setq whitespace-style '(face tabs tab-mark))
 #+end_src
 
-Also, make tabs less wide. I dislike them taking up too much of the screen.
+I set the face for tabs to make the tab marks fainter;
+together with the different foreground and background colouring
+for tabs set by the ~tabs~ entry above, this helps them fade
+into the background (but still be noticable compared to spaces).
 #+begin_src emacs-lisp
-(setq-default tab-width 2)
+(set-face-attribute
+  'whitespace-tab
+  nil ;; all frames
+  :weight     'ultra-light)
 #+end_src
 
 *** Non-breaking spaces
@@ -2484,27 +2682,12 @@ headings at different levels have different bullets.
   :hook (org-mode . org-bullets-mode))
 #+end_src
 
-**** Replace the ellipsis ~...~
+**** Replace the ellipsis
 
 By default, folded portions of the document are
-presented by an ellipsis, ~...~. Let's replace that.
+presented by an (non-unicode) ellipsis. Let's replace that.
 #+begin_src emacs-lisp
 (setq org-ellipsis " ⮷")
-#+end_src
-
-But I find the arrow I use is not particularly visible with my theme;
-it gets set to a very faint colour.
-So, I customise the ~org-ellipsis~ face so that it has
-the same colour as the rest of the headline.
-It has to be set after every theme change, or the setting will
-be overwritten (probably the themes I use set it specifically?).
-#+begin_src emacs-lisp
-(add-hook 'after-load-theme-hook
-  (lambda ()
-    (set-face-attribute
-      'org-ellipsis
-      nil ;; all frames
-      :foreground 'unspecified)))
 #+end_src
 
 **** Inline images
@@ -2537,7 +2720,7 @@ so set the width of all images to be just 100 pixels.
 (setq org-image-actual-width 100)
 #+end_src
 
-**** Colour-coded ~src~ block backgrounds
+**** Colour-coded source block backgrounds
 
 We can colour the background of Org source blocks
 based on the language. Neat!
@@ -2559,11 +2742,13 @@ for this application.
 
     ;; Imperative languages
     ("c"          modus-themes-nuanced-green)
+    ("javascript" modus-themes-nuanced-green)
     ("ruby"       modus-themes-nuanced-green)
     ("python"     modus-themes-nuanced-green)
     ("sh"         modus-themes-nuanced-green)
     ("bash"       modus-themes-nuanced-green)
     ("zsh"        modus-themes-nuanced-green)
+    ("go"         modus-themes-nuanced-green)
 
     ;; Logical and proof assistants
     ("agda2"      modus-themes-nuanced-cyan)
@@ -2582,7 +2767,10 @@ for this application.
     ("css"        modus-themes-nuanced-yellow)
     ("json"       modus-themes-nuanced-yellow)
     ("conf"       modus-themes-nuanced-yellow)
-    ("docker"     modus-themes-nuanced-yellow)))
+    ("docker"     modus-themes-nuanced-yellow)
+    ("dhall"      modus-themes-nuanced-yellow)
+    ("yaml"       modus-themes-nuanced-yellow)
+    ("toml"       modus-themes-nuanced-yellow)))
 #+end_src
 
 We may need to Org for the changes to take effect.
@@ -2831,7 +3019,7 @@ then the background colour setting will be lost!
 
 :TODO: It would be nice to pick up the background colour for that particular language, rather than default; I like the differing colours the Modus theme gives me for source blocks.
 
-*** Don't change ~.org~ links to ~.html~
+*** Don't change Org links to HTML
 
 By default
 (see the [[https://orgmode.org/manual/Links-in-HTML-export.html][manual]])
@@ -2847,7 +3035,7 @@ the original Org source version of notes
 
 If I mean to link to the HTML file, I will do so explicitely.
 
-*** Require ~{}~ to denote sub/superscripts
+*** Require braces to denote sub/superscripts
 
 Sometimes I want to export the characters ~_~ or ~^~.
 However, Org allows these to be used for LaTeX style sub/superscripts,
@@ -2927,7 +3115,7 @@ Sometimes, for creating slides, ~beamer~ is useful.
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
 #+end_src
 
-**** Use ~minted~ for code blocks
+**** Use minted for code blocks
 
 First, make sure we load the ~minted~ package.
 #+begin_src emacs-lisp
@@ -2945,7 +3133,7 @@ rather than the default ~verbatim~, for code.
 (setq org-latex-listings 'minted)
 #+end_src
 
-***** Default options for ~minted~
+***** Default options for minted
 
 One reason to use ~minted~ or ~listings~ over the simple ~verbatim~ is
 that it can put decent-looking linebreaks where necessary
@@ -2978,7 +3166,7 @@ I use this hack to disable ~fbox~'s inside ~minted~ environments.
 (add-to-list 'org-latex-packages-alist '("" "etoolbox"))
 #+end_src
 
-***** Treat ~agda2~ source as ~Haskell~ for listings
+***** Treat Agda source as Haskell for listings
 
 Unfortunately, ~minted~ doesn't support Agda,
 so we simply have Org tell it that it's Haskell code.
@@ -2986,7 +3174,7 @@ so we simply have Org tell it that it's Haskell code.
 (add-to-list 'org-latex-minted-langs '(agda2 "Haskell"))
 #+end_src
 
-***** Alternative: use ~listings~ in place of ~minted~
+***** Alternative: use listings in place of minted
 
 As a step between using ~verbatim~ blocks and
 using ~minted~ for source code,
@@ -3005,7 +3193,7 @@ If the setup is desired, here is how to do it:
 (add-to-list 'org-latex-listings-langs '(agda2 "Haskell"))
 #+end_example
 
-**** ~hyperref~ setup
+**** Hyperref setup
 
 The ~LaTeX~ ~hyperref~ package gives us better links.
 I don't care for varying link colours, so I set them all to
@@ -3059,7 +3247,7 @@ to include images in tables.
 
 *** HTML export settings
 
-**** Change the “Created” postamble to “Last update”
+**** Modify the postamble
 
 By default, ~org-html-postamble~ is set to ~auto~.
 We overwrite that to ~t~ so that the postamble is constructed
@@ -3165,7 +3353,7 @@ I have made several edits.
 
 *** Additional export formats
 
-**** ~org-reveal~
+**** Org Reveal
 
 I make use of ~org-reveal~ to create ~reveal.js~ slide decks.
 This is way easier than dealing with ~beamer~ in LaTeX,
@@ -3225,7 +3413,7 @@ I prefer a slightly smaller title, and additionally include
    <h5>%d</h5>")
 #+end_src
 
-**** ~ox-pandoc~
+**** Pandoc export formats
 
 ~ox-pandoc~ is “another exporter that translates Org-mode file to various other
 formats via Pandoc”.
@@ -3258,6 +3446,7 @@ apparently, this ten-year old (at time of writing) code
 that does not seem to be in a package repository is
 the best candidate.
 #+begin_src emacs-lisp
+(use-package markdown-mode)
 (require 'ob-markdown)
 #+end_src
 
@@ -3330,71 +3519,25 @@ Here is my awesome letter.
 Mark Armstrong
 #+end_src
 
-** A completion framework; Ivy, Counsel and Swiper :completion:
+** Improving search; CTRLF (control f)
 
-:TODO: Better documentation here.
+https://github.com/raxod502/ctrlf
 
-*** Ivy
-
+Can I get over ~C-s~ not jumping to the minibuffer
+if a search is already running?
+If not, bring swiper back.
 #+begin_src emacs-lisp
-(use-package ivy
-  :config
-  (ivy-mode 1)
+(use-package ctrlf)
+(ctrlf-mode +1)
 #+end_src
 
-Add recent files and bookmarks to ~ivy-switch-buffer~.
-#+begin_src emacs-lisp
-  (setq ivy-use-virtual-buffers t)
-#+end_src
+** A completion framework; Selectrum
 
-Display both the index and the count in the current candidate count.
-#+begin_src emacs-lisp
-  (setq ivy-count-format "(%d/%d) ")
-#+end_src
-
-Enable minibuffer commands in the minibuffer.
-#+begin_src emacs-lisp
-  (setq enable-recursive-minibuffers t)
-#+end_src
+https://github.com/raxod502/selectrum
 
 #+begin_src emacs-lisp
-)
-#+end_src
-
-*** Swiper
-
-#+begin_src emacs-lisp
-(use-package swiper
-  :config
-  ;; (global-set-key "\C-r" 'swiper)
-  (global-set-key (kbd "C-s") 'swiper))
-#+end_src
-
-*** Counsel
-
-:TODO: Move keybindings to General settings.
-#+begin_src emacs-lisp
-(use-package counsel
- :config
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file))
-#+end_src
-
-*** Prescient
-
-#+begin_quote
-~prescient.el~ is a library which sorts and filters lists of candidates,
-such as appear when you use a package like Ivy or Company.
-Extension packages such as ~ivy-prescient.el~ and ~company-prescient.el~ adapt
-the library for usage with various frameworks.
-#+end_quote
-
-In particular, I like to have recently run invoked commands appear
-as the first suggestions when I use ~M-x~.
-#+begin_src emacs-lisp
-(use-package prescient)
-(use-package ivy-prescient)
-(ivy-prescient-mode)
+(use-package selectrum)
+(selectrum-mode +1)
 #+end_src
 
 ** COMpleting ANYthing; Company                 :completion:
@@ -3558,12 +3701,16 @@ Taken without additional commentary for now from Musa's init.
 (setq company-backends (mapcar #'my/company-backend-with-yankpad company-backends))
 #+end_src
 
-** Previewing before undoing; ~undo-propose~    :vc:
+** Walking through undo history; undo-propose   :vc:
 
 The ~undo-propose~ package is a fairly minimal addition to
 the builtin undo features of Emacs
 (which can be confusing, but are very powerful,
  since undo-ing is an action which can be undone.)
+#+begin_src emacs-lisp
+(use-package undo-propose)
+#+end_src
+
 What ~undo-propose~ does is open a new, read-only buffer
 in which the undoing is to be done
 (~undo~ and ~undo-only~ are wrapped so as to be allowed,
@@ -3574,9 +3721,20 @@ It provides commands to
   - or as the chain of undo actions performed (~C-c C-c~),
 - run a diff against the original buffer (~C-c C-d~), or
 - be discarded entirely (~C-c C-k~.)
-#+begin_src emacs-lisp
-(use-package undo-propose)
-#+end_src
+
+Notice that undo history can be viewed as
+a very crude local version control.
+Local in two senses;
+- in space, because the history is only available on our current machine, and
+- in time, because the history is lost when the buffer is closed
+  (or Emacs closes.)
+Still, this history can be of use, and when combined with automatic backups
+(see [[Organising automatic backups]] and [[Walking through backups; backup-walker]]),
+and usually further an actual version control system such as Git,
+we can be reasonably assured we will not find ourselves
+wanting to recover some deleted work and being unable to.
+
+*** What about undo-tree?
 
 In the past, I have used ~undo-tree~ to visualise
 the changes to a file as a tree,
@@ -3587,6 +3745,19 @@ and ~undo-tree~ has been known to cause corruptions
 when undoing/redoing (though I have not experienced this personally.)
 For the moment, I will stick to the builtin undo behaviour,
 with ~undo-propose~ to help visualise the changes.
+
+** Walking through backups; backup-walker
+
+The ~backup-walker~ package gives us the resources
+to actually make use of the backups Emacs generates as
+a crude offline version control.
+It enables us to traverse backwards and forwards in time
+through the backups, seeing a diff at each step.
+Try it out with ~backup-walker-start~,
+and move back and forth with ~n~ and ~p~.
+#+begin_src emacs-lisp
+(use-package backup-walker)
+#+end_src
 
 ** Jumping through the buffer by characters     :movement:
 
@@ -3644,9 +3815,24 @@ but I use 11 to reserve space.
 
 * Final cosmetics
 
+** Icon support
+
+The ~all-the-icons~ package provides icons to prettify things
+or replace certain text.
+#+begin_src emacs-lisp
+(require 'all-the-icons)
+#+end_src
+
+The ~all-the-icons-dired~ package adds icons
+corresponding to file types next to files in the list.
+#+begin_src emacs-lisp
+(require 'all-the-icons-dired)
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+#+end_src
+
 ** Modeline styling                             :theme:
 
-*** Add styling via ~doom-modeline~
+*** Add styling via Doom modeline
 
 I previously used Spaceline, the Spacemacs modeline,
 which is a very nice appearing modeline replacement.
@@ -3675,7 +3861,7 @@ so set its height to ~0~ to make it as short as possible.
 (setq doom-modeline-height 0)
 #+end_src
 
-*** Set up the items on the ~doom-modeline~
+*** Set up the items on the Doom-modeline
 
 I like to strip down the amount of information on the modeline
 to what I might actually make use of.
@@ -3798,7 +3984,22 @@ mark that headline as a TODO task in the appropriate state.
 I've added =SOON=, =NEXT=, =WORKING=, =DELEGATED= and =CANCELLED=.
 #+begin_src emacs-lisp
 (setq org-todo-keywords
-  '((sequence "TODO" "SOON" "NEXT" "WORKING" "|" "DELEGATED" "CANCELLED" "DONE")))
+  '((sequence "TODO" "DELEGATED" "SOON" "NEXT" "WORKING" "OVERDUE" "|" "CANCELLED" "DONE")))
+#+end_src
+
+Note the ~"|"~ entry; headlines marked with any of the states
+past that entry are considered to be completed.
+Those before the ~"|"~ are still outstanding tasks.
+
+*** Clock closing time for TODO items
+
+Record the time a TODO task entered a completed state
+in a ~CLOSED~ field under the heading.
+This is entered automatically when using Org to switch between TODO states.
+Using ~org-speedkeys~, you can cycle states
+by using ~t~ on the leftmost asterisk of a heading.
+#+begin_src emacs-lisp
+(setq org-log-done 'time)
 #+end_src
 
 *** Allow alphabetical lists
@@ -3811,7 +4012,14 @@ used in most export formats (at least HTML and LaTeX.)
 (setq org-list-allow-alphabetical t)
 #+end_src
 
-** Alerts for emails
+*** Agenda
+
+#+begin_src emacs-lisp
+(setq org-agenda-files
+  '("~/logs/personal/todo.org"))
+#+end_src
+
+** Alerts for emails                            :mail:
 
 The ~mu4e-alert~ package provides the ability to get
 various kinds of alert about incoming mail using ~mu4e~.
@@ -3862,7 +4070,7 @@ not the senders or subjects.
 (setq mu4e-alert-email-notification-types '(count))
 #+end_src
 
-** ~dired~
+** Dired
 
 ~dired~ (for DIRectory EDitor) is Emacs builtin utility
 for browsing directories and operating on their contents.
@@ -3872,20 +4080,22 @@ Herein are my (fairly minimal) modifications to its behaviour.
 *** File information
 
 ~dired~ makes use of switches for ~ls~.
-
-I like the following switches:
-| ~--group-directories-first~ | group directories before files                               |
-| ~-a~                        | do not ignore entries starting with .                        |
-| ~-B~                        | do not list implied entries ending with ~                    |
-| ~-g~                        | long listing format, but do not list owner                   |
-| ~-G~                        | in a long listing, don't print group names                   |
-| ~-h~                        | print human readable size                                    |
-| ~-L~                        | show information for /references/ rather than symbolic links |
-
 #+begin_src emacs-lisp
 (setq dired-listing-switches
-      "--group-directories-first -aBDgGhL --time-style \"+  %Y %b %d %H:%M  \"")
+      "--group-directories-first -aDgGhL --time-style \"+  %Y %b %d %H:%M  \"")
 #+end_src
+
+Here's a description of those single letter switches.
+| ~-a~ | do not ignore entries starting with .                        |
+| ~-g~ | long listing format, but do not list owner                   |
+| ~-G~ | in a long listing, don't print group names                   |
+| ~-h~ | print human readable size                                    |
+| ~-L~ | show information for /references/ rather than symbolic links |
+
+In the past, I had also used ~-B~ to ignore entries
+ending with ~~~, in order to ignore automatic Emacs backup files.
+I now organise those files into a set directory,
+so I do want to see them if they are somehow present.
 
 *** Cosmetic
 
@@ -3902,7 +4112,7 @@ the cursor is on.
 (add-hook 'dired-after-readin-hook 'hl-line-mode)
 #+end_src
 
-** ~eshell~
+** Eshell                                       :programming:
 
 The Eshell is a wonderful shell-like command interpreter inside of Emacs.
 I find it's not appropriate for intensive command line tasks,
@@ -3943,7 +4153,7 @@ for dark themes and black for light themes.
     (propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground ,default))))))
 #+end_src
 
-** ~which-key~                                  :completion:
+** Which key                                    :completion:
 
 ~which-key-mode~ is a handy minor mode that shows us
 possible completions as we type commands.
@@ -3958,7 +4168,7 @@ It is also useful for discovery of shortcuts;
 occasionally it is enlightening to take some time
 and browse the possible completions of prefixes as you type.
 
-** ~winner-mode~                                :window:
+** Winner mode                                  :window:
 
 ~winner-mode~ allows us to undo or redo changes to window layouts.
 See my keybindings for this above.
@@ -3966,7 +4176,7 @@ See my keybindings for this above.
 (winner-mode 1)
 #+end_src
 
-** ~windmove~                                   :window:
+** Easier movement between windows – Windmove   :window:
 
 The package ~windmove~ lets us jump between windows in a frame.
 #+begin_src emacs-lisp
@@ -3982,7 +4192,7 @@ while holding a key; by default, the key is ~shift~.
 That conflicts with ~org~ though, so we could use
 ~windmove-default-keybindings~ to change it.
 
-** ~windnum~
+** Window numbers – Winum                       :window:
 
 While ~windmove~ is wonderful, if we have several windows
 in the frame, it can be tedious to move between them,
@@ -4011,7 +4221,7 @@ rather than split vertically.
 (setq ediff-split-window-function 'split-window-horizontally)
 #+end_src
 
-** ~magit~                                      :vc:
+** Magit                                        :vc:
 
 Explicitely install ~magit~, “a Git Porcelain inside Emacs”.
 This is a killer feature of Emacs; ~magit~ not only simplifies
@@ -4049,7 +4259,7 @@ And it provides controls to jump between and act on those changes,
 so for simple commits we may not even need the ~magit~ status buffer.
 :TODO: Shortcuts to jump between and act on hunks. Probably a hydra! See Musa's setup.
 
-** ~minions~; see and toggle minor modes
+** Minions; see and toggle minor modes          :simplify:
 
 The ~minions~ package implements a handy pop-up menu
 for toggling minor modes.
@@ -4063,16 +4273,72 @@ or opening a help buffer.
 (minions-mode 1)
 #+end_src
 
+** Language server protocol                     :programming:
+
+#+begin_src emacs-lisp
+(use-package lsp-mode)
+#+end_src
+
+Add integrations with some other packages.
+#+begin_src emacs-lisp
+(use-package lsp-ivy)
+(use-package lsp-treemacs)
+#+end_src
+
+** JSON                                         :programming:
+
+#+begin_src emacs-lisp
+(use-package json-mode)
+#+end_src
+
+** Dhall configuration language                 :programming:
+
+#+begin_src emacs-lisp
+(use-package dhall-mode)
+#+end_src
+
 ** Purescript                                   :programming:
 
 #+begin_src emacs-lisp
 (use-package purescript-mode)
 #+end_src
 
-** Elm
+** Elm                                          :programming:
 
 #+begin_src emacs-lisp
 (use-package elm-mode)
+#+end_src
+
+** Golang                                       :programming:
+
+#+begin_src emacs-lisp
+(use-package go-mode)
+#+end_src
+
+** YAML configuration language                  :programming:
+
+#+begin_src emacs-lisp
+(use-package yaml-mode)
+#+end_src
+
+** TOML configuration language                  :programming:
+
+#+begin_src emacs-lisp
+(use-package toml-mode)
+#+end_src
+
+** Geiser Emacs/Scheme                          :programming:
+
+:TODO:
+#+begin_src emacs-lisp
+(use-package geiser)
+#+end_src
+
+** Geiser Guile scheme support                  :programming:
+
+:TODO:
+#+begin_src emacs-lisp
+(use-package geiser-guile)
 #+end_src
 
 * Session setup
@@ -4098,8 +4364,7 @@ are listed here.
 (setq-local my/emacs-init   (concat my/emacs-dir "emacs-init.org"))
 (setq-local my/yankpad-file (concat my/emacs-dir "yankpad.org"))
 
-(setq-local my/supervisor-log (concat my/log-dir "supervisors.org"))
-(setq-local my/todo (concat my/log-dir "todo.org"))
+(setq-local my/journal (concat my/log-dir "personal/journal.org"))
 
 (setq-local my/org-scratch  (concat my/scratch-dir "org-scratch.org"))
 (setq-local my/agda-scratch (concat my/agda-dir "agda-scratch.agda"))
@@ -4193,9 +4458,7 @@ on the left and
 and my inbox on the right.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab "Logs")
-(find-file my/supervisor-log)
-(split-window nil nil 'left)
-;;(find-file my/todo)
+(find-file my/journal)
 #+end_src
 
 The ~email~ tab has a scratch file on the left
@@ -4324,7 +4587,7 @@ Some notes about this:
       the difference reporting less satisfying, as it cannot show
       the actual file contents.
 
-** Update the ~README~ file
+** Update the README file
 
 I want my README file for this directory
 to be automatically kept up to date when changes are made.
