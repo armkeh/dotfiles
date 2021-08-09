@@ -493,34 +493,41 @@ or scroll bars.
 
 ** Fonts                                       :font:
 
+:TODO: Check if these fonts are installed on the system first, so we don't end up with unknown font settings.
+
 I currently use the [[https://github.com/be5invis/Iosevka][Iosevka]] family of fonts,
 because of their efficient saving of horizontal space.
-
 Set it as the default font and the fixed-pitch font.
+Again, for space saving, I like a relatively small font;
+100 seems to be a sweet spot with this font;
+smaller makes some unicode characters hard to see.
 #+begin_src emacs-lisp
-(set-face-attribute 'default nil :family "ttf-iosevka" :height 90)
-(set-face-attribute 'fixed-pitch nil :family "ttf-iosevka" :height 90)
+(set-face-attribute 'default nil :family "Iosevka" :height 100)
+(set-face-attribute 'fixed-pitch nil :family "Iosevka")
+#+end_src
+Notice that for the default font, we specify an explicit height;
+the heights for other fonts are relative to this.
+(So if their heights were to be specified, it should be as a multiplier,
+ e.g. ~:height 1.5~.)
+
+I also install the Google Noto fonts which have better unicode coverage.
+But I find that the characters come out to large,
+causing extra space between lines. So scale down the Noto faces.
+#+begin_src emacs-lisp
+(add-to-list
+  'face-font-rescale-alist
+  '(".*Noto.*" . 0.8))
 #+end_src
 
-*** COMMENT Installation steps
+Symbola is also a great font to install for coverage,
+but the license situation for it is a bit tricky.
+I can install it using ~apt~, but it's not available using Guix;
+so I've moved away from using it.
 
-See https://shreyas.ragavan.co/docs/linux-notes/
-for inspiration for installation steps.
-Actual steps:
-#+begin_src she
-cd ~
-
-mkdir temp
-
-cd temp
-
-wget "https://github.com/be5invis/Iosevka/releases/download/v7.1.1/super-ttc-iosevka-7.1.1.zip"
-
-unzip -u super-ttc-iosevka-7.1.1.zip
-
-sudo cp iosevka.ttc /usr/share/fonts
-
-fc-cache -fv
+I've also found I need to explicitly set some “fallback” fonts.
+In particular, for symbols such as Emoji.
+#+begin_src emacs-lisp
+(set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
 #+end_src
 
 ** Line and column information                 :line:
