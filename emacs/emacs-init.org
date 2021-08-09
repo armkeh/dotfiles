@@ -981,6 +981,10 @@ to Scala minted blocks."
 (setq cider-default-repl-command "lein")
 #+end_src
 
+#+begin_src emacs-lisp
+(use-package ob-go)
+#+end_src
+
 **** Editing source code
 
 When I choose to edit a source block in a separate buffer,
@@ -2674,11 +2678,13 @@ for this application.
 
     ;; Imperative languages
     ("c"          modus-themes-nuanced-green)
+    ("javascript" modus-themes-nuanced-green)
     ("ruby"       modus-themes-nuanced-green)
     ("python"     modus-themes-nuanced-green)
     ("sh"         modus-themes-nuanced-green)
     ("bash"       modus-themes-nuanced-green)
     ("zsh"        modus-themes-nuanced-green)
+    ("go"         modus-themes-nuanced-green)
 
     ;; Logical and proof assistants
     ("agda2"      modus-themes-nuanced-cyan)
@@ -2697,7 +2703,10 @@ for this application.
     ("css"        modus-themes-nuanced-yellow)
     ("json"       modus-themes-nuanced-yellow)
     ("conf"       modus-themes-nuanced-yellow)
-    ("docker"     modus-themes-nuanced-yellow)))
+    ("docker"     modus-themes-nuanced-yellow)
+    ("dhall"      modus-themes-nuanced-yellow)
+    ("yaml"       modus-themes-nuanced-yellow)
+    ("toml"       modus-themes-nuanced-yellow)))
 #+end_src
 
 We may need to Org for the changes to take effect.
@@ -3314,6 +3323,7 @@ apparently, this ten-year old (at time of writing) code
 that does not seem to be in a package repository is
 the best candidate.
 #+begin_src emacs-lisp
+(use-package markdown-mode)
 (require 'ob-markdown)
 #+end_src
 
@@ -4120,6 +4130,30 @@ or opening a help buffer.
 (minions-mode 1)
 #+end_src
 
+** Language server protocol                    :programming:
+
+#+begin_src emacs-lisp
+(use-package lsp-mode)
+#+end_src
+
+Add integrations with some other packages.
+#+begin_src emacs-lisp
+(use-package lsp-ivy)
+(use-package lsp-treemacs)
+#+end_src
+
+** JSON                                        :programming:
+
+#+begin_src emacs-lisp
+(use-package json-mode)
+#+end_src
+
+** Dhall configuration language                :programming:
+
+#+begin_src emacs-lisp
+(use-package dhall-mode)
+#+end_src
+
 ** Purescript                                  :programming:
 
 #+begin_src emacs-lisp
@@ -4130,6 +4164,24 @@ or opening a help buffer.
 
 #+begin_src emacs-lisp
 (use-package elm-mode)
+#+end_src
+
+** Golang                                      :programming:
+
+#+begin_src emacs-lisp
+(use-package go-mode)
+#+end_src
+
+** YAML configuration language                 :programming:
+
+#+begin_src emacs-lisp
+(use-package yaml-mode)
+#+end_src
+
+** TOML configuration language                 :programming:
+
+#+begin_src emacs-lisp
+(use-package toml-mode)
 #+end_src
 
 * Session setup
