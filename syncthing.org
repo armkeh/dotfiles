@@ -13,6 +13,10 @@ I have found Syncthing very easy and intuitive to use,
 and together with a backup solution on one of the synced machines,
 it has perfectly replaced cloud storage solutions for me.
 
+* Ignoring certain files
+
+:TODO:
+
 * Supervisor entry for auto-starting Syncthing
 
 This file creates an entry for Syncthing with Supervisor,
@@ -27,14 +31,22 @@ The ~conf~ file below uses this entry for the user and user's home directory.
 armkeh
 #+end_src
 
+Also set the path to the Syncthing binary.
+If installed with ~apt~, it should be found at ~/usr/bin/syncthing~.
+With ~guix~, it will be found at ~/home/USER/.guix-profile/bin/syncthing~.
+#+name: syncthing-path
+#+begin_src text :noweb yes
+/home/<<user>>/.guix-profile/bin/syncthing
+#+end_src
+
 And this is the actual ~conf~ file contents,
 with the user's name entered using
 [[https://orgmode.org/manual/Noweb-Reference-Syntax.html][Noweb reference syntax]].
-#+begin_src conf :tangle ./conf/syncthing.conf :noweb tangle
+#+begin_src conf :tangle ./conf/syncthing.conf :noweb yes
 [program:syncthing]
 autorestart = True
 directory = /home/<<user>>/
 user = <<user>>
-command = /usr/bin/syncthing -no-browser -home="/home/<<user>>/.config/syncthing"
+command = <<syncthing-path>> -no-browser -home="/home/<<user>>/.config/syncthing"
 environment = STNORESTART="1", HOME="/home/<<user>>"
 #+end_src
