@@ -3865,7 +3865,22 @@ mark that headline as a TODO task in the appropriate state.
 I've added =SOON=, =NEXT=, =WORKING=, =DELEGATED= and =CANCELLED=.
 #+begin_src emacs-lisp
 (setq org-todo-keywords
-  '((sequence "TODO" "SOON" "NEXT" "WORKING" "|" "DELEGATED" "CANCELLED" "DONE")))
+  '((sequence "TODO" "DELEGATED" "SOON" "NEXT" "WORKING" "OVERDUE" "|" "CANCELLED" "DONE")))
+#+end_src
+
+Note the ~"|"~ entry; headlines marked with any of the states
+past that entry are considered to be completed.
+Those before the ~"|"~ are still outstanding tasks.
+
+*** Clock closing time for TODO items
+
+Record the time a TODO task entered a completed state
+in a ~CLOSED~ field under the heading.
+This is entered automatically when using Org to switch between TODO states.
+Using ~org-speedkeys~, you can cycle states
+by using ~t~ on the leftmost asterisk of a heading.
+#+begin_src emacs-lisp
+(setq org-log-done 'time)
 #+end_src
 
 *** Allow alphabetical lists
@@ -3876,6 +3891,13 @@ Note that the labels used in the plaintext Org do not affect the labels
 used in most export formats (at least HTML and LaTeX.)
 #+begin_src emacs-lisp
 (setq org-list-allow-alphabetical t)
+#+end_src
+
+*** Agenda
+
+#+begin_src emacs-lisp
+(setq org-agenda-files
+  '("~/logs/personal/todo.org"))
 #+end_src
 
 ** Alerts for emails
@@ -4207,8 +4229,7 @@ are listed here.
 (setq-local my/emacs-init   (concat my/emacs-dir "emacs-init.org"))
 (setq-local my/yankpad-file (concat my/emacs-dir "yankpad.org"))
 
-(setq-local my/supervisor-log (concat my/log-dir "supervisors.org"))
-(setq-local my/todo (concat my/log-dir "todo.org"))
+(setq-local my/journal (concat my/log-dir "personal/journal.org"))
 
 (setq-local my/org-scratch  (concat my/scratch-dir "org-scratch.org"))
 (setq-local my/agda-scratch (concat my/agda-dir "agda-scratch.agda"))
@@ -4302,9 +4323,7 @@ on the left and
 and my inbox on the right.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab "Logs")
-(find-file my/supervisor-log)
-(split-window nil nil 'left)
-;;(find-file my/todo)
+(find-file my/journal)
 #+end_src
 
 The ~email~ tab has a scratch file on the left
