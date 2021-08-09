@@ -2611,21 +2611,6 @@ presented by an (non-unicode) ellipsis. Let's replace that.
 (setq org-ellipsis " ⮷")
 #+end_src
 
-But I find the arrow I use is not particularly visible with my theme;
-it gets set to a very faint colour.
-So, I customise the ~org-ellipsis~ face so that it has
-the same colour as the rest of the headline.
-It has to be set after every theme change, or the setting will
-be overwritten (probably the themes I use set it specifically?).
-#+begin_src emacs-lisp
-(add-hook 'after-load-theme-hook
-  (lambda ()
-    (set-face-attribute
-      'org-ellipsis
-      nil ;; all frames
-      :foreground 'unspecified)))
-#+end_src
-
 **** Inline images
 
 We can configure Org to automatically inline linked images
