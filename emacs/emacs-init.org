@@ -3995,20 +3995,22 @@ Herein are my (fairly minimal) modifications to its behaviour.
 *** File information
 
 ~dired~ makes use of switches for ~ls~.
+#+begin_src emacs-lisp
+(setq dired-listing-switches
+      "--group-directories-first -aDgGhL --time-style \"+  %Y %b %d %H:%M  \"")
+#+end_src
 
-I like the following switches:
-| ~--group-directories-first~ | group directories before files                             |
+Here's a description of those single letter switches.
 | ~-a~                        | do not ignore entries starting with .                      |
-| ~-B~                        | do not list implied entries ending with ~                  |
 | ~-g~                        | long listing format, but do not list owner                 |
 | ~-G~                        | in a long listing, don't print group names                 |
 | ~-h~                        | print human readable size                                  |
 | ~-L~                        | show information for /references/ rather than symbolic links |
 
-#+begin_src emacs-lisp
-(setq dired-listing-switches
-      "--group-directories-first -aBDgGhL --time-style \"+  %Y %b %d %H:%M  \"")
-#+end_src
+In the past, I had also used ~-B~ to ignore entries
+ending with ~~~, in order to ignore automatic Emacs backup files.
+I now organise those files into a set directory,
+so I do want to see them if they are somehow present.
 
 *** Cosmetic
 
