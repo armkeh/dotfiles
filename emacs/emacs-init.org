@@ -1732,6 +1732,15 @@ We need to install Polymode.
 (require 'org-agda-mode)
 #+end_src
 
+** System package management
+
+:TODO:
+
+Note that this depends upon the ~geiser~ and ~geiser-guile~ packages.
+#+begin_src emacs-lisp
+(use-package guix)
+#+end_src
+
 * Keybindings
 
 I make use of ~general~ to organise keybindings.
@@ -4255,6 +4264,20 @@ Add integrations with some other packages.
 
 #+begin_src emacs-lisp
 (use-package toml-mode)
+#+end_src
+
+** Geiser Emacs/Scheme                         :programming:
+
+:TODO:
+#+begin_src emacs-lisp
+(use-package geiser)
+#+end_src
+
+** Geiser Guile scheme support                 :programming:
+
+:TODO:
+#+begin_src emacs-lisp
+(use-package geiser-guile)
 #+end_src
 
 * Session setup
