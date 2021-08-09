@@ -839,11 +839,33 @@ Apply those syntax entry modifications.
 (add-hook 'text-mode-hook 'my/unicode-delimiter-syntax)
 #+end_src
 
-** Always use spaces instead of tabs           :space:
+** Set the tab width                           :space:
 
+I usually use spaces instead of tabs,
+but when I do see tabs, I want them to be narrow.
+Indentation should not take up large amounts of the screen.
+#+begin_src emacs-lisp
+(setq-default tab-width 2)
+#+end_src
+
+** (Almost) always use spaces instead of tabs  :space:
+
+Many modes check this variable to decide whether to insert
+spaces or tabs when pressing the tab key to indent.
+I prefer spaces, so set it to ~nil~ so tabs aren't used.
 #+begin_src emacs-lisp
 (setq-default indent-tabs-mode nil)
 #+end_src
+
+Not all modes use this setting; in particular, I've noticed
+Go mode does not. But that's appropriate, as the
+(strongly recommended) Go formatting style uses tabs.
+
+Notice (elsewhere) the variable ~org-src-tab-acts-natively~;
+if this is set to non-nil, then tabs inside ~src~ blocks
+will act according to the behaviour of the appropriate mode,
+even though Org in general seems to use spacing for indenting
+(regardless of the setting of ~indent-tabs-mode~.
 
 ** Turn off electric indent mode               :space:
 
@@ -989,10 +1011,8 @@ change the major mode for a particular language.
 
 It's convenient to have ~<tab>~ act as it would in the source language
 when editing code blocks in the Org buffer.
-However, for some reason I have found this irritating
-and disabled it.
 #+begin_src emacs-lisp
-;;(setq org-src-tab-acts-natively t)
+(setq org-src-tab-acts-natively t)
 #+end_src
 
 :TODO:
@@ -2101,16 +2121,26 @@ so I use ~whitespace-mode~ to alert me to the presence of tabs.
 (global-whitespace-mode t)
 #+end_src
 
-Setting ~whitespace-style~ to ~tab-mark~ visualises tabs
+Adding ~faces~ to ~whitespace-style~ enables the use of faces
+to visualise whitespace.
+We then add more values to specify what kinds of whitespace
+are visualised with faces; for instance, ~tabs~ to visualise tabs.
+Adding ~tab-mark~ visualises tabs
 by changing the display table to show a character at the
 location of the tab.
 #+begin_src emacs-lisp
-(setq whitespace-style '(tab-mark))
+(setq whitespace-style '(face tabs tab-mark))
 #+end_src
 
-Also, make tabs less wide. I dislike them taking up too much of the screen.
+I set the face for tabs to make the tab marks fainter;
+together with the different foreground and background colouring
+for tabs set by the ~tabs~ entry above, this helps them fade
+into the background (but still be noticable compared to spaces).
 #+begin_src emacs-lisp
-(setq-default tab-width 2)
+(set-face-attribute
+  'whitespace-tab
+  nil ;; all frames
+  :weight     'ultra-light)
 #+end_src
 
 *** Non-breaking spaces
