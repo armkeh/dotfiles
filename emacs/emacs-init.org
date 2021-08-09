@@ -321,15 +321,52 @@ See https://github.com/purcell/exec-path-from-shell
   (exec-path-from-shell-initialize))
 #+end_src
 
-** Set a directory for non-package manager managed Elisp files
+** Add directories to the Emacs load path
+
+Elisp files installed as part of a package
+from an external package manager are, by convention,
+installed under a relevant ~share~ directory.
+
+Here we check if those install locations exist on the system,
+and if so, add their subdirectories to the Emacs load path.
+
+Rather than simply adding to ~load-path~, we recursively add
+all subdirectories of the directory in question
+using the ~normal-top-level-add-subdirs-to-loadpath~.
+This function works out of the directory
+pointed to by the ~default-directory~ variable;
+so we rebind that locally before the call
+(and make use of dynamic scoping).
+See https://www.emacswiki.org/emacs/LoadPath.
+
+The Debian package manager ~apt~ installs
+to an ~emacs/site-lisp~ folder.
+#+begin_src emacs-lisp
+(let ((default-directory "/usr/local/share/emacs/site-lisp/"))
+  (when (file-directory-p default-directory)
+    (normal-top-level-add-subdirs-to-load-path)))
+#+end_src
+
+Guix and Nix both install Elisp under the ~share/emacs~ directories
+within their profile folder.
+I only use a single profile, so no need to hunt out the correct one.
+#+begin_src emacs-lisp
+(let ((default-directory "~/.guix-profile/share/emacs/"))
+  (when (file-directory-p default-directory)
+    (normal-top-level-add-subdirs-to-load-path)))
+
+(let ((dir "~/.nix-profile/share/emacs/"))
+  (when (file-directory-p dir)
+    (normal-top-level-add-subdirs-to-load-path)))
+#+end_src
+
+** Set a custom directory for non-package manager managed Elisp files
 
 This directory is for Elisp files I develop myself
 or that I download without use of a package manager.
 
-This form is used, instead of ~add-to-load-path~,
-so that subdirectories are searched.
-See https://www.emacswiki.org/emacs/LoadPath
-This is useful so that git repositories can be added here
+As above, add recursively add all subdirectories of this directory
+to the load path, so that git repositories can be added here
 as subtrees in this directory, and the ~.el~ files will be picked up.
 #+begin_src emacs-lisp
 (let ((default-directory "~/dotfiles/emacs/elisp"))
@@ -976,7 +1013,6 @@ I initially followed the guide
 to set it up, but I've customised things heavily at this point.
 
 #+begin_src emacs-lisp
-(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 (require 'mu4e)
 #+end_src
 
