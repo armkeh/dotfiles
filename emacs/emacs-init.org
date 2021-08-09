@@ -58,7 +58,8 @@ while viewing this file in Emacs.
   (not OS windows.)
 - ~:tab:~; settings dealing with the tab bar.
 - ~:basic:~; settings for basic elements of Emacs.
-- ~:simplify:~; settings to remove or hide elements of Emacs I do not use.
+- ~:simplify:~; settings to remove or reduce the visual presence
+  of elements of Emacs I either do not use at all or don't use often.
 - ~:cleanup:~; portions of the file which are just for cleanup,
   not really for adjusting settings.
 
@@ -120,8 +121,7 @@ Execute these snippets to quickly find headings with a tag.
   - For instance,
     - automatically revert buffers when they've
       changed on the disk,
-    - set up proper consideration of delimiters,
-    - use spaces instead of tabs everywhere, and
+    - set up proper consideration of delimiters, and
     - ensure indentation behaves correctly.
 - [[Vital modes and vital mode-specific settings]]
   - Activate packages I use near constantly, including:
@@ -219,7 +219,7 @@ Hence why the above source block is tangled to ~/tmp/init.el~.
 Before we really begin, we ensure environment settings are correct
 and setup ~use-package~ as a package manager.
 
-** Set a “custom” file
+** Set a custom file
 
 Emacs will, by default, insert all sorts of “custom” settings
 into our actual init file
@@ -269,7 +269,7 @@ Now Org is best available though GNU ELPA, and there is a new
 “Org-Contrib” package available through NonGNU ELPA
 (the + was dropped from the name.)
 
-** A package manager – ~use-package~ 
+** Setup use-package, a package management tool
 
 The ~use-package~ package provides an easy-to-use interface
 to install and customise packages.
@@ -312,7 +312,7 @@ packages for me.
   (auto-package-update-maybe))
 #+end_src
 
-** Make sure we have the right PATH
+** Make sure we have the right path
 
 See https://github.com/purcell/exec-path-from-shell
 #+begin_src emacs-lisp
@@ -911,7 +911,7 @@ so the edit can be seen.
 (setq org-catch-invisible-edits 'show)
 #+end_src
 
-** Sending email: ~send-mail~                    :mail:
+** Sending email                               :mail:
 
 :TODO: Check for cleanup of send-mail settings.
 
@@ -957,7 +957,7 @@ After sending an email, kill the buffer.
 (setq message-kill-buffer-on-exit t)
 #+end_src
 
-** Reading email: ~mu4e~ (with isync)            :mail:
+** Reading email: with mu4e and isync          :mail:
 
 :TODO: Check for cleanup of mu4e settings.
 
@@ -1162,7 +1162,7 @@ and are also useful for programmatically jumping to maildirs.
     :key ?i))
 #+end_src
 
-*** ~mu4e-maildirs-extension~
+*** Maildirs extension to show read/total counts per mail directory
 
 The package ~mu4e-maildirs-extension~ causes the display of
 the read/total count for each mail directory in the list.
@@ -1256,7 +1256,7 @@ but it is apparently depricated.
 The ~org-mime~ package above is probably the correct path
 if I ever want to send HTML emails.
 
-**** Changing the ~From~ address automatically
+**** Changing the from address automatically
 
 I use my personal Gmail to collect all of my emails,
 but when replying I like to send back from whichever
@@ -1305,7 +1305,7 @@ Don't prompt me upon quitting ~mu4e~.
 (setq mu4e-confirm-quit nil)
 #+end_src
 
-*** Start up ~mu4e~ so ~mu~ is running
+*** Start up mu4e so that mu is running at startup
 
 We start ~mu4e~ here in case, for instance,
 we use a bookmark to open a ~mu4e~ buffer
@@ -1316,7 +1316,7 @@ Without this, we might get an error asking if we started ~mu4e.~
 (mu4e)
 #+end_src
 
-** ~agda~ mode                                   :programming:
+** Agda mode                                   :programming:
 
 :TODO: Check for cleanup of Agda settings.
 
@@ -1578,7 +1578,7 @@ in my tab names.
 (agda-input-setup)
 #+end_src
 
-*** Activate Agda input mode in ~text~, ~prog~ and ~artist~ modes
+*** Activate Agda input mode in text, prog and artist modes
 
 Agda input mode makes it extremely easy to use unicode in documents,
 something I strongly prefer to do.
@@ -1617,7 +1617,7 @@ I make use of ~general~ to organise keybindings.
 (use-package general)
 #+end_src
 
-** ~general~ definers
+** General definers
 
 You can use ~general-define-key~ directly to define shortcuts,
 ideally using the keyword argument ~:prefix~ to avoid repeating
@@ -1669,28 +1669,28 @@ override my shortcuts.
 
 ** Invoke processes
 
-*** ~imenu~                                     :movement:
+*** imenu                                     :movement:
 
 #+begin_src emacs-lisp
 (general-main-define-key
   "i" 'counsel-imenu)
 #+end_src
 
-*** ~avy~                                       :movement:
+*** avy                                       :movement:
 
 #+begin_src emacs-lisp
 (general-main-define-key
   "j" 'avy-goto-char-timer)
 #+end_src
 
-*** ~treemacs~
+*** treemacs
 
 #+begin_src emacs-lisp
 (general-project-define-key
   "t" 'treemacs)
 #+end_src
 
-*** ~yankpad~                                   :completion:
+*** yankpad                                   :completion:
 
 #+begin_src emacs-lisp
 (general-main-define-key
@@ -1701,7 +1701,7 @@ override my shortcuts.
   "y r" 'yankpad-reload)
 #+end_src
 
-*** ~dired~
+*** dired
 
 **** Jumping to specific files
 
@@ -1777,7 +1777,7 @@ multiple ~dired~ windows open in different tabs.
           :which-key "thesis"))
 #+end_src
 
-*** ~eshell~
+*** eshell
 
 :TODO: This will not work if ~eshell~ instances are created without this shortcut. Instead I should count the number of shell buffers existing?
 #+begin_src emacs-lisp
@@ -1792,14 +1792,14 @@ multiple ~dired~ windows open in different tabs.
         :which-key "new eshell"))
 #+end_src
 
-*** ~magit~                                     :vc:
+*** magit                                     :vc:
 
 #+begin_src emacs-lisp
 (general-main-define-key
   "g" 'magit-status)
 #+end_src
 
-*** ~mu4e~                                      :mail:
+*** mu4e                                      :mail:
 
 #+begin_src emacs-lisp
 (general-main-define-key
@@ -1824,7 +1824,7 @@ See the ~kill-buffer-on-process-finish~ definition earlier in this file.
         :which-key "mbsync all directories"))
 #+end_src
 
-*** ~list-processes~
+*** list-processes
 
 #+begin_src emacs-lisp
 (general-other-package-define-key
@@ -2450,10 +2450,10 @@ headings at different levels have different bullets.
   :hook (org-mode . org-bullets-mode))
 #+end_src
 
-**** Replace the ellipsis ~...~
+**** Replace the ellipsis
 
 By default, folded portions of the document are
-presented by an ellipsis, ~...~. Let's replace that.
+presented by an (non-unicode) ellipsis. Let's replace that.
 #+begin_src emacs-lisp
 (setq org-ellipsis " ⮷")
 #+end_src
@@ -2503,7 +2503,7 @@ so set the width of all images to be just 100 pixels.
 (setq org-image-actual-width 100)
 #+end_src
 
-**** Colour-coded ~src~ block backgrounds
+**** Colour-coded source block backgrounds
 
 We can colour the background of Org source blocks
 based on the language. Neat!
@@ -2738,7 +2738,7 @@ then the background colour setting will be lost!
 
 :TODO: It would be nice to pick up the background colour for that particular language, rather than default; I like the differing colours the Modus theme gives me for source blocks.
 
-*** Don't change ~.org~ links to ~.html~
+*** Don't change Org links to HTML
 
 By default
 (see the [[https://orgmode.org/manual/Links-in-HTML-export.html][manual]])
@@ -2754,7 +2754,7 @@ the original Org source version of notes
 
 If I mean to link to the HTML file, I will do so explicitely.
 
-*** Require ~{}~ to denote sub/superscripts
+*** Require braces to denote sub/superscripts
 
 Sometimes I want to export the characters ~_~ or ~^~.
 However, Org allows these to be used for LaTeX style sub/superscripts,
@@ -2834,7 +2834,7 @@ Sometimes, for creating slides, ~beamer~ is useful.
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
 #+end_src
 
-**** Use ~minted~ for code blocks
+**** Use minted for code blocks
 
 First, make sure we load the ~minted~ package.
 #+begin_src emacs-lisp
@@ -2852,7 +2852,7 @@ rather than the default ~verbatim~, for code.
 (setq org-latex-listings 'minted)
 #+end_src
 
-***** Default options for ~minted~
+***** Default options for minted
 
 One reason to use ~minted~ or ~listings~ over the simple ~verbatim~ is
 that it can put decent-looking linebreaks where necessary
@@ -2885,7 +2885,7 @@ I use this hack to disable ~fbox~'s inside ~minted~ environments.
 (add-to-list 'org-latex-packages-alist '("" "etoolbox"))
 #+end_src
 
-***** Treat ~agda2~ source as ~Haskell~ for listings
+***** Treat Agda source as Haskell for listings
 
 Unfortunately, ~minted~ doesn't support Agda,
 so we simply have Org tell it that it's Haskell code.
@@ -2893,7 +2893,7 @@ so we simply have Org tell it that it's Haskell code.
 (add-to-list 'org-latex-minted-langs '(agda2 "Haskell"))
 #+end_src
 
-***** Alternative: use ~listings~ in place of ~minted~
+***** Alternative: use listings in place of minted
 
 As a step between using ~verbatim~ blocks and
 using ~minted~ for source code,
@@ -2912,7 +2912,7 @@ If the setup is desired, here is how to do it:
 (add-to-list 'org-latex-listings-langs '(agda2 "Haskell"))
 #+end_example
 
-**** ~hyperref~ setup
+**** Hyperref setup
 
 The ~LaTeX~ ~hyperref~ package gives us better links.
 I don't care for varying link colours, so I set them all to
@@ -2966,7 +2966,7 @@ to include images in tables.
 
 *** HTML export settings
 
-**** Change the “Created” postamble to “Last update”
+**** Modify the postamble
 
 By default, ~org-html-postamble~ is set to ~auto~.
 We overwrite that to ~t~ so that the postamble is constructed
@@ -3072,7 +3072,7 @@ I have made several edits.
 
 *** Additional export formats
 
-**** ~org-reveal~
+**** Org Reveal
 
 I make use of ~org-reveal~ to create ~reveal.js~ slide decks.
 This is way easier than dealing with ~beamer~ in LaTeX,
@@ -3132,7 +3132,7 @@ I prefer a slightly smaller title, and additionally include
    <h5>%d</h5>")
 #+end_src
 
-**** ~ox-pandoc~
+**** Pandoc export formats
 
 ~ox-pandoc~ is “another exporter that translates Org-mode file to various other
 formats via Pandoc”.
@@ -3554,7 +3554,7 @@ but I use 11 to reserve space.
 
 ** Modeline styling                            :theme:
 
-*** Add styling via ~doom-modeline~
+*** Add styling via Doom modeline
 
 I previously used Spaceline, the Spacemacs modeline,
 which is a very nice appearing modeline replacement.
@@ -3583,7 +3583,7 @@ so set its height to ~0~ to make it as short as possible.
 (setq doom-modeline-height 0)
 #+end_src
 
-*** Set up the items on the ~doom-modeline~
+*** Set up the items on the Doom-modeline
 
 I like to strip down the amount of information on the modeline
 to what I might actually make use of.
@@ -3770,7 +3770,7 @@ not the senders or subjects.
 (setq mu4e-alert-email-notification-types '(count))
 #+end_src
 
-** ~dired~
+** Dired
 
 ~dired~ (for DIRectory EDitor) is Emacs builtin utility
 for browsing directories and operating on their contents.
@@ -3810,7 +3810,7 @@ the cursor is on.
 (add-hook 'dired-after-readin-hook 'hl-line-mode)
 #+end_src
 
-** ~eshell~
+** Eshell
 
 The Eshell is a wonderful shell-like command interpreter inside of Emacs.
 I find it's not appropriate for intensive command line tasks,
@@ -3851,7 +3851,7 @@ for dark themes and black for light themes.
     (propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground ,default))))))
 #+end_src
 
-** ~which-key~                                   :completion:
+** Which key                                   :completion:
 
 ~which-key-mode~ is a handy minor mode that shows us
 possible completions as we type commands.
@@ -3866,7 +3866,7 @@ It is also useful for discovery of shortcuts;
 occasionally it is enlightening to take some time
 and browse the possible completions of prefixes as you type.
 
-** ~winner-mode~                                 :window:
+** Winner mode                                 :window:
 
 ~winner-mode~ allows us to undo or redo changes to window layouts.
 See my keybindings for this above.
@@ -3874,7 +3874,7 @@ See my keybindings for this above.
 (winner-mode 1)
 #+end_src
 
-** ~windmove~                                    :window:
+** Easier movement between windows – Windmove  :window:
 
 The package ~windmove~ lets us jump between windows in a frame.
 #+begin_src emacs-lisp
@@ -3890,7 +3890,7 @@ while holding a key; by default, the key is ~shift~.
 That conflicts with ~org~ though, so we could use
 ~windmove-default-keybindings~ to change it.
 
-** ~windnum~
+** Window numbers – Winum                      :window:
 
 While ~windmove~ is wonderful, if we have several windows
 in the frame, it can be tedious to move between them,
@@ -3919,7 +3919,7 @@ rather than split vertically.
 (setq ediff-split-window-function 'split-window-horizontally)
 #+end_src
 
-** ~magit~                                       :vc:
+** Magit                                       :vc:
 
 Explicitely install ~magit~, “a Git Porcelain inside Emacs”.
 This is a killer feature of Emacs; ~magit~ not only simplifies
@@ -3957,7 +3957,7 @@ And it provides controls to jump between and act on those changes,
 so for simple commits we may not even need the ~magit~ status buffer.
 :TODO: Shortcuts to jump between and act on hunks. Probably a hydra! See Musa's setup.
 
-** ~minions~; see and toggle minor modes
+** Minions; see and toggle minor modes         :simplify:
 
 The ~minions~ package implements a handy pop-up menu
 for toggling minor modes.
@@ -3977,7 +3977,7 @@ or opening a help buffer.
 (use-package purescript-mode)
 #+end_src
 
-** Elm
+** Elm                                         :programming:
 
 #+begin_src emacs-lisp
 (use-package elm-mode)
@@ -4259,7 +4259,7 @@ Some notes about this:
       the difference reporting less satisfying, as it cannot show
       the actual file contents.
 
-** Update the ~README~ file
+** Update the README file
 
 I want my README file for this directory
 to be automatically kept up to date when changes are made.
