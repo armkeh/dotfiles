@@ -74,7 +74,7 @@ and there need snippets from all kinds of programming language modes.
 
 ** Punctuation, parentheses, etc.
 
-*** q:dq:dblqu: Double quotes                 :src:q:
+*** dq:q:dblqu: Double quotes                 :src:q:
 
 #+begin_src text
 “$1” $0
@@ -202,10 +202,10 @@ $0
 ,#+end_example
 #+end_src
 
-**** srcsh: Shell                            :src:
+**** sh:srcsh: Shell                         :src:
 
 #+begin_src text
-#+begin_src shell
+#+begin_src sh
 $0
 ,#+end_src
 #+end_src
@@ -245,7 +245,7 @@ $0
 **** srcps: Purescript                       :src:
 
 #+begin_src text
-#+begin_src typescript
+#+begin_src purescript
 $0
 ,#+end_src
 #+end_src
@@ -253,7 +253,7 @@ $0
 **** srcelm: Elm                             :src:
 
 #+begin_src text
-#+begin_src typescript
+#+begin_src elm
 $0
 ,#+end_src
 #+end_src
@@ -311,6 +311,14 @@ $0
 #+begin_src text
 #+begin_src dot :file $1
 $2
+,#+end_src
+#+end_src
+
+**** srcgo: Golang                           :src:
+
+#+begin_src text
+#+begin_src go
+$0
 ,#+end_src
 #+end_src
 
@@ -588,13 +596,6 @@ digraph T {
   Node -> leaf
 }
 #+end_src
-
-** File paths
-
-It can be useful to have predictable completion
-for commonly use filepaths.
-
-No entries here yet.
 
 ** Commands
 
