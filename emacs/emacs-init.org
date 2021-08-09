@@ -3381,7 +3381,7 @@ Here is my awesome letter.
 Mark Armstrong
 #+end_src
 
-** A completion framework; Ivy, Counsel and Swiper :completion:
+** COMMENT A completion framework; Ivy, Counsel and Swiper :completion:
 
 :TODO: Better documentation here.
 
@@ -3447,6 +3447,27 @@ as the first suggestions when I use ~M-x~.
 (use-package prescient)
 (use-package ivy-prescient)
 (ivy-prescient-mode)
+#+end_src
+
+** Improving search; CTRLF (control f)
+
+https://github.com/raxod502/ctrlf
+
+Can I get over ~C-s~ not jumping to the minibuffer
+if a search is already running?
+If not, bring swiper back.
+#+begin_src emacs-lisp
+(use-package ctrlf)
+(ctrlf-mode +1)
+#+end_src
+
+** A completion framework; Selectrum
+
+https://github.com/raxod502/selectrum
+
+#+begin_src emacs-lisp
+(use-package selectrum)
+(selectrum-mode +1)
 #+end_src
 
 ** COMpleting ANYthing; Company                :completion:
