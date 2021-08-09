@@ -710,6 +710,61 @@ conflicts can still happen if one system is offline or the syncing
 gets behind some other way, but with automatic reverts
 it's less likely I trip over my own changes.
 
+** Organise automatic backups                  :vc:
+
+(These settings form the basis for
+ a crude form of offline version control
+ for [[Walking through undo history; undo-propose][undo-propose]]
+ and [[Walking through backups; backup-walker][backup-walker]]
+ which provide utilities to make use of undos and backups
+ as version control.)
+
+Emacs, by default, creates an automatic backup of
+the contents of a file before each editing session for the file
+See [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Backup-Files.html][the manual]]
+for all of the details of how and when this is done.
+
+By default, the backup file is placed in the same directory,
+and tagged as a backup by appending ~~~ to its name.
+This creates a fair bit of clutter;
+we can set a location to store all backups to avoid that.
+#+begin_src emacs-lisp
+(setq backup-directory-alist '(("." . "~/emacs-backups")))
+#+end_src
+
+We can use these backups as a crude form of offline version control.
+We ask Emacs to number them by setting ~version-control~,
+and also to limit the amount of history through ~kept-old-versions~.
+Setting ~delete-old-versions~ prevents asking for confirmation
+before deleting the excess versions.
+#+begin_src emacs-lisp
+(setq version-control t)
+(setq kept-old-versions 50)
+(setq delete-old-versions t)
+#+end_src
+
+Do backup files even if they are covered by version control;
+we still want this local crude version control
+as an added history.
+#+begin_src emacs-lisp
+(setq vc-make-backup-files t)
+#+end_src
+
+As we said above, by default, Emacs makes a new backup
+for each editing session on the file.
+But since I leave Emacs open almost perpetually,
+that can be quite infrequent.
+This snippet from
+[[https://github.com/alhassy/emacs.d#automatic-backups][Musa Alhassy's init]]
+“tricks” Emacs into making a backup each time we save.
+#+begin_src emacs-lisp
+(defun my/force-backup-of-buffer ()
+  "Lie to Emacs, telling it the curent buffer has yet to be backed up."
+  (setq buffer-backed-up nil))
+
+(add-hook 'before-save-hook  'my/force-backup-of-buffer)
+#+end_src
+
 ** Set what characters qualify as delimiters   :delimiter:
 
 *** Angle brackets are not delimiters to me
