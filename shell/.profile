@@ -73,10 +73,10 @@ NPM_PACKAGES="${HOME}/.npm-packages"
 export PATH="$PATH:$NPM_PACKAGES/bin"
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 
-if [ -f ".profile_local" ] ; then
+if [ -f ~/.profile_local ] ; then
   source ~/.profile_local
 fi
 
-if [ -f ".profile_private" ] ; then
+if [ -f ~/.profile_private ] ; then
   source ~/.profile_private
 fi

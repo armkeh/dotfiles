@@ -154,6 +154,30 @@ by disabling legacy commands, so let's do that.
 export DOCKER_HIDE_LEGACY_COMMANDS=true
 #+end_src
 
+*** Device specific (local) profile settings
+
+Some settings only make sense on certain machines.
+
+If the use of those settings is not sensitive information
+(I can't imagine currently why they would be, but just in case)
+then I tangle them from this file below,
+and then symlink them to ~.profile_local~.
+#+begin_src sh
+if [ -f ~/.profile_local ] ; then
+  source ~/.profile_local
+fi
+#+end_src
+
+Otherwise, if the use of those settings
+should not be shared in my dotfile repo,
+I can place them in ~.profile_private~ which I make local only
+(but is hence fragile).
+#+begin_src sh
+if [ -f ~/.profile_private ] ; then
+  source ~/.profile_private
+fi
+#+end_src
+
 *** COMMENT Removed
 :PROPERTIES:
 :header-args:sh: :tangle no
