@@ -16,3 +16,5 @@ fi
 alias gp='guix package'
 alias gps='guix package -s'
 alias gpi='guix package -i'
+
+alias ixvpn='sudo openconnect -bq -u mark.armstrong npv.indexexchange.com/anyconnect'

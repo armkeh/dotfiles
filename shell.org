@@ -693,6 +693,12 @@ alias gps='guix package -s'
 alias gpi='guix package -i'
 #+end_src
 
+** Index Exchange
+
+#+begin_src sh
+alias ixvpn='sudo openconnect -bq -u mark.armstrong npv.indexexchange.com/anyconnect'
+#+end_src
+
 * The Starship prompt
 :PROPERTIES:
 :header-args:toml: :tangle ./shell/starship.toml
