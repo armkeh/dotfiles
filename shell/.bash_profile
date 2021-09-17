@@ -1,9 +1,9 @@
 if [ -f ~/.profile ]; then
-    source ~/.profile
+  source ~/.profile
 fi
 
 if [ -f ~/.bashrc ]; then
-    source ~/.bashrc
+  source ~/.bashrc
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"

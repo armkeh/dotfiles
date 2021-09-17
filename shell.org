@@ -213,11 +213,11 @@ Just source the relevant files.
 No interesting ~bash~ specific setup, at least yet.
 #+begin_src sh
 if [ -f ~/.profile ]; then
-    source ~/.profile
+  source ~/.profile
 fi
 
 if [ -f ~/.bashrc ]; then
-    source ~/.bashrc
+  source ~/.bashrc
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -232,12 +232,25 @@ As with ~bash~, just source the relevant files.
 No interesting ~zsh~ specific setup, at least yet.
 #+begin_src sh
 if [ -f ~/.profile ]; then
-    source ~/.profile
+  source ~/.profile
 fi
 
 if [ -f ~/.zshrc ]; then
-    source ~/.zshrc
+  source ~/.zshrc
 fi
+#+end_src
+
+** Local profiles
+
+*** Index Exchange
+:PROPERTIES:
+:header-args:sh: :tangle ./shell/.profile_ix
+:END:
+
+Settings for my work at Index Exchange are found in ~profile_ix~,
+which can be symlinked to ~~/.profile_local~ on relevant machines.
+#+begin_src sh
+export GOPRIVATE=gitlab.indexexchange.com
 #+end_src
 
 * Run commands

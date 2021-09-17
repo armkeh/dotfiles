@@ -62,5 +62,21 @@ if [ -d "$HOME/go/bin" ] ; then
     export PATH="$PATH:$HOME/.cargo/bin"
 fi
 
+if [ -d "$HOME/.guix-profile/lib/locale" ] ; then
+  export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
+fi
+
 # Disable some legacy docker commands
 export DOCKER_HIDE_LEGACY_COMMANDS=true
+
+NPM_PACKAGES="${HOME}/.npm-packages"
+export PATH="$PATH:$NPM_PACKAGES/bin"
+export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
+
+if [ -f ".profile_local" ] ; then
+  source ~/.profile_local
+fi
+
+if [ -f ".profile_private" ] ; then
+  source ~/.profile_private
+fi

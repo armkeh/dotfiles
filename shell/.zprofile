@@ -1,7 +1,7 @@
 if [ -f ~/.profile ]; then
-    source ~/.profile
+  source ~/.profile
 fi
 
 if [ -f ~/.zshrc ]; then
-    source ~/.zshrc
+  source ~/.zshrc
 fi
