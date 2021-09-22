@@ -59,7 +59,7 @@ fi
 
 # The Go path used by Golang by default
 if [ -d "$HOME/go/bin" ] ; then
-  export PATH="$PATH:$HOME/.go/bin"
+  export PATH="$PATH:$HOME/go/bin"
 fi
 
 if [ -d "$HOME/.guix-profile/lib/locale" ] ; then
