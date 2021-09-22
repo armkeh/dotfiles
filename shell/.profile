@@ -28,38 +28,38 @@ if [ -d "$HOME/.nix-profile" ] ; then
 fi
 
 if [ -d "$HOME/.local/bin" ] ; then
-    export PATH="$HOME/.local/bin:$PATH"
+  export PATH="$HOME/.local/bin:$PATH"
 fi
 if [ -d "$HOME/local/bin" ] ; then
-    export PATH="$HOME/local/bin:$PATH"
+  export PATH="$HOME/local/bin:$PATH"
 fi
 if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+  PATH="$HOME/bin:$PATH"
 fi
 
 # Tool install directories
 
 # Haskell tools
 if [ -d "/opt/ghc/bin" ] ; then
-    export PATH="$PATH:/opt/ghc/bin"
+  export PATH="$PATH:/opt/ghc/bin"
 fi
 if [ -d "$HOME/.cabal/bin" ] ; then
-    export PATH="$PATH:$HOME/.cabal/bin"
+  export PATH="$PATH:$HOME/.cabal/bin"
 fi
 
 # OCaml package manager
 if [ -d "$HOME/.opam/system/bin" ] ; then
-    export PATH="$PATH:$HOME/.opam/system/bin"
+  export PATH="$PATH:$HOME/.opam/system/bin"
 fi
 
 # Rust's package manager
 if [ -d "$HOME/.cargo/bin" ] ; then
-    export PATH="$PATH:$HOME/.cargo/bin"
+  export PATH="$PATH:$HOME/.cargo/bin"
 fi
 
 # The Go path used by Golang by default
 if [ -d "$HOME/go/bin" ] ; then
-    export PATH="$PATH:$HOME/.cargo/bin"
+  export PATH="$PATH:$HOME/.cargo/bin"
 fi
 
 if [ -d "$HOME/.guix-profile/lib/locale" ] ; then

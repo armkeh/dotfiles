@@ -106,13 +106,13 @@ are often used for user-specific binaries.
 (See [[https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html][the XDG base directory specification]].)
 #+begin_src sh
 if [ -d "$HOME/.local/bin" ] ; then
-    export PATH="$HOME/.local/bin:$PATH"
+  export PATH="$HOME/.local/bin:$PATH"
 fi
 if [ -d "$HOME/local/bin" ] ; then
-    export PATH="$HOME/local/bin:$PATH"
+  export PATH="$HOME/local/bin:$PATH"
 fi
 if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+  PATH="$HOME/bin:$PATH"
 fi
 #+end_src
 
@@ -123,25 +123,25 @@ I should occasionally trim these if I stop using some languages.
 
 # Haskell tools
 if [ -d "/opt/ghc/bin" ] ; then
-    export PATH="$PATH:/opt/ghc/bin"
+  export PATH="$PATH:/opt/ghc/bin"
 fi
 if [ -d "$HOME/.cabal/bin" ] ; then
-    export PATH="$PATH:$HOME/.cabal/bin"
+  export PATH="$PATH:$HOME/.cabal/bin"
 fi
 
 # OCaml package manager
 if [ -d "$HOME/.opam/system/bin" ] ; then
-    export PATH="$PATH:$HOME/.opam/system/bin"
+  export PATH="$PATH:$HOME/.opam/system/bin"
 fi
 
 # Rust's package manager
 if [ -d "$HOME/.cargo/bin" ] ; then
-    export PATH="$PATH:$HOME/.cargo/bin"
+  export PATH="$PATH:$HOME/.cargo/bin"
 fi
 
 # The Go path used by Golang by default
 if [ -d "$HOME/go/bin" ] ; then
-    export PATH="$PATH:$HOME/.cargo/bin"
+  export PATH="$PATH:$HOME/.cargo/bin"
 fi
 #+end_src
 
@@ -206,7 +206,7 @@ through OS settings or the keyboard firmware.
 #+begin_src sh
 # Switch caps lock to super, using setxkbmap if it's available.
 # if [ -x "$(command -v setxkbmap)" ] ; then
-#     setxkbmap -option caps:super
+#   setxkbmap -option caps:super
 # fi
 #+end_src
 
@@ -399,7 +399,7 @@ using it for all shells.
 #+begin_src sh
 # Source my alias definitions.
 if [ -f ~/.aliases ]; then
-    . ~/.aliases
+  . ~/.aliases
 fi
 #+end_src
 
@@ -555,7 +555,7 @@ I use the same set of alias definitions here as I do for ~bash~.
 #+begin_src sh
 # Source my alias definitions.
 if [ -f ~/.aliases ]; then
-    . ~/.aliases
+  . ~/.aliases
 fi
 #+end_src
 
@@ -674,14 +674,14 @@ in ~ls~, ~grep~, and related commands.
 This is taken from the default ~bash~ RC file from Debian.
 #+begin_src sh
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  alias dir='dir --color=auto'
+  alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
 fi
 #+end_src
 

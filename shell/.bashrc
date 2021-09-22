@@ -39,7 +39,7 @@ shopt -s globstar
 
 # Source my alias definitions.
 if [ -f ~/.aliases ]; then
-    . ~/.aliases
+  . ~/.aliases
 fi
 
 if [ -x $(which starship) ]; then
