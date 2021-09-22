@@ -154,6 +154,16 @@ by disabling legacy commands, so let's do that.
 export DOCKER_HIDE_LEGACY_COMMANDS=true
 #+end_src
 
+Set a specific directory for NPM packages.
+Tell ~npm~ where to find it
+via ~npm config set prefix "${HOME}/.npm-packages~.
+:TODO: determine a way to include that in system setup.
+#+begin_src sh
+NPM_PACKAGES="${HOME}/.npm-packages"
+export PATH="$PATH:$NPM_PACKAGES/bin"
+export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
+#+end_src
+
 *** Device specific (local) profile settings
 
 Some settings only make sense on certain machines.
