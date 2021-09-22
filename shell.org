@@ -145,6 +145,19 @@ if [ -d "$HOME/go/bin" ] ; then
 fi
 #+end_src
 
+*** Locale settings
+
+Packages installed via Guix will do use the locale data of our host system.
+So, we must install one of the locale packages available with Guix
+(such as ~glibc-locales~)
+and then define the ~GUIX_LOCPATH~ environment variable.
+See [[https://guix.gnu.org/manual/en/html_node/Application-Setup.html][the manual]].
+#+begin_src sh
+if [ -d "$HOME/.guix-profile/lib/locale" ] ; then
+  export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
+fi
+#+end_src
+
 *** Tool settings
 
 Some Docker documentation I read recommended avoiding bad habits
