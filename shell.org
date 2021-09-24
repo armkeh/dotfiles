@@ -426,6 +426,16 @@ if [ -f ~/.aliases ]; then
 fi
 #+end_src
 
+I also keep some aliases that are specific to particular machines
+in files which are then symlinked to ~~/.aliases_local~ on
+the appropriate machine(s).
+#+begin_src sh
+# Source my alias definitions.
+if [ -f ~/.aliases_local ]; then
+  . ~/.aliases_local
+fi
+#+end_src
+
 *** Set up the prompt
 
 I now use the cross-shell Starship prompt, created in Rust.
@@ -582,6 +592,15 @@ if [ -f ~/.aliases ]; then
 fi
 #+end_src
 
+And as I do for ~bash~, source the aliases for specific machines
+if the file (should be a symlink to a file tangled here) exists.
+#+begin_src sh
+# Source my alias definitions.
+if [ -f ~/.aliases_local ]; then
+  . ~/.aliases_local
+fi
+#+end_src
+
 *** Set up the prompt
 
 Same as in ~bash~, use the cross-shell Starship prompt.
@@ -720,6 +739,19 @@ alias gpi='guix package -i'
 
 #+begin_src sh
 alias ixvpn='sudo openconnect -bq -u mark.armstrong npv.indexexchange.com/anyconnect'
+#+end_src
+
+** Local aliases
+
+*** Index Exchange
+:PROPERTIES:
+:header-args:sh: :tangle ./shell/.aliases_ix
+:END:
+
+#+begin_src sh
+alias cdph='cd ~/go/src/gitlab.indexexchange.com/app/phoenix'
+alias cdapi='cd ~/go/src/gitlab.indexexchange.com/app/phoenix/api'
+alias cdtool='cd ~/go/src/gitlab.indexexchange.com/app/phoenix/tool'
 #+end_src
 
 * The Starship prompt

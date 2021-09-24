@@ -1,0 +1,3 @@
+alias cdph='cd ~/go/src/gitlab.indexexchange.com/app/phoenix'
+alias cdapi='cd ~/go/src/gitlab.indexexchange.com/app/phoenix/api'
+alias cdtool='cd ~/go/src/gitlab.indexexchange.com/app/phoenix/tool'

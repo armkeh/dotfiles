@@ -42,6 +42,11 @@ if [ -f ~/.aliases ]; then
   . ~/.aliases
 fi
 
+# Source my alias definitions.
+if [ -f ~/.aliases_local ]; then
+  . ~/.aliases_local
+fi
+
 if [ -x $(which starship) ]; then
   eval "$(starship init bash)"
 fi
