@@ -4301,14 +4301,28 @@ Activate ~gofmt~ upon save.
 
 * Session setup
 
-First, we opened my init file earlier;
-kill that buffer now, so that cosmetic changes we made above
-will be properly applied (when we reopen it).
+Before anything, we opened my init file earlier;
+kill that buffer now, so that it's not open if it's not wanted,
+or if it is wanted, so that cosmetic changes we made above
+will be properly applied.
 #+begin_src emacs-lisp
 (kill-buffer "emacs-init.org")
 #+end_src
 
-** Filepaths
+Also go ahead and close any windows that may have been created.
+#+begin_src emacs-lisp
+(delete-other-windows)
+#+end_src
+
+The remainder of these settings are segragated,
+and then loaded based on the identity of the machine being used.
+
+** Personal machines
+:PROPERTIES:
+:header-args:emacs-lisp: :tangle ~/dotfiles/emacs/personal-session.el
+:END:
+
+*** Filepaths
 
 For maintainability, most files opened below
 are listed here.
@@ -4328,7 +4342,7 @@ are listed here.
 (setq-local my/agda-scratch (concat my/agda-dir "agda-scratch.agda"))
 #+end_src
 
-** Create tabs
+*** Create tabs
 
 First, let's create some “consistent” tabs;
 whatever projects I am working on, these tabs
@@ -4374,7 +4388,7 @@ for use when working on other/random things.
 (tab-rename "-")
 #+end_src
 
-** Visit tabs and setup buffers
+*** Visit tabs and setup buffers
 
 Now, let us visit the tabs, and set up the windows in them.
 Since they're named (presumably uniquely),
@@ -4382,7 +4396,7 @@ we'll use ~tab-bar-switch-to-tab~ which takes a ~name~ argument.
 
 My ~cascading-find-files~ sometime comes in handy here.
 
-*** Consistent tabs
+**** Consistent tabs
 
 First, the ~init~ tab.
 Here I want my Emacs init in my usual three window split
@@ -4440,9 +4454,9 @@ we get unique buffers.
 (eshell '1)
 #+end_src
 
-*** Volatile tabs
+**** Volatile tabs
 
-**** Thesis
+***** Thesis
 
 My thesis involves Agda, so I want the Agda information buffer open.
 I prefer that information buffer in the lower left,
@@ -4464,7 +4478,7 @@ The ~git~ tab is setup the same way the ~Setup ꇚ~ tab is.
     (magit-status-setup-buffer)))
 #+end_src
 
-**** Blog (and personal website)
+***** Blog (and personal website)
 
 For the moment, my ~Blog~ tab setup is similar to the thesis setup,
 because I blog about Agda.
@@ -4484,7 +4498,7 @@ because I blog about Agda.
     (magit-status-setup-buffer)))
 #+end_src
 
-**** COMMENT Principles of Programming Languages
+***** COMMENT Principles of Programming Languages
 
 I use three tabs for my “Principles of Programming Languages”
 course, 3mi3;
@@ -4511,10 +4525,69 @@ course, 3mi3;
     (magit-status-setup-buffer))
 #+end_src
 
-*** Focus on the first tab
+**** Focus on the first tab
 
 #+begin_src emacs-lisp
 (tab-select 1)
+#+end_src
+
+** IX work machine
+:PROPERTIES:
+:header-args:emacs-lisp: :tangle ~/dotfiles/emacs/ix-session.el
+:END:
+
+I context-switch a lot more frequently while at work,
+so there are not a small handful of projects
+that need to be opened every time I start up Emacs.
+
+I do want various log and note files opened.
+Other than that, open a few tabs with my aliases directory open,
+which lets me quickly get into a directory for working.
+#+begin_src emacs-lisp
+(tab-rename "logs")
+(tab-new)
+(tab-rename "meetings")
+(tab-new)
+(tab-rename "p1")
+(tab-new)
+(tab-rename "p2")
+(tab-new)
+(tab-rename "p3")
+(tab-new)
+
+(tab-bar-switch-to-tab "@3")
+(find-file "~/@")
+(tab-bar-switch-to-tab "@2")
+(find-file "~/@")
+(tab-bar-switch-to-tab "@1")
+(find-file "~/@")
+
+(tab-bar-switch-to-tab "meetings")
+(find-file "~/logs/meetings/standup.org")
+(split-window nil nil 'left)
+(find-file "~/logs/meetings/one-on-ones.org")
+
+(tab-bar-switch-to-tab "logs")
+(find-file "~/logs/knowledge.org")
+(split-window nil nil 'left)
+(find-file "~/logs/scratch/org-scratch.org")
+#+end_src
+
+** Check identity of machine and load session
+
+:TODO: Commentary.
+:TODO: Be more helpful if the identity is unknown; perhaps button actions to set it properly?
+
+#+begin_src emacs-lisp
+(let ((machine-identity-file "~/.this-machine"))
+  (if (file-exists-p machine-identity-file)
+      (let ((this-machine (f-read-text "~/.this-machine")))
+        (pcase (string-trim-right this-machine)
+          ("personal" (load "~/dotfiles/emacs/personal-session.el"))
+          ("ix"       (load "~/dotfiles/emacs/personal-session.el"))
+          (otherwise  (message-box "Couldn't determine what this machine is for session setup. Put a correct identity in ~/.this-machine."))))
+    ;; else, machine identity file doesn't exist
+    (message "Init: Didn't find the machine identity file at ~/.this-machine, so don't know how to set up the session.")))
 #+end_src
 
 * Cleanup
@@ -4574,6 +4647,8 @@ Some notes about this:
 
 ** Update the README file
 
+:TODO: Check the buffer/window cleanup. Somehow this is causing a split if only one window was opened.
+
 I want my README file for this directory
 to be automatically kept up to date when changes are made.
 
@@ -4625,7 +4700,9 @@ an regularly commit the changes.
       ;; in the init file, as they will be prefixed with `../`.
       (write-file readme-final-filepath)
       ;; Export it to a new buffer; exporting expands the included files.
-      (org-org-export-as-org)
+      ;; Do this quietly, without putting messages in the minibuffer.
+      (let ((inhibit-message t))
+        (org-org-export-as-org))
       ;; At the top, place a warning not to edit the file.
       (beginning-of-buffer)
       (insert "# This file is automatically generated by emacs-init.org.\n")
