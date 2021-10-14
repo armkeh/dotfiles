@@ -3398,7 +3398,7 @@ Here is my awesome letter.
 Mark Armstrong
 #+end_src
 
-** A completion framework; Ivy, Counsel and Swiper :completion:
+** COMMENT A completion framework; Ivy, Counsel and Swiper :completion:
 
 :TODO: Better documentation here.
 
@@ -4584,7 +4584,7 @@ which lets me quickly get into a directory for working.
       (let ((this-machine (f-read-text "~/.this-machine")))
         (pcase (string-trim-right this-machine)
           ("personal" (load "~/dotfiles/emacs/personal-session.el"))
-          ("ix"       (load "~/dotfiles/emacs/personal-session.el"))
+          ("ix"       (load "~/dotfiles/emacs/ix-session.el"))
           (otherwise  (message-box "Couldn't determine what this machine is for session setup. Put a correct identity in ~/.this-machine."))))
     ;; else, machine identity file doesn't exist
     (message "Init: Didn't find the machine identity file at ~/.this-machine, so don't know how to set up the session.")))
