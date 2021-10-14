@@ -3396,7 +3396,7 @@ Here is my awesome letter.
 Mark Armstrong
 #+end_src
 
-** COMMENT A completion framework; Ivy, Counsel and Swiper :completion:
+** A completion framework; Ivy, Counsel and Swiper :completion:
 
 :TODO: Better documentation here.
 
@@ -3464,7 +3464,7 @@ as the first suggestions when I use ~M-x~.
 (ivy-prescient-mode)
 #+end_src
 
-** Improving search; CTRLF (control f)
+** COMMENT Improving search; CTRLF (control f)
 
 https://github.com/raxod502/ctrlf
 
@@ -3476,7 +3476,7 @@ If not, bring swiper back.
 (ctrlf-mode +1)
 #+end_src
 
-** A completion framework; Selectrum
+** COMMENT A completion framework; Selectrum
 
 https://github.com/raxod502/selectrum
 
