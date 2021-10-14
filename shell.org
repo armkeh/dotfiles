@@ -298,6 +298,7 @@ Settings for my work at Index Exchange are found in ~profile_ix~,
 which can be symlinked to ~~/.profile_local~ on relevant machines.
 #+begin_src sh
 export GOPRIVATE=gitlab.indexexchange.com
+export GOPATH=$HOME/go
 #+end_src
 
 * Run commands
