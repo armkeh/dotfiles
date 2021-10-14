@@ -4258,6 +4258,17 @@ Add integrations with some other packages.
 
 #+begin_src emacs-lisp
 (use-package go-mode)
+;(use-package go-lint)
+#+end_src
+
+#+begin_src emacs-lisp
+(add-hook 'go-mode-hook 'lsp-deferred)
+#+end_src
+
+Activate ~gofmt~ upon save.
+#+begin_src emacs-lisp
+(add-hook 'go-mode-hook
+          (lambda () (add-hook 'before-save-hook gofmt-before-save nil 'local)))
 #+end_src
 
 ** YAML configuration language                 :programming:
