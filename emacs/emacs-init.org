@@ -4553,7 +4553,6 @@ which lets me quickly get into a directory for working.
 (tab-rename "p2")
 (tab-new)
 (tab-rename "p3")
-(tab-new)
 
 (tab-bar-switch-to-tab "@3")
 (find-file "~/@")
