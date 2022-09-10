@@ -1278,12 +1278,10 @@ this shortcut.
 
 Bookmarks can be used from the ~mu4e~ main page,
 and are also useful for programmatically jumping to maildirs.
+I set up the inbox bookmark in particular to programmatically jump
+to the inbox while setting up my mu4e buffer on a new Emacs instance.
 #+begin_src emacs-lisp
-(add-to-list 'mu4e-bookmarks
-  (make-mu4e-bookmark
-    :name  "Inbox"
-    :query "maildir:/Inbox"
-    :key ?i))
+(mu4e-bookmark-define "maildir:/Inbox" "Inbox" ?i)
 #+end_src
 
 *** Maildirs extension to show read/total counts per mail directory
