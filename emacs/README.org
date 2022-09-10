@@ -50,6 +50,7 @@ See also my
   - [[#almost-always-use-spaces-instead-of-tabs][(Almost) always use spaces instead of tabs]]
   - [[#turn-off-electric-indent-mode][Turn off electric indent mode]]
 - [[#vital-modes-and-vital-mode-specific-settings][Vital modes and vital mode-specific settings]]
+  - [[#evil-e-vi-l-mode][Evil (e-vi-l) mode]]
   - [[#org-mode][Org mode]]
   - [[#sending-email][Sending email]]
   - [[#reading-email-with-mu4e-and-isync][Reading email: with mu4e and isync]]
@@ -964,6 +965,26 @@ I don't use this or appreciate its interference.
 #+end_src
 
 * Vital modes and vital mode-specific settings
+
+** Evil (e-vi-l) mode
+
+I intermittently try to make use of evil mode,
+which promises to increase productivity through modal vi-inspired modes,
+if one can be thoughtful about ones editing process.
+
+One bit of pre-setup; I don't want evil-mode to override
+the behaviour of ~<tab>~ (which is shared with ~C-i~)
+during normal (evil) state, as this prevents
+cycling of Org section visibilities in normal mode.
+#+begin_src emacs-lisp
+(setq evil-want-C-i-jump nil)
+#+end_src
+
+Install and activate evil.
+#+begin_src emacs-lisp
+(use-package evil)
+(evil-mode 1)
+#+end_src
 
 ** Org mode                                     :org:
 

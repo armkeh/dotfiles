@@ -878,6 +878,26 @@ I don't use this or appreciate its interference.
 
 * Vital modes and vital mode-specific settings
 
+** Evil (e-vi-l) mode
+
+I intermittently try to make use of evil mode,
+which promises to increase productivity through modal vi-inspired modes,
+if one can be thoughtful about ones editing process.
+
+One bit of pre-setup; I don't want evil-mode to override
+the behaviour of ~<tab>~ (which is shared with ~C-i~)
+during normal (evil) state, as this prevents
+cycling of Org section visibilities in normal mode.
+#+begin_src emacs-lisp
+(setq evil-want-C-i-jump nil)
+#+end_src
+
+Install and activate evil.
+#+begin_src emacs-lisp
+(use-package evil)
+(evil-mode 1)
+#+end_src
+
 ** Org mode                                    :org:
 
 *** Preamble
