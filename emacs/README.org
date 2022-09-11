@@ -4625,10 +4625,10 @@ will always be present.
 Now, setup for some projects I am currently working on;
 this section is volatile!
 #+begin_src emacs-lisp
-(tab-new)
-(tab-rename "Thesis")
-(tab-new)
-(tab-rename "Thesis ꇚ")
+; (tab-new)
+; (tab-rename "Thesis")
+; (tab-new)
+; (tab-rename "Thesis ꇚ")
 (tab-new)
 (tab-rename "Blog")
 (tab-new)
@@ -4713,28 +4713,6 @@ we get unique buffers.
 #+end_src
 
 **** Volatile tabs
-
-***** Thesis
-
-My thesis involves Agda, so I want the Agda information buffer open.
-I prefer that information buffer in the lower left,
-the master file in the upper left, and the thesis directory on the right.
-The ~git~ tab is setup the same way the ~Setup ꇚ~ tab is.
-#+begin_src emacs-lisp
-(let ((thesis-dir "~/projects/agda-computability/"))
-  (let ((thesis-master (concat thesis-dir "thesis-master.org")))
-    (tab-bar-switch-to-tab "Thesis")
-    (find-file thesis-dir)
-    (split-window nil nil 'right)
-    (find-file thesis-master)
-    (split-window nil nil 'above)
-    (switch-to-buffer (agda2-info-buffer))
-
-    (tab-bar-switch-to-tab "Thesis ꇚ")
-    (find-file thesis-master)
-    (split-window nil nil 'right)
-    (magit-status-setup-buffer)))
-#+end_src
 
 ***** Blog (and personal website)
 

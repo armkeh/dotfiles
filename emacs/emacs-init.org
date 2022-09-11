@@ -4518,10 +4518,10 @@ will always be present.
 Now, setup for some projects I am currently working on;
 this section is volatile!
 #+begin_src emacs-lisp
-(tab-new)
-(tab-rename "Thesis")
-(tab-new)
-(tab-rename "Thesis ꇚ")
+; (tab-new)
+; (tab-rename "Thesis")
+; (tab-new)
+; (tab-rename "Thesis ꇚ")
 (tab-new)
 (tab-rename "Blog")
 (tab-new)
@@ -4607,7 +4607,7 @@ we get unique buffers.
 
 **** Volatile tabs
 
-***** Thesis
+***** COMMENT Thesis
 
 My thesis involves Agda, so I want the Agda information buffer open.
 I prefer that information buffer in the lower left,
