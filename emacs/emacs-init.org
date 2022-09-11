@@ -3760,7 +3760,7 @@ I previously used Spaceline, the Spacemacs modeline,
 which is a very nice appearing modeline replacement.
 Now prefer Doom modeline, which is a fair bit more “plain”,
 but still very nice in appearance,
-and is compatible with far modeline additions
+and is compatible with far more modeline additions
 (in particular, the modeline scroll bar I like;
  see [[Add a little scrollbar to the modeline]].)
 #+begin_src emacs-lisp
@@ -3793,12 +3793,14 @@ The Doom modeline provides ~doom-modeline-set-modeline~
   ;; Left side
   '(window-number remote-host buffer-info buffer-encoding buffer-position)
   ;; Right side
-  '(major-mode minor-modes input-method process mu4e))
+  '(major-mode minor-modes input-method process))
 
 (defun my/doom-modeline-setter ()
    (doom-modeline-set-modeline 'my/doom-modeline 'default))
 (add-hook 'doom-modeline-mode-hook 'my/doom-modeline-setter)
 #+end_src
+Note that some information, such as the current time and my unread email count,
+I display in the ~global-mode-string~ which I include in my tab bar instead of here.
 
 The minor mode listing is disabled by default.
 This also disables the ~minion~ button if using that
@@ -3856,9 +3858,23 @@ First set the format for the clock.
 (setq display-time-format "%a %b %d %R")
 #+end_src
 
+Do not show load and mail in the time string; I include that information separately.
+#+begin_src emacs-lisp
+(setq display-time-default-load-average nil)
+(setq display-time-mail-file nil) ;; This is default, but I set it as documentation for myself.
+#+end_src
+
 Now activate the mode.
 #+begin_src emacs-lisp
-(display-time-mode)
+(display-time-mode 1)
+#+end_src
+
+I've found when using ~doom-modeline~ (and hence possibly other custom modelines),
+the ~global-mode-string~ gets modified on me to not include the time string;
+let's ensure it's added in.
+Note that this section must then go after custom modeline setup.
+#+begin_src emacs-lisp
+(add-to-list 'global-mode-string 'display-time-string 'append)
 #+end_src
 
 ** Kill the open init buffer and reopen it     :cleanup:
