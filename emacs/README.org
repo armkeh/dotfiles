@@ -89,7 +89,7 @@ See also my
   - [[#add-a-little-scrollbar-to-the-modeline][Add a little scrollbar to the modeline]]
   - [[#show-the-clock][Show the clock]]
   - [[#kill-the-open-init-buffer-and-reopen-it-2][Kill the open init buffer and reopen it]]
-- [[#final-modes-and-final-mode-specific-settings][Final modes and final mode-specific settings]]
+- [[#final-nearly-modes-and-final-mode-specific-settings][Final (nearly) modes and final mode-specific settings]]
   - [[#org-mode-1][Org mode]]
   - [[#alerts-for-emails][Alerts for emails]]
   - [[#dired][Dired]]
@@ -102,16 +102,21 @@ See also my
   - [[#magit][Magit]]
   - [[#show-uncommitted-changes-to-files-as-we-view-them][Show uncommitted changes to files as we view them]]
   - [[#minions-see-and-toggle-minor-modes][Minions; see and toggle minor modes]]
+- [[#programming-language-modes-and-mode-specific-settings][Programming language modes and mode-specific settings]]
   - [[#language-server-protocol][Language server protocol]]
   - [[#json][JSON]]
   - [[#dhall-configuration-language][Dhall configuration language]]
   - [[#purescript][Purescript]]
   - [[#elm][Elm]]
-  - [[#golang][Golang]]
+  - [[#go-sometimes-called-golang][Go (sometimes called Golang)]]
   - [[#yaml-configuration-language][YAML configuration language]]
   - [[#toml-configuration-language][TOML configuration language]]
+  - [[#common-lisp][Common Lisp]]
   - [[#geiser-emacsscheme][Geiser Emacs/Scheme]]
   - [[#geiser-guile-scheme-support][Geiser Guile scheme support]]
+  - [[#clojure][Clojure]]
+  - [[#ammonite-deprecated][Ammonite (deprecated)]]
+  - [[#ditaa][Ditaa]]
 - [[#session-setup][Session setup]]
   - [[#personal-machines][Personal machines]]
   - [[#ix-work-machine][IX work machine]]
@@ -1001,14 +1006,13 @@ of the extras included in ~org-contrib~ (previously ~org-plus-contrib~.)
 
 *** Literate programming
 
-:TODO: Check over the Org literate programming section.
-
 **** Execution
 
 By default, Emacs will query whether we /actually/ want to
 execute code when we evaluate a code block. Also, it seems to
-just /not/ execute code marked for execution during export in an
-~org~ file. So, I remove the safety.
+just /not/ execute code marked for execution during export
+in an ~org~ file. I want both of these functionalites,
+so I remove the safety.
 #+name: evaluate-no-confirm
 #+begin_src emacs-lisp
 (setq org-confirm-babel-evaluate nil)
@@ -1016,8 +1020,9 @@ just /not/ execute code marked for execution during export in an
 
 By default only emacs lisp can be evaluated.
 Documentation [[https://orgmode.org/manual/Languages.html][here]].
-
-These languages have support built-in, it just has to be activated.
+I activate a few other languages here, and then more
+in the [[Programming language modes and mode-specific settings]] section.
+:TODO: Move other languages to that section.
 #+name: evaluate-languages
 #+begin_src emacs-lisp
 (require 'ob-shell)
@@ -1027,17 +1032,9 @@ These languages have support built-in, it just has to be activated.
 (require 'ob-ruby)
 (require 'ob-plantuml)
 (require 'ob-R)
-(require 'ob-ditaa)
-(require 'ob-scheme)
 (require 'ob-dot)
 (require 'ob-python)
 (require 'ob-js)
-(require 'ob-clojure)
-#+end_src
-
-#+name: evaluate-ditaa-path
-#+begin_src emacs-lisp
-(setq org-ditaa-jar-path "/usr/bin/ditaa")
 #+end_src
 
 For shell code, we need to initialise via this function.
@@ -1056,43 +1053,6 @@ PlantUML requires we set the path to the ~.jar~ file.
 ~ob-typescript~ is [[https://github.com/lurdan/ob-typescript][available]].
 #+begin_src emacs-lisp
 (use-package ob-typescript)
-#+end_src
-
-~ob-ammonite~ interacts with the ~ammonite~ REPL for ~scala~.
-#+begin_src emacs-lisp
-(use-package ob-ammonite)
-#+end_src
-Note that the ~scala~ source blocks are marked as ~amm~ source,
-not actually ~scala~. See
-[[https://github.com/zwild/ob-ammonite][the documentation]].
-
-This is not the right place to dump this,
-but this code should cause the ~amm~ blocks to export as ~scala~ blocks
-in LaTeX so ~minted~ knows how to handle them.
-This code inspired by a similar problem solved on
-[[https://emacs.stackexchange.com/a/19941][StackExchange]].
-#+begin_src emacs-lisp
-(defun my/ammonite-src-to-scala-src (text backend info)
-  "Translate Ammonite minted blocks resulting from LaTeX export
-to Scala minted blocks."
-  (when (org-export-derived-backend-p backend 'latex)
-    (with-temp-buffer
-      (insert text)
-      (goto-char (point-min))
-      (replace-regexp "\\(\\\\begin{minted}.*\\){amm}" "\\1{scala}")
-      (buffer-substring-no-properties (point-min) (point-max)))))
-
-(add-hook 'org-export-filter-src-block-functions 'my/ammonite-src-to-scala-src)
-#+end_src
-
-#+begin_src emacs-lisp
-(setq org-babel-clojure-backend 'cider)
-(use-package cider)
-(setq cider-default-repl-command "lein")
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package ob-go)
 #+end_src
 
 **** Editing source code
@@ -2807,13 +2767,15 @@ We may need to Org for the changes to take effect.
 
 *** Export in the background
 
+:TODO: This section needs a full cleanup.
+
 Using ~latex-mk~, the export process for LaTeX takes a bit of time.
 Tying up emacs during that time is annoying, so set the
 export to happen in the background.
 This setting can be modified locally in the export dialog frame
-if desired by adding ~C-a~ to the export key sequence..
+if desired by adding ~C-a~ to the export key sequence.
 #+begin_src emacs-lisp
-;;(setq org-export-in-background t)
+; (setq org-export-in-background t)
 #+end_src
 
 This works by spawning a new Emacs session in which the file is exported.
@@ -2822,8 +2784,8 @@ and wastes time; most of this init is not relevant for that session.
 So, we'll set a different init file, constructed from the relevant
 portions of this file.
 #+begin_src emacs-lisp
-;(setq org-export-async-init-file
-;  "~/.config/emacs/org-async-init.el") 
+; (setq org-export-async-init-file
+;   "~/.config/emacs/org-async-init.el")
 #+end_src
 
 Some default settings.
@@ -2965,12 +2927,9 @@ to be evaluated for export.
 (require 'ob-ruby)
 (require 'ob-plantuml)
 (require 'ob-R)
-(require 'ob-ditaa)
-(require 'ob-scheme)
 (require 'ob-dot)
 (require 'ob-python)
 (require 'ob-js)
-(require 'ob-clojure)
 (setq org-ditaa-jar-path "/usr/bin/ditaa")
 (org-babel-shell-initialize)
 (setq org-plantuml-jar-path "/usr/share/java/plantuml.jar")
@@ -2998,7 +2957,7 @@ Alternatively, use the ~:noexport:~ tag to omit the headline
 **** Drawers
 
 Ignore all drawers when exporting, by default.
-#+begin_src agda2
+#+begin_src emacs-lisp
 (setq org-export-with-drawers nil)
 #+end_src
 
@@ -3952,7 +3911,7 @@ kill my init buffer that we opened earlier and reopen it.
 (find-file my/emacs-init-file)
 #+end_src
 
-* Final modes and final mode-specific settings
+* Final (nearly) modes and final mode-specific settings
 
 ** Org mode                                     :org:
 
@@ -4277,6 +4236,8 @@ or opening a help buffer.
 (minions-mode 1)
 #+end_src
 
+* Programming language modes and mode-specific settings
+
 ** Language server protocol                     :programming:
 
 #+begin_src emacs-lisp
@@ -4313,7 +4274,13 @@ Add integrations with some other packages.
 (use-package elm-mode)
 #+end_src
 
-** Golang                                       :programming:
+** Go (sometimes called Golang)                 :programming:
+
+Activate Org babel support for Go.
+:TODO: Commentary on how to evaluate Go code nicely.
+#+begin_src emacs-lisp
+(use-package ob-go)
+#+end_src
 
 #+begin_src emacs-lisp
 (use-package go-mode)
@@ -4332,28 +4299,129 @@ Activate ~gofmt~ upon save.
 
 ** YAML configuration language                  :programming:
 
+:TODO: Commentary needed.
 #+begin_src emacs-lisp
 (use-package yaml-mode)
 #+end_src
 
+:TODO: Probably some better settings could be filled in, since I actually use this at work.
+
 ** TOML configuration language                  :programming:
 
+:TODO: Commentary needed.
 #+begin_src emacs-lisp
 (use-package toml-mode)
 #+end_src
 
+** Common Lisp                                  :programming:
+
+Org babel support for Lisp is builtin, so just ~require~ it.
+#+begin_src emacs-lisp
+(require 'ob-lisp)
+#+end_src
+
+:TODO: Commentary needed.
+#+begin_src emacs-lisp
+(use-package slime)
+#+end_src
+
+#+begin_src emacs-lisp
+(setq slime-contribs                 '(slime-fancy)
+      slime-complete-symbol-function 'slime-fuzzy-complete-symbol
+      slime-net-coding-system        'utf-8-unix
+      slime-lisp-implementations     '((sbcl  ("sbcl"))
+                                       (abcl  ("abcl"))
+                                       (clisp ("clisp"))))
+#+end_src
+
+Fill in the paths if necessary.
+#+begin_src text
+~/.guix-profile/bin/
+~/.guix-profile/bin/
+~/.guix-profile/bin/
+#+end_src
+
 ** Geiser Emacs/Scheme                          :programming:
 
-:TODO:
+Org babel support for scheme is builtin, so just ~require~ it.
+#+begin_src emacs-lisp
+(require 'ob-scheme)
+#+end_src
+
+:TODO: Commentary needed.
 #+begin_src emacs-lisp
 (use-package geiser)
 #+end_src
 
 ** Geiser Guile scheme support                  :programming:
 
-:TODO:
+:TODO: Commentary needed.
 #+begin_src emacs-lisp
 (use-package geiser-guile)
+#+end_src
+
+** Clojure                                      :programming:
+
+Org babel support for clojure is builtin, so just ~require~ it.
+#+begin_src emacs-lisp
+(require 'ob-clojure)
+#+end_src
+
+:TODO: Commentary needed.
+#+begin_src emacs-lisp
+(setq org-babel-clojure-backend 'cider)
+(use-package cider)
+(setq cider-default-repl-command "lein")
+#+end_src
+
+** Ammonite (deprecated)                        :programming:
+
+~ob-ammonite~ interacts with the ~ammonite~ REPL for ~scala~.
+Unfortunately it's been dropped off MELPA, apparently.
+It should still be available on [[https://github.com/zwild/ob-ammonite][Github]].
+If I ever come back to this, maybe I should fork the project,
+or rebuild my own; it's not that large.
+#+begin_src emacs-lisp
+;; (use-package ob-ammonite)
+#+end_src
+Note that the ~scala~ source blocks are marked as ~amm~ source,
+not actually ~scala~. See
+[[https://github.com/zwild/ob-ammonite][the documentation]].
+
+This code causes Ammonite ~amm~ blocks to export as ~scala~ blocks
+in LaTeX so ~minted~ knows how to handle them.
+This code inspired by a similar problem solved on
+[[https://emacs.stackexchange.com/a/19941][StackExchange]].
+#+begin_src emacs-lisp
+(defun my/ammonite-src-to-scala-src (text backend info)
+  "Translate Ammonite minted blocks resulting from LaTeX export
+to Scala minted blocks."
+  (when (org-export-derived-backend-p backend 'latex)
+    (with-temp-buffer
+      (insert text)
+      (goto-char (point-min))
+      (replace-regexp "\\(\\\\begin{minted}.*\\){amm}" "\\1{scala}")
+      (buffer-substring-no-properties (point-min) (point-max)))))
+
+(add-hook 'org-export-filter-src-block-functions 'my/ammonite-src-to-scala-src)
+#+end_src
+
+** Ditaa                                        :programming:
+
+Ditaa is a neat little tool for producing images from ASCII diagrams.
+It's great for simple diagrams in Org mode presentations,
+as the source code can be embedded in the Org but hidden in the produced document,
+replaced by the generated image.
+
+Org babel support for Ditaa is builtin, so just ~require~ it.
+#+begin_src emacs-lisp
+(require 'ob-ditaa)
+#+end_src
+
+We need to point to the ~jar~ file for the Ditaa tool.
+#+name: evaluate-ditaa-path
+#+begin_src emacs-lisp
+(setq org-ditaa-jar-path "/usr/bin/ditaa")
 #+end_src
 
 * Session setup
