@@ -3766,13 +3766,13 @@ but I use 11 to reserve space.
 The ~all-the-icons~ package provides icons to prettify things
 or replace certain text.
 #+begin_src emacs-lisp
-(require 'all-the-icons)
+(use-package all-the-icons)
 #+end_src
 
 The ~all-the-icons-dired~ package adds icons
 corresponding to file types next to files in the list.
 #+begin_src emacs-lisp
-(require 'all-the-icons-dired)
+(use-package all-the-icons-dired)
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 #+end_src
 
