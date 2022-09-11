@@ -4145,8 +4145,8 @@ rather than split vertically.
 
 ** Magit                                       :vc:
 
-Explicitely install ~magit~, “a Git Porcelain inside Emacs”.
-This is a killer feature of Emacs; ~magit~ not only simplifies
+Explicitely install Magit; “a Git Porcelain inside Emacs”.
+This is a killer feature of Emacs; Magit not only simplifies
 interation with Git, it also expands our capabilities
 in many ways over the CLI.
 :TODO: Explain some here or link to some examples?
@@ -4155,10 +4155,38 @@ in many ways over the CLI.
 #+end_src
 
 “Forge allows you to work with Git forges, such as Github and Gitlab,
-from the comfort of Magit and the rest of Emacs.” 
+from the comfort of Magit and the rest of Emacs.”
+I do not yet use this extensively, but mean to at some point,
+in order to keep more of my work tasks in Emacs 😄.
 #+begin_src emacs-lisp
 (use-package forge
   :after magit)
+#+end_src
+
+*** Commit messages
+
+Commit message subjects should be short and sweet.
+Many sources suggest a soft limit of just 50 characters,
+with 72 being a hard upper limit; this is even pseudo-enforced
+on Github (at least), with characters after 72 being hidden by default.
+(See [[https://cbea.ms/git-commit/][this post]] on well-written commit messages.)
+
+To this end, Magit tries to enforce a line length of 72,
+(actually 68, to avoid long words trailing off the end)
+by forcefully breaking the line for you when you enter a space
+if it is too long.
+
+Unfortunately, this advice can conflict with other requirements
+in the workplace; in particular
+with [[https://www.conventionalcommits.org/en/][conventional commits]]
+and adding ticket numbers to commit messages.
+
+To avoid having to fight with Magit to un-break the line
+in the case that I go over 72 characters,
+I increase the allowance by a bit.
+Let's go with 1.5 times the length.
+#+begin_src emacs-lisp
+(setq git-commit-summary-max-length 98)
 #+end_src
 
 ** Show uncommitted changes to files as we view them :vc:
