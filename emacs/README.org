@@ -56,7 +56,7 @@ See also my
   - [[#reading-email-with-mu4e-and-isync][Reading email: with mu4e and isync]]
   - [[#agda-mode][Agda mode]]
   - [[#system-package-management][System package management]]
-- [[#keybindings][Keybindings]]
+- [[#keybindings-and-controls][Keybindings and controls]]
   - [[#general-definers][General definers]]
   - [[#invoke-processes][Invoke processes]]
   - [[#buffer][Buffer]]
@@ -66,6 +66,7 @@ See also my
   - [[#counsel][Counsel]]
   - [[#company][Company]]
   - [[#other][Other]]
+  - [[#disable-the-mouse][Disable the mouse]]
 - [[#intermediate-cosmetics][Intermediate cosmetics]]
   - [[#whitespace-display][Whitespace display]]
   - [[#rainbow-delimiters][Rainbow delimiters]]
@@ -1792,7 +1793,7 @@ Note that this depends upon the ~geiser~ and ~geiser-guile~ packages.
 (use-package guix)
 #+end_src
 
-* Keybindings
+* Keybindings and controls
 
 I make use of ~general~ to organise keybindings.
 #+begin_src emacs-lisp
@@ -2198,6 +2199,29 @@ without leaving me work environment 😀.
 (use-package dad-joke)
 (general-other-package-define-key
   "j" 'dad-joke)
+#+end_src
+
+** Disable the mouse
+
+I find myself wanting to learn to use the many tools available
+in Emacs to navigate using the keyboard,
+but consistently falling back to the mouse unconsiously.
+So to force the issue, ~disable-mouse~ mode will disable
+most interactions of the mouse with Emacs.
+I have found some slip through the cracks,
+such as clicking between tab bar tabs, but they are few.
+#+begin_src emacs-lisp
+(use-package disable-mouse)
+(global-disable-mouse-mode)
+#+end_src
+
+This is additionally required if using evil mode.
+#+begin_src emacs-lisp
+(mapc #'disable-mouse-in-keymap
+  (list evil-motion-state-map
+        evil-normal-state-map
+        evil-visual-state-map
+        evil-insert-state-map))
 #+end_src
 
 * Intermediate cosmetics
