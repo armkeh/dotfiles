@@ -76,6 +76,7 @@ See also my
 - [[#intermediate-modes-and-intermediate-mode-specific-settings][Intermediate modes and intermediate mode-specific settings]]
   - [[#org-mode-cosmetics][Org mode cosmetics]]
   - [[#org-mode-exportation-settings][Org mode exportation settings]]
+  - [[#a-completion-framework-ivy-counsel-and-swiper][A completion framework; Ivy, Counsel and Swiper]]
   - [[#completing-anything-company][COMpleting ANYthing; Company]]
   - [[#snippets][Snippets]]
   - [[#walking-through-undo-history-undo-propose][Walking through undo history; undo-propose]]
@@ -3501,6 +3502,73 @@ Here is my awesome letter.
 ,* All the best,                                 :closing:
 
 Mark Armstrong
+#+end_src
+
+** A completion framework; Ivy, Counsel and Swiper :completion:
+
+:TODO: Better documentation here.
+
+*** Ivy
+
+#+begin_src emacs-lisp
+(use-package ivy
+  :config
+  (ivy-mode 1)
+#+end_src
+
+Add recent files and bookmarks to ~ivy-switch-buffer~.
+#+begin_src emacs-lisp
+  (setq ivy-use-virtual-buffers t)
+#+end_src
+
+Display both the index and the count in the current candidate count.
+#+begin_src emacs-lisp
+  (setq ivy-count-format "(%d/%d) ")
+#+end_src
+
+Enable minibuffer commands in the minibuffer.
+#+begin_src emacs-lisp
+  (setq enable-recursive-minibuffers t)
+#+end_src
+
+#+begin_src emacs-lisp
+)
+#+end_src
+
+*** Swiper
+
+#+begin_src emacs-lisp
+(use-package swiper
+  :config
+  ;; (global-set-key "\C-r" 'swiper)
+  (global-set-key (kbd "C-s") 'swiper))
+#+end_src
+
+*** Counsel
+
+:TODO: Move keybindings to General settings.
+#+begin_src emacs-lisp
+(use-package counsel
+ :config
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file))
+#+end_src
+
+*** Prescient
+
+#+begin_quote
+~prescient.el~ is a library which sorts and filters lists of candidates,
+such as appear when you use a package like Ivy or Company.
+Extension packages such as ~ivy-prescient.el~ and ~company-prescient.el~ adapt
+the library for usage with various frameworks.
+#+end_quote
+
+In particular, I like to have recently run invoked commands appear
+as the first suggestions when I use ~M-x~.
+#+begin_src emacs-lisp
+(use-package prescient)
+(use-package ivy-prescient)
+(ivy-prescient-mode)
 #+end_src
 
 ** COMpleting ANYthing; Company                 :completion:

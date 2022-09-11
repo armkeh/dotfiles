@@ -3373,7 +3373,7 @@ Here is my awesome letter.
 Mark Armstrong
 #+end_src
 
-** COMMENT A completion framework; Ivy, Counsel and Swiper :completion:
+** A completion framework; Ivy, Counsel and Swiper :completion:
 
 :TODO: Better documentation here.
 
