@@ -2725,9 +2725,10 @@ to ensure tags stay away from the right side of the screen.
 I like to use inline images in Org mode, but of course
 I don't want large images to be shown at full size!
 Better to err on the side of making images too small,
-so set the width of all images to be just 100 pixels.
+so set the width of all images to be just 256 pixels;
+big enough to see well, but not so large as to take the whole screen.
 #+begin_src emacs-lisp
-(setq org-image-actual-width 100)
+(setq org-image-actual-width 256)
 #+end_src
 
 **** Colour-coded source block backgrounds
