@@ -5,6 +5,11 @@
 #+Description: why things are set as they are.
 #+Options: num:nil
 
+* COMMENT TODOs
+
+Timestamps in ~*Messages*~.
+https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-entry-in-emacs-messages-buffer
+
 * Introduction
 
 ** Screenshot                                  :ignore:
