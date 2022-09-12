@@ -172,7 +172,7 @@ while viewing this file in Emacs.
 - ~:theme:~; settings for theme or other appearance details.
 - ~:buffer:~; settings dealing with the notion of buffers.
 - ~:window:~; settings dealing with the notion of Emacs windows
-  (not OS windows.)
+  (not OS windows).
 - ~:tab:~; settings dealing with the tab bar.
 - ~:basic:~; settings for basic elements of Emacs.
 - ~:simplify:~; settings to remove or reduce the visual presence
@@ -275,7 +275,7 @@ or sometimes other programs.
  avoid most modifications on Emacs' end;
  I've still had external programs feel it's appropriate
  to edit the file without my explicit permission
- (the Agda installation process in particular.))
+ (the Agda installation process in particular).)
 I like to keep that file a bit bare so I can catch any changes
 made to it by entities other than myself.
 
@@ -362,7 +362,7 @@ http://orgmode.org/elpa/,
 but after Org 9.5, they are no longer distributed there.
 Now Org is best available though GNU ELPA, and there is a new
 “Org-Contrib” package available through NonGNU ELPA
-(the + was dropped from the name.)
+(the + was dropped from the name).
 
 ** Setup use-package, a package management tool
 
@@ -701,7 +701,7 @@ alongside the line number, on the modeline.
 *** Fill column display
 
 Traditionally, it's good style to keep lines under 80 characters wide.
-I follow this tradition (though recently some argue the amount should be increased.)
+I follow this tradition (though recently some argue the amount should be increased).
 
 The (as of Emacs 27) built in ~display-fill-column-indicator-mode~ puts a ruler,
 by default at 70 characters.
@@ -766,7 +766,7 @@ and ~intense-bold~ is the same but it also applies the bold face.
 
 This older code achieved a similar effect by making the background
 of the matching delimiter black and the foreground white
-(which stood out against my usually rainbow coloured delimiters.)
+(which stood out against my usually rainbow coloured delimiters).
 #+begin_example emacs-lisp
 (custom-theme-set-faces
  'user
@@ -998,7 +998,7 @@ Install and activate evil.
 *** Preamble
 
 I use Org for almost everything, and utilise many
-of the extras included in ~org-contrib~ (previously ~org-plus-contrib~.)
+of the extras included in ~org-contrib~ (previously ~org-plus-contrib~).
 #+begin_src emacs-lisp
 (use-package org
   :ensure org-contrib
@@ -2326,7 +2326,7 @@ If we are working on another's Org code, there is little we can do
 to alleviate this.
 In my own Org code, I tend to insert comments to match the delimiters,
 or avoid cases where this can occur (such as using periods after
-the labels in lists.)
+the labels in lists).
 
 For an example of this, see my settings for the Org emphasis
 regular expressions, which require some commented out
@@ -2924,8 +2924,8 @@ These settings are from this exporting section.
                    ;; Create the id. Concatenate the prefix...
                    (let ((new-id (concat prefix
                                      ;; ...with this heading's headline
-                                     ;; (note spaces are not allowed in links;
-                                     ;; substitute dashes for any found.)
+                                     ;; (Note that spaces are not allowed in links;
+                                     ;;  substitute dashes for any found.)
                                      (s-replace " " "-" headline))))
                           (push new-id generated-ids)
                      ;; Finally, add a counter of the number of
@@ -3019,7 +3019,7 @@ removes that problem; use the current background colour when exporting!
 (add-hook 'org-export-before-processing-hook 'my-org-inline-css-hook)
 #+end_src
 
-The above was modified to not explicitely disable the default styling
+The above was modified to not explicitly disable the default styling
 (don't need it in my case, but also don't need to disable it)
 and to use ~head-extra~ instead of ~head~, as ~head~ is overwritten
 by the themes I use.
@@ -3043,7 +3043,7 @@ the original Org source version of notes
 (setq org-html-link-org-files-as-html nil)
 #+end_src
 
-If I mean to link to the HTML file, I will do so explicitely.
+If I mean to link to the HTML file, I will do so explicitly.
 
 *** Require braces to denote sub/superscripts
 
@@ -3344,8 +3344,8 @@ I have made several edits.
                    ;; Create the id. Concatenate the prefix...
                    (let ((new-id (concat prefix
                                      ;; ...with this heading's headline
-                                     ;; (note spaces are not allowed in links;
-                                     ;; substitute dashes for any found.)
+                                     ;; (Note that spaces are not allowed in links;
+                                     ;;  substitute dashes for any found.)
                                      (s-replace " " "-" headline))))
                           (push new-id generated-ids)
                      ;; Finally, add a counter of the number of
@@ -3762,7 +3762,7 @@ Taken without additional commentary for now from Musa's init.
 The ~undo-propose~ package is a fairly minimal addition to
 the builtin undo features of Emacs
 (which can be confusing, but are very powerful,
- since undo-ing is an action which can be undone.)
+ since undo-ing is an action which can be undone).
 #+begin_src emacs-lisp
 (use-package undo-propose)
 #+end_src
@@ -3770,20 +3770,20 @@ the builtin undo features of Emacs
 What ~undo-propose~ does is open a new, read-only buffer
 in which the undoing is to be done
 (~undo~ and ~undo-only~ are wrapped so as to be allowed,
- although the buffer is read-only.)
+ although the buffer is read-only).
 It provides commands to
 - overwrite the original buffer,
   - either as a single (squashed) action (~C-c C-s~),
   - or as the chain of undo actions performed (~C-c C-c~),
 - run a diff against the original buffer (~C-c C-d~), or
-- be discarded entirely (~C-c C-k~.)
+- be discarded entirely (~C-c C-k~).
 
 Notice that undo history can be viewed as
 a very crude local version control.
 Local in two senses;
 - in space, because the history is only available on our current machine, and
 - in time, because the history is lost when the buffer is closed
-  (or Emacs closes.)
+  (or Emacs closes).
 Still, this history can be of use, and when combined with automatic backups
 (see [[Organising automatic backups]] and [[Walking through backups; backup-walker]]),
 and usually further an actual version control system such as Git,
@@ -3798,7 +3798,7 @@ allowing movement up and down branches as a local sort
 of version control.
 But the actual visualisation can sometimes cause lag,
 and ~undo-tree~ has been known to cause corruptions
-when undoing/redoing (though I have not experienced this personally.)
+when undoing/redoing (though I have not experienced this personally).
 For the moment, I will stick to the builtin undo behaviour,
 with ~undo-propose~ to help visualise the changes.
 
@@ -3896,7 +3896,7 @@ Now prefer Doom modeline, which is a fair bit more “plain”,
 but still very nice in appearance,
 and is compatible with far more modeline additions
 (in particular, the modeline scroll bar I like;
- see [[Add a little scrollbar to the modeline]].)
+ see [[Add a little scrollbar to the modeline]]).
 #+begin_src emacs-lisp
 (use-package doom-modeline)
 #+end_src
@@ -3939,7 +3939,7 @@ I display in the ~global-mode-string~ which I include in my tab bar instead of h
 The minor mode listing is disabled by default.
 This also disables the ~minion~ button if using that
 (which provides a pop-up menu which lists and allows toggling
- of minor modes.)
+ of minor modes).
 #+begin_src emacs-lisp
 (setq doom-modeline-minor-modes t)
 #+end_src
@@ -4029,7 +4029,7 @@ kill my init buffer that we opened earlier and reopen it.
 Speed keys are single keystrokes which execute commands in an
 ~org~ file when the cursor is at the start of a headline.
 They are particularly useful for quickly moving a headline around,
-or promoting/demoting a headline (and all children headlines accordingly.)
+or promoting/demoting a headline (and all children headlines accordingly).
 #+begin_src emacs-lisp
 (setq org-use-speed-commands t)
 #+end_src
@@ -4079,7 +4079,7 @@ by using ~t~ on the leftmost asterisk of a heading.
 While not frequently that useful, it is nice to be allowed
 to label list items alphabetically.
 Note that the labels used in the plaintext Org do not affect the labels
-used in most export formats (at least HTML and LaTeX.)
+used in most export formats (at least HTML and LaTeX).
 #+begin_src emacs-lisp
 (setq org-list-allow-alphabetical t)
 #+end_src
@@ -4100,7 +4100,7 @@ various kinds of alert about incoming mail using ~mu4e~.
 #+end_src
 
 Use the Emacs ~notifications~ libraries to send
-desktop notifications (OS-level notifications.)
+desktop notifications (OS-level notifications).
 This should work on Linux systems.
 We can set ~lib-notify~ instead (for Linux),
 but this way we don't rely on that library being installed.
@@ -4295,7 +4295,7 @@ rather than split vertically.
 
 ** Magit                                        :vc:
 
-Explicitely install Magit; “a Git Porcelain inside Emacs”.
+Explicitly install Magit; “a Git Porcelain inside Emacs”.
 This is a killer feature of Emacs; Magit not only simplifies
 interation with Git, it also expands our capabilities
 in many ways over the CLI.
