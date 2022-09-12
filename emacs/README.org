@@ -3925,7 +3925,7 @@ The Doom modeline provides ~doom-modeline-set-modeline~
 #+begin_src emacs-lisp
 (doom-modeline-def-modeline 'my/doom-modeline
   ;; Left side
-  '(window-number remote-host buffer-info buffer-encoding buffer-position)
+  '(window-number modals remote-host buffer-info buffer-encoding buffer-position)
   ;; Right side
   '(major-mode minor-modes input-method process))
 
