@@ -2434,7 +2434,9 @@ This includes the time, if we enable ~display-time-mode~.
 (setq tab-bar-format
   '(tab-bar-format-tabs-groups
     tab-bar-format-align-right
-    tab-bar-format-global))
+    tab-bar-format-global
+    tab-bar-separator   ;; Place a couple separators to keep the global area a bit off the left edge.
+    tab-bar-separator)) ;; This last separator is particularly important; without it sometime a line break sneaks in.
 #+end_src
 
 ** A more noticable divider between windows     :window:
