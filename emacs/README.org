@@ -55,6 +55,7 @@ See also my
   - [[#sending-email][Sending email]]
   - [[#reading-email-with-mu4e-and-isync][Reading email: with mu4e and isync]]
   - [[#agda-mode][Agda mode]]
+  - [[#agda-input-method][Agda input method]]
   - [[#system-package-management][System package management]]
 - [[#keybindings-and-controls][Keybindings and controls]]
   - [[#general-definers][General definers]]
@@ -459,13 +460,16 @@ I only use a single profile, so no need to hunt out the correct one.
 
 This directory is for Elisp files I develop myself
 or that I download without use of a package manager.
+#+begin_src emacs-lisp
+(setq my/unmanaged-elisp-dir "~/dotfiles/emacs/elisp")
+#+end_src
 
 As above, add recursively add all subdirectories of this directory
 to the load path, so that git repositories can be added here
 as subtrees in this directory, and the ~.el~ files will be picked up.
 But do also pick up Elisp files found at the top of the directory.
 #+begin_src emacs-lisp
-(let ((default-directory "~/dotfiles/emacs/elisp"))
+(let ((default-directory my/unmanaged-elisp-dir))
   (add-to-list 'load-path default-directory) ;; Load files at the top of the directory.
   (normal-top-level-add-subdirs-to-load-path))
 #+end_src
@@ -1494,24 +1498,24 @@ Without this, we might get an error asking if we started ~mu4e.~
 
 :TODO: Check for cleanup of Agda settings.
 
+This section is set to only tangle if the ~agda-mode~ shell command exists.
+
 Agda comes with a tool ~agda-mode~ which can be used to locate
 the Elisp files for the ~agda-mode~. It's recommended we
 execute ~agda-mode locate~ when starting Emacs,
 and load the files it reports.
 #+begin_src emacs-lisp
-(load-file (let ((coding-system-for-read 'utf-8))
-               (shell-command-to-string "agda-mode locate")))
+(when (shell-command "command -v agda-mode") ;; Begin agda-mode exists conditional
+  (load-file (let ((coding-system-for-read 'utf-8))
+                 (shell-command-to-string "agda-mode locate")))
 #+end_src
 
-These packages are installed when setting up Agda,
-so I simply ~require~ them.
-They would be loaded when starting Agda mode,
-but I need to load them now
-- because I use ~agda2-info-buffer~ to open that buffer on startup,
-- because I use ~agda-input~ everywhere, and
+The ~agda2-mode~ package is installed when setting up Agda, so here we simply ~require~ it.
+It would be loaded in any case when starting Agda mode, but I load it now
+because I sometimes open the ~agda2-info-buffer~ when setting up tabs,
+before any actual Agda files may be open, and
 #+begin_src emacs-lisp
-(require 'agda2-mode)
-(require 'agda-input)
+  (require 'agda2-mode)
 #+end_src
 
 *** Command line arguments
@@ -1618,6 +1622,73 @@ module HighlightTesting where
 
   data unpositive-type : Set where
     bad : (unpositive-type → ℕ) → unpositive-type
+#+end_src
+
+*** Org Agda mode
+
+Org-Agda mode is a Polymode Musa and I created
+for working on literate Agda documents written in Org mode.
+[[https://github.com/alhassy/org-agda-mode]]
+#+begin_src emacs-lisp
+(require 'org-agda-mode)
+#+end_src
+
+*** End section
+
+#+begin_src emacs-lisp
+) ;; End agda-mode exists conditional
+#+end_src
+
+** Agda input method                            :completion:
+
+A particularly nice feature included with Agda is its input method,
+which I believe inherits somewhat from the TeX input method,
+and allows completion of unicode characters by typing ~\~ followed
+by short sequences of characters.
+To me, this seems the most approachable way to enable unicode character
+use in my writing.
+
+So, regardless of whether I am actively using Agda, I want its input method
+installed and enabled in most modes.
+
+*** Install the Agda input method
+
+Ideally, we have installed Agda and, along with it, the Agda input method.
+If this is the case, then the [[Agda mode]] section will have been tangled
+and run, so we can just ~require~ ~agda-input~.
+
+As a failsafe, we will place ~agda-input.el~ into my unmanaged elisp directory.
+To make sure that this file doesn't end up supplanting an installed version,
+we attempt to delete it before proceeding.
+#+begin_src emacs-lisp
+(setq my/local-agda-input (concat my/unmanaged-elisp-dir "/agda-input.el"))
+(delete-file my/local-agda-input)
+#+end_src
+
+Now, as the first attempt at the failsafe, if the ~agda-mode~ command isn't installed,
+try to download ~agda-input.el~ from the Agda Github repository.
+Wrap the download in ~ignore-errors~ to allow it to fail, in case we are offline.
+#+begin_src emacs-lisp
+(unless (shell-command "command -v agda-mode")
+  (ignore-errors
+    (url-copy-file
+       "https://raw.githubusercontent.com/agda/agda/master/src/data/emacs-mode/agda-input.el"
+       my/local-agda-input
+       'okay-if-already-exists)))
+#+end_src
+
+Now, in case the above failed and the local file is still missing,
+I keep a local copy (which is tangled into the ~/tmp~ directory)
+(it's not exported due to length, so check the raw file to see it).
+This version is naturally less maintained than the actual repository version.
+#+begin_src emacs-lisp
+(unless (or (shell-command "command -v agda-mode") (file-exists-p my/local-agda-input))
+  (copy-file "/tmp/agda-input.el" my/local-agda-input))
+#+end_src
+
+Finally, we should be able to require ~agda-input~.
+#+begin_src emacs-lisp
+(require 'agda-input)
 #+end_src
 
 *** Add unicode characters to Agda's translations
@@ -1752,7 +1823,7 @@ in my tab names.
 (agda-input-setup)
 #+end_src
 
-*** Activate Agda input mode in text, prog and artist modes
+*** Activate Agda input method in most modes
 
 Agda input mode makes it extremely easy to use unicode in documents,
 something I strongly prefer to do.
@@ -1769,19 +1840,10 @@ So, let's enable Agda input mode in most instances.
        (lambda () (set-input-method "Agda")))
 #+end_src
 
-*** Org Agda mode
-
-Org-Agda mode is a Polymode Musa and I created
-for working on literate Agda documents written in Org mode.
-[[https://github.com/alhassy/org-agda-mode]]
-
-We need to install Polymode.
+If using ~evil~, we also need to set it as the input method
+for insert and Emacs modes.
 #+begin_src emacs-lisp
-(use-package polymode)
-#+end_src
-
-#+begin_src emacs-lisp
-(require 'org-agda-mode)
+(setq evil-input-method "Agda")
 #+end_src
 
 ** System package management
