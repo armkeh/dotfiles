@@ -612,3 +612,23 @@ digraph T {
 `(dad-joke)`
 #+end_src
 
+
+** Jira links
+
+*** exp: EXP Jira ticket link                 :src:
+
+#+begin_src text
+[[https://jira.indexexchange.com/browse/EXP-$1][EXP-$1${0:$$(insert "]]")}
+#+end_src
+# Unfortunately can't make paren matching happy above,
+# because of the mismatched closing brackets within the string,
+# but these ]] resolve things following this heading.
+
+*** opd: OPD Jira ticket link                 :src:
+
+#+begin_src text
+[[https://jira.indexexchange.com/browse/OPD-$1][OPD-$1${0:$$(insert "]]")}
+#+end_src
+# As in the above snippet, I can't make paren matching happy in the snippet,
+# because of the mismatched closing brackets within the string,
+# but these ]] resolve things following this heading.
