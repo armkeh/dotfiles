@@ -1063,6 +1063,7 @@ in the [[Programming language modes and mode-specific settings]] section.
 (require 'ob-plantuml)
 (require 'ob-R)
 (require 'ob-dot)
+(require 'ob-sql)
 (require 'ob-python)
 (require 'ob-js)
 #+end_src
@@ -2916,6 +2917,9 @@ for this application.
 
     ;; Imperative languages
     ("c"          modus-themes-nuanced-green)
+    ("cpp"        modus-themes-nuanced-green)
+    ("c++"        modus-themes-nuanced-green)
+    ("java"       modus-themes-nuanced-green)
     ("javascript" modus-themes-nuanced-green)
     ("ruby"       modus-themes-nuanced-green)
     ("python"     modus-themes-nuanced-green)
@@ -2924,13 +2928,15 @@ for this application.
     ("zsh"        modus-themes-nuanced-green)
     ("go"         modus-themes-nuanced-green)
 
-    ;; Logical and proof assistants
+    ;; Logical, proof assistants and databases
     ("agda2"      modus-themes-nuanced-cyan)
     ("prolog"     modus-themes-nuanced-cyan)
+    ("sql"        modus-themes-nuanced-cyan)
 
     ;; Plaintext, data and configuration formats
     ("text"       modus-themes-nuanced-red)
     ("org"        modus-themes-nuanced-red)
+    ("markdown"   modus-themes-nuanced-red)
     ("html"       modus-themes-nuanced-red)
     ("latex"      modus-themes-nuanced-red)
     ("ditaa"      modus-themes-nuanced-red)
@@ -2947,7 +2953,7 @@ for this application.
     ("toml"       modus-themes-nuanced-yellow)))
 #+end_src
 
-We may need to Org for the changes to take effect.
+We may need to restart Org for the changes to take effect.
 #+begin_src emacs-lisp
 (org-mode-restart)
 #+end_src
@@ -3117,6 +3123,7 @@ to be evaluated for export.
 (require 'ob-plantuml)
 (require 'ob-R)
 (require 'ob-dot)
+(require 'ob-sql)
 (require 'ob-python)
 (require 'ob-js)
 (setq org-ditaa-jar-path "/usr/bin/ditaa")
