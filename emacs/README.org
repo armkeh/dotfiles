@@ -32,6 +32,7 @@ See also my
   - [[#toggle-themes][Toggle themes]]
   - [[#theme-change-hook][Theme change hook]]
   - [[#cascading-window-setup][Cascading window setup]]
+  - [[#git-repo-window-setup][Git repo window setup]]
   - [[#killing-a-buffer-when-its-associated-process-finishes][Killing a buffer when its associated process finishes]]
 - [[#simple-cosmetics][Simple cosmetics]]
   - [[#disable-the-splashscreen-and-open-this-file][Disable the splashscreen and open this file]]
@@ -124,7 +125,7 @@ See also my
   - [[#fold-code][Fold code]]
 - [[#session-setup][Session setup]]
   - [[#personal-machines][Personal machines]]
-  - [[#ix-work-machine][IX work machine]]
+  - [[#index-work-machine][Index work machine]]
   - [[#check-identity-of-machine-and-load-session][Check identity of machine and load session]]
 - [[#cleanup][Cleanup]]
   - [[#check-the-contents-of-the-propersystem-init-file][Check the contents of the (proper/system) init file]]
@@ -584,6 +585,27 @@ of the previous (as long as this is possible)."
 #+end_src
 
 :TODO: Create a alternate method for vertical screens, preferably also allowing on-the-fly switching between the two setups.
+
+** Git repo window setup
+
+I commonly set up my window to have the magit status buffer open on the right
+and the file I am actively working on on the left.
+This can easily be accomplished interactively by simply starting up magit.
+
+But if I am setting up a number of tabs at once
+(for instance if I have to work on a number of deployment repositories simultaneously
+ or in quick succession),
+I can use this convenience function to programmatically set up this layout.
+#+begin_src emacs-lisp
+(defun create-git-repo-tab (repo-path tab-name)
+  "Given `repo-path` is a path to a Git repository, create a new tab named `tab-name`
+   with a split frame between the top level of that Git repository and a magit window for it."
+  (tab-new)
+  (tab-rename tab-name)
+  (find-file repo-path)
+  (split-window nil nil 'right)
+  (magit))
+#+end_src
 
 ** Killing a buffer when its associated process finishes
 
@@ -4889,7 +4911,7 @@ because I blog about Agda.
 (tab-select 1)
 #+end_src
 
-** IX work machine
+** Index work machine
 I context-switch a lot more frequently while at work,
 so there are not a small handful of projects
 that need to be opened every time I start up Emacs.
@@ -4902,11 +4924,11 @@ which lets me quickly get into a directory for working.
 (tab-new)
 (tab-rename "meetings")
 (tab-new)
-(tab-rename "p1")
+(tab-rename "@1")
 (tab-new)
-(tab-rename "p2")
+(tab-rename "@2")
 (tab-new)
-(tab-rename "p3")
+(tab-rename "@3")
 
 (tab-bar-switch-to-tab "@3")
 (find-file "~/@")
@@ -4921,9 +4943,40 @@ which lets me quickly get into a directory for working.
 (find-file "~/logs/meetings/one-on-ones.org")
 
 (tab-bar-switch-to-tab "logs")
-(find-file "~/logs/knowledge.org")
-(split-window nil nil 'left)
 (find-file "~/logs/scratch/org-scratch.org")
+(split-window nil nil 'left)
+(find-file "~/logs/knowledge.org")
+(split-window nil nil 'above)
+(find-file "~/logs/evaluation-notes.org")
+#+end_src
+
+These convenience functions quickly set up some defined tabs for me.
+#+begin_src emacs-lisp
+(defun create-deployment-tabs ()
+  "Open a set of tabs for the deployment repos at work and set them up."
+  (interactive)
+  (create-git-repo-tab "~/@/deployment/core/accounts-api-deployment"             "acc core")
+  (create-git-repo-tab "~/@/deployment/core/accounts-data-api-deployment"        "accdata core")
+  (create-git-repo-tab "~/@/deployment/core/authentication-api-deployment"       "authn core")
+  (create-git-repo-tab "~/@/deployment/core/authorization-api-deployment"        "authz core")
+  (create-git-repo-tab "~/@/deployment/core/exchange-traffic-api-deployment"     "extr core")
+  (create-git-repo-tab "~/@/deployment/core/notification-api-deployment"         "notif core")
+  (create-git-repo-tab "~/@/deployment/core/sar-api-deployment"                  "sar core")
+  (create-git-repo-tab "~/@/deployment/core/supply-configuration-api-deployment" "supconf core")
+  (create-git-repo-tab "~/@/deployment/core/user-api-deployment"                 "user core"))
+
+(defun create-api-tabs ()
+  "Open a set of tabs for the API repos at work and set them up."
+  (interactive)
+  (create-git-repo-tab "~/@/api/accounts-api"             "acc")
+  (create-git-repo-tab "~/@/api/accounts-data-api"        "accdata")
+  (create-git-repo-tab "~/@/api/authentication-api"       "authn")
+  (create-git-repo-tab "~/@/api/authorization-api"        "authz")
+  (create-git-repo-tab "~/@/api/exchange-traffic-api"     "extr")
+  (create-git-repo-tab "~/@/api/notification-api"         "notif")
+  (create-git-repo-tab "~/@/api/sar-api"                  "sar")
+  (create-git-repo-tab "~/@/api/supply-configuration-api" "supconf")
+  (create-git-repo-tab "~/@/api/user-api"                 "user"))
 #+end_src
 
 ** Check identity of machine and load session
