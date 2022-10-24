@@ -1021,10 +1021,17 @@ so the edit can be seen.
 
 ** Sending email                               :mail:
 
+Only execute this setup if we have ~mu~ installed;
+otherwise, I am presumably using a machine
+where I don't have email features set up.
+#+begin_src emacs-lisp
+(when (shell-command "command -v mu") ;; Begin mu exists conditional
+#+end_src
+
 :TODO: Check for cleanup of send-mail settings.
 
 #+begin_src emacs-lisp
-(setq mail-user-agent 'mu4e-user-agent)
+  (setq mail-user-agent 'mu4e-user-agent)
 #+end_src
 
 Whether or not you use Emacs to read your email,
@@ -1036,36 +1043,49 @@ For convenience, I choose the latter.
 
 I use Gmail exclusively, so the setup is small.
 #+begin_src emacs-lisp
-(require 'smtpmail)
+  (require 'smtpmail)
 
-(setq message-send-mail-function 'smtpmail-send-it
-   starttls-use-gnutls t
-   smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-   smtpmail-auth-credentials
-     '(("smtp.gmail.com" 587 "markparmstrong@gmail.com" nil))
-   smtpmail-default-smtp-server "smtp.gmail.com"
-   smtpmail-smtp-server "smtp.gmail.com"
-   smtpmail-smtp-service 587)
+  (setq message-send-mail-function 'smtpmail-send-it
+     starttls-use-gnutls t
+     smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+     smtpmail-auth-credentials
+       '(("smtp.gmail.com" 587 "markparmstrong@gmail.com" nil))
+     smtpmail-default-smtp-server "smtp.gmail.com"
+     smtpmail-smtp-server "smtp.gmail.com"
+     smtpmail-smtp-service 587)
 #+end_src
 
 #+begin_src emacs-lisp
-(require 'auth-source)
-(setq auth-sources '((:source "~/.authinfo.gpg")))
+  (require 'auth-source)
+  (setq auth-sources '((:source "~/.authinfo.gpg")))
 #+end_src
 
 If needed, we can create a queue to allow for sending of email
 while offline. See
 [[https://www.gnu.org/software/emacs/manual/html_node/smtpmail/Queued-delivery.html][the documentation]].
 #+begin_src emacs-lisp
-;;(setq smtpmail-queue-mail nil)
+  ;;(setq smtpmail-queue-mail nil)
 #+end_src
 
 After sending an email, kill the buffer.
 #+begin_src emacs-lisp
-(setq message-kill-buffer-on-exit t)
+  (setq message-kill-buffer-on-exit t)
+#+end_src
+
+At the start of this section, we checked if the ~mu~ command
+was installed; close out that conditional now.
+#+begin_src emacs-lisp
+) ;; End mu exists conditional
 #+end_src
 
 ** Reading email: with mu4e and isync          :mail:
+
+Only execute this setup if we have ~mu~ installed;
+otherwise, I am presumably using a machine
+where I don't have email features set up.
+#+begin_src emacs-lisp
+(when (shell-command "command -v mu") ;; Begin mu exists conditional
+#+end_src
 
 :TODO: Check for cleanup of mu4e settings.
 
@@ -1077,12 +1097,12 @@ I initially followed the guide
 to set it up, but I've customised things heavily at this point.
 
 #+begin_src emacs-lisp
-(require 'mu4e)
+  (require 'mu4e)
 #+end_src
 
 Run ~mu~ in debug mode, so if something fails we get more information.
 #+begin_src emacs-lisp
-(setq mu4e-mu-debug t)
+  (setq mu4e-mu-debug t)
 #+end_src
 
 *** Basic setup
@@ -1094,10 +1114,10 @@ and the paths of certain important mailboxes relative to that.
 Note that there should be an archive box here, but I don't make
 use of an archive mailbox.
 #+begin_src emacs-lisp
-(setq
-  mu4e-drafts-folder "/Drafts"
-  mu4e-sent-folder   "/Sent Mail"
-  mu4e-trash-folder  "/Trash")
+  (setq
+    mu4e-drafts-folder "/Drafts"
+    mu4e-sent-folder   "/Sent Mail"
+    mu4e-trash-folder  "/Trash")
 #+end_src
 
 Previously I would set ~mu4e-maildir~ here;
@@ -1108,7 +1128,7 @@ set it with with, e.g., ~mu init --maildir=~/.mail/gmail~.
  I'm not certain.)
 You can check the setting with
 #+begin_example emacs-lisp
-(mu4e-root-maildir)
+  (mu4e-root-maildir)
 #+end_example
 
 **** Get mail command
@@ -1124,10 +1144,10 @@ a fair chunk of time to synchronise.
 The ~mu4e~ get mail command uses the former, to ensure
 it does not take an excessive amount of time when I manually run it.
 #+begin_src emacs-lisp
-(setq
-  mu4e-get-mail-command "mbsync gmail-quick"
-  mu4e-update-interval 300 ;; 5 minutes
-  mu4e-headers-auto-update t)
+  (setq
+    mu4e-get-mail-command "mbsync gmail-quick"
+    mu4e-update-interval 300 ;; 5 minutes
+    mu4e-headers-auto-update t)
 #+end_src
 
 **** Index quietly
@@ -1137,7 +1157,7 @@ when indexing messages.
 If something's going wrong, flip this setting
 as a first step in the diagnosis.
 #+begin_src emacs-lisp
-(setq mu4e-hide-index-messages t)
+  (setq mu4e-hide-index-messages t)
 #+end_src
 
 **** Change file names when moving emails
@@ -1148,7 +1168,7 @@ otherwise the UID portion of the name becomes stale
 and possibly causes issues such as duplicate UIDs
 or UIDs out of range.
 #+begin_src emacs-lisp
-(setq mu4e-change-filenames-when-moving t)
+  (setq mu4e-change-filenames-when-moving t)
 #+end_src
 
 *** Viewing emails
@@ -1161,20 +1181,20 @@ This controls the information shown in the email lists.
 - ~:from-or-to~ is a special field that will show the sender if it was not me;
   otherwise it will show the recipient.
 #+begin_src emacs-lisp
-(setq mu4e-headers-fields
-  '((:date       . 22)
-    (:flags      . 6)
-    (:from-or-to . 22)
-    (:subject    . nil)))
+  (setq mu4e-headers-fields
+    '((:date       . 22)
+      (:flags      . 6)
+      (:from-or-to . 22)
+      (:subject    . nil)))
 #+end_src
 
 #+begin_src emacs-lisp
-(setq mu4e-headers-date-format "%d %b/%y, %a, %R")
+  (setq mu4e-headers-date-format "%d %b/%y, %a, %R")
 #+end_src
 
 Don't organise by threads; I find organising by date preferable.
 #+begin_src emacs-lisp
-(setq mu4e-headers-show-threads nil)
+  (setq mu4e-headers-show-threads nil)
 #+end_src
 This can be toggled with ~P~ in the email list.
 
@@ -1182,53 +1202,53 @@ By default, related mail is also included; for instance,
 if I reply to a message in a list, the reply will show up in the list.
 I find this unintuitive, especially since I don't organise by threads.
 #+begin_src emacs-lisp
-(setq mu4e-headers-include-related nil)
+  (setq mu4e-headers-include-related nil)
 #+end_src
 
 Use fancy characters, including unicode,
 for the flags and marks in the email list.
 #+begin_src emacs-lisp
-(setq mu4e-use-fancy-chars t)
+  (setq mu4e-use-fancy-chars t)
 #+end_src
 
 Let's set the symbols used for the above ourselves.
 This list originated from a
 [[https://github.com/djcb/mu/issues/733][GitHub issue discussion]].
 #+begin_src emacs-lisp
-(setq
-  mu4e-headers-draft-mark     '("D" . "📝 ") ;; ✒ ✏
-  mu4e-headers-flagged-mark   '("F" . "🏴 ")
-  mu4e-headers-new-mark       '("N" . "★ ")
-  mu4e-headers-passed-mark    '("P" . "→ ") ;; ↪
-  mu4e-headers-replied-mark   '("R" . "← ")
-  mu4e-headers-seen-mark      '("S" . "") ;; ✓ 🗸 ✔
-  mu4e-headers-trashed-mark   '("T" . "✗ ") ;; 🗑
-  mu4e-headers-attach-mark    '("a" . "📎 ")
-  mu4e-headers-encrypted-mark '("x" . "🔐 ")
-  mu4e-headers-signed-mark    '("s" . "🔏 ")
-  mu4e-headers-unread-mark    '("u" . "✉ "))
+  (setq
+    mu4e-headers-draft-mark     '("D" . "📝 ") ;; ✒ ✏
+    mu4e-headers-flagged-mark   '("F" . "🏴 ")
+    mu4e-headers-new-mark       '("N" . "★ ")
+    mu4e-headers-passed-mark    '("P" . "→ ") ;; ↪
+    mu4e-headers-replied-mark   '("R" . "← ")
+    mu4e-headers-seen-mark      '("S" . "") ;; ✓ 🗸 ✔
+    mu4e-headers-trashed-mark   '("T" . "✗ ") ;; 🗑
+    mu4e-headers-attach-mark    '("a" . "📎 ")
+    mu4e-headers-encrypted-mark '("x" . "🔐 ")
+    mu4e-headers-signed-mark    '("s" . "🔏 ")
+    mu4e-headers-unread-mark    '("u" . "✉ "))
 #+end_src
 
 **** Individual mail
 
 Show images by default, and prefer to use ~imagemagick~ to do so.
 #+begin_src emacs-lisp
-(setq mu4e-view-show-images t)
+  (setq mu4e-view-show-images t)
 
-(when (fboundp 'imagemagick-register-types)
-  (imagemagick-register-types))
+  (when (fboundp 'imagemagick-register-types)
+    (imagemagick-register-types))
 #+end_src
 
 Attachments can simply be placed in ~~/Downloads~;
 I usually share this directory from ChromeOS, which makes it convenient
 to put attachments there (so I can open them in both OSes easily).
 #+begin_src emacs-lisp
-(setq mu4e-attachment-dir  "~/Downloads")
+  (setq mu4e-attachment-dir  "~/Downloads")
 #+end_src
 
 Show full email addresses when viewing messages.
 #+begin_src emacs-lisp
-(setq mu4e-view-show-addresses 't)
+  (setq mu4e-view-show-addresses 't)
 #+end_src
 
 **** HTML support
@@ -1237,26 +1257,26 @@ Emacs is not the ideal environment to read HTML emails;
 for that reason, if there is a plaintext version available,
 I prefer to see that first.
 #+begin_src emacs-lisp
-(setq mu4e-view-prefer-html nil)
+  (setq mu4e-view-prefer-html nil)
 #+end_src
 
 If there is no plaintext available, or if the plaintext is unbearable
 for any reason, we can open emails in the browser by using
 this shortcut.
 #+begin_src emacs-lisp
-(add-to-list 'mu4e-view-actions
-  '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+  (add-to-list 'mu4e-view-actions
+    '("ViewInBrowser" . mu4e-action-view-in-browser) t)
 #+end_src
 
 *** Shortcuts to mailboxes and bookmarks
 
 #+begin_src emacs-lisp
-(setq mu4e-maildir-shortcuts
-    '(("/Inbox"     . ?i)
-      ("/Sent Mail" . ?s)
-      ("/Desk/Followup"  . ?f)
-      ("/Desk/Reference" . ?r)
-      ("/Desk/Transient" . ?t)))
+  (setq mu4e-maildir-shortcuts
+      '(("/Inbox"     . ?i)
+        ("/Sent Mail" . ?s)
+        ("/Desk/Followup"  . ?f)
+        ("/Desk/Reference" . ?r)
+        ("/Desk/Transient" . ?t)))
 #+end_src
 
 Bookmarks can be used from the ~mu4e~ main page,
@@ -1264,7 +1284,7 @@ and are also useful for programmatically jumping to maildirs.
 I set up the inbox bookmark in particular to programmatically jump
 to the inbox while setting up my mu4e buffer on a new Emacs instance.
 #+begin_src emacs-lisp
-(mu4e-bookmark-define "maildir:/Inbox" "Inbox" ?i)
+  (mu4e-bookmark-define "maildir:/Inbox" "Inbox" ?i)
 #+end_src
 
 *** Maildirs extension to show read/total counts per mail directory
@@ -1272,22 +1292,22 @@ to the inbox while setting up my mu4e buffer on a new Emacs instance.
 The package ~mu4e-maildirs-extension~ causes the display of
 the read/total count for each mail directory in the list.
 #+begin_src emacs-lisp
-(use-package mu4e-maildirs-extension)
+  (use-package mu4e-maildirs-extension)
 
-(mu4e-maildirs-extension)
+  (mu4e-maildirs-extension)
 #+end_src
 
 *** Message composition settings
 
 I don't use a signature.
 #+begin_src emacs-lisp
-(setq mu4e-compose-signature-auto-include nil)
+  (setq mu4e-compose-signature-auto-include nil)
 #+end_src
 
 Don't automatically insert line breaks for long lines
 in the message buffer! Such settings infuriate me.
 #+begin_src emacs-lisp
-(add-hook 'mu4e-compose-mode-hook 'turn-off-auto-fill)
+  (add-hook 'mu4e-compose-mode-hook 'turn-off-auto-fill)
 #+end_src
 
 **** Contacts
@@ -1407,7 +1427,7 @@ So we are safe to restore the original ~user-mail-address~.
 
 Don't prompt me upon quitting ~mu4e~.
 #+begin_src emacs-lisp
-(setq mu4e-confirm-quit nil)
+  (setq mu4e-confirm-quit nil)
 #+end_src
 
 *** Start up mu4e so that mu is running at startup
@@ -1418,7 +1438,15 @@ before we've started ~mu4e~ correctly.
 Without this, we might get an error asking if we started ~mu4e.~
 (In particular, I was encountering a ~root maildir unknown~ error.)
 #+begin_src emacs-lisp
-(mu4e)
+  (mu4e)
+#+end_src
+
+*** End reading email section
+
+At the start of this section, we checked if the ~mu~ command
+was installed; close out that conditional now.
+#+begin_src emacs-lisp
+) ;; End mu exists conditional
 #+end_src
 
 ** Agda mode                                   :programming:
@@ -1455,7 +1483,7 @@ the system's total ~8G~) available to it.
 That said, my machine is routinely lagging quite badly,
 and so I am trying to find the “sweet spot”.
 #+begin_src emacs-lisp
-(setq agda2-program-args '("+RTS" "-M3.0G" "-H0.6G" "-A128M" "-RTS"))
+  (setq agda2-program-args '("+RTS" "-M3.0G" "-H0.6G" "-A128M" "-RTS"))
 #+end_src
 
 These arguments specify
@@ -1478,42 +1506,42 @@ to read, especially in dark themes.
 
 So I modify the faces Agda defines.
 #+begin_src emacs-lisp
-(require 'agda2-highlight)
+  (require 'agda2-highlight)
 #+end_src
 
 First, we change all uses of background colouring to coloured boxes
 instead.
 #+begin_src emacs-lisp
-;; Change backgrounds to boxes.
-(cl-loop for (_ . face) in agda2-highlight-faces
-      do (if (string-prefix-p "agda2-" (symbol-name face)) ;; Some non-Agda faces are in the list; don't change them
-             (unless (equal face 'agda2-highlight-incomplete-pattern-face) ;; Workaround; this face is not defined in recent versions?
-             (set-face-attribute face nil
-               :box (face-attribute face :background)
-               :background 'unspecified))))
+  ;; Change backgrounds to boxes.
+  (cl-loop for (_ . face) in agda2-highlight-faces
+        do (if (string-prefix-p "agda2-" (symbol-name face)) ;; Some non-Agda faces are in the list; don't change them
+               (unless (equal face 'agda2-highlight-incomplete-pattern-face) ;; Workaround; this face is not defined in recent versions?
+               (set-face-attribute face nil
+                 :box (face-attribute face :background)
+                 :background 'unspecified))))
 #+end_src
 
 These can also be intrusive in some cases; specifically, for
 warnings about pattern matching. So I modify them specifically.
 #+begin_src emacs-lisp
-;; Coverage warnings highlight the whole function;
-;; change the box to an underline to be less intrusive.
-(set-face-attribute 'agda2-highlight-coverage-problem-face nil
-  :underline (face-attribute 'agda2-highlight-coverage-problem-face :box)
-  :box 'unspecified)
+  ;; Coverage warnings highlight the whole function;
+  ;; change the box to an underline to be less intrusive.
+  (set-face-attribute 'agda2-highlight-coverage-problem-face nil
+    :underline (face-attribute 'agda2-highlight-coverage-problem-face :box)
+    :box 'unspecified)
 
-;; Deadcode warnings highlight the whole line;
-;; change the box to a strikethrough to be less intrusive,
-;; as well as thematically appropriate.
-(set-face-attribute 'agda2-highlight-deadcode-face nil
-  :strike-through (face-attribute 'agda2-highlight-deadcode-face :box)
-  :box 'unspecified)
+  ;; Deadcode warnings highlight the whole line;
+  ;; change the box to a strikethrough to be less intrusive,
+  ;; as well as thematically appropriate.
+  (set-face-attribute 'agda2-highlight-deadcode-face nil
+    :strike-through (face-attribute 'agda2-highlight-deadcode-face :box)
+    :box 'unspecified)
 
-;; Non-definitional pattern matching may be ignored;
-;; remove the colouring and just italicise it to be less intrusive.
-(set-face-attribute 'agda2-highlight-catchall-clause-face nil
-  :box 'unspecified
-  :slant 'italic)
+  ;; Non-definitional pattern matching may be ignored;
+  ;; remove the colouring and just italicise it to be less intrusive.
+  (set-face-attribute 'agda2-highlight-catchall-clause-face nil
+    :box 'unspecified
+    :slant 'italic)
 #+end_src
 
 This code can be used to test out many of the redefined faces.
@@ -1557,12 +1585,13 @@ Org-Agda mode is a Polymode Musa and I created
 for working on literate Agda documents written in Org mode.
 [[https://github.com/alhassy/org-agda-mode]]
 #+begin_src emacs-lisp
-(require 'org-agda-mode)
+  (require 'org-agda-mode)
 #+end_src
 
 *** End Agda mode section
 
-At the start of this section, we checked if the ~agda-mode~ installed 
+At the start of this section, we checked if the ~agda-mode~ command
+was installed; close out that conditional now.
 #+begin_src emacs-lisp
 ) ;; End agda-mode exists conditional
 #+end_src
