@@ -1772,6 +1772,16 @@ Finally, we should be able to require ~agda-input~.
 (add-to-list 'agda-input-user-translations '("eval" "⇓"))
 #+end_src
 
+**** Box drawing
+
+#+begin_src emacs-lisp
+(add-to-list 'agda-input-user-translations '("box|" "│"))
+(add-to-list 'agda-input-user-translations '("box-" "─"))
+(add-to-list 'agda-input-user-translations '("boxtl" "├"))
+(add-to-list 'agda-input-user-translations '("boxcul" "┌"))
+(add-to-list 'agda-input-user-translations '("boxcll" "└"))
+#+end_src
+
 **** Correct mistakes on subscripts/superscripts
 
 I often accidentally hold the shift key for too long when entering
