@@ -383,6 +383,32 @@ But do also pick up Elisp files found at the top of the directory.
   (normal-top-level-add-subdirs-to-load-path))
 #+end_src
 
+*** Git subtrees
+
+If the Elisp we are adding to this directory is managed in a Git repository,
+but not in one of our package managers,
+we can make use of Git subtrees to incorporate that repository
+into this one.
+
+Begin by adding the repository as follows (run this from the top level of this repository),
+assuming you wish to import the ~main~ branch.
+#+begin_src shell
+git subtree add --prefix emacs/elisp/my-cool-elisp  https://github.com/cool-guy/my-cool-elisp.git main --squash
+#+end_src
+The ~--squash~ flag squashes the history of the imported repository.
+
+You may then update the subtree when changes occur to the imported repository (~main~ branch).
+#+begin_src shell
+git subtree pull --prefix emacs/elisp/my-cool-elisp https://github.com/cool-guy/my-cool-elisp.git main --squash
+#+end_src
+Again, note the ~--squash~ flag.
+
+You may also push any changes you make back to the imported repository.
+Though unless you have forked the project, you may wish to push to branch other than ~main~.
+#+begin_src shell
+git subtree push --prefix unicode-sty https://github.com/armkeh/unicode-sty.git main
+#+end_src
+
 ** Elisp utilities
 
 These utility packages simplify many families of tasks.
@@ -4909,13 +4935,15 @@ see https://christiantietze.de/posts/2020/10/org-babel-markdown-to-html/
 
 First, we need Org babel functions for markdown;
 apparently, this ten-year old (at time of writing) code
-—https://github.com/tnoda/ob-markdown/blob/master/ob-markdown.el—
+—https://github.com/tnoda/ob-markdown/—
 that does not seem to be in a package repository is
 the best candidate.
 #+begin_src emacs-lisp
 (use-package markdown-mode)
 (require 'ob-markdown)
 #+end_src
+I have included this repository in [[./elisp/ob-markdown]] as a Git subtree.
+See [[Git subtrees]] for instructions on maintaining that subtree, if necessary.
 
 Now we instruct Org mode to, by default,
 wrap the results of evaluating ~markdown~ blocks in ~example html~ blocks,
