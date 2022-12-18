@@ -650,11 +650,34 @@ has finished.
 This function can be assigned to a sentinel for a process
 to kill its associated buffer when the process finishes.
 #+begin_src emacs-lisp
-(defun kill-buffer-on-process-finish (process signal)
+(defun kill-buffer-and-its-windows-on-process-finish (process signal)
   (when (memq (process-status process) '(exit signal))
-    (kill-buffer (process-buffer process))
+    (kill-buffer-and-its-windows (process-buffer process))
     (shell-command-sentinel process signal)))
 #+end_src
+
+This depends upon
+#+begin_src emacs-lisp
+(defun kill-buffer-and-its-windows (buffer &optional msgp)
+  "Kill BUFFER and delete its windows.  Default is `current-buffer'.
+BUFFER may be either a buffer or its name (a string)."
+  (interactive (list (read-buffer "Kill buffer: " (current-buffer) 'existing) 'MSGP))
+  (setq buffer  (get-buffer buffer))
+  (if (buffer-live-p buffer)            ; Kill live buffer only.
+      (let ((wins  (get-buffer-window-list buffer nil t))) ; On all frames.
+        (when (and (buffer-modified-p buffer)
+                   (fboundp '1on1-flash-ding-minibuffer-frame))
+          (1on1-flash-ding-minibuffer-frame t)) ; Defined in `oneonone.el'.
+        (when (kill-buffer buffer)      ; Only delete windows if buffer killed.
+          (dolist (win  wins)           ; (User might keep buffer if modified.)
+            (when (window-live-p win)
+              ;; Ignore error, in particular,
+              ;; "Attempt to delete the sole visible or iconified frame".
+              (condition-case nil (delete-window win) (error nil))))))
+    (when msgp (error "Cannot kill buffer.  Not a live buffer: `%s'" buffer))))
+#+end_src
+from Emacs wiki's [[https://www.emacswiki.org/emacs/download/misc-cmds.el][misc commands]].
+:TODO: Check out more of those commands; some may be useful.
 
 * Simple cosmetics
 
@@ -2180,11 +2203,13 @@ See the ~kill-buffer-on-process-finish~ definition earlier in this file.
   "m" '((lambda () (interactive)
           (let* ((output-buffer-name "*mbsync all directories*")
                  (output-buffer (generate-new-buffer output-buffer-name))
-                 (process (progn
-                         (async-shell-command "mbsync -a" output-buffer)
-                         (get-buffer-process output-buffer))))
+                 (process
+                  (progn
+                    (display-buffer-at-bottom output-buffer '((window-height . 5)))
+                    (async-shell-command "mbsync -a || sleep 60" output-buffer) ;; Sleep for a minute if error, so it can be read
+                    (get-buffer-process output-buffer))))
               (if (process-live-p process)
-                  (set-process-sentinel process #'kill-buffer-on-process-finish) 
+                  (set-process-sentinel process #'kill-buffer-and-its-windows-on-process-finish) 
                 (message "mbsync all directories is not running, but I expected it to be!"))))
         :which-key "mbsync all directories"))
 #+end_src
