@@ -701,13 +701,34 @@ This line is deprecated as I now use Starship prompt.
 :header-args:sh: :tangle ./shell/.aliases
 :END:
 
+** Special alias command to display the aliased command before running it
+
+A downside to using aliases is they discourage /learning/ the aliased commands.
+This can make the developer overly dependent upon their setup,
+which can be detrimental when collaborating or when migrating systems.
+
+To counteract this, I use this function to define aliases, which makes them
+automatically print out their definition before executing the command.
+This way I at least see the underlying command each time I run the alias.
+
+Resources used to develop this function:
+https://unix.stackexchange.com/questions/53310/splitting-string-by-the-first-occurrence-of-a-delimiter
+https://unix.stackexchange.com/questions/30903/how-to-escape-quotes-in-the-bash-shell
+
+#+begin_src sh
+function valias () {
+  IFS='=' read -r a c  <<< "$1"
+  alias ${a}="echo -e '  alias '${a}$'=\''${c}$'\'';"${c}
+}
+#+end_src
+
 ** Basic commands
 
 Variants on directory listing.
 #+begin_src sh
-alias lsl='ls -l'
-alias lsa='ls -A'
-alias lsla='ls -lA'
+valias lsl='ls -l'
+valias lsa='ls -A'
+valias lsla='ls -lA'
 #+end_src
 
 ** Include some flags by default
@@ -718,28 +739,28 @@ This is taken from the default ~bash~ RC file from Debian.
 #+begin_src sh
 if [ -x /usr/bin/dircolors ]; then
   test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-  alias ls='ls --color=auto'
-  alias dir='dir --color=auto'
-  alias vdir='vdir --color=auto'
+  valias ls='ls --color=auto'
+  valias dir='dir --color=auto'
+  valias vdir='vdir --color=auto'
 
-  alias grep='grep --color=auto'
-  alias fgrep='fgrep --color=auto'
-  alias egrep='egrep --color=auto'
+  valias grep='grep --color=auto'
+  valias fgrep='fgrep --color=auto'
+  valias egrep='egrep --color=auto'
 fi
 #+end_src
 
 ** Guix
 
 #+begin_src sh
-alias gp='guix package'
-alias gps='guix package -s'
-alias gpi='guix package -i'
+valias gp='guix package'
+valias gps='guix package -s'
+valias gpi='guix package -i'
 #+end_src
 
 ** Index Exchange
 
 #+begin_src sh
-alias ixvpn='sudo openconnect -bq -u mark.armstrong npv.indexexchange.com/anyconnect'
+valias ixvpn='sudo openconnect -bq -u mark.armstrong npv.indexexchange.com/anyconnect'
 #+end_src
 
 ** Local aliases
@@ -750,9 +771,9 @@ alias ixvpn='sudo openconnect -bq -u mark.armstrong npv.indexexchange.com/anycon
 :END:
 
 #+begin_src sh
-alias cdph='cd ~/go/src/gitlab.indexexchange.com/app/phoenix'
-alias cdapi='cd ~/go/src/gitlab.indexexchange.com/app/phoenix/api'
-alias cdtool='cd ~/go/src/gitlab.indexexchange.com/app/phoenix/tool'
+valias cdph='cd ~/go/src/gitlab.indexexchange.com/app/phoenix'
+valias cdapi='cd ~/go/src/gitlab.indexexchange.com/app/phoenix/api'
+valias cdtool='cd ~/go/src/gitlab.indexexchange.com/app/phoenix/tool'
 #+end_src
 
 * The Starship prompt

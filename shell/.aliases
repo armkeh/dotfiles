@@ -1,20 +1,25 @@
-alias lsl='ls -l'
-alias lsa='ls -A'
-alias lsla='ls -lA'
+function valias () {
+  IFS='=' read -r a c  <<< "$1"
+  alias ${a}="echo -e '  alias '${a}$'=\''${c}$'\'';"${c}
+}
+
+valias lsl='ls -l'
+valias lsa='ls -A'
+valias lsla='ls -lA'
 
 if [ -x /usr/bin/dircolors ]; then
   test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-  alias ls='ls --color=auto'
-  alias dir='dir --color=auto'
-  alias vdir='vdir --color=auto'
+  valias ls='ls --color=auto'
+  valias dir='dir --color=auto'
+  valias vdir='vdir --color=auto'
 
-  alias grep='grep --color=auto'
-  alias fgrep='fgrep --color=auto'
-  alias egrep='egrep --color=auto'
+  valias grep='grep --color=auto'
+  valias fgrep='fgrep --color=auto'
+  valias egrep='egrep --color=auto'
 fi
 
-alias gp='guix package'
-alias gps='guix package -s'
-alias gpi='guix package -i'
+valias gp='guix package'
+valias gps='guix package -s'
+valias gpi='guix package -i'
 
-alias ixvpn='sudo openconnect -bq -u mark.armstrong npv.indexexchange.com/anyconnect'
+valias ixvpn='sudo openconnect -bq -u mark.armstrong npv.indexexchange.com/anyconnect'
