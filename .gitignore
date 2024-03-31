@@ -8,3 +8,6 @@ private/*
 # Directories which store deprecated settings or downloaded files.
 deprecated/*
 */deprecated/*
+
+# Ignore my custom.el; I don't really track changes to it, just delete it if something goes wrong.
+emacs/custom.el
