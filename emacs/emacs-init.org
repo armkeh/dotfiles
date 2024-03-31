@@ -423,6 +423,24 @@ These utility packages simplify many families of tasks.
 (use-package f)
 #+end_src
 
+** SQLite support
+
+#+begin_quote
+Warning (emacsql): Since your Emacs does not come with
+built-in SQLite support [1], but does support C modules, the best
+EmacSQL backend is provided by the third-party `sqlite3' package
+[2].
+
+Please install the `sqlite3' Elisp package using your preferred
+Emacs package manager, and install the SQLite shared library
+using your distribution's package manager.  That package should
+be named something like `libsqlite3' [3] and NOT just `sqlite3'.
+#+end_quote
+
+#+begin_src emacs-lisp
+(use-package sqlite3)
+#+end_src
+
 * Custom Elisp
 
 Some of this code may be moved to separate files later,
