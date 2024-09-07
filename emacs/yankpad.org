@@ -605,13 +605,11 @@ digraph T {
 `(buffer-name)`
 #+end_src
 
-
 *** dj: Get a dad joke                        :src:
 
 #+begin_src text
 `(dad-joke)`
 #+end_src
-
 
 ** Jira links
 

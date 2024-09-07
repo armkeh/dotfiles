@@ -147,7 +147,7 @@ fi
 
 *** Locale settings
 
-Packages installed via Guix will do use the locale data of our host system.
+Packages installed via Guix will use the locale data of our host system.
 So, we must install one of the locale packages available with Guix
 (such as ~glibc-locales~)
 and then define the ~GUIX_LOCPATH~ environment variable.
