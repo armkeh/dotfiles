@@ -1336,7 +1336,22 @@ This list originated from a
     mu4e-headers-attach-mark    '("a" . "📎 ")
     mu4e-headers-encrypted-mark '("x" . "🔐 ")
     mu4e-headers-signed-mark    '("s" . "🔏 ")
-    mu4e-headers-unread-mark    '("u" . "✉ "))
+    mu4e-headers-unread-mark    '("u" . "✉ ")
+    mu4e-modeline-all-clear     '("No mail " . "No mail ")
+    mu4e-modeline-all-read      '("No unread mail " . "No unread mail ")
+    mu4e-modeline-unread-items  '("Unread mail " . "Unread mail ")
+    mu4e-modeline-new-items     '("New mail " . "New mail ")
+    ;; TODO: maybe reenable these search symbols if I adopt more complicated email flow
+    mu4e-search-threaded-label        '("" . "")
+    mu4e-search-full-label            '("" . "")
+    mu4e-search-related-label         '("" . "")
+    mu4e-search-skip-duplicates-label '("" . "")
+    mu4e-search-hide-label            '("" . ""))
+#+end_src
+
+Test out the above with this command
+#+begin_src emacs-lisp :tangle no :wrap "src text :exports none"
+(mu4e--modeline-string)
 #+end_src
 
 **** Individual mail
