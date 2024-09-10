@@ -1393,6 +1393,22 @@ this shortcut.
     '("ViewInBrowser" . mu4e-action-view-in-browser) t)
 #+end_src
 
+When attempting to read HTML email as plaintext, I've found that several sources
+somehow set the background colour and foreground colour of the text
+to be similar (or perhaps fail to set one or the other, I'm not sure),
+making the plaintext still very difficult to make out.
+These settings try to prevent such setting of the background, improving
+the chances that emails will be readable.
+See [[https://www.reddit.com/r/emacs/comments/9ep5o1/mu4e_stop_emails_setting_backgroundforeground/][reddit]] for the source of this code.
+#+begin_src emacs-lisp
+(require 'mu4e-contrib)
+(setq mu4e-html2text-command 'mu4e-shr2text)
+(setq shr-color-visible-luminance-min 60)
+(setq shr-color-visible-distance-min 5)
+(setq shr-use-colors nil)
+(advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
+#+end_src
+
 *** Shortcuts to mailboxes and bookmarks
 
 #+begin_src emacs-lisp
