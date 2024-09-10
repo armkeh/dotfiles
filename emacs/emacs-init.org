@@ -1710,7 +1710,8 @@ Org-Agda mode is a Polymode Musa and I created
 for working on literate Agda documents written in Org mode.
 [[https://github.com/alhassy/org-agda-mode]]
 #+begin_src emacs-lisp
-  (require 'org-agda-mode)
+(use-package polymode)
+(require 'org-agda-mode)
 #+end_src
 
 *** End Agda mode section
