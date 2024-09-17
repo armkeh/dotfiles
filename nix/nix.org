@@ -1,0 +1,27 @@
+#+Title: NixOS machine setup
+#+Author: Mark Armstrong
+#+Description: TODO
+
+* Initial setup
+
+I need Git and Syncthing to get started:
+#+begin_src sh
+nix-env --install git syncthing
+#+end_src
+
+* WSL notes
+
+The Nix community provides modules for running NixOS with WSL:
+- https://github.com/nix-community/NixOS-WSL
+
+To update to the latest NixOS and NixOS-WSL versions, run
+#+begin_src sh
+sudo nix-channel --update
+sudo nixos-rebuilt switch
+#+end_src
+
+This is instructed by the NixOS welcome message that's displayed
+when starting the system for the first time. See it again with
+#+begin_src sh
+nixos-wsl-welcome
+#+end_src
