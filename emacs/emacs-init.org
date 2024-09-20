@@ -5694,7 +5694,9 @@ used in most export formats (at least HTML and LaTeX).
   '("~/logs/personal/todo.org"))
 #+end_src
 
-** Alerts for emails                           :mail:
+** COMMENT Alerts for emails                   :mail:
+
+Deprecated because ~mu4e~ itself now puts the email count in the modeline for me.
 
 The ~mu4e-alert~ package provides the ability to get
 various kinds of alert about incoming mail using ~mu4e~.
@@ -5734,7 +5736,7 @@ even if some or all are marked as read.
 #+begin_src emacs-lisp
 (setq mu4e-alert-interesting-mail-query
    (concat
-      ;;"flag:unread"
+      "flag:unread"
       "maildir:/Inbox"))
 #+end_src
 
