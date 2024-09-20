@@ -6164,6 +6164,22 @@ We need to point to the ~jar~ file for the Ditaa tool.
 (setq org-ditaa-jar-path "/usr/bin/ditaa")
 #+end_src
 
+** Docker
+
+#+begin_src emacs-lisp
+(use-package dockerfile-mode)
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package docker)
+#+end_src
+
+** Cucumber, Gherkin
+
+#+begin_src emacs-lisp
+(use-package feature-mode)
+#+end_src
+
 ** Fold code
 
 https://www.reddit.com/r/emacs/comments/746cd0/comment/dnwi2x1/?utm_source=share&utm_medium=web2x&context=3
