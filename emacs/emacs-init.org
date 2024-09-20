@@ -6034,16 +6034,6 @@ Activate Org babel support for Go.
 ;(use-package go-lint)
 #+end_src
 
-#+begin_src emacs-lisp
-(add-hook 'go-mode-hook 'lsp-deferred)
-#+end_src
-
-Activate ~gofmt~ upon save.
-#+begin_src emacs-lisp
-(add-hook 'go-mode-hook
-          (lambda () (add-hook 'before-save-hook gofmt-before-save nil 'local)))
-#+end_src
-
 ** YAML configuration language                 :programming:
 
 :TODO: Commentary needed.
