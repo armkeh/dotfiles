@@ -5659,7 +5659,7 @@ mark that headline as a TODO task in the appropriate state.
 I've added =SOON=, =NEXT=, =WORKING=, =DELEGATED= and =CANCELLED=.
 #+begin_src emacs-lisp
 (setq org-todo-keywords
-  '((sequence "TODO" "DELEGATED" "SOON" "NEXT" "WORKING" "OVERDUE" "|" "DONE" "CANCELLED")))
+  '((sequence "TODO" "DELEGATED" "WORKING" "BACKBURN" "CONFIRMING" "OVERDUE" "|" "DONE" "CANCELLED")))
 #+end_src
 
 Note the ~"|"~ entry; headlines marked with any of the states
