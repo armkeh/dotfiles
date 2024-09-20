@@ -6112,6 +6112,9 @@ Org babel support for clojure is builtin, so just ~require~ it.
 #+end_src
 
 ** Ammonite (deprecated)                       :programming:
+:Properties:
+:header-args: :tangle no
+:End:
 
 ~ob-ammonite~ interacts with the ~ammonite~ REPL for ~scala~.
 Unfortunately it's been dropped off MELPA, apparently.
