@@ -6015,7 +6015,13 @@ Add integrations with some other packages.
 (use-package elm-mode)
 #+end_src
 
-** Go (sometimes called Golang)                :programming:
+** Haskell                                     :programming:
+
+#+begin_src emacs-lisp
+(use-package haskell-mode)
+#+end_src
+
+** Go                                          :programming:
 
 Activate Org babel support for Go.
 :TODO: Commentary on how to evaluate Go code nicely.
