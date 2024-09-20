@@ -6220,24 +6220,24 @@ and then loaded based on the identity of the machine being used.
 :header-args:emacs-lisp: :tangle ~/dotfiles/emacs/personal-session.el
 :END:
 
-*** Filepaths
+*** ~let~ some directory/file paths
 
-For maintainability, most files opened below
-are listed here.
+For maintainability, most files opened below are listed here.
 #+begin_src emacs-lisp
-(setq-local my/log-dir   "~/logs/")
-(setq-local my/scratch-dir "~/logs/scratch/")
-(setq-local my/dotfiles-dir "~/dotfiles/")
-(setq-local my/emacs-dir (concat my/dotfiles-dir "emacs/"))
-(setq-local my/agda-dir  "~/Dropbox/McMaster/Agda/")
+(letrec ((log-dir   "~/logs/")
+         (scratch-dir "~/logs/scratch/")
+         (dotfiles-dir "~/dotfiles/")
+         (emacs-dir (concat dotfiles-dir "emacs/"))
+         (agda-dir  "~/Dropbox/McMaster/Agda/")
 
-(setq-local my/emacs-init   (concat my/emacs-dir "emacs-init.org"))
-(setq-local my/yankpad-file (concat my/emacs-dir "yankpad.org"))
+         (emacs-init   (concat emacs-dir "emacs-init.org"))
+         (yankpad-file (concat emacs-dir "yankpad.org"))
 
-(setq-local my/journal (concat my/log-dir "personal/journal.org"))
+         (journal (concat log-dir "personal/journal.org"))
+         (docket (concat log-dir "personal/docket.org"))
 
-(setq-local my/org-scratch  (concat my/scratch-dir "org-scratch.org"))
-(setq-local my/agda-scratch (concat my/agda-dir "agda-scratch.agda"))
+         (org-scratch  (concat log-dir "org-scratch.org"))
+         (agda-scratch (concat agda-dir "agda-scratch.agda")))
 #+end_src
 
 *** Create tabs
@@ -6303,7 +6303,7 @@ with the messages buffer on the lower left
 and a help buffer preemptively opened in the upper right.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab "init")
-(find-file my/emacs-init)
+(find-file emacs-init)
 (split-window nil nil 'left)
 ; describe symbol will use the window not in focus, so the left
 (describe-symbol 'describe-symbol)
@@ -6318,7 +6318,7 @@ In the tab for managing that repo,
 I want my Emacs init on the left a magit buffer on the right.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab "dotfiles ꇚ")
-(find-file my/emacs-init)
+(find-file emacs-init)
 (split-window nil nil 'right)
 (magit-status-setup-buffer)
 #+end_src
@@ -6328,14 +6328,16 @@ on the left and
 and my inbox on the right.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab "Logs")
-(find-file my/journal)
+(find-file journal)
+(split-window nil nil 'right)
+(find-file docket)
 #+end_src
 
 The ~email~ tab has a scratch file on the left
 and my inbox on the right.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab "email")
-(find-file my/org-scratch)
+(find-file org-scratch)
 (split-window nil nil 'left)
 (mu4e-headers-search-bookmark (mu4e-get-bookmark-query ?i))
 #+end_src
@@ -6427,6 +6429,12 @@ course, 3mi3;
 
 #+begin_src emacs-lisp
 (tab-select 1)
+#+end_src
+
+**** Close the ~let~
+
+#+begin_src emacs-lisp
+)
 #+end_src
 
 ** Check identity of machine and load session
