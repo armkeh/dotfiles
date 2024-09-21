@@ -24,6 +24,12 @@
   #   home = "/home/armkeh";
   #   extraGroups = [ "wheel" ];
   # };
+  users.users.nixos = {
+    shell = pkgs.zsh;
+  };
+
+  # Enable zsh access to basic nix directories in its path
+  programs.zsh.enable = true;
 
   environment.systemPackages = with pkgs; [
     gcc
