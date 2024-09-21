@@ -7,7 +7,7 @@ format="""
 [│ $directory](bold green)
 ([│ $elm$golang$nodejs$purescript$python$ruby](bold green)\n)\
 ([│ $git_branch($git_commit)($git_status$git_metrics)](bold green)\n)\
-[${custom.zsh_prompt}${custom.other_prompt} \\$ ](bold green)
+[└─► \\$ ](bold green)
 """
 
 [shell]

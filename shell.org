@@ -845,10 +845,16 @@ And if we are in a Git repository, let's then display Git information.
 #+end_src
 
 Finally, show the prompt line itself.
-I've found that I need to adjust this line for ~zsh~;
+I've found in the past that I need to adjust this line for ~zsh~;
 see the custom module definitions below.
-#+begin_src toml :padline no
+But I'm trying it out plain again, so this is disabled for now.
+#+begin_src toml :padline no :tangle no
 [${custom.zsh_prompt}${custom.other_prompt} \\$ ](bold green)
+#+end_src
+
+Here's the plain final line of the prompt.
+#+begin_src toml :padline no
+[└─► \\$ ](bold green)
 #+end_src
 
 And end the multiline string.
