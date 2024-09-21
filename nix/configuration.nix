@@ -26,9 +26,19 @@
   # };
 
   environment.systemPackages = with pkgs; [
-    git
+    gcc
+    gnumake
+
+    zsh
+    starship
     zile
+    git
+
+    iosevka
     emacs
+    mu
+    emacsPackages.mu4e
+
     syncthing
   ];
 
