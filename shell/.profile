@@ -23,9 +23,11 @@ if [ -d "$HOME/.guix-profile" ] ; then
 fi
 
 # Nix
-if [ -d "$HOME/.nix-profile" ] ; then
-  source ~/.nix-profile/etc/profile.d/nix.sh
-fi
+# I had this setting for a Debian machine setup with Nix as a package manager.
+# It doesn't work for NixOS, though, and I'm not certain if it is out of date for the package manager as well.
+# if [ -d "$HOME/.nix-profile" ] ; then
+#   source ~/.nix-profile/etc/profile.d/nix.sh
+# fi
 
 if [ -d "$HOME/.local/bin" ] ; then
   export PATH="$HOME/.local/bin:$PATH"
