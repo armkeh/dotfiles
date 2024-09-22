@@ -5989,9 +5989,10 @@ or opening a help buffer.
 
 * Programming language modes and mode-specific settings
 
-** Language server protocol                    :programming:
+** COMMENT Language server protocol            :programming:
 
 #+begin_src emacs-lisp
+(setq lsp-keymap-prefix "C-c l")
 (use-package lsp-mode)
 #+end_src
 
@@ -5999,6 +6000,33 @@ Add integrations with some other packages.
 #+begin_src emacs-lisp
 (use-package lsp-ivy)
 (use-package lsp-treemacs)
+
+(with-eval-after-load 'lsp-mode
+  (add-hook 'lsp-mode-hook 'lsp-enable-which-key-integration))
+#+end_src
+
+Squeeze the information for the symbol under the cursor,
+which would usually be shown in a popup upon mouse hover,
+onto the left of the frame.
+Also include code actions there.
+#+begin_src emacs-lisp
+(use-package lsp-ui)
+(setq lsp-ui-sideline-show-hover t)
+(setq lsp-ui-sideline-show-code-actions t)
+#+end_src
+
+Customise the code action information shown in the global mode string
+(which with my setup is shown in the upper right, in the tab bar,
+ instead of on the modeline).
+#+begin_src emacs-lisp
+(setq lsp-modeline-code-actions-segments '(count name))
+#+end_src
+
+Also see error reports in the global mode string.
+#+begin_src emacs-lisp
+(with-eval-after-load 'lsp-mode
+  ;; :global/:workspace/:file
+  (setq lsp-modeline-diagnostics-scope :workspace))
 #+end_src
 
 ** JSON                                        :programming:
