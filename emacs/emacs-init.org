@@ -5614,6 +5614,16 @@ Note that this section must then go after custom modeline setup.
 (add-to-list 'global-mode-string 'display-time-string 'append)
 #+end_src
 
+** Indentation indicators/guides
+
+#+begin_src emacs-lisp
+(use-package highlight-indent-guides)
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+(setq highlight-indent-guides-method 'fill) ;; alternating background stripes
+;; Other modes don't play as well with whitespace mode
+(setq highlight-indent-guides-responsive 'stack)
+#+end_src
+
 ** Kill the open init buffer and reopen it     :cleanup:
 
 To ensure all these cosmetic changes are picked up,
