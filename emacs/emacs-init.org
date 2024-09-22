@@ -995,7 +995,7 @@ I don't use this or appreciate its interference.
 
 * Vital modes and vital mode-specific settings
 
-** Evil (e-vi-l) mode
+** COMMENT Evil (e-vi-l) mode
 
 I intermittently try to make use of evil mode,
 which promises to increase productivity through modal vi-inspired modes,
@@ -3838,17 +3838,17 @@ most interactions of the mouse with Emacs.
 I have found some slip through the cracks,
 such as clicking between tab bar tabs, but they are few.
 #+begin_src emacs-lisp
-(use-package disable-mouse)
-(global-disable-mouse-mode)
+;; (use-package disable-mouse)
+;; (global-disable-mouse-mode)
 #+end_src
 
 This is additionally required if using evil mode.
 #+begin_src emacs-lisp
-(mapc #'disable-mouse-in-keymap
-  (list evil-motion-state-map
-        evil-normal-state-map
-        evil-visual-state-map
-        evil-insert-state-map))
+;;(mapc #'disable-mouse-in-keymap
+;;  (list evil-motion-state-map
+;;        evil-normal-state-map
+;;        evil-visual-state-map
+;;        evil-insert-state-map))
 #+end_src
 
 * Intermediate cosmetics
