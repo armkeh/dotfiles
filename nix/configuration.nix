@@ -34,18 +34,21 @@
   environment.systemPackages = with pkgs; [
     gcc
     gnumake
+    sqlite sqlite.dev # Required by some Emacs packages
 
     zsh
     starship
     zile
     git
 
-    iosevka
     emacs
+    pandoc
     mu
     emacsPackages.mu4e
 
     syncthing
+
+    agda # TODO: consider migrating to emacsPackages.agda-input instead, at least for system-wide installation
   ];
 
   # Run Emacs as a daemon
@@ -62,6 +65,18 @@
   };
 
   environment.variables.EDITOR = "zile";
+
+  # Fonts must be put in the fonts.packages instead of the system packages;
+  # see https://nixos.wiki/wiki/Fonts
+  fonts.packages = with pkgs; [
+    iosevka
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    # symbola # Might look into this later (see Emacs config notes); but it has an unfree license, so not trivial to add.
+  ];
+  # I will probably need more settings to make Iosevka the default font for installed apps;
+  # Emacs handles that itself, so I'm leaving it for now.
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
