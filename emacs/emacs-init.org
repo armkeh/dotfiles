@@ -4000,9 +4000,31 @@ This includes the time, if we enable ~display-time-mode~.
 (setq tab-bar-format
   '(tab-bar-format-tabs-groups
     tab-bar-format-align-right
-    tab-bar-format-global
-    tab-bar-separator   ;; Place a couple separators to keep the global area a bit off the left edge.
-    tab-bar-separator)) ;; This last separator is particularly important; without it sometime a line break sneaks in.
+    tab-bar-format-global))
+#+end_src
+
+In practice I've found that the right-aligned portion of the tab-bar
+tends to run off onto another line, despite my best efforts.
+This hack to the align right function will prevent that
+by offsetting it by a few pixels.
+#+begin_src emacs-lisp :var offset=5
+; (eval-after-load "tab-bar"
+;   (defun tab-bar-format-align-right ()
+;     "Align the rest of tab bar items to the right."
+;     (let* ((rest (cdr (memq 'tab-bar-format-align-right tab-bar-format)))
+;            (rest (tab-bar-format-list rest))
+;            (rest (mapconcat (lambda (item) (nth 2 item)) rest ""))
+;            (hpos (progn
+;                    (add-face-text-property 0 (length rest) 'tab-bar t rest)
+;                    (string-pixel-width rest)))
+;            (str (propertize " " 'display
+;                             ;; The `right' spec doesn't work on TTY frames
+;                             ;; when windows are split horizontally (bug#59620)
+;                             (if (window-system)
+;                                 `(space :align-to (- right (,hpos)))
+;                               `(space :align-to (,(- (frame-inner-width)
+;                                                      hpos)))))))
+;       `((align-right menu-item ,str ignore)))))
 #+end_src
 
 ** A more noticable divider between windows    :window:
