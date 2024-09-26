@@ -11,73 +11,39 @@
   imports = [
     # include NixOS-WSL modules
     <nixos-wsl/modules>
+
+    # Enable home manager; see https://nix-community.github.io/home-manager/
+    <home-manager/nixos>
   ];
 
   wsl.enable = true;
-  wsl.defaultUser = "nixos";
+  wsl.defaultUser = "armkeh";
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # To consider later: Set up a non-"nixos" user for myself
-  # users.users.armkeh = {
-  #   isNormalUser = true;
-  #   home = "/home/armkeh";
-  #   extraGroups = [ "wheel" ];
-  # };
-  users.users.nixos = {
-    shell = pkgs.zsh;
-  };
-
-  # Enable zsh access to basic nix directories in its path
-  programs.zsh.enable = true;
-
   environment.systemPackages = with pkgs; [
-    gcc
-    gnumake
-    sqlite sqlite.dev # Required by some Emacs packages
-
-    zsh
-    starship
-    zile
-    git
-
-    emacs
-    pandoc
-    mu
-    emacsPackages.mu4e
-
-    syncthing
-
-    agda # TODO: consider migrating to emacsPackages.agda-input instead, at least for system-wide installation
+    home-manager
   ];
 
-  # Run Emacs as a daemon
-  services.emacs = {
-    enable = true;
-    package = pkgs.emacs;
+  home-manager = {
+    users = {
+      armkeh = import /home/armkeh/home.nix;
+    };
   };
 
+  # Login shell must be set at system level
+  programs.zsh.enable = true;
+  users.users.armkeh.shell = pkgs.zsh;
+
+  # TODO: move this service to home-manager config once it's better supported there;
+  #       see https://github.com/nix-community/home-manager/issues/4049
   services.syncthing = {
     enable = true;
-    user = "nixos";
-    dataDir = "/home/nixos";
-    configDir = "/home/nixos/.config/syncthing";
+    user = "armkeh";
+    dataDir = "/home/armkeh";
+    configDir = "/home/armkeh/.config/syncthing";
   };
-
-  environment.variables.EDITOR = "zile";
-
-  # Fonts must be put in the fonts.packages instead of the system packages;
-  # see https://nixos.wiki/wiki/Fonts
-  fonts.packages = with pkgs; [
-    iosevka
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    # symbola # Might look into this later (see Emacs config notes); but it has an unfree license, so not trivial to add.
-  ];
-  # I will probably need more settings to make Iosevka the default font for installed apps;
-  # Emacs handles that itself, so I'm leaving it for now.
-
+  
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave
