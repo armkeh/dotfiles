@@ -4042,7 +4042,7 @@ between windows. ~window-divider-mode~ provides this.
 (window-divider-mode)
 #+end_src
 
-** Dim buffers when not in use                 :buffer:
+** COMMENT Dim buffers when not in use         :buffer:
 
 The package ~dimmer~ will dim inactive windows to emphasise which
 window has focus.
