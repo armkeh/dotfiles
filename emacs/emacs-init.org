@@ -423,7 +423,11 @@ These utility packages simplify many families of tasks.
 (use-package f)
 #+end_src
 
-** SQLite support
+** COMMENT SQLite support
+
+The below may be necessary if Emacs was built without SQLite support.
+If you see the below message, re-enable this
+(and maybe consider making it check for support).
 
 #+begin_quote
 Warning (emacsql): Since your Emacs does not come with
