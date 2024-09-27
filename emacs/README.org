@@ -28,7 +28,6 @@ See also my
   - [[#add-directories-to-the-emacs-load-path][Add directories to the Emacs load path]]
   - [[#set-a-custom-directory-for-non-package-manager-managed-elisp-files][Set a custom directory for non-package manager managed Elisp files]]
   - [[#elisp-utilities][Elisp utilities]]
-  - [[#sqlite-support][SQLite support]]
 - [[#custom-elisp][Custom Elisp]]
   - [[#toggle-themes][Toggle themes]]
   - [[#theme-change-hook][Theme change hook]]
@@ -53,7 +52,6 @@ See also my
   - [[#almost-always-use-spaces-instead-of-tabs][(Almost) always use spaces instead of tabs]]
   - [[#turn-off-electric-indent-mode][Turn off electric indent mode]]
 - [[#vital-modes-and-vital-mode-specific-settings][Vital modes and vital mode-specific settings]]
-  - [[#evil-e-vi-l-mode][Evil (e-vi-l) mode]]
   - [[#org-mode][Org mode]]
   - [[#sending-email][Sending email]]
   - [[#reading-email-with-mu4e-and-isync][Reading email: with mu4e and isync]]
@@ -77,7 +75,6 @@ See also my
   - [[#rainbow-delimiters][Rainbow delimiters]]
   - [[#tab-bar][Tab-bar]]
   - [[#a-more-noticable-divider-between-windows][A more noticable divider between windows]]
-  - [[#dim-buffers-when-not-in-use][Dim buffers when not in use]]
   - [[#kill-the-open-init-buffer-and-reopen-it-1][Kill the open init buffer and reopen it]]
 - [[#intermediate-modes-and-intermediate-mode-specific-settings][Intermediate modes and intermediate mode-specific settings]]
   - [[#org-mode-cosmetics][Org mode cosmetics]]
@@ -95,10 +92,10 @@ See also my
   - [[#flash-on-error][Flash on error]]
   - [[#add-a-little-scrollbar-to-the-modeline][Add a little scrollbar to the modeline]]
   - [[#show-the-clock][Show the clock]]
+  - [[#indentation-indicatorsguides][Indentation indicators/guides]]
   - [[#kill-the-open-init-buffer-and-reopen-it-2][Kill the open init buffer and reopen it]]
 - [[#final-nearly-modes-and-final-mode-specific-settings][Final (nearly) modes and final mode-specific settings]]
   - [[#org-mode-1][Org mode]]
-  - [[#alerts-for-emails][Alerts for emails]]
   - [[#dired][Dired]]
   - [[#eshell][Eshell]]
   - [[#which-key][Which key]]
@@ -110,12 +107,12 @@ See also my
   - [[#show-uncommitted-changes-to-files-as-we-view-them][Show uncommitted changes to files as we view them]]
   - [[#minions-see-and-toggle-minor-modes][Minions; see and toggle minor modes]]
 - [[#programming-language-modes-and-mode-specific-settings][Programming language modes and mode-specific settings]]
-  - [[#language-server-protocol][Language server protocol]]
   - [[#json][JSON]]
   - [[#dhall-configuration-language][Dhall configuration language]]
   - [[#purescript][Purescript]]
   - [[#elm][Elm]]
-  - [[#go-sometimes-called-golang][Go (sometimes called Golang)]]
+  - [[#haskell][Haskell]]
+  - [[#go][Go]]
   - [[#yaml-configuration-language][YAML configuration language]]
   - [[#toml-configuration-language][TOML configuration language]]
   - [[#common-lisp][Common Lisp]]
@@ -124,10 +121,11 @@ See also my
   - [[#clojure][Clojure]]
   - [[#ammonite-deprecated][Ammonite (deprecated)]]
   - [[#ditaa][Ditaa]]
+  - [[#docker][Docker]]
+  - [[#cucumber-gherkin][Cucumber, Gherkin]]
   - [[#fold-code][Fold code]]
 - [[#session-setup][Session setup]]
   - [[#personal-machines][Personal machines]]
-  - [[#index-work-machine][Index work machine]]
   - [[#check-identity-of-machine-and-load-session][Check identity of machine and load session]]
 - [[#cleanup][Cleanup]]
   - [[#check-the-contents-of-the-propersystem-init-file][Check the contents of the (proper/system) init file]]
@@ -517,24 +515,6 @@ These utility packages simplify many families of tasks.
 ~f~ is for ~f~-ile management.
 #+begin_src emacs-lisp
 (use-package f)
-#+end_src
-
-** SQLite support
-
-#+begin_quote
-Warning (emacsql): Since your Emacs does not come with
-built-in SQLite support [1], but does support C modules, the best
-EmacSQL backend is provided by the third-party `sqlite3' package
-[2].
-
-Please install the `sqlite3' Elisp package using your preferred
-Emacs package manager, and install the SQLite shared library
-using your distribution's package manager.  That package should
-be named something like `libsqlite3' [3] and NOT just `sqlite3'.
-#+end_quote
-
-#+begin_src emacs-lisp
-(use-package sqlite3)
 #+end_src
 
 * Custom Elisp
@@ -1091,26 +1071,6 @@ I don't use this or appreciate its interference.
 
 * Vital modes and vital mode-specific settings
 
-** Evil (e-vi-l) mode
-
-I intermittently try to make use of evil mode,
-which promises to increase productivity through modal vi-inspired modes,
-if one can be thoughtful about ones editing process.
-
-One bit of pre-setup; I don't want evil-mode to override
-the behaviour of ~<tab>~ (which is shared with ~C-i~)
-during normal (evil) state, as this prevents
-cycling of Org section visibilities in normal mode.
-#+begin_src emacs-lisp
-(setq evil-want-C-i-jump nil)
-#+end_src
-
-Install and activate evil.
-#+begin_src emacs-lisp
-(use-package evil)
-(evil-mode 1)
-#+end_src
-
 ** Org mode                                     :org:
 
 *** Preamble
@@ -1432,7 +1392,22 @@ This list originated from a
     mu4e-headers-attach-mark    '("a" . "📎 ")
     mu4e-headers-encrypted-mark '("x" . "🔐 ")
     mu4e-headers-signed-mark    '("s" . "🔏 ")
-    mu4e-headers-unread-mark    '("u" . "✉ "))
+    mu4e-headers-unread-mark    '("u" . "✉ ")
+    mu4e-modeline-all-clear     '("No mail " . "No mail ")
+    mu4e-modeline-all-read      '("No unread mail " . "No unread mail ")
+    mu4e-modeline-unread-items  '("Unread mail " . "Unread mail ")
+    mu4e-modeline-new-items     '("New mail " . "New mail ")
+    ;; TODO: maybe reenable these search symbols if I adopt more complicated email flow
+    mu4e-search-threaded-label        '("" . "")
+    mu4e-search-full-label            '("" . "")
+    mu4e-search-related-label         '("" . "")
+    mu4e-search-skip-duplicates-label '("" . "")
+    mu4e-search-hide-label            '("" . ""))
+#+end_src
+
+Test out the above with this command
+#+begin_src emacs-lisp
+(mu4e--modeline-string)
 #+end_src
 
 **** Individual mail
@@ -1472,6 +1447,22 @@ this shortcut.
 #+begin_src emacs-lisp
   (add-to-list 'mu4e-view-actions
     '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+#+end_src
+
+When attempting to read HTML email as plaintext, I've found that several sources
+somehow set the background colour and foreground colour of the text
+to be similar (or perhaps fail to set one or the other, I'm not sure),
+making the plaintext still very difficult to make out.
+These settings try to prevent such setting of the background, improving
+the chances that emails will be readable.
+See [[https://www.reddit.com/r/emacs/comments/9ep5o1/mu4e_stop_emails_setting_backgroundforeground/][reddit]] for the source of this code.
+#+begin_src emacs-lisp
+(require 'mu4e-contrib)
+(setq mu4e-html2text-command 'mu4e-shr2text)
+(setq shr-color-visible-luminance-min 60)
+(setq shr-color-visible-distance-min 5)
+(setq shr-use-colors nil)
+(advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
 #+end_src
 
 *** Shortcuts to mailboxes and bookmarks
@@ -1773,7 +1764,8 @@ Org-Agda mode is a Polymode Musa and I created
 for working on literate Agda documents written in Org mode.
 [[https://github.com/alhassy/org-agda-mode]]
 #+begin_src emacs-lisp
-  (require 'org-agda-mode)
+(use-package polymode)
+(require 'org-agda-mode)
 #+end_src
 
 *** End Agda mode section
@@ -2465,17 +2457,17 @@ most interactions of the mouse with Emacs.
 I have found some slip through the cracks,
 such as clicking between tab bar tabs, but they are few.
 #+begin_src emacs-lisp
-(use-package disable-mouse)
-(global-disable-mouse-mode)
+;; (use-package disable-mouse)
+;; (global-disable-mouse-mode)
 #+end_src
 
 This is additionally required if using evil mode.
 #+begin_src emacs-lisp
-(mapc #'disable-mouse-in-keymap
-  (list evil-motion-state-map
-        evil-normal-state-map
-        evil-visual-state-map
-        evil-insert-state-map))
+;;(mapc #'disable-mouse-in-keymap
+;;  (list evil-motion-state-map
+;;        evil-normal-state-map
+;;        evil-visual-state-map
+;;        evil-insert-state-map))
 #+end_src
 
 * Intermediate cosmetics
@@ -2626,9 +2618,31 @@ This includes the time, if we enable ~display-time-mode~.
 (setq tab-bar-format
   '(tab-bar-format-tabs-groups
     tab-bar-format-align-right
-    tab-bar-format-global
-    tab-bar-separator   ;; Place a couple separators to keep the global area a bit off the left edge.
-    tab-bar-separator)) ;; This last separator is particularly important; without it sometime a line break sneaks in.
+    tab-bar-format-global))
+#+end_src
+
+In practice I've found that the right-aligned portion of the tab-bar
+tends to run off onto another line, despite my best efforts.
+This hack to the align right function will prevent that
+by offsetting it by a few pixels.
+#+begin_src emacs-lisp
+; (eval-after-load "tab-bar"
+;   (defun tab-bar-format-align-right ()
+;     "Align the rest of tab bar items to the right."
+;     (let* ((rest (cdr (memq 'tab-bar-format-align-right tab-bar-format)))
+;            (rest (tab-bar-format-list rest))
+;            (rest (mapconcat (lambda (item) (nth 2 item)) rest ""))
+;            (hpos (progn
+;                    (add-face-text-property 0 (length rest) 'tab-bar t rest)
+;                    (string-pixel-width rest)))
+;            (str (propertize " " 'display
+;                             ;; The `right' spec doesn't work on TTY frames
+;                             ;; when windows are split horizontally (bug#59620)
+;                             (if (window-system)
+;                                 `(space :align-to (- right (,hpos)))
+;                               `(space :align-to (,(- (frame-inner-width)
+;                                                      hpos)))))))
+;       `((align-right menu-item ,str ignore)))))
 #+end_src
 
 ** A more noticable divider between windows     :window:
@@ -2640,57 +2654,6 @@ For that reason, I like to have a more noticable divider
 between windows. ~window-divider-mode~ provides this.
 #+begin_src emacs-lisp
 (window-divider-mode)
-#+end_src
-
-** Dim buffers when not in use                  :buffer:
-
-The package ~dimmer~ will dim inactive windows to emphasise which
-window has focus.
-See its [[https://github.com/gonewest818/dimmer.el][Github page]].
-#+begin_src emacs-lisp
-(use-package dimmer)
-#+end_src
-
-Turn ~dimmer-mode~ on when Emacs starts.
-#+begin_src emacs-lisp
-(dimmer-mode)
-#+end_src
-
-Don't dim ~which-key~ and ~helm~ buffers.
-#+begin_src emacs-lisp
-(dimmer-configure-which-key)
-(dimmer-configure-helm)
-#+end_src
-
-We can adjust the ~:foreground~ colours, the ~:background~ colours,
-or ~:both~. With a dark theme, adjusting the background causes
-the background to become lighter in inactive buffers,
-which “looks wrong” (makes them looked like they have focus).
-So I set this to just ~:foreground~ (which is the default anyway).
-#+begin_src emacs-lisp
-(setq dimmer-adjustment-mode :foreground)
-#+end_src
-
-I find the default dimming of ~20%~ to be too faint;
-it is noticeable when changing windows, but it does not
-remain noticeable enough later (e.g. when I look away from Emacs
-then look back). Increasing that to ~30%~ seems to be sufficient,
-while maintaing the readability of unfocussed buffers.
-#+begin_src emacs-lisp
-(setq dimmer-fraction 0.3)
-#+end_src
-
-Note that by default, all windows will be dimmer when Emacs
-notices that it does not have focus in the windowing system.
-I like this behaviour; it could be changed by changing
-the variable ~dimmer-watch-frame-focus-events~.
-
-The developer of the ~modus~ themes I use recommends
-using RGB colour space with ~dimmer~;
-they say that colour space “remains faithful
-to the hueness of the colours used by the themes.”
-#+begin_src emacs-lisp
-(setq dimmer-use-colorspace :rgb)
 #+end_src
 
 ** Kill the open init buffer and reopen it      :cleanup:
@@ -4272,7 +4235,18 @@ the ~global-mode-string~ gets modified on me to not include the time string;
 let's ensure it's added in.
 Note that this section must then go after custom modeline setup.
 #+begin_src emacs-lisp
+(add-to-list 'global-mode-string "   " 'append) ;; Padding
 (add-to-list 'global-mode-string 'display-time-string 'append)
+#+end_src
+
+** Indentation indicators/guides
+
+#+begin_src emacs-lisp
+(use-package highlight-indent-guides)
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+(setq highlight-indent-guides-method 'fill) ;; alternating background stripes
+;; Other modes don't play as well with whitespace mode
+(setq highlight-indent-guides-responsive 'stack)
 #+end_src
 
 ** Kill the open init buffer and reopen it      :cleanup:
@@ -4320,7 +4294,7 @@ mark that headline as a TODO task in the appropriate state.
 I've added =SOON=, =NEXT=, =WORKING=, =DELEGATED= and =CANCELLED=.
 #+begin_src emacs-lisp
 (setq org-todo-keywords
-  '((sequence "TODO" "DELEGATED" "SOON" "NEXT" "WORKING" "OVERDUE" "|" "DONE" "CANCELLED")))
+  '((sequence "TODO" "DELEGATED" "WORKING" "BACKBURN" "CONFIRMING" "OVERDUE" "|" "DONE" "CANCELLED")))
 #+end_src
 
 Note the ~"|"~ entry; headlines marked with any of the states
@@ -4353,57 +4327,6 @@ used in most export formats (at least HTML and LaTeX).
 #+begin_src emacs-lisp
 (setq org-agenda-files
   '("~/logs/personal/todo.org"))
-#+end_src
-
-** Alerts for emails                            :mail:
-
-The ~mu4e-alert~ package provides the ability to get
-various kinds of alert about incoming mail using ~mu4e~.
-#+begin_src emacs-lisp
-(use-package mu4e-alert)
-#+end_src
-
-Use the Emacs ~notifications~ libraries to send
-desktop notifications (OS-level notifications).
-This should work on Linux systems.
-We can set ~lib-notify~ instead (for Linux),
-but this way we don't rely on that library being installed.
-But in my current workflow, desktop notifications
-are in fact an unnecessary distraction;
-I already receive notifications in Emacs, on my phone
-and on my watch. So this is commented out for now.
-#+begin_src emacs-lisp
-;;(mu4e-alert-set-default-style 'notifications)
-;;(add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
-#+end_src
-
-Show the unread email count (or however we format the alert)
-in the global information area, which usually shows on the modeline.
-I actually show that on the tab-bar instead.
-#+begin_src emacs-lisp
-(mu4e-alert-enable-mode-line-display)
-#+end_src
-
-Only alert for emails coming into the inbox.
-Don't worry about other mail directories.
-(I direct some less urgent mail to other directories,
- and don't want to be bothered by notifications from them.)
-Do include all mail in the inbox, even if it is read;
-I follow a “zero inbox” approach, so the number of emails
-in the inbox is the number of emails I still have to deal with today,
-even if some or all are marked as read.
-#+begin_src emacs-lisp
-(setq mu4e-alert-interesting-mail-query
-   (concat
-      ;;"flag:unread"
-      "maildir:/Inbox"))
-#+end_src
-
-Only show the count of unread emails in the notifications,
-not the senders or subjects.
-:TODO: Does this stop the message spam?
-#+begin_src emacs-lisp
-(setq mu4e-alert-email-notification-types '(count))
 #+end_src
 
 ** Dired
@@ -4638,18 +4561,6 @@ or opening a help buffer.
 
 * Programming language modes and mode-specific settings
 
-** Language server protocol                     :programming:
-
-#+begin_src emacs-lisp
-(use-package lsp-mode)
-#+end_src
-
-Add integrations with some other packages.
-#+begin_src emacs-lisp
-(use-package lsp-ivy)
-(use-package lsp-treemacs)
-#+end_src
-
 ** JSON                                         :programming:
 
 #+begin_src emacs-lisp
@@ -4674,7 +4585,13 @@ Add integrations with some other packages.
 (use-package elm-mode)
 #+end_src
 
-** Go (sometimes called Golang)                 :programming:
+** Haskell                                      :programming:
+
+#+begin_src emacs-lisp
+(use-package haskell-mode)
+#+end_src
+
+** Go                                           :programming:
 
 Activate Org babel support for Go.
 :TODO: Commentary on how to evaluate Go code nicely.
@@ -4685,16 +4602,6 @@ Activate Org babel support for Go.
 #+begin_src emacs-lisp
 (use-package go-mode)
 ;(use-package go-lint)
-#+end_src
-
-#+begin_src emacs-lisp
-(add-hook 'go-mode-hook 'lsp-deferred)
-#+end_src
-
-Activate ~gofmt~ upon save.
-#+begin_src emacs-lisp
-(add-hook 'go-mode-hook
-          (lambda () (add-hook 'before-save-hook gofmt-before-save nil 'local)))
 #+end_src
 
 ** YAML configuration language                  :programming:
@@ -4775,7 +4682,6 @@ Org babel support for clojure is builtin, so just ~require~ it.
 #+end_src
 
 ** Ammonite (deprecated)                        :programming:
-
 ~ob-ammonite~ interacts with the ~ammonite~ REPL for ~scala~.
 Unfortunately it's been dropped off MELPA, apparently.
 It should still be available on [[https://github.com/zwild/ob-ammonite][Github]].
@@ -4824,6 +4730,22 @@ We need to point to the ~jar~ file for the Ditaa tool.
 (setq org-ditaa-jar-path "/usr/bin/ditaa")
 #+end_src
 
+** Docker
+
+#+begin_src emacs-lisp
+(use-package dockerfile-mode)
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package docker)
+#+end_src
+
+** Cucumber, Gherkin
+
+#+begin_src emacs-lisp
+(use-package feature-mode)
+#+end_src
+
 ** Fold code
 
 https://www.reddit.com/r/emacs/comments/746cd0/comment/dnwi2x1/?utm_source=share&utm_medium=web2x&context=3
@@ -4861,24 +4783,24 @@ and then loaded based on the identity of the machine being used.
 
 ** Personal machines
 
-*** Filepaths
+*** ~let~ some directory/file paths
 
-For maintainability, most files opened below
-are listed here.
+For maintainability, most files opened below are listed here.
 #+begin_src emacs-lisp
-(setq-local my/log-dir   "~/logs/")
-(setq-local my/scratch-dir "~/logs/scratch/")
-(setq-local my/dotfiles-dir "~/dotfiles/")
-(setq-local my/emacs-dir (concat my/dotfiles-dir "emacs/"))
-(setq-local my/agda-dir  "~/Dropbox/McMaster/Agda/")
+(letrec ((log-dir   "~/logs/")
+         (scratch-dir "~/logs/scratch/")
+         (dotfiles-dir "~/dotfiles/")
+         (emacs-dir (concat dotfiles-dir "emacs/"))
+         (agda-dir  "~/Dropbox/McMaster/Agda/")
 
-(setq-local my/emacs-init   (concat my/emacs-dir "emacs-init.org"))
-(setq-local my/yankpad-file (concat my/emacs-dir "yankpad.org"))
+         (emacs-init   (concat emacs-dir "emacs-init.org"))
+         (yankpad-file (concat emacs-dir "yankpad.org"))
 
-(setq-local my/journal (concat my/log-dir "personal/journal.org"))
+         (journal (concat log-dir "personal/journal.org"))
+         (docket (concat log-dir "personal/docket.org"))
 
-(setq-local my/org-scratch  (concat my/scratch-dir "org-scratch.org"))
-(setq-local my/agda-scratch (concat my/agda-dir "agda-scratch.agda"))
+         (org-scratch  (concat log-dir "org-scratch.org"))
+         (agda-scratch (concat agda-dir "agda-scratch.agda")))
 #+end_src
 
 *** Create tabs
@@ -4944,7 +4866,7 @@ with the messages buffer on the lower left
 and a help buffer preemptively opened in the upper right.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab "init")
-(find-file my/emacs-init)
+(find-file emacs-init)
 (split-window nil nil 'left)
 ; describe symbol will use the window not in focus, so the left
 (describe-symbol 'describe-symbol)
@@ -4959,7 +4881,7 @@ In the tab for managing that repo,
 I want my Emacs init on the left a magit buffer on the right.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab "dotfiles ꇚ")
-(find-file my/emacs-init)
+(find-file emacs-init)
 (split-window nil nil 'right)
 (magit-status-setup-buffer)
 #+end_src
@@ -4969,14 +4891,16 @@ on the left and
 and my inbox on the right.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab "Logs")
-(find-file my/journal)
+(find-file journal)
+(split-window nil nil 'right)
+(find-file docket)
 #+end_src
 
 The ~email~ tab has a scratch file on the left
 and my inbox on the right.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab "email")
-(find-file my/org-scratch)
+(find-file org-scratch)
 (split-window nil nil 'left)
 (mu4e-headers-search-bookmark (mu4e-get-bookmark-query ?i))
 #+end_src
@@ -5021,72 +4945,10 @@ because I blog about Agda.
 (tab-select 1)
 #+end_src
 
-** Index work machine
-I context-switch a lot more frequently while at work,
-so there are not a small handful of projects
-that need to be opened every time I start up Emacs.
+**** Close the ~let~
 
-I do want various log and note files opened.
-Other than that, open a few tabs with my aliases directory open,
-which lets me quickly get into a directory for working.
 #+begin_src emacs-lisp
-(tab-rename "logs")
-(tab-new)
-(tab-rename "meetings")
-(tab-new)
-(tab-rename "@1")
-(tab-new)
-(tab-rename "@2")
-(tab-new)
-(tab-rename "@3")
-
-(tab-bar-switch-to-tab "@3")
-(find-file "~/@")
-(tab-bar-switch-to-tab "@2")
-(find-file "~/@")
-(tab-bar-switch-to-tab "@1")
-(find-file "~/@")
-
-(tab-bar-switch-to-tab "meetings")
-(find-file "~/logs/meetings/standup.org")
-(split-window nil nil 'left)
-(find-file "~/logs/meetings/one-on-ones.org")
-
-(tab-bar-switch-to-tab "logs")
-(find-file "~/logs/scratch/org-scratch.org")
-(split-window nil nil 'left)
-(find-file "~/logs/knowledge.org")
-(split-window nil nil 'above)
-(find-file "~/logs/evaluation-notes.org")
-#+end_src
-
-These convenience functions quickly set up some defined tabs for me.
-#+begin_src emacs-lisp
-(defun create-deployment-tabs ()
-  "Open a set of tabs for the deployment repos at work and set them up."
-  (interactive)
-  (create-git-repo-tab "~/@/deployment/core/accounts-api-deployment"             "acc core")
-  (create-git-repo-tab "~/@/deployment/core/accounts-data-api-deployment"        "accdata core")
-  (create-git-repo-tab "~/@/deployment/core/authentication-api-deployment"       "authn core")
-  (create-git-repo-tab "~/@/deployment/core/authorization-api-deployment"        "authz core")
-  (create-git-repo-tab "~/@/deployment/core/exchange-traffic-api-deployment"     "extr core")
-  (create-git-repo-tab "~/@/deployment/core/notification-api-deployment"         "notif core")
-  (create-git-repo-tab "~/@/deployment/core/sar-api-deployment"                  "sar core")
-  (create-git-repo-tab "~/@/deployment/core/supply-configuration-api-deployment" "supconf core")
-  (create-git-repo-tab "~/@/deployment/core/user-api-deployment"                 "user core"))
-
-(defun create-api-tabs ()
-  "Open a set of tabs for the API repos at work and set them up."
-  (interactive)
-  (create-git-repo-tab "~/@/api/accounts-api"             "acc")
-  (create-git-repo-tab "~/@/api/accounts-data-api"        "accdata")
-  (create-git-repo-tab "~/@/api/authentication-api"       "authn")
-  (create-git-repo-tab "~/@/api/authorization-api"        "authz")
-  (create-git-repo-tab "~/@/api/exchange-traffic-api"     "extr")
-  (create-git-repo-tab "~/@/api/notification-api"         "notif")
-  (create-git-repo-tab "~/@/api/sar-api"                  "sar")
-  (create-git-repo-tab "~/@/api/supply-configuration-api" "supconf")
-  (create-git-repo-tab "~/@/api/user-api"                 "user"))
+)
 #+end_src
 
 ** Check identity of machine and load session
@@ -5100,7 +4962,6 @@ These convenience functions quickly set up some defined tabs for me.
       (let ((this-machine (f-read-text "~/.this-machine")))
         (pcase (string-trim-right this-machine)
           ("personal" (load "~/dotfiles/emacs/personal-session.el"))
-          ("ix"       (load "~/dotfiles/emacs/ix-session.el"))
           (otherwise  (message-box "Couldn't determine what this machine is for session setup. Put a correct identity in ~/.this-machine."))))
     ;; else, machine identity file doesn't exist
     (message "Init: Didn't find the machine identity file at ~/.this-machine, so don't know how to set up the session.")))
