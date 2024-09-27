@@ -5637,6 +5637,7 @@ the ~global-mode-string~ gets modified on me to not include the time string;
 let's ensure it's added in.
 Note that this section must then go after custom modeline setup.
 #+begin_src emacs-lisp
+(add-to-list 'global-mode-string "   " 'append) ;; Padding
 (add-to-list 'global-mode-string 'display-time-string 'append)
 #+end_src
 
