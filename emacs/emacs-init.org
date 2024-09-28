@@ -1133,6 +1133,66 @@ so the edit can be seen.
 (setq org-catch-invisible-edits 'show)
 #+end_src
 
+** vterm                                       :programming:
+
+~vterm~ is a great terminal editor for when I want to use a terminal
+from within Emacs. I previously used [[https://www.gnu.org/software/emacs/manual/html_mono/eshell.html][Eshell]], and may again
+(or may consider [[https://elpa.nongnu.org/nongnu/eat.html][eat]], “Emulate A Terminal”)
+if I find a need for using more Elisp around terminal inputs/outputs.
+
+From it's documentation:
+#+begin_quote
+Emacs-libvterm (vterm) is fully-fledged terminal emulator based on an
+external library (libvterm) loaded as a dynamic module.  As a result of using
+compiled code (instead of elisp), emacs-libvterm is fully capable, fast, and
+it can seamlessly handle large outputs.
+#+end_quote
+
+#+begin_src emacs-lisp
+(use-package vterm)
+#+end_src
+
+** COMMENT Eshell                              :programming:
+
+The Eshell is a wonderful shell-like command interpreter inside of Emacs.
+I find it's not appropriate for intensive command line tasks,
+but it's nice not to have to leave Emacs for simple tasks.
+(Note there are alternatives for this purpose, including
+ popping up an external shell inside of Emacs.)
+#+begin_src emacs-lisp
+(use-package eshell)
+#+end_src
+
+Jeremias Queiroz posted a “fancy eshell prompt” setup on [[https://www.reddit.com/r/emacs/comments/6f0rkz/my_fancy_eshell_prompt/][Reddit]],
+from which I derived this setup, but I've modified it to use
+builtin face colours to improve portability across themes.
+For instance, the ~default~ colour will most likely be white
+for dark themes and black for light themes.
+#+begin_src emacs-lisp
+(setq eshell-prompt-function
+  (lambda ()
+    (let ((default  (face-attribute 'default :foreground))
+          (green    (face-attribute 'success :foreground))
+          (red      (face-attribute 'error   :foreground))
+          (blue     (face-attribute 'link    :foreground))
+          (yellow   (face-attribute 'warning :foreground)))
+    (concat
+    (propertize "┌—["                 'face  `(:foreground ,green))
+    (propertize (user-login-name)     'face  `(:foreground ,red))
+    (propertize "@"                   'face  `(:foreground ,blue))
+    (propertize (system-name)         'face  `(:foreground ,red))
+    (propertize "]──["                'face  `(:foreground ,green))
+    (propertize (format-time-string "%a %b %d" (current-time)) 'face `(:foreground ,yellow))
+    (propertize "]──["                'face `(:foreground ,green))
+    (propertize (format-time-string "%H:%M" (current-time)) 'face `(:foreground ,yellow))
+    (propertize "]\n"                 'face `(:foreground ,green))
+    (propertize "│ "                  'face `(:foreground ,green))
+    (propertize (concat (eshell/pwd)) 'face `(:foreground ,blue))
+    (propertize "\n"                  'face `(:foreground ,green))
+    (propertize "└─►"                 'face `(:foreground ,green))
+    (propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground ,default))))))
+#+end_src
+
 ** Sending email                               :mail:
 
 Only execute this setup if we have ~mu~ installed;
@@ -5824,47 +5884,6 @@ Highlighting the whole line we're on helps keep track of what file
 the cursor is on.
 #+begin_src emacs-lisp
 (add-hook 'dired-after-readin-hook 'hl-line-mode)
-#+end_src
-
-** Eshell                                      :programming:
-
-The Eshell is a wonderful shell-like command interpreter inside of Emacs.
-I find it's not appropriate for intensive command line tasks,
-but it's nice not to have to leave Emacs for simple tasks.
-(Note there are alternatives for this purpose, including
- popping up an external shell inside of Emacs.)
-#+begin_src emacs-lisp
-(use-package eshell)
-#+end_src
-
-Jeremias Queiroz posted a “fancy eshell prompt” setup on [[https://www.reddit.com/r/emacs/comments/6f0rkz/my_fancy_eshell_prompt/][Reddit]],
-from which I derived this setup, but I've modified it to use
-builtin face colours to improve portability across themes.
-For instance, the ~default~ colour will most likely be white
-for dark themes and black for light themes.
-#+begin_src emacs-lisp
-(setq eshell-prompt-function
-  (lambda ()
-    (let ((default  (face-attribute 'default :foreground))
-          (green    (face-attribute 'success :foreground))
-          (red      (face-attribute 'error   :foreground))
-          (blue     (face-attribute 'link    :foreground))
-          (yellow   (face-attribute 'warning :foreground)))
-    (concat
-    (propertize "┌—["                 'face  `(:foreground ,green))
-    (propertize (user-login-name)     'face  `(:foreground ,red))
-    (propertize "@"                   'face  `(:foreground ,blue))
-    (propertize (system-name)         'face  `(:foreground ,red))
-    (propertize "]──["                'face  `(:foreground ,green))
-    (propertize (format-time-string "%a %b %d" (current-time)) 'face `(:foreground ,yellow))
-    (propertize "]──["                'face `(:foreground ,green))
-    (propertize (format-time-string "%H:%M" (current-time)) 'face `(:foreground ,yellow))
-    (propertize "]\n"                 'face `(:foreground ,green))
-    (propertize "│ "                  'face `(:foreground ,green))
-    (propertize (concat (eshell/pwd)) 'face `(:foreground ,blue))
-    (propertize "\n"                  'face `(:foreground ,green))
-    (propertize "└─►"                 'face `(:foreground ,green))
-    (propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground ,default))))))
 #+end_src
 
 ** Which key                                   :completion:
