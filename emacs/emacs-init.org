@@ -5574,11 +5574,8 @@ I use treemac's tab-bar support to have an instance per tab.
 #+end_src
 
 Of course, the tree is much more useful if it shows the full context
-of the project we are working in.
-Treemacs has a notion of “[[https://github.com/Alexander-Miller/treemacs?tab=readme-ov-file#projects-and-workspaces][workspaces]]”,
-which allows you to establish multiple concurrent file trees
-and switch between them.
-But I prefer the simpler approach of using a single file tree,
+of the project we are working in. But rather than treemac's workspaces,
+I prefer the simpler approach of using a single file tree,
 but following the current project
 (which, in the lack of a project management system, falls back
  to the current git repository).
@@ -5617,6 +5614,11 @@ Track changes to files and update the tree if necessary
 #+begin_src emacs-lisp
 (treemacs-filewatch-mode t)
 #+end_src
+
+Use the fringe indicator to compliment the highlighting
+on the currently selected file's name in the tree.
+#+begin_src emacs-lisp
+(treemacs-fringe-indicator-mode 'always)
 #+end_src
 
 * Final cosmetics
