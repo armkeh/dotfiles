@@ -5636,6 +5636,11 @@ corresponding to file types next to files in the list.
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 #+end_src
 
+By default, the icons are monochrome. Let's turn on the colour.
+#+begin_src emacs-lisp
+(setq all-the-icons-dired-monochrome nil)
+#+end_src
+
 ** Modeline styling                            :theme:
 
 *** Add styling via Doom modeline
