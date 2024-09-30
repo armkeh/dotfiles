@@ -1492,16 +1492,6 @@ to the inbox while setting up my mu4e buffer on a new Emacs instance.
   (mu4e-bookmark-define "maildir:/Inbox" "Inbox" ?i)
 #+end_src
 
-*** Maildirs extension to show read/total counts per mail directory
-
-The package ~mu4e-maildirs-extension~ causes the display of
-the read/total count for each mail directory in the list.
-#+begin_src emacs-lisp
-  (use-package mu4e-maildirs-extension)
-
-  (mu4e-maildirs-extension)
-#+end_src
-
 *** Message composition settings
 
 I don't use a signature.
