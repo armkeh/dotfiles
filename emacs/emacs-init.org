@@ -5612,6 +5612,13 @@ on the currently selected file's name in the tree.
 (treemacs-fringe-indicator-mode 'always)
 #+end_src
 
+I find the all-the-icons icons less intrusive than the defaults.
+Plus, it matches what I use with Dired.
+#+begin_src emacs-lisp
+(use-package treemacs-all-the-icons)
+(treemacs-load-theme "all-the-icons")
+#+end_src
+
 * Final cosmetics
 
 ** Icon support
