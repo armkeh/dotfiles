@@ -5562,6 +5562,17 @@ Of course, Emacs has packages that provide this;
 (use-package treemacs)
 #+end_src
 
+Usually there is a unique Treemacs instance per Emacs frame.
+(Side note:
+  Treemacs has a notion of “[[https://github.com/Alexander-Miller/treemacs?tab=readme-ov-file#projects-and-workspaces][workspaces]]”,
+  which allows you to establish multiple concurrent file trees
+  and switch between them.)
+Since I use tab-bar mode tabs, which are like separate frames,
+I use treemac's tab-bar support to have an instance per tab.
+#+begin_src emacs-lisp
+(use-package treemacs-tab-bar)
+#+end_src
+
 Of course, the tree is much more useful if it shows the full context
 of the project we are working in.
 Treemacs has a notion of “[[https://github.com/Alexander-Miller/treemacs?tab=readme-ov-file#projects-and-workspaces][workspaces]]”,
