@@ -5607,7 +5607,16 @@ Instead I just make my own guide by overriding the indentation string.
 
 Track the git status of files using Treemacs.
 #+begin_src emacs-lisp
-(treemacs-git-commit-diff-mode t)
+(treemacs-git-mode t) ;; Show status of files/directories using colours
+(treemacs-git-commit-diff-mode t) ;; Track # of commits we're ahead/behind
+(use-package treemacs-magit) ;; Fills in some gaps in the above.
+#+end_src
+
+Track changes to files and update the tree if necessary
+(for instance, if files have had their git status changed).
+#+begin_src emacs-lisp
+(treemacs-filewatch-mode t)
+#+end_src
 #+end_src
 
 * Final cosmetics
