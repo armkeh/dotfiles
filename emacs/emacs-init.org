@@ -5539,7 +5539,7 @@ We can even jump to other windows!
 (use-package avy)
 #+end_src
 
-** Viewing files (and contents) using a tree layout :movement:
+** Viewing the working directory               :movement:
 
 A common feature for modern text editors and IDEs
 is a narrow left window (or in other terminology, frame),
@@ -5561,6 +5561,7 @@ Since I use tab-bar mode tabs, which are like separate frames,
 I use treemac's tab-bar support to have an instance per tab.
 #+begin_src emacs-lisp
 (use-package treemacs-tab-bar)
+(treemacs-set-scope-type 'Tabs)
 #+end_src
 
 Of course, the tree is much more useful if it shows the full context
@@ -5594,7 +5595,7 @@ Instead I just make my own guide by overriding the indentation string.
 
 Track the git status of files using Treemacs.
 #+begin_src emacs-lisp
-(treemacs-git-mode t) ;; Show status of files/directories using colours
+(treemacs-git-mode 'deferred) ;; Show status of files and directories using colours
 (treemacs-git-commit-diff-mode t) ;; Track # of commits we're ahead/behind
 (use-package treemacs-magit) ;; Fills in some gaps in the above.
 #+end_src
