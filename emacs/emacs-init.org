@@ -4031,8 +4031,7 @@ I make use of ~tab-bar-mode~.
 But note that these are not like tabs in most other applications,
 where you have a tab for each open file!
 That functionality is provided by ~tab-line-mode~,
-not ~tab-bar-mode~, and I find it unnecessary in Emacs;
-buffer switching and handling mechanisms are sufficient.
+not ~tab-bar-mode~, which is configured [[Tab-line][in its own section]].
 
 ~tab-bar-mode~ tabs instead act as saved window configurations.
 #+begin_src emacs-lisp
@@ -4089,6 +4088,32 @@ by offsetting it by a few pixels.
 ;                               `(space :align-to (,(- (frame-inner-width)
 ;                                                      hpos)))))))
 ;       `((align-right menu-item ,str ignore)))))
+#+end_src
+
+** Tab-line                                    :tab:
+
+In contrast to tab-bar mode (configured [[Tab-bar][here]]), the Emacs tab /line/ functions
+as a list of recently visited buffers,
+much more like tabs in browsers and other applications.
+
+I make use of this mode to quickly shift between several files
+without losing my original place.
+A more disciplined approach would be to use bookmarks
+(which are temporary in Emacs, much more like a physical bookmark
+ than a browser one), but the tab-line suffices in the lack of those.
+#+begin_src emacs-lisp
+(use-package tab-line)
+(global-tab-line-mode t)
+#+end_src
+
+I don't ever use the create button,
+since a new tab is automatically created
+whenever we visit a file without an existing tab.
+And to save space, and prevent mis-clicks,
+let's only show the close button for the active tab.
+#+begin_src emacs-lisp
+(setq tab-line-new-button-show nil)
+(setq tab-line-close-button-show 'selected)
 #+end_src
 
 ** A more noticable divider between windows    :window:
