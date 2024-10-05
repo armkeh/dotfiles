@@ -56,7 +56,7 @@ Create Both
 # Propogate mailbox deletion from the server to the local machine.
 # This will only remove empty mailboxes.
 # Don't go the other way, for safety.
-Remove Slave
+Remove Near
 
 # Automatically expunge deleted emails both locally and on the server.
 # By the recommendations in the isync man page, we turn this on.
@@ -136,8 +136,8 @@ never needed (I can always look things up in Gmail's interface if need be).
 Synchronise the entire inbox; I don't keep much in there.
 #+begin_src conf
 Channel gmail-inbox
-  Master :gmail-remote:
-  Slave :gmail-local:
+  Far :gmail-remote:
+  Near :gmail-local:
   Patterns "INBOX"
 #+end_src
 
@@ -148,8 +148,8 @@ probably it is time to start a new thread (so replying to the original
 is not needed).
 #+begin_src conf
 Channel gmail-sent
-  Master :gmail-remote:"[Gmail]/Sent Mail"
-  Slave :gmail-local:"Sent Mail"
+  Far :gmail-remote:"[Gmail]/Sent Mail"
+  Near :gmail-local:"Sent Mail"
   MaxMessages 250
 #+end_src
 
@@ -159,8 +159,8 @@ messages that should not be in there locally
 (this would be very unlikely, as I don't actually delete much).
 #+begin_src conf
 Channel gmail-trash
-  Master :gmail-remote:"[Gmail]/Trash"
-  Slave :gmail-local:"Trash"
+  Far :gmail-remote:"[Gmail]/Trash"
+  Near :gmail-local:"Trash"
   MaxMessages 100
 #+end_src
 
@@ -171,8 +171,8 @@ ideally, not much piles up there.
 If it does in the future, I may have to reevaluate this decision.
 #+begin_src conf
 Channel gmail-desk
-  Master :gmail-remote:
-  Slave :gmail-local:
+  Far :gmail-remote:
+  Near :gmail-local:
   Patterns "Desk\*"
 #+end_src
 
@@ -182,8 +182,8 @@ I do want to keep all of my filing folders synchronised,
 so ~MaxMessage~ is not set here.
 #+begin_src conf
 Channel gmail-filing
-  Master :gmail-remote:
-  Slave :gmail-local:
+  Far :gmail-remote:
+  Near :gmail-local:
   Patterns "Filing\*"
 #+end_src
 
@@ -194,8 +194,8 @@ just keep 10, so that the folder exists (and we can move
 emails into it).
 #+begin_src conf
 Channel gmail-longterm
-  Master :gmail-remote:
-  Slave :gmail-local:
+  Far :gmail-remote:
+  Near :gmail-local:
   Patterns "Longterm\*"
   MaxMessages 10
 #+end_src

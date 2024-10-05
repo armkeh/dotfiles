@@ -4,7 +4,7 @@ Create Both
 # Propogate mailbox deletion from the server to the local machine.
 # This will only remove empty mailboxes.
 # Don't go the other way, for safety.
-Remove Slave
+Remove Near
 
 # Automatically expunge deleted emails both locally and on the server.
 # By the recommendations in the isync man page, we turn this on.
@@ -33,33 +33,33 @@ IMAPStore gmail-remote
   Account gmail
 
 Channel gmail-inbox
-  Master :gmail-remote:
-  Slave :gmail-local:
+  Far :gmail-remote:
+  Near :gmail-local:
   Patterns "INBOX"
 
 Channel gmail-sent
-  Master :gmail-remote:"[Gmail]/Sent Mail"
-  Slave :gmail-local:"Sent Mail"
+  Far :gmail-remote:"[Gmail]/Sent Mail"
+  Near :gmail-local:"Sent Mail"
   MaxMessages 250
 
 Channel gmail-trash
-  Master :gmail-remote:"[Gmail]/Trash"
-  Slave :gmail-local:"Trash"
+  Far :gmail-remote:"[Gmail]/Trash"
+  Near :gmail-local:"Trash"
   MaxMessages 100
 
 Channel gmail-desk
-  Master :gmail-remote:
-  Slave :gmail-local:
+  Far :gmail-remote:
+  Near :gmail-local:
   Patterns "Desk\*"
 
 Channel gmail-filing
-  Master :gmail-remote:
-  Slave :gmail-local:
+  Far :gmail-remote:
+  Near :gmail-local:
   Patterns "Filing\*"
 
 Channel gmail-longterm
-  Master :gmail-remote:
-  Slave :gmail-local:
+  Far :gmail-remote:
+  Near :gmail-local:
   Patterns "Longterm\*"
   MaxMessages 10
 
