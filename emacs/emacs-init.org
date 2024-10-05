@@ -4200,6 +4200,20 @@ I previously used the package [[https://github.com/gonewest818/dimmer.el][dimmer
 but unfortunately it's no longer actively maintained
 and has some bugs.
 
+** Automatically enlarge active window         :window:
+
+The ~golden-ratio~ package adds a mode which
+automatically enlarges with active window,
+shrinking non-focused windows,
+in order to allow for better focus on the current task
+while keeping other windows mostly visible.
+It's particularly effective when working from a laptop screen,
+and I prefer it to constant manual resizing.
+#+begin_src emacs-lisp
+(use-package golden-ratio)
+(golden-ratio-mode t)
+#+end_src
+
 ** Kill the open init buffer and reopen it     :cleanup:
 
 To ensure all these cosmetic changes are picked up,

@@ -78,6 +78,7 @@ See also my
   - [[#tab-line][Tab-line]]
   - [[#a-more-noticable-divider-between-windows][A more noticable divider between windows]]
   - [[#dim-windows-when-not-in-use][Dim windows when not in use]]
+  - [[#automatically-enlarge-active-window][Automatically enlarge active window]]
   - [[#kill-the-open-init-buffer-and-reopen-it-1][Kill the open init buffer and reopen it]]
 - [[#intermediate-modes-and-intermediate-mode-specific-settings][Intermediate modes and intermediate mode-specific settings]]
   - [[#org-mode-cosmetics][Org mode cosmetics]]
@@ -2723,6 +2724,20 @@ is also affected.
 I previously used the package [[https://github.com/gonewest818/dimmer.el][dimmer]] to perform this function,
 but unfortunately it's no longer actively maintained
 and has some bugs.
+
+** Automatically enlarge active window          :window:
+
+The ~golden-ratio~ package adds a mode which
+automatically enlarges with active window,
+shrinking non-focused windows,
+in order to allow for better focus on the current task
+while keeping other windows mostly visible.
+It's particularly effective when working from a laptop screen,
+and I prefer it to constant manual resizing.
+#+begin_src emacs-lisp
+(use-package golden-ratio)
+(golden-ratio-mode t)
+#+end_src
 
 ** Kill the open init buffer and reopen it      :cleanup:
 
