@@ -2739,6 +2739,11 @@ and I prefer it to constant manual resizing.
 (golden-ratio-mode t)
 #+end_src
 
+I do find it works best with a two-column setup;
+with a third column it tends to shrink one window
+past the point of uselessness.
+I'm experimenting with settings to potentially mitigate that.
+
 ** Kill the open init buffer and reopen it      :cleanup:
 
 To ensure all these cosmetic changes are picked up,
