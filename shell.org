@@ -559,6 +559,19 @@ First and foremost: Set Emacs keybindings.
 bindkey -e
 #+end_src
 
+**** Locale
+
+I use [[The Starship prompt][Starship]] to set up a fancy prompt.
+It involves unicode characters, and the prompt offset
+often gets calculated incorrectly when, for instance, reverse searching for commands.
+That causes the command text and the cursor to be desynced,
+making editing a command near impossible.
+Setting the locale to UTF-8, to support unicode, fixes that issue.
+#+begin_src sh
+# Fixes an issue with the starship prompt offset being incorrect due to unicode characters
+export LC_ALL=C.UTF-8
+#+end_src
+
 **** History
 
 Go crazy with the history; it's just a plaintext file after all.

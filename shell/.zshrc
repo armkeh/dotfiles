@@ -1,5 +1,8 @@
 bindkey -e
 
+# Fixes an issue with the starship prompt offset being incorrect due to unicode characters
+export LC_ALL=C.UTF-8
+
 HISTFILE=~/.zsh-histfile
 HISTSIZE=100000000
 SAVEHIST=100000000
