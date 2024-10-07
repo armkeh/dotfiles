@@ -5364,19 +5364,16 @@ Install ~company~ and set it to be used everywhere.
   (setq
 #+end_src
 
-I do find it convenient to require few characters before
-getting autocomplete suggestions, but on my Chromebook
-that slows things down far too much.
-Let's require 4 characters before suggestions are provided.
+I do find it convenient to require fewer characters before
+getting autocomplete suggestions.
 #+begin_src emacs-lisp
-   company-minimum-prefix-length 4
+   company-minimum-prefix-length 1
 #+end_src
 
-Search buffers using the same major mode for completion candidates.
-Setting ~all~ instead would search all buffers.
+Search all open buffers for completion candidates.
 #+begin_src emacs-lisp
-   company-dabbrev-other-buffers t
-   company-dabbrev-code-other-buffers t
+   company-dabbrev-other-buffers "all"
+   company-dabbrev-code-other-buffers "all"
 #+end_src
 
 Sort candidates by importance, then case, then in-buffer frequency.
@@ -5395,7 +5392,7 @@ Annotate the completions with numbers.
 We can select an annotation with ~M-num~ instead
 of navigating to it.
 #+begin_src emacs-lisp
-   company-show-numbers t
+   company-show-quick-access t
 #+end_src
 
 Show up to ten candidates in a tooltip.
@@ -5417,7 +5414,7 @@ than my prefix, change the prefix casing.
 Pause very briefly before offering completion.
 This way if I am typing quickly it does not try to interrupt.
 #+begin_src emacs-lisp
-   company-idle-delay 0.2)
+   company-idle-delay 0.3)
 #+end_src
 
 Rebind the controls for completion.
@@ -5510,6 +5507,14 @@ Taken without additional commentary for now from Musa's init.
 
 ;; Set company-backend as a secondary completion backend to all existing backends.
 (setq company-backends (mapcar #'my/company-backend-with-yankpad company-backends))
+#+end_src
+
+** AI assistance
+
+#+begin_src emacs-lisp
+;; (when (libxml-available-p)
+;;   (use-package codium)
+;;   (add-to-list 'completion-at-point-functions #'codeium-completion-at-point))
 #+end_src
 
 ** Walking through undo history; undo-propose  :vc:
@@ -6233,6 +6238,12 @@ Activate Org babel support for Go.
 #+begin_src emacs-lisp
 (use-package go-mode)
 ;(use-package go-lint)
+#+end_src
+
+** Lua                                         :programming:
+
+#+begin_src emacs-lisp
+(use-package lua-mode)
 #+end_src
 
 ** YAML configuration language                 :programming:
