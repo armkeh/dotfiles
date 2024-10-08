@@ -111,12 +111,14 @@ See also my
   - [[#show-uncommitted-changes-to-files-as-we-view-them][Show uncommitted changes to files as we view them]]
   - [[#minions-see-and-toggle-minor-modes][Minions; see and toggle minor modes]]
 - [[#programming-language-modes-and-mode-specific-settings][Programming language modes and mode-specific settings]]
+  - [[#language-server-protocol][Language server protocol]]
   - [[#json][JSON]]
   - [[#dhall-configuration-language][Dhall configuration language]]
   - [[#purescript][Purescript]]
   - [[#elm][Elm]]
   - [[#haskell][Haskell]]
   - [[#go][Go]]
+  - [[#python][Python]]
   - [[#lua][Lua]]
   - [[#yaml-configuration-language][YAML configuration language]]
   - [[#toml-configuration-language][TOML configuration language]]
@@ -4666,6 +4668,31 @@ or opening a help buffer.
 
 * Programming language modes and mode-specific settings
 
+** Language server protocol                     :programming:
+
+The [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]] (LSP):
+#+begin_quote
+defines the protocol used between an editor or IDE and a language server
+that provides language features like auto complete, go to definition,
+find all references etc.
+#+end_quote
+
+Previously support for these features was built on a per-language,
+per-editor basis. Now both language and editor developers
+need only target the LSP for the two to interoperate.
+
+Emacs has two major packages for LSP support:
+- [[https://emacs-lsp.github.io/lsp-mode/][LSP mode]]
+- and [[https://joaotavora.github.io/eglot/][Eglot]], which is built in to Emacs (as of Emacs 29)
+  and hence is the “default”.
+
+I am using Eglot, but may change my mind later;
+setting a variable for use in all the language settings below
+simplifies the process of switching should I need to do so.
+#+begin_src emacs-lisp
+(setq-local my/language-server-mode-hook 'eglot-ensure)
+#+end_src
+
 ** JSON                                         :programming:
 
 #+begin_src emacs-lisp
@@ -4707,6 +4734,16 @@ Activate Org babel support for Go.
 #+begin_src emacs-lisp
 (use-package go-mode)
 ;(use-package go-lint)
+#+end_src
+
+#+begin_src emacs-lisp
+(add-hook 'go-mode-hook my/language-server-mode-hook)
+#+end_src
+
+** Python                                       :programming:
+
+#+begin_src emacs-lisp
+(add-hook 'python-mode-hook my/language-server-mode-hook)
 #+end_src
 
 ** Lua                                          :programming:
