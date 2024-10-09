@@ -6540,8 +6540,6 @@ will always be present.
 (tab-rename "Logs")
 (tab-new)
 (tab-rename "email")
-(tab-new)
-(tab-rename "eshell")
 #+end_src
 
 Now, setup for some projects I am currently working on;
@@ -6561,11 +6559,11 @@ Finally, open a few “blank” tab as the rightmost,
 for use when working on other/random things.
 #+begin_src emacs-lisp
 (tab-new)
-(tab-rename "-")
+(tab-rename "Blank 1")
 (tab-new)
-(tab-rename "-")
+(tab-rename "Blank 2")
 (tab-new)
-(tab-rename "-")
+(tab-rename "Blank 3")
 #+end_src
 
 *** Visit tabs and setup buffers
@@ -6622,18 +6620,6 @@ and my inbox on the right.
 (find-file org-scratch)
 (split-window nil nil 'left)
 (mu4e-headers-search-bookmark (mu4e-get-bookmark-query ?i))
-#+end_src
-
-In the ~Shell~ tab, create buffers for three ~eshell~ instances
-in the usual configuration. By passing a numeric argument,
-we get unique buffers.
-#+begin_src emacs-lisp
-(tab-bar-switch-to-tab "eshell")
-(eshell '3)
-(split-window nil nil 'right)
-(eshell '2)
-(split-window nil nil 'below)
-(eshell '1)
 #+end_src
 
 **** Volatile tabs
