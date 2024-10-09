@@ -1211,6 +1211,24 @@ it can seamlessly handle large outputs.
 (use-package vterm)
 #+end_src
 
+Generally, invoking ~(vterm)~ will create the buffer ~*vterm*~,
+or switch to it if it already exists.
+Additional ~vterm~ instances can be created by prepending the universal argument (~C-u~)
+to create new instances instead of switching to an existing one.
+However, I find I usually want a unique instance/buffer per (tab-bar) tab,
+so I define a shortcut to create or switch to a ~vterm~ buffer based on the current tab name.
+#+begin_src emacs-lisp
+(defun vterm-tab-aware ()
+  (interactive)
+  (letrec ((current-tab-info (tab-bar-get-buffer-tab (buffer-name)))
+           (current-tab-name (cdr (assoc 'name current-tab-info)))
+           (current-tab-vterm-buffer-name (format "*vterm - %s*" current-tab-name))
+           (current-tab-vterm-buffer (get-buffer current-tab-vterm-buffer-name)))
+    (if current-tab-vterm-buffer ;; vterm buffer already exists
+        (pop-to-buffer current-tab-vterm-buffer-name)
+      (vterm current-tab-vterm-buffer-name))))
+#+end_src
+
 ** Sending email                                :mail:
 
 Only execute this setup if we have ~mu~ installed;
@@ -2192,19 +2210,36 @@ multiple ~dired~ windows open in different tabs.
         :which-key "thesis"))
 #+end_src
 
-*** eshell
+*** Shells
 
-:TODO: This will not work if ~eshell~ instances are created without this shortcut. Instead I should count the number of shell buffers existing?
+Use my tab-aware ~vterm~ keybinding by default.
 #+begin_src emacs-lisp
 (general-shell-define-key
-  "s" 'eshell)
+  "v" 'vterm-tab-aware)
+#+end_src
 
-(setq my/eshell-counter 0)
+In case I want a ~vterm~ instance not tied to the current tab,
+include a keybinding for the singular ~*vterm*~ instance
+(prepend with the universal argument ~C-u~ to get more instances if needed).
+#+begin_src emacs-lisp
 (general-shell-define-key
-  "n" '((lambda () (interactive)
-          (setq my/eshell-counter (+ 1 my/eshell-counter))
-          (eshell my/eshell-counter))
-        :which-key "new eshell"))
+  "V" 'vterm)
+#+end_src
+
+These eshell keybindings are deprecated for me, since I don't actively use it.
+If I return to it, I should set up a means of assigning a unique buffer to each tab
+like I have for ~vterm~ and set a keybinding for that.
+
+#+begin_src emacs-lisp
+;; (general-shell-define-key
+;;   "s" 'eshell)
+
+;; (setq my/eshell-counter 0)
+;; (general-shell-define-key
+;;   "n" '((lambda () (interactive)
+;;           (setq my/eshell-counter (+ 1 my/eshell-counter))
+;;           (eshell my/eshell-counter))
+;;         :which-key "new eshell"))
 #+end_src
 
 *** magit                                       :vc:
