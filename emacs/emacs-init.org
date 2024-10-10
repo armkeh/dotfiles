@@ -3948,8 +3948,11 @@ This is additionally required if using evil mode.
 
 ~whitespace~ mode has several utilities for visualising whitespace.
 #+begin_src emacs-lisp
-(global-whitespace-mode t)
+(require 'whitespace)
+(add-hook 'text-mode-hook 'whitespace-mode)
 #+end_src
+Note that it's not appropriate in all modes, especially more “menu-like” modes,
+such as Magit buffers.
 
 Adding ~faces~ to ~whitespace-style~ enables the use of faces
 to visualise whitespace; we start here with just that entry.
@@ -3973,21 +3976,18 @@ if I change it.
 #+end_src
 
 Also warn me if I'm mixing tabs and spaces.
-:TODO: This might be too much; there are legitimate reasons to sometimes want spaces after tabs.
+Specifically, if tabs occur after spaces;
+there are legitimate reasons to indent further with spaces after tabs,
+and unfortunately we cannot easily distinguish those.
 #+begin_src emacs-lisp
-(dolist (e '('space-after-tab::tab 'space-after-tab::space 'space-before-tab::tab 'space-before-tab::space))
-           (add-to-list 'whitespace-style e t))
+(add-to-list 'whitespace-style 'space-before-tab::space t)
 #+end_src
 
-By default, the faces for the above warnings only modify the foreground;
-but since tabs and spaces are not visualised
+By default, the face for spaces before tabs only modifies the foreground;
+but since spaces are not visualised
 (they could be by ~whitespace-mode~, but I am not setting that)
 I need the background to be set to see the warning.
 #+begin_src emacs-lisp
-(set-face-attribute
-  'whitespace-space-after-tab
-  nil ;; all frames
-  :background "dark red")
 (set-face-attribute
   'whitespace-space-before-tab
   nil ;; all frames
