@@ -4424,12 +4424,15 @@ Note that this section must then go after custom modeline setup.
 
 ** Indentation indicators/guides
 
+Historically, I used [[https://github.com/DarthFennec/highlight-indent-guides][highlight-indent-guides]] to
+visualize indentation, which was fairly configurable
+(supporting both character and background fill modes)
+as well as fast. But it was never “pretty”.
+
+The newer [[https://github.com/jdtsmith/indent-bars][indent-bars]] solves the aesthetics problem.
 #+begin_src emacs-lisp
-(use-package highlight-indent-guides)
-(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-(setq highlight-indent-guides-method 'fill) ;; alternating background stripes
-;; Other modes don't play as well with whitespace mode
-(setq highlight-indent-guides-responsive 'stack)
+(use-package indent-bars)
+(add-hook 'prog-mode-hook 'indent-bars-mode)
 #+end_src
 
 ** Kill the open init buffer and reopen it      :cleanup:
