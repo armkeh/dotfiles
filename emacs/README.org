@@ -2525,41 +2525,67 @@ This is additionally required if using evil mode.
 
 ** Whitespace display                           :space:
 
-*** Tabs
+*** Erroneous whitespace
 
-I usually use spaces rather than tabs,
-so I use ~whitespace-mode~ to alert me to the presence of tabs.
+~whitespace~ mode has several utilities for visualising whitespace.
 #+begin_src emacs-lisp
 (global-whitespace-mode t)
 #+end_src
 
 Adding ~faces~ to ~whitespace-style~ enables the use of faces
-to visualise whitespace.
-We then add more values to specify what kinds of whitespace
-are visualised with faces; for instance, ~tabs~ to visualise tabs.
-Adding ~tab-mark~ visualises tabs
-by changing the display table to show a character at the
-location of the tab.
+to visualise whitespace; we start here with just that entry.
 #+begin_src emacs-lisp
-(setq whitespace-style '(face tabs tab-mark))
+(setq whitespace-style '(face))
 #+end_src
 
-I set the face for tabs to make the tab marks fainter;
-together with the different foreground and background colouring
-for tabs set by the ~tabs~ entry above, this helps them fade
-into the background (but still be noticable compared to spaces).
+It's good practice to avoid trailing spaces
+and line which are only whitespace (empty);
+warn me about those.
+#+begin_src emacs-lisp
+(add-to-list 'whitespace-style 'trailing t)
+(add-to-list 'whitespace-style 'empty t)
+#+end_src
+
+A missing newline at the end of a file is less important,
+but I like to visualise it so I am aware in case it matters
+if I change it.
+#+begin_src emacs-lisp
+(add-to-list 'whitespace-style 'missing-newline-at-eof t)
+#+end_src
+
+Also warn me if I'm mixing tabs and spaces.
+:TODO: This might be too much; there are legitimate reasons to sometimes want spaces after tabs.
+#+begin_src emacs-lisp
+(dolist (e '('space-after-tab::tab 'space-after-tab::space 'space-before-tab::tab 'space-before-tab::space))
+           (add-to-list 'whitespace-style e t))
+#+end_src
+
+By default, the faces for the above warnings only modify the foreground;
+but since tabs and spaces are not visualised
+(they could be by ~whitespace-mode~, but I am not setting that)
+I need the background to be set to see the warning.
 #+begin_src emacs-lisp
 (set-face-attribute
-  'whitespace-tab
+  'whitespace-space-after-tab
   nil ;; all frames
-  :weight     'ultra-light)
+  :background "dark red")
+(set-face-attribute
+  'whitespace-space-before-tab
+  nil ;; all frames
+  :background "dark red")
+#+end_src
+
+Here's some practice text for that visualisation:
+#+begin_src org
+	   # Tab before space, space after tab
+  	 # Space before tab, tab after space
 #+end_src
 
 *** Non-breaking spaces
 
 Since I use unicode regularly, I do use non-breaking spaces
 occasionally, especially for intraperiodic spaces, e.g.,
-following ~Dr.~ or ~Mrs.~.
+following ~Dr.~ or ~Mrs.~.
 I do want to be aware of those spaces; thankfully there is
 a face for that.
 #+begin_src emacs-lisp
