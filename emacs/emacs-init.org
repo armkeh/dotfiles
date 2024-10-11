@@ -795,19 +795,25 @@ Emacs has several facilities for splitting windows,
 including commands for splitting
 - vertically (~C-x 2~),
 - horizontally (~C-x 3~), and
-- sensibly (not interactive)
-:TODO: add more descriptions
+- sensibly (not interactive).
 
 (For the uninitiated, a /window/ in Emacs is not the same as
  the OS window. Each OS window is a /frame/, and each pane within
  a frame is called a /window/. Emacs predates modern terminology.)
 
-When splitting sensibly, if the window is at least ~split-height-threshold~ lines tall,
-the window will be split vertically instead of horizontally.
-By default, this is set to ~80~.
-But I prefer to always split horizontally, so I override it to ~nil~.
+I generally prefer a side-by-side setup for my windows,
+particularly when working from a desk with a wide or ultra-wide monitor.
+But I don't like Emacs to make more than two columns (windows side-by-side).
+These settings prevent, in most instances, vertical splits
+and more than one horizontal split.
+They work (for me) on most setups, excluding an ultrawide monitor setup.
+For that, see [[Rotate windows]].
 #+begin_src emacs-lisp
-(setq split-height-threshold nil)
+(setq split-height-threshold nil) ;; Don't split vertically (above/below).
+(setq split-width-threshold 200)  ;; Only split very wide windows horizontally (left/right)...
+(setq window-min-width 100)       ;; ... and only when the resulting windows are reasonably wide.
+#+end_src
+
 #+end_src
 
 * Vital non-mode-specific settings
