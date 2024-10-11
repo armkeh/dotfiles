@@ -3810,16 +3810,13 @@ when I am using different sizes of screens.
 
 ** Window management                           :window:
 
+Move around easily with ~windmove~.
 #+begin_src emacs-lisp
 (general-window-define-key
-  "<right>" '((lambda () (interactive) (windmove-right))
-              :which-key "move focus right")
-  "<left>"  '((lambda () (interactive) (windmove-left))
-              :which-key "move focus left")
-  "<up>"    '((lambda () (interactive) (windmove-up))
-              :which-key "move focus up")
-  "<down>"  '((lambda () (interactive) (windmove-down))
-              :which-key "move focus down"))
+  "<right>" 'windmove-right :which-key "move focus right"
+  "<left>"  'windmove-left  :which-key "move focus left"
+  "<up>"    'windmove-up    :which-key "move focus up"
+  "<down>"  'windmove-down  :which-key "move focus down")
 #+end_src
 
 Also, let's add a shortcut to jump right to the minibuffer,
@@ -3835,18 +3832,33 @@ so it seems a natural choice.
         (select-window (active-minibuffer-window))))
 
 (general-window-define-key
-  "SPC" '((lambda () (interactive) (switch-to-minibuffer-window))
-              :which-key "move focus to minibuffer"))
+  "SPC" 'switch-to-minibuffer-window
+         :which-key "move focus to minibuffer")
 #+end_src
 
+Move to another frame, if one exists.
 #+begin_src emacs-lisp
 (general-window-define-key
   "f"  '((lambda () (interactive) (other-frame 1))
          :which-key "other frame")
-  
+#+end_src
+
+Adjust the window layout to various configurations.
+#+begin_src emacs-lisp
+  "v" 'rotate:main-vertical :which-key   "Make main window vertically"
+  "h" 'rotate:main-horizontal :which-key "Make main window horizontally"
+  "t" 'rotate:tiled :which-key           "Tile windows"
+  "r" 'rotate :which-key                 "Rotate through window configurations"
+#+end_src
+
+Undo and redo window layout changes.
+#+begin_src emacs-lisp
   "["  'winner-undo
   "]"  'winner-redo
+#+end_src
 
+Manually resize the focused window. Note this will not work when using [[Automatically enlarge active window][golden-ratio]] mode!
+#+begin_src emacs-lisp
   "-"     '((lambda () (interactive) (shrink-window 5))
             :which-key "shrink window")
   "="     '((lambda () (interactive) (enlarge-window 5))
