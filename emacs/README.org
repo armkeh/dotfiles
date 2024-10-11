@@ -2359,6 +2359,18 @@ Sometimes I need to toggle fontlocking.
             :which-key "no font lock"))
 #+end_src
 
+Controls to adjust the automatic window resizing by ~golden-ratio~ for
+when I am using different sizes of screens.
+#+begin_src emacs-lisp
+(general-appearance-define-key
+  "r"     '(:ignore t
+            :which-key "golden ratio")
+  "r w"   'golden-ratio-widescreen
+           :which-key "widescreen mode"
+  "r n"   'golden-ratio-normal
+           :which-key "normal mode")
+#+end_src
+
 ** Window management                            :window:
 
 #+begin_src emacs-lisp
@@ -2808,6 +2820,18 @@ I do find it works best with a two-column setup;
 with a third column it tends to shrink one window
 past the point of uselessness.
 I'm experimenting with settings to potentially mitigate that.
+
+On very wide monitors, we need to adjust the factor to prevent
+#+begin_src emacs-lisp
+(defun golden-ratio-widescreen () (interactive)
+  (setq golden-ratio-adjust-factor 0.4))
+#+end_src
+
+Of course, we also need to be able to change it back.
+#+begin_src emacs-lisp
+(defun golden-ratio-normal () (interactive)
+  (setq golden-ratio-adjust-factor 1))
+#+end_src
 
 ** Kill the open init buffer and reopen it      :cleanup:
 
