@@ -5,11 +5,6 @@
 #+Description: why things are set as they are.
 #+Options: num:nil
 
-* COMMENT TODOs
-
-Timestamps in ~*Messages*~.
-https://emacs.stackexchange.com/questions/32150/how-to-add-a-timestamp-to-each-entry-in-emacs-messages-buffer
-
 * Introduction
 
 ** Screenshot                                  :ignore:
@@ -605,6 +600,24 @@ BUFFER may be either a buffer or its name (a string)."
 #+end_src
 from Emacs wiki's [[https://www.emacswiki.org/emacs/download/misc-cmds.el][misc commands]].
 :TODO: Check out more of those commands; some may be useful.
+
+** Add timestamps to messages
+
+This utility function, which is useful for adding timestamps to the message buffer,
+is taken from the Emacs StackExchange: https://emacs.stackexchange.com/a/39081
+#+begin_src emacs-lisp
+(defun my/message-with-timestamp (old-func fmt-string &rest args)
+   "Prepend current timestamp (with microsecond precision) to a message"
+   (apply old-func
+          (concat (format-time-string "[%F %T.%3N %Z] ")
+                   fmt-string)
+          args))
+#+end_src
+
+We apply the advice here as well:
+#+begin_src emacs-lisp
+(advice-add 'message :around #'my/message-with-timestamp)
+#+end_src
 
 * Simple cosmetics
 

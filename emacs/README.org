@@ -34,6 +34,7 @@ See also my
   - [[#cascading-window-setup][Cascading window setup]]
   - [[#git-repo-window-setup][Git repo window setup]]
   - [[#killing-a-buffer-when-its-associated-process-finishes][Killing a buffer when its associated process finishes]]
+  - [[#add-timestamps-to-messages][Add timestamps to messages]]
 - [[#simple-cosmetics][Simple cosmetics]]
   - [[#disable-the-splashscreen-and-open-this-file][Disable the splashscreen and open this file]]
   - [[#disable-unnecessary-interface-elements][Disable unnecessary interface elements]]
@@ -685,6 +686,24 @@ BUFFER may be either a buffer or its name (a string)."
 #+end_src
 from Emacs wiki's [[https://www.emacswiki.org/emacs/download/misc-cmds.el][misc commands]].
 :TODO: Check out more of those commands; some may be useful.
+
+** Add timestamps to messages
+
+This utility function, which is useful for adding timestamps to the message buffer,
+is taken from the Emacs StackExchange: https://emacs.stackexchange.com/a/39081
+#+begin_src emacs-lisp
+(defun my/message-with-timestamp (old-func fmt-string &rest args)
+   "Prepend current timestamp (with microsecond precision) to a message"
+   (apply old-func
+          (concat (format-time-string "[%F %T.%3N %Z] ")
+                   fmt-string)
+          args))
+#+end_src
+
+We apply the advice here as well:
+#+begin_src emacs-lisp
+(advice-add 'message :around #'my/message-with-timestamp)
+#+end_src
 
 * Simple cosmetics
 
