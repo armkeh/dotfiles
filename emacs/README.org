@@ -2354,6 +2354,15 @@ See the ~kill-buffer-on-process-finish~ definition earlier in this file.
   "p" 'list-processes)
 #+end_src
 
+*** Personal Elisp
+
+Update my Emacs Git README file.
+#+begin_src emacs-lisp
+(general-other-package-define-key
+  "e" 'my/emacs-init-readme-generate)
+#+end_src
+
+
 ** Buffer                                       :buffer:
 
 #+begin_src emacs-lisp
