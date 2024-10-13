@@ -44,9 +44,9 @@ See also my
   - [[#line-and-column-information][Line and column information]]
   - [[#themes][Themes]]
   - [[#highlight-matching-delimiters][Highlight matching delimiters]]
-  - [[#kill-the-open-init-buffer-and-reopen-it][Kill the open init buffer and reopen it]]
   - [[#tweak-window-splitting][Tweak window splitting]]
   - [[#rotate-windows][Rotate windows]]
+  - [[#kill-the-open-init-buffer-and-reopen-it][Kill the open init buffer and reopen it]]
 - [[#vital-non-mode-specific-settings][Vital non-mode-specific settings]]
   - [[#user-information][User information]]
   - [[#automatically-revert-unchanged-files-which-change-on-the-disk][Automatically revert unchanged files which change on the disk]]
@@ -881,15 +881,6 @@ of the matching delimiter black and the foreground white
                          :weight ultra-bold)))))
 #+end_example
 
-** Kill the open init buffer and reopen it      :cleanup:
-
-To ensure all these cosmetic changes are picked up,
-kill my init buffer that we opened earlier and reopen it.
-#+begin_src emacs-lisp
-(kill-buffer "emacs-init.org")
-(find-file my/emacs-init-file)
-#+end_src
-
 ** Tweak window splitting                       :window:
 
 Emacs has several facilities for splitting windows,
@@ -958,6 +949,15 @@ The package [[https://github.com/daichirata/emacs-rotate][rotate]] aims
 to automate that work in a similar way to the rotation behaviour in ~tmux~.
 #+begin_src emacs-lisp
 (use-package rotate)
+#+end_src
+
+** Kill the open init buffer and reopen it      :cleanup:
+
+To ensure all these cosmetic changes are picked up,
+kill my init buffer that we opened earlier and reopen it.
+#+begin_src emacs-lisp
+(kill-buffer "emacs-init.org")
+(find-file my/emacs-init-file)
 #+end_src
 
 * Vital non-mode-specific settings
@@ -2362,7 +2362,6 @@ Update my Emacs Git README file.
   "e" 'my/emacs-init-readme-generate)
 #+end_src
 
-
 ** Buffer                                       :buffer:
 
 #+begin_src emacs-lisp
@@ -2936,7 +2935,7 @@ On very wide monitors, we need to adjust the factor to prevent
 Of course, we also need to be able to change it back.
 #+begin_src emacs-lisp
 (defun golden-ratio-normal () (interactive)
-  (setq golden-ratio-adjust-factor 1))
+  (setq golden-ratio-adjust-factor 1.0))
 #+end_src
 
 ** Kill the open init buffer and reopen it      :cleanup:
