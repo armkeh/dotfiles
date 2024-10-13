@@ -817,14 +817,45 @@ including commands for splitting
 I generally prefer a side-by-side setup for my windows,
 particularly when working from a desk with a wide or ultra-wide monitor.
 But I don't like Emacs to make more than two columns (windows side-by-side).
-These settings prevent, in most instances, vertical splits
-and more than one horizontal split.
-They work (for me) on most setups, excluding an ultrawide monitor setup.
-For that, see [[Rotate windows]].
+These settings prevent work to enforce those preferences on my laptop screens.
 #+begin_src emacs-lisp
-(setq split-height-threshold nil) ;; Don't split vertically (above/below).
-(setq split-width-threshold 200)  ;; Only split very wide windows horizontally (left/right)...
-(setq window-min-width 100)       ;; ... and only when the resulting windows are reasonably wide.
+(defun my/window-split-settings:laptop ()
+"Set the window minimum width and split settings to
+discourage vertical splits, and prevent more than one
+horizontal split on a laptop-sized screen."
+       (interactive)
+       (setq split-height-threshold nil) ;; Don't split vertically (above/below).
+       (setq split-width-threshold 100)  ;; Only split reasonably wide windows horizontally (left/right)...
+       (setq window-min-width 70)        ;; ... and only when the resulting windows are reasonably wide.
+       (message "Screen splitting behaviour optimized for laptops"))
+#+end_src
+
+Adopt those settings as the default.
+#+begin_src emacs-lisp
+(my/window-split-settings:laptop)
+#+end_src
+
+Similarly define other configurations for larger screens.
+#+begin_src emacs-lisp
+(defun my/window-split-settings:wide ()
+"Set the window minimum width and split settings to
+discourage vertical splits, and prevent more than one
+horizontal split on a laptop-sized screen."
+       (interactive)
+       (setq split-height-threshold nil) ;; Don't split vertically (above/below).
+       (setq split-width-threshold 200)  ;; Only split reasonably wide windows horizontally (left/right)...
+       (setq window-min-width 125)        ;; ... and only when the resulting windows are reasonably wide.
+       (message "Screen splitting behaviour optimized for widescreen monitors"))
+
+(defun my/window-split-settings:ultrawide ()
+"Set the window minimum width and split settings to
+discourage vertical splits, and prevent more than one
+horizontal split on a laptop-sized screen."
+       (interactive)
+       (setq split-height-threshold nil) ;; Don't split vertically (above/below).
+       (setq split-width-threshold 250)  ;; Only split reasonably wide windows horizontally (left/right)...
+       (setq window-min-width 150)       ;; ... and only when the resulting windows are reasonably wide.
+       (message "Screen splitting behaviour optimized for ultrawide monitors"))
 #+end_src
 
 ** Rotate windows
@@ -3819,6 +3850,20 @@ when I am using different sizes of screens.
            :which-key "widescreen mode"
   "r n"   'golden-ratio-normal
            :which-key "normal mode")
+#+end_src
+
+Manually adjust the window splitting behaviour for various screen sizes.
+See [[Tweak window splitting]].
+#+begin_src emacs-lisp
+(general-appearance-define-key
+  "s" '(:ignore t
+        :which-key "window splitting")
+  "s l" 'my/window-split-settings:laptop
+         :which-key "Optimize for laptop screen"
+  "s w" 'my/window-split-settings:wide
+         :which-key "Optimize for widescreen monitor"
+  "s u" 'my/window-split-settings:ultrawide
+         :which-key "Optimize for ultrawide monitor")
 #+end_src
 
 ** Window management                           :window:
