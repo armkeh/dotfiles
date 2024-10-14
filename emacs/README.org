@@ -4451,7 +4451,24 @@ By default, the icons are monochrome. Let's turn on the colour.
 (setq all-the-icons-dired-monochrome nil)
 #+end_src
 
+Some packages, including the ~doom-modeline~, prefer ~nerd-icons~.
+#+begin_src emacs-lisp
+(use-package nerd-icons)
+(nerd-icons-install-fonts 'no-prompt)
+#+end_src
+
 ** Modeline styling                             :theme:
+
+The Emacs modeline is a line attached to the bottom of each Emacs window
+which displays information about the current buffer.
+Other programs tend to have a similar concept, though they tend
+to have a single information line/panel for the whole OS window (frame).
+
+It is possible to take an extremely minimal approach and hide the modeline,
+or if using the ~tab-bar~, place its information there instead.
+And I do move some of the more “global” information to the ~tab-bar~ instead.
+But there is a lot of potential for displaying useful info in the modeline,
+especially when we take control of it with a modeline styling package.
 
 *** Add styling via Doom modeline
 
@@ -4464,14 +4481,7 @@ and is compatible with far more modeline additions
  see [[Add a little scrollbar to the modeline]]).
 #+begin_src emacs-lisp
 (use-package doom-modeline)
-#+end_src
-
-Do display an icon indicating if the file in the buffer
-has changed from the disk.
-Note that even without this,
-the filepath will change colours when the file has been modified.
-#+begin_src emacs-lisp
-(setq doom-modeline-buffer-state-icon t)
+(doom-modeline-mode)
 #+end_src
 
 I find the Doom modeline takes a little too much
@@ -4482,38 +4492,69 @@ so set its height to ~0~ to make it as short as possible.
 (setq doom-modeline-height 0)
 #+end_src
 
-*** Set up the items on the Doom-modeline
+*** Set up my preferred modeline
 
-I like to strip down the amount of information on the modeline
-to what I might actually make use of.
-The Doom modeline provides ~doom-modeline-set-modeline~ 
+With ~doom-emacs~, we define a modeline in two parts,
+one for the left-hand-side and one for the right.
 #+begin_src emacs-lisp
 (doom-modeline-def-modeline 'my/doom-modeline
   ;; Left side
   '(window-number modals remote-host buffer-info buffer-encoding buffer-position)
   ;; Right side
   '(major-mode minor-modes input-method process))
+#+end_src
 
+It's convenient to have a function to set my preferred modeline as the default.
+#+begin_src emacs-lisp
 (defun my/doom-modeline-setter ()
    (doom-modeline-set-modeline 'my/doom-modeline 'default))
+#+end_src
+
+Set the default modeline whenever Doom modeline starts
+#+begin_src emacs-lisp
 (add-hook 'doom-modeline-mode-hook 'my/doom-modeline-setter)
+#+end_src
+
+And set it now.
+#+begin_src emacs-lisp
+(my/doom-modeline-setter)
+#+end_src
+
+Disable mode-specific modelines, at least for now;
+this is a point I could return to if I find they could be of use in certain modes.
+#+begin_src emacs-lisp
+(setq doom-modeline-mode-alist nil)
+#+end_src
+
+Some already existing buffers, including *Messages*, may have another modeline set.
+We need to force them to correct it.
+#+begin_src emacs-lisp
+(dolist (stubborn-buffer '("*Messages*"))
+  (with-current-buffer stubborn-buffer (doom-modeline-set-modeline 'my/doom-modeline)))
 #+end_src
 Note that some information, such as the current time and my unread email count,
 I display in the ~global-mode-string~ which I include in my tab bar instead of here.
 
+*** Adjust behaviour of modeline components
+
+Do display an icon indicating if the file in the buffer has changed from the disk.
+Note that even without this, the filepath will change colours when the file has been modified.
+#+begin_src emacs-lisp
+(setq doom-modeline-buffer-state-icon t)
+#+end_src
+
 The minor mode listing is disabled by default.
 This also disables the ~minion~ button if using that
-(which provides a pop-up menu which lists and allows toggling
- of minor modes).
+(which provides a pop-up menu which lists and allows toggling of minor modes).
 #+begin_src emacs-lisp
 (setq doom-modeline-minor-modes t)
 #+end_src
 
-*** Activate the Doom modeline
+*** Force update all existing modelines
 
-Once everything is set, actually activate the new modeline.
+For good measure, force all modelines to update.
 #+begin_src emacs-lisp
-(doom-modeline-mode 1)
+(force-mode-line-update 'for-all-buffers)
 #+end_src
 
 ** Flash on error
