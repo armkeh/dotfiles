@@ -116,6 +116,7 @@ See also my
   - [[#minions-see-and-toggle-minor-modes][Minions; see and toggle minor modes]]
 - [[#programming-language-modes-and-mode-specific-settings][Programming language modes and mode-specific settings]]
   - [[#language-server-protocol][Language server protocol]]
+  - [[#debugging][Debugging]]
   - [[#json][JSON]]
   - [[#dhall-configuration-language][Dhall configuration language]]
   - [[#purescript][Purescript]]
@@ -4925,6 +4926,16 @@ setting a variable for use in all the language settings below
 simplifies the process of switching should I need to do so.
 #+begin_src emacs-lisp
 (setq-local my/language-server-mode-hook 'eglot-ensure)
+#+end_src
+
+** Debugging                                    :programming:
+
+In the same way that [[Language server protocol][LSP]] establishes a common interface in order for
+programming languages and programming tools to interoperate,
+the Debug Adaptor Protocol aims to establish a standardized interface
+for debuggers. ~Dape~ is an adaptor client for the DAP in Emacs.
+#+begin_src emacs-lisp
+(use-package dape)
 #+end_src
 
 ** JSON                                         :programming:

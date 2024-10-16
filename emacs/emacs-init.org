@@ -6447,6 +6447,16 @@ simplifies the process of switching should I need to do so.
 (setq-local my/language-server-mode-hook 'eglot-ensure)
 #+end_src
 
+** Debugging                                   :programming:
+
+In the same way that [[Language server protocol][LSP]] establishes a common interface in order for
+programming languages and programming tools to interoperate,
+the Debug Adaptor Protocol aims to establish a standardized interface
+for debuggers. ~Dape~ is an adaptor client for the DAP in Emacs.
+#+begin_src emacs-lisp
+(use-package dape)
+#+end_src
+
 ** JSON                                        :programming:
 
 #+begin_src emacs-lisp
