@@ -1,2 +1,0 @@
-export GOPRIVATE=gitlab.indexexchange.com
-export GOPATH=$HOME/go

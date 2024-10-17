@@ -21,5 +21,3 @@ fi
 valias gp='guix package'
 valias gps='guix package -s'
 valias gpi='guix package -i'
-
-valias ixvpn='sudo openconnect -bq -u mark.armstrong npv.indexexchange.com/anyconnect'
