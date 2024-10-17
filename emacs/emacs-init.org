@@ -1713,7 +1713,7 @@ before we've started ~mu4e~ correctly.
 Without this, we might get an error asking if we started ~mu4e.~
 (In particular, I was encountering a ~root maildir unknown~ error.)
 #+begin_src emacs-lisp
-  (mu4e)
+  (mu4e 'background)
 #+end_src
 
 *** End reading email section
