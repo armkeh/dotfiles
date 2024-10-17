@@ -162,12 +162,33 @@ fi
 
 *** Tool settings
 
+**** Docker
+
 Some Docker documentation I read recommended avoiding bad habits
 by disabling legacy commands, so let's do that.
 #+begin_src sh
 # Disable some legacy docker commands
 export DOCKER_HIDE_LEGACY_COMMANDS=true
 #+end_src
+
+**** Email management
+
+I use ~mbsync~ (~isync~), ~mu~, and ~mu4e~ (the Emacs package)
+to manage my emails from within Emacs.
+
+My ~mbsync~ settings can be found in [[./mbsync.org]].
+Other than that, Emacs handles most of the work,
+except for setting the mail directory; that must be set via ~mu~.
+So we do so here so I never forget to set it.
+#+begin_src sh :results output
+if command -v mu >/dev/null; then
+  mu init --maildir="~/.mail/gmail" --my-address="markparmstrong@gmail.com"
+fi
+#+end_src
+
+#+RESULTS:
+
+**** NPM
 
 Set a specific directory for NPM packages.
 Tell ~npm~ where to find it

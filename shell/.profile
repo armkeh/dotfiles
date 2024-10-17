@@ -71,6 +71,10 @@ fi
 # Disable some legacy docker commands
 export DOCKER_HIDE_LEGACY_COMMANDS=true
 
+if command -v mu >/dev/null; then
+  mu init --maildir="~/.mail/gmail" --my-address="markparmstrong@gmail.com"
+fi
+
 NPM_PACKAGES="${HOME}/.npm-packages"
 export PATH="$PATH:$NPM_PACKAGES/bin"
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
