@@ -2445,9 +2445,9 @@ when I am using different sizes of screens.
 (general-appearance-define-key
   "r"     '(:ignore t
             :which-key "golden ratio")
-  "r w"   'golden-ratio-widescreen
+  "r w"   'my/golden-ratio-widescreen
            :which-key "widescreen mode"
-  "r n"   'golden-ratio-normal
+  "r n"   'my/golden-ratio-normal
            :which-key "normal mode")
 #+end_src
 
@@ -2929,14 +2929,16 @@ I'm experimenting with settings to potentially mitigate that.
 
 On very wide monitors, we need to adjust the factor to prevent
 #+begin_src emacs-lisp
-(defun golden-ratio-widescreen () (interactive)
-  (setq golden-ratio-adjust-factor 0.4))
+(defun my/golden-ratio-widescreen () (interactive)
+  (setq golden-ratio-adjust-factor 0.4)
+  (message "Golden ratio window adjustments set for widescreen"))
 #+end_src
 
 Of course, we also need to be able to change it back.
 #+begin_src emacs-lisp
-(defun golden-ratio-normal () (interactive)
-  (setq golden-ratio-adjust-factor 1.0))
+(defun my/golden-ratio-normal () (interactive)
+  (setq golden-ratio-adjust-factor 1.0)
+  (message "Golden ratio window adjustments set to normal"))
 #+end_src
 
 ** Kill the open init buffer and reopen it      :cleanup:
