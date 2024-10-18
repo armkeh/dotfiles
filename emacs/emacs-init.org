@@ -3995,6 +3995,7 @@ Manually resize the focused window. Note this will not work when using [[Automat
     "d" '((lambda () (interactive)
           (tab-bar-switch-to-tab "dotfiles"))
           :which-key "↪ email")
+
     "l" '((lambda () (interactive)
           (tab-bar-switch-to-tab "Logs"))
           :which-key "↪ Logs")
@@ -6748,56 +6749,34 @@ and then loaded based on the identity of the machine being used.
 
 For maintainability, most files opened below are listed here.
 #+begin_src emacs-lisp
-(letrec ((log-dir   "~/logs/")
-         (scratch-dir "~/logs/scratch/")
+(letrec ((log-dir      "~/logs/")
+         (scratch-dir  "~/logs/scratch/")
          (dotfiles-dir "~/dotfiles/")
-         (emacs-dir (concat dotfiles-dir "emacs/"))
-         (agda-dir  "~/Dropbox/McMaster/Agda/")
+         (emacs-dir    (concat dotfiles-dir "emacs/"))
 
          (emacs-init   (concat emacs-dir "emacs-init.org"))
          (yankpad-file (concat emacs-dir "yankpad.org"))
 
          (journal (concat log-dir "personal/journal.org"))
-         (docket (concat log-dir "personal/docket.org"))
-
-         (org-scratch  (concat log-dir "org-scratch.org"))
-         (agda-scratch (concat agda-dir "agda-scratch.agda")))
+         (docket  (concat log-dir "personal/docket.org"))
+         (scratch (concat log-dir "personal/scratch.org")))
 #+end_src
 
 *** Create tabs
 
 First, let's create some “consistent” tabs;
-whatever projects I am working on, these tabs
-will always be present.
-- First, of course, is my Emacs init.
-- Second, my Emacs init again, alongside a ~magit~ buffer for it.
-- Second, my Org log and my email.
-- Third, an ~eshell~ instance (separate from the one
-  invoked by my ~eshell~ shortcut).
+whatever projects I am working on, these tabs will always be present.
 #+begin_src emacs-lisp
 (tab-rename "dotfiles")
-(tab-new)
-(tab-rename "dotfiles ꇚ")
 (tab-new)
 (tab-rename "Logs")
 (tab-new)
 (tab-rename "email")
-#+end_src
-
-Now, setup for some projects I am currently working on;
-this section is volatile!
-#+begin_src emacs-lisp
-; (tab-new)
-; (tab-rename "Thesis")
-; (tab-new)
-; (tab-rename "Thesis ꇚ")
 (tab-new)
 (tab-rename "Blog")
-(tab-new)
-(tab-rename "Blog ꇚ")
 #+end_src
 
-Finally, open a few “blank” tab as the rightmost,
+Then, open a few “blank” tab as the rightmost,
 for use when working on other/random things.
 #+begin_src emacs-lisp
 (tab-new)
@@ -6816,123 +6795,51 @@ we'll use ~tab-bar-switch-to-tab~ which takes a ~name~ argument.
 
 My ~cascading-find-files~ sometime comes in handy here.
 
-**** Consistent tabs
-
 First, the ~init~ tab.
 Here I want my Emacs init in my usual three window split
-(two vertically split windows on the left, large single window on the right),
-with the messages buffer on the lower left
-and a help buffer preemptively opened in the upper right.
+(large single window on the left, two vertically split windows on the right),
+with the messages buffer on the upper right
+and a help buffer preemptively opened in the lower right.
 #+begin_src emacs-lisp
-(tab-bar-switch-to-tab "init")
+(tab-bar-switch-to-tab "dotfiles")
 (find-file emacs-init)
-(split-window nil nil 'left)
-; describe symbol will use the window not in focus, so the left
-(describe-symbol 'describe-symbol)
-; switch to the help window on the left
-(other-window 1)
+(split-window nil nil 'right)      ; Normally would use `left' to leave the right in focus, but...
+(describe-symbol 'describe-symbol) ; describe symbol will use the window not in focus.
+(other-window 1)                   ; Switch to the help buffer on the right.
 (split-window nil nil 'above)
 (switch-to-buffer "*Messages*")
+(other-window 1) ; Put focus on init file
 #+end_src
 
-My init file is part of my ~dotfiles~ repository.
-In the tab for managing that repo,
-I want my Emacs init on the left a magit buffer on the right.
-#+begin_src emacs-lisp
-(tab-bar-switch-to-tab "dotfiles ꇚ")
-(find-file emacs-init)
-(split-window nil nil 'right)
-(magit-status-setup-buffer)
-#+end_src
-
-The ~Logs~ tab is similar, but has my supervisory report log
-on the left and 
-and my inbox on the right.
+The logs tab is similar, but with three of my logging files
+with different subjects.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab "Logs")
 (find-file journal)
-(split-window nil nil 'right)
+(split-window nil nil 'left)
 (find-file docket)
+(split-window nil nil 'above)
+(find-file scratch)
+(other-window 1)
 #+end_src
 
-The ~email~ tab has a scratch file on the left
+The ~email~ tab has my scratch file on the left
 and my inbox on the right.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab "email")
-(find-file org-scratch)
+(find-file scratch)
 (split-window nil nil 'left)
 (mu4e-headers-search-bookmark (mu4e-get-bookmark-query ?i))
 #+end_src
 
-**** Volatile tabs
-
-***** COMMENT Thesis
-
-My thesis involves Agda, so I want the Agda information buffer open.
-I prefer that information buffer in the lower left,
-the master file in the upper left, and the thesis directory on the right.
-The ~git~ tab is setup the same way the ~Setup ꇚ~ tab is.
-#+begin_src emacs-lisp
-(let ((thesis-dir "~/projects/agda-computability/"))
-  (let ((thesis-master (concat thesis-dir "thesis-master.org")))
-    (tab-bar-switch-to-tab "Thesis")
-    (find-file thesis-dir)
-    (split-window nil nil 'right)
-    (find-file thesis-master)
-    (split-window nil nil 'above)
-    (switch-to-buffer (agda2-info-buffer))
-
-    (tab-bar-switch-to-tab "Thesis ꇚ")
-    (find-file thesis-master)
-    (split-window nil nil 'right)
-    (magit-status-setup-buffer)))
-#+end_src
-
-***** Blog (and personal website)
-
-For the moment, my ~Blog~ tab setup is similar to the thesis setup,
-because I blog about Agda.
+For my blog, open the homepage Org file and a magit buffer.
 #+begin_src emacs-lisp
 (let ((github-io-dir "~/projects/armkeh.github.io/"))
   (let ((github-io-main (concat github-io-dir "index.org")))
     (tab-bar-switch-to-tab "Blog")
-    (find-file github-io-dir)
-    (split-window nil nil 'right)
-    (find-file github-io-main)
-    (split-window nil nil 'above)
-    (switch-to-buffer (agda2-info-buffer))
-
-    (tab-bar-switch-to-tab "Blog ꇚ")
     (find-file github-io-main)
     (split-window nil nil 'right)
     (magit-status-setup-buffer)))
-#+end_src
-
-***** COMMENT Principles of Programming Languages
-
-I use three tabs for my “Principles of Programming Languages”
-course, 3mi3;
-1. content production environment,
-2. administration environment, and
-3. ~git~ and website management environment.
-#+begin_src emacs-lisp
-(let* ((popl-dir "~/teaching/PoPL/")
-       (popl-index (concat popl-dir "index.org")))
-    (tab-bar-switch-to-tab "PoPL content")
-    (find-file popl-dir)
-    (split-window nil nil 'right)
-    (split-window nil nil 'above)
-
-    (tab-bar-switch-to-tab "PoPL ꇚ")
-    (find-file popl-index)
-    (split-window nil nil 'right)
-    (magit-status-setup-buffer))
-
-(let ((popl-admin-dir "~/teaching/PoPL-admin/"))
-    (tab-bar-switch-to-tab "PoPL admin")
-    (find-file popl-admin-dir)
-    (split-window nil nil 'right)
-    (magit-status-setup-buffer))
 #+end_src
 
 **** Focus on the first tab
