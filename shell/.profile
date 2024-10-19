@@ -71,8 +71,12 @@ fi
 # Disable some legacy docker commands
 export DOCKER_HIDE_LEGACY_COMMANDS=true
 
-if command -v mu >/dev/null; then
+# Check mu installed and info returns error (indicates not initialized)
+if command -v mu >/dev/null && ! mu info >/dev/null 2>/dev/null; then
+  echo "mu installed but `mu info` returns error; trying to initialize mu"
   mu init --maildir="~/.mail/gmail" --my-address="markparmstrong@gmail.com"
+# else
+#   echo "mu already running"
 fi
 
 NPM_PACKAGES="${HOME}/.npm-packages"
