@@ -75,6 +75,7 @@ export DOCKER_HIDE_LEGACY_COMMANDS=true
 if command -v mu >/dev/null && ! mu info >/dev/null 2>/dev/null; then
   echo "mu installed but `mu info` returns error; trying to initialize mu"
   mu init --maildir="~/.mail/gmail" --my-address="markparmstrong@gmail.com"
+  echo "`mu index` will be handled by mu4e if no action taken"
 # else
 #   echo "mu already running"
 fi
