@@ -2,14 +2,48 @@
 #+Author: Mark Armstrong
 #+Description: TODO
 
-* Initial setup
+* Machine configurations
 
-I need Git and Syncthing to get started:
+** WSL
+
+:TODO: Migrate contents of raw file here.
+
+* User environment setup as a flake
+
+* Home setup for my user
+
+* New machine setup
+
+To get setup on a new machine, we do some temporary non-declarative setup
+to get some files in place, after which we can switch to declarative setup.
+
+Before beginning, check the current user. If it is my desired user
+(~armkeh~ at time of writing),
+take care with clashes between the files pulled herein and the Syncthing directories
+that will be set once configurations are in place.
+It may be best to use different, temporary directory names throughout this setup
+and clean up the files and re-do symlinks later.
+
+I need Git to begin:
 #+begin_src sh
-nix-env --install git syncthing
+nix-env --install git
 #+end_src
 
-* WSL notes
+Clone my dotfiles repo.
+#+begin_src sh
+git clone git@github.com:armkeh/dotfiles.git
+#+end_src
+
+Set up symlinks to the configuration files for Nix.
+#+begin_src sh
+cd /etc/nixos/
+sudo rm configuration.nix
+sudo ln -s /home/<user>/dotfiles/nix/configuration-<system>.nix configuration.nix
+sudo ln -s /home/<user>/dotfiles/nix/flake.nix .
+sudo ln -s /home/<user>/dotfiles/nix/home.nix .
+#+end_src
+
+** WSL notes
 
 The Nix community provides modules for running NixOS with WSL:
 - https://github.com/nix-community/NixOS-WSL
@@ -25,3 +59,4 @@ when starting the system for the first time. See it again with
 #+begin_src sh
 nixos-wsl-welcome
 #+end_src
+

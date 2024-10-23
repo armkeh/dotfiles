@@ -22,18 +22,32 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   environment.systemPackages = with pkgs; [
+    zsh
     home-manager
+    syncthing
   ];
 
-  home-manager = {
-    users = {
-      armkeh = import /home/armkeh/home.nix;
+  # Allow zsh access to basic Nix directories in the path 
+  programs.zsh.enable = true;
+
+  # Set up my user with correct permissions
+  users.users = {
+    armkeh = {
+      isNormalUser = true;
+      extraGroups = [
+        "wheel"    # Enable `sudo`
+        "docker"   # Enable `docker` commands without `sudo`
+      ];
+      shell = pkgs.zsh;
     };
   };
 
-  # Login shell must be set at system level
-  programs.zsh.enable = true;
-  users.users.armkeh.shell = pkgs.zsh;
+  # Set up home manager, which is how I do most of my configuration
+  home-manager = {
+    users = {
+      armkeh = import /home/armkeh/dotfiles/nix/home.nix;
+    };
+  };  
 
   # TODO: move this service to home-manager config once it's better supported there;
   #       see https://github.com/nix-community/home-manager/issues/4049
