@@ -6563,6 +6563,21 @@ Activate Org babel support for Go.
 (use-package lua-mode)
 #+end_src
 
+** Typescript                                  :programming:
+
+#+begin_src emacs-lisp
+(use-package typescript-mode)
+#+end_src
+
+Use only two spaces per indentation level.
+#+begin_src emacs-lisp
+(setq typescript-indent-level 2)
+#+end_src
+
+#+begin_src emacs-lisp
+(add-hook 'typescript-mode-hook my/language-server-mode-hook)
+#+end_src
+
 ** YAML configuration language                 :programming:
 
 :TODO: Commentary needed.

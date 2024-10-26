@@ -125,6 +125,7 @@ See also my
   - [[#go][Go]]
   - [[#python][Python]]
   - [[#lua][Lua]]
+  - [[#typescript][Typescript]]
   - [[#yaml-configuration-language][YAML configuration language]]
   - [[#toml-configuration-language][TOML configuration language]]
   - [[#common-lisp][Common Lisp]]
@@ -5042,6 +5043,21 @@ Activate Org babel support for Go.
 
 #+begin_src emacs-lisp
 (use-package lua-mode)
+#+end_src
+
+** Typescript                                   :programming:
+
+#+begin_src emacs-lisp
+(use-package typescript-mode)
+#+end_src
+
+Use only two spaces per indentation level.
+#+begin_src emacs-lisp
+(setq typescript-indent-level 2)
+#+end_src
+
+#+begin_src emacs-lisp
+(add-hook 'typescript-mode-hook my/language-server-mode-hook)
 #+end_src
 
 ** YAML configuration language                  :programming:
