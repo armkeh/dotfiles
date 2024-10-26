@@ -2336,8 +2336,7 @@ like I have for ~vterm~ and set a keybinding for that.
   "m" 'mu4e)
 #+end_src
 
-With insight on performing the buffer kill action
-after the asynchronous
+With insight on performing the buffer kill action after the asynchronous
 shell command finishes from [[https://emacs.stackexchange.com/questions/42172/run-elisp-when-async-shell-command-is-done][here]].
 See the ~kill-buffer-on-process-finish~ definition earlier in this file.
 #+begin_src emacs-lisp
@@ -2348,10 +2347,10 @@ See the ~kill-buffer-on-process-finish~ definition earlier in this file.
                  (process
                   (progn
                     (display-buffer-at-bottom output-buffer '((window-height . 5)))
-                    (async-shell-command "mbsync -a || sleep 60" output-buffer) ;; Sleep for a minute if error, so it can be read
+                    (async-shell-command "mbsync -a || sleep 60" output-buffer) ;; Sleep for a minute, so any error can be read
                     (get-buffer-process output-buffer))))
               (if (process-live-p process)
-                  (set-process-sentinel process #'kill-buffer-and-its-windows-on-process-finish) 
+                  (set-process-sentinel process #'kill-buffer-and-its-windows-on-process-finish)
                 (message "mbsync all directories is not running, but I expected it to be!"))))
         :which-key "mbsync all directories"))
 #+end_src
