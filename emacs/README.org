@@ -836,7 +836,7 @@ of characters was my preferred approach at that time.
 
 I use Protesilaos Stavrou's [[https://protesilaos.com/modus-themes/][Modus themes]], which
 “[conform] with the highest standard for colour contrast
- between background and foreground values”. 
+ between background and foreground values”.
 Prior to this I used the ~vibrant~ and ~nord-light~ themes
 from [[https://github.com/hlissner/emacs-doom-themes][doom-themes]], but the Modus don't leave me desiring any other themes.
 #+begin_src emacs-lisp
@@ -1096,7 +1096,7 @@ Do treat these unicode symbols as delimiters.
 The first character in each entry means either
 - “open delimiter”, if it's a ~(~, or
 - “close delimiter”, if it's a ~)~.
-The second symbol designates the matching delimiter. 
+The second symbol designates the matching delimiter.
 #+begin_src emacs-lisp
 (defun my/unicode-delimiter-syntax ()
   (modify-syntax-entry (string-to-char "⟨") "(⟩")
@@ -3094,7 +3094,7 @@ We run the above function after each command in an Org mode buffer.
 
 We can change the behaviour of Org emphasis markers
 in terms of what characters are allowed to occur around
-and between them; see 
+and between them; see
 [[https://emacs.stackexchange.com/questions/41111/][this stack exchange post]]
 for a sample setup, and
 [[https://emacs.stackexchange.com/questions/13820][this other post]]
@@ -3460,7 +3460,7 @@ These settings are from this exporting section.
       (org-map-entries
        (lambda ()
          (let* ((heading-components (org-heading-components))
-                (headline (nth 4 heading-components))       
+                (headline (nth 4 heading-components))
                 (tags     (nth 5 heading-components)))
            (if (and tags (string-match-p (regexp-quote ":noexport:") tags))
              ;; This heading is tagged as noexport.
@@ -3486,7 +3486,7 @@ These settings are from this exporting section.
                      ;; Finally, add a counter of the number of
                      ;; previous occurrences of this id, to prevent repetition.
                      (let ((unique-id (append-counter
-                                        new-id 
+                                        new-id
                                         (seq-count (lambda (x) (string-equal x new-id))
                                                    generated-ids))))
                        (org-entry-put nil "CUSTOM_ID" unique-id)))))))))))))
@@ -3881,7 +3881,7 @@ I have made several edits.
       (org-map-entries
        (lambda ()
          (let* ((heading-components (org-heading-components))
-                (headline (nth 4 heading-components))       
+                (headline (nth 4 heading-components))
                 (tags     (nth 5 heading-components)))
            (if (and tags (string-match-p (regexp-quote ":noexport:") tags))
              ;; This heading is tagged as noexport.
@@ -3907,7 +3907,7 @@ I have made several edits.
                      ;; Finally, add a counter of the number of
                      ;; previous occurrences of this id, to prevent repetition.
                      (let ((unique-id (append-counter
-                                        new-id 
+                                        new-id
                                         (seq-count (lambda (x) (string-equal x new-id))
                                                    generated-ids))))
                        (org-entry-put nil "CUSTOM_ID" unique-id)))))))))))))
@@ -4232,7 +4232,7 @@ in a new temporary buffer.
               ("<return>" . nil) ("RET" . nil)
               ;; Use tab instead.
               ("<tab>" . company-complete-selection)
-              ("C-d" . company-show-doc-buffer))) 
+              ("C-d" . company-show-doc-buffer)))
 #+end_src
 
 Pop up a tooltip when I hover on a completion that has documentation.
