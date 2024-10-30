@@ -5228,7 +5228,7 @@ following the ~org-html-postamble-format~, which we set.
  '(("en"
     "<p class=\"author\">Author: %a</p>
      <p class=\"author\">Contact: %e</p>
-     <p class=\"date\">Original date: %d</p>
+     <script language=javascript> if (%d) { \"<p class=\"date\">Original date: %d</p>\" } </script>
      <p class=\"date\">Last updated: %C</p>
      <p class=\"creator\">Created using %c</p>
      <p class=\"validation\">%v</p>")))
