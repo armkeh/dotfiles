@@ -26,7 +26,14 @@ and group them into two groups. Each group is then set to be
 synchronised at different intervals; one frequently
 and the other just regularly.
 
-* Caveats
+* COMMENT Caveats
+
+# I have commented out this section at the end of 2024,
+# because it was written in 2020 and several parts are of questionable relevance today.
+# I have not fully removed it because I have not verified its irrelevance
+# when setting up on a fresh system.
+# If I am visiting this file during such a setup, or have recently done such a setup
+# without any of these notes being needed, I should delete this content as out of date.
 
 This setup assumes (at least) isync 1.4.0, as earlier versions
 do not support subfolder settings we use
