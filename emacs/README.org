@@ -2390,10 +2390,11 @@ Update my Emacs Git README file.
   "b" '((lambda () (interactive) (end-of-buffer))
         :which-key "buffer bottom")
 
-  "[" '((lambda () (interactive) (tab-line-switch-to-prev-tab 1))
-        :which-key "tab line left")
-  "]" '((lambda () (interactive) (tab-line-switch-to-next-tab 1))
-        :which-key "tab line right"))
+  ;; The effect of previous and next buffer are more easily visualised if you have tab-line mode enabled.
+  "<left>" '((lambda () (interactive) (prev-buffer))
+             :which-key "previous buffer")
+  "<right>" '((lambda () (interactive) (next-buffer))
+              :which-key "next buffer"))
 #+end_src
 
 ** Appearance                                   :theme:
