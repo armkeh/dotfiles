@@ -3595,13 +3595,6 @@ override my shortcuts.
   "j" 'avy-goto-char-timer)
 #+end_src
 
-*** treemacs
-
-#+begin_src emacs-lisp
-(general-project-define-key
-  "t" 'treemacs)
-#+end_src
-
 *** yankpad                                   :completion:
 
 #+begin_src emacs-lisp
@@ -3777,6 +3770,25 @@ Update my Emacs Git README file.
 #+begin_src emacs-lisp
 (general-other-package-define-key
   "e" 'my/emacs-init-readme-generate)
+#+end_src
+
+** Programming
+
+These keybindings deal with language server interactions
+and programming project helpers.
+
+*** Diagnostics
+
+#+begin_src emacs-lisp
+(general-project-define-key
+  "d" 'flymake-show-project-diagnostics)
+#+end_src
+
+*** treemacs
+
+#+begin_src emacs-lisp
+(general-project-define-key
+  "t" 'treemacs)
 #+end_src
 
 ** Buffer                                      :buffer:
