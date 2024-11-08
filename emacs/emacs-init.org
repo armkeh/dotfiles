@@ -6725,9 +6725,11 @@ Org babel support for Ditaa is builtin, so just ~require~ it.
 #+end_src
 
 We need to point to the ~jar~ file for the Ditaa tool.
+It should be in the path; if not we skip this setup step.
 #+Name: evaluate-ditaa-path
 #+begin_src emacs-lisp
-(setq org-ditaa-jar-path "/usr/bin/ditaa")
+(let ((ditaa-path (executable-find "ditaa")))
+  (if ditaa-path (setq org-ditaa-jar-path ditaa-path)))
 #+end_src
 
 ** Docker

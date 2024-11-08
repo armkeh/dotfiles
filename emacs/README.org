@@ -3535,8 +3535,9 @@ to be evaluated for export.
 (require 'ob-sql)
 (require 'ob-python)
 (require 'ob-js)
-(setq org-ditaa-jar-path "/usr/bin/ditaa")
 (require 'ob-typescript)
+(let ((ditaa-path (executable-find "ditaa")))
+  (if ditaa-path (setq org-ditaa-jar-path ditaa-path)))
 (org-babel-shell-initialize)
 (setq org-plantuml-jar-path "/usr/share/java/plantuml.jar")
 #+end_src
@@ -5205,9 +5206,11 @@ Org babel support for Ditaa is builtin, so just ~require~ it.
 #+end_src
 
 We need to point to the ~jar~ file for the Ditaa tool.
+It should be in the path; if not we skip this setup step.
 #+name: evaluate-ditaa-path
 #+begin_src emacs-lisp
-(setq org-ditaa-jar-path "/usr/bin/ditaa")
+(let ((ditaa-path (executable-find "ditaa")))
+  (if ditaa-path (setq org-ditaa-jar-path ditaa-path)))
 #+end_src
 
 ** Docker
