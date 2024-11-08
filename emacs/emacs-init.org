@@ -1131,6 +1131,7 @@ in the [[Programming language modes and mode-specific settings]] section.
 (require 'ob-sql)
 (require 'ob-python)
 (require 'ob-js)
+(require 'ob-typescript)
 #+end_src
 
 For shell code, we need to initialise via this function.
@@ -4779,12 +4780,15 @@ for this application.
     ("scala"      modus-themes-nuanced-blue)
     ("amm"        modus-themes-nuanced-blue)
 
-    ;; Imperative languages
+    ;; Imperative and/or object oriented languages
     ("c"          modus-themes-nuanced-green)
     ("cpp"        modus-themes-nuanced-green)
     ("c++"        modus-themes-nuanced-green)
+    ("csharp"     modus-themes-nuanced-green)
     ("java"       modus-themes-nuanced-green)
     ("javascript" modus-themes-nuanced-green)
+    ("js"         modus-themes-nuanced-green)
+    ("typescript" modus-themes-nuanced-green)
     ("ruby"       modus-themes-nuanced-green)
     ("python"     modus-themes-nuanced-green)
     ("sh"         modus-themes-nuanced-green)
