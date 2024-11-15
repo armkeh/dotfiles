@@ -6795,6 +6795,7 @@ For maintainability, most files opened below are listed here.
 (letrec ((log-dir      "~/logs/")
          (scratch-dir  "~/logs/scratch/")
          (dotfiles-dir "~/dotfiles/")
+         (projects-dir "~/projects/")
          (emacs-dir    (concat dotfiles-dir "emacs/"))
 
          (emacs-init   (concat emacs-dir "emacs-init.org"))
@@ -6819,15 +6820,22 @@ whatever projects I am working on, these tabs will always be present.
 (tab-rename "Blog")
 #+end_src
 
-Then, open a few “blank” tab as the rightmost,
-for use when working on other/random things.
+Then, open a few “project” tabs as the rightmost.
+I use the directory ~~/projects~ to collect various pieces of work,
+so it makes sense to open that directory by default.
 #+begin_src emacs-lisp
 (tab-new)
-(tab-rename "Blank 1")
+(find-file projects-dir)
+(tab-rename "🚧")
 (tab-new)
-(tab-rename "Blank 2")
+(find-file projects-dir)
+(tab-rename "🏗️")
 (tab-new)
-(tab-rename "Blank 3")
+(find-file projects-dir)
+(tab-rename "👷")
+(tab-new)
+(find-file projects-dir)
+(tab-rename "🛠️")
 #+end_src
 
 *** Visit tabs and setup buffers
