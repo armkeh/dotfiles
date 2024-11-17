@@ -1124,6 +1124,7 @@ in the [[Programming language modes and mode-specific settings]] section.
 (require 'ob-haskell)
 (require 'ob-latex)
 (require 'ob-C)
+(require 'ob-java)
 (require 'ob-ruby)
 (require 'ob-plantuml)
 (require 'ob-R)
