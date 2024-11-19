@@ -2176,6 +2176,17 @@ override my shortcuts.
 
 ** Invoke processes
 
+*** Debug Emacs commands
+
+#+begin_src emacs-lisp
+(general-other-package-define-key
+  "e" '(:ignore t :which-key "emacs settings")
+  "e d" '(:ignore t :which-key "elisp debug")
+  "e d e" 'toggle-debug-on-error
+  "e d q" 'toggle-debug-on-quit)
+#+end_src
+
+
 *** imenu                                       :movement:
 
 #+begin_src emacs-lisp
@@ -2364,7 +2375,7 @@ See the ~kill-buffer-on-process-finish~ definition earlier in this file.
 Update my Emacs Git README file.
 #+begin_src emacs-lisp
 (general-other-package-define-key
-  "e" 'my/emacs-init-readme-generate)
+  "g r" 'my/emacs-init-readme-generate)
 #+end_src
 
 ** Programming
