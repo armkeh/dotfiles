@@ -5071,6 +5071,10 @@ Activate Org babel support for Go.
 (add-hook 'go-mode-hook my/language-server-mode-hook)
 #+end_src
 
+#+begin_src emacs-lisp
+(add-hook 'before-save-hook 'gofmt-before-save)
+#+end_src
+
 ** Python                                       :programming:
 
 #+begin_src emacs-lisp
