@@ -6587,6 +6587,17 @@ simplifies the process of switching should I need to do so.
 (setq-local my/language-server-mode-hook 'eglot-ensure)
 #+end_src
 
+Ensure that Eglot is kept up-to-date:
+#+begin_src emacs-lisp
+(eglot-upgrade-eglot)
+#+end_src
+
+“Glue” together Eglot and [[https://www.flycheck.org/en/latest/][Flycheck]],
+the modern Emacs syntax checking extension.
+#+begin_src emacs-lisp
+(use-package flycheck-eglot)
+#+end_src
+
 ** Debugging                                   :programming:
 
 In the same way that [[Language server protocol][LSP]] establishes a common interface in order for
