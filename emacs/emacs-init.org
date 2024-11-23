@@ -387,22 +387,22 @@ into this one.
 
 Begin by adding the repository as follows (run this from the top level of this repository),
 assuming you wish to import the ~main~ branch.
-#+begin_src shell
+#+begin_example shell
 git subtree add --prefix emacs/elisp/my-cool-elisp  https://github.com/cool-guy/my-cool-elisp.git main --squash
-#+end_src
+#+end_example
 The ~--squash~ flag squashes the history of the imported repository.
 
 You may then update the subtree when changes occur to the imported repository (~main~ branch).
-#+begin_src shell
+#+begin_example shell
 git subtree pull --prefix emacs/elisp/my-cool-elisp https://github.com/cool-guy/my-cool-elisp.git main --squash
-#+end_src
+#+end_example
 Again, note the ~--squash~ flag.
 
 You may also push any changes you make back to the imported repository.
 Though unless you have forked the project, you may wish to push to branch other than ~main~.
-#+begin_src shell
+#+begin_example shell
 git subtree push --prefix unicode-sty https://github.com/armkeh/unicode-sty.git main
-#+end_src
+#+end_example
 
 ** Elisp utilities
 
