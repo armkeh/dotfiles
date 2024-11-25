@@ -5082,6 +5082,7 @@ Ensure that Eglot is kept up-to-date:
 the modern Emacs syntax checking extension.
 #+begin_src emacs-lisp
 (use-package flycheck-eglot)
+(global-flycheck-eglot-mode 1)
 #+end_src
 
 ** Debugging                                    :programming:
