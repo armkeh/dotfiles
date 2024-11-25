@@ -5142,8 +5142,16 @@ Activate Org babel support for Go.
 (add-hook 'go-mode-hook my/language-server-mode-hook)
 #+end_src
 
+Automatically follow ~gofmt~ rules.
 #+begin_src emacs-lisp
 (add-hook 'before-save-hook 'gofmt-before-save)
+#+end_src
+
+If installed, add the additional Go linter, ~golangci-lint~, to the Flycheck checkers.
+#+begin_src emacs-lisp
+(when (shell-command "command -v golangci-lint")
+  (use-package flycheck-golangci-lint)
+  (add-hook 'go-mode-hook 'flycheck-golangci-lint-setup))
 #+end_src
 
 ** Python                                       :programming:
