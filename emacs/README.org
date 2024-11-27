@@ -4645,7 +4645,7 @@ one for the left-hand-side and one for the right.
   ;; Left side
   '(window-number modals remote-host buffer-info buffer-encoding buffer-position)
   ;; Right side
-  '(major-mode minor-modes input-method process))
+  '(check major-mode minor-modes input-method process))
 #+end_src
 
 It's convenient to have a function to set my preferred modeline as the default.
