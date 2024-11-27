@@ -1662,8 +1662,6 @@ See [[https://www.reddit.com/r/emacs/comments/9ep5o1/mu4e_stop_emails_setting_ba
 
 Bookmarks can be used from the ~mu4e~ main page,
 and are also useful for programmatically jumping to maildirs.
-I set up the inbox bookmark in particular to programmatically jump
-to the inbox while setting up my mu4e buffer on a new Emacs instance.
 #+begin_src emacs-lisp
   (mu4e-bookmark-define "maildir:/Inbox" "Inbox" ?i)
 #+end_src
@@ -5452,9 +5450,9 @@ The ~email~ tab has my scratch file on the left
 and my inbox on the right.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab "email")
+(mu4e)
+(split-window nil nil 'right)
 (find-file scratch)
-(split-window nil nil 'left)
-(mu4e-headers-search-bookmark (mu4e-get-bookmark-query ?i))
 #+end_src
 
 For my blog, open the homepage Org file and a magit buffer.
