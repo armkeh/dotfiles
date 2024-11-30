@@ -3,7 +3,7 @@ command_timeout = 1000
 format="""
 [┌─⟨$shell⟩──⟨$username$hostname⟩](bold green)\
 [──⟨${custom.date}⟩──⟨$time⟩](bold green)\
-[──⟨$character$status$cmd_duration⟩](bold green)
+[──⟨$character$status $cmd_duration⟩](bold green)
 [│ $directory](bold green)
 ([│ $elm$golang$nodejs$purescript$python$ruby](bold green)\n)\
 ([│ $git_branch($git_commit)($git_status$git_metrics)](bold green)\n)\
@@ -41,13 +41,13 @@ format = "$symbol"
 
 [status]
 disabled = false
-format = "[$symbol$status]($style)"
+format = "[$symbol $status]($style)"
 
 [cmd_duration]
 min_time = 0
 show_milliseconds = true
 style = "bold bright-blue"
-format = " ⏱[$duration]($style)"
+format = "[$duration]($style)"
 
 [directory]
 truncation_length = 20

@@ -828,7 +828,7 @@ and the return status of the last command along with the time it took.
 #+begin_src toml :padline no
 [┌─⟨$shell⟩──⟨$username$hostname⟩](bold green)\
 [──⟨${custom.date}⟩──⟨$time⟩](bold green)\
-[──⟨$character$status$cmd_duration⟩](bold green)
+[──⟨$character$status $cmd_duration⟩](bold green)
 #+end_src
 
 The next line contains the current directory path.
@@ -944,7 +944,7 @@ there are symbols for program error, “file not executable” errors,
 #+begin_src toml
 [status]
 disabled = false
-format = "[$symbol$status]($style)"
+format = "[$symbol $status]($style)"
 #+end_src
 
 Also report the time the last command took.
@@ -955,7 +955,7 @@ commands that take no time still won't show a time.
 min_time = 0
 show_milliseconds = true
 style = "bold bright-blue"
-format = " ⏱[$duration]($style)"
+format = "[$duration]($style)"
 #+end_src
 
 *** Directory and Git information
