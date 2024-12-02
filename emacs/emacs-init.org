@@ -6562,6 +6562,8 @@ Also see error reports in the global mode string.
 
 ** Language server protocol                    :programming:
 
+*** Basics
+
 The [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]] (LSP):
 #+begin_quote
 defines the protocol used between an editor or IDE and a language server
@@ -6585,16 +6587,33 @@ simplifies the process of switching should I need to do so.
 (setq-local my/language-server-mode-hook 'eglot-ensure)
 #+end_src
 
+*** Eglot-specific
+
 Ensure that Eglot is kept up-to-date:
 #+begin_src emacs-lisp
 (eglot-upgrade-eglot)
 #+end_src
 
+*** COMMENT Interaction with Flycheck
+
+# Disabled (temporarily at least), because I could not get Flycheck
+# to display feedback from other backends while flycheck-eglot mode was active.
+# And so far, with Go at least, I don't see obvious benefits from this mode.
+
 “Glue” together Eglot and [[https://www.flycheck.org/en/latest/][Flycheck]],
 the modern Emacs syntax checking extension.
 #+begin_src emacs-lisp
-(use-package flycheck-eglot)
-(global-flycheck-eglot-mode 1)
+(use-package flycheck-eglot
+  :custom (flycheck-eglot-exclusive nil)
+  :config (global-flycheck-eglot-mode 1))
+#+end_src
+
+By default, ~flycheck-eglot~ mode excludes feedback from backends
+other than Eglot from Flycheck. I'd like to see that feedback;
+in particular, in Go, ~go fmt~ offers important feedback.
+In the future, I might make this more selective based on language.
+#+begin_src emacs-lisp
+;(add-hook 'flycheck-eglot-mode-hook (lambda () (setq flycheck-eglot-exclusive nil)))
 #+end_src
 
 ** Debugging                                   :programming:
