@@ -6685,6 +6685,13 @@ If installed, add the additional Go linter, ~golangci-lint~, to the Flycheck che
   (add-hook 'go-mode-hook 'flycheck-golangci-lint-setup))
 #+end_src
 
+** Java
+
+:TODO: There might be a better way to adjust this setting, but this prevents forcing of 4 space identation for now.
+#+begin_src emacs-lisp
+(add-hook 'java-mode-hook '(lambda () (setq c-basic-offset 'set-from-style)))
+#+end_src
+
 ** Python                                      :programming:
 
 #+begin_src emacs-lisp
