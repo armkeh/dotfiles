@@ -5150,9 +5150,20 @@ If installed, add the additional Go linter, ~golangci-lint~, to the Flycheck che
   (add-hook 'go-mode-hook 'flycheck-golangci-lint-setup))
 #+end_src
 
-** Java
+** Java                                         :programming:
 
-:TODO: There might be a better way to adjust this setting, but this prevents forcing of 4 space identation for now.
+[[https://github.com/yveszoundi/eglot-java][eglot-java]] provides
+some wrapping around the Eclipse JDT language server for Java.
+In particular, it will handle installation of the language server,
+which is convenient since it is not available in all package managers,
+and I prefer to avoid manual installs.
+#+begin_src emacs-lisp
+(use-package eglot-java)
+(add-hook 'java-mode-hook 'eglot-java-mode)
+#+end_src
+
+Ensure that indentation offsets are set based on the practice within the file.
+:TODO: Find what is changing this setting to `4` instead of `set-from-style`, which should be default.
 #+begin_src emacs-lisp
 (add-hook 'java-mode-hook '(lambda () (setq c-basic-offset 'set-from-style)))
 #+end_src
