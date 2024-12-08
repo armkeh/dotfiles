@@ -6697,12 +6697,6 @@ and I prefer to avoid manual installs.
 (add-hook 'java-mode-hook 'eglot-java-mode)
 #+end_src
 
-Ensure that indentation offsets are set based on the practice within the file.
-:TODO: Find what is changing this setting to `4` instead of `set-from-style`, which should be default.
-#+begin_src emacs-lisp
-(add-hook 'java-mode-hook '(lambda () (setq c-basic-offset 'set-from-style)))
-#+end_src
-
 ** Python                                      :programming:
 
 #+begin_src emacs-lisp
