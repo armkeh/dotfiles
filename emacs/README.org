@@ -2168,12 +2168,17 @@ for insert and Emacs modes.
 
 ** System package management
 
-:TODO:
+I currently use Nix for configuring my (new) systems; see [[file:../nix/]].
+In the past I have also used Guix, though only in a non-declarative manner.
 
-Note that this depends upon the ~geiser~ and ~geiser-guile~ packages.
+*** Nix
+
+~nix-mode~ is for editing Nix expressions (files).
 #+begin_src emacs-lisp
-(use-package guix)
+(use-package nix-mode)
 #+end_src
+
+See the [[Nix LSP]] section below for settings to integrate with a language server for Nix.
 
 * Keybindings and controls
 
