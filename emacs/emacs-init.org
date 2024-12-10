@@ -6586,10 +6586,11 @@ Emacs has two major packages for LSP support:
   and hence is the “default”.
 
 I am using Eglot, but may change my mind later;
-setting a variable for use in all the language settings below
+abstracting to these variables in all the language settings below
 simplifies the process of switching should I need to do so.
 #+begin_src emacs-lisp
 (setq-local my/language-server-mode-hook 'eglot-ensure)
+(setq-local my/language-server-programs-list 'eglot-server-programs)
 #+end_src
 
 *** Eglot-specific
@@ -6875,6 +6876,19 @@ It should be in the path; if not we skip this setup step.
 
 #+begin_src emacs-lisp
 (use-package feature-mode)
+#+end_src
+
+** Nix LSP
+
+On systems using Nix, we can install [[https://github.com/oxalica/nil][nil]],
+a language server for the Nix language.
+I assume here if ~nix~ is installed then so is the ~nil~ package;
+this will cause an error if I have somehow not installed it
+(it should be always installed, since it is in my Nix configuration).
+#+begin_src emacs-lisp
+(when (executable-find "nix")
+  (add-hook 'nix-mode-hook my/language-server-mode-hook)
+  (add-to-list my-language-server-programs-list '(nix-mode . ("nil"))))
 #+end_src
 
 ** Fold code
