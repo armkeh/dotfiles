@@ -18,6 +18,7 @@
 
   wsl.enable = true;
   wsl.defaultUser = "armkeh";
+  wsl.startMenuLaunchers = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
