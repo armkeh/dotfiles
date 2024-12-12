@@ -5051,6 +5051,43 @@ or opening a help buffer.
 (minions-mode 1)
 #+end_src
 
+** HTTP requests                                :programming:
+
+The package [[https://github.com/federicotdn/verb][Verb]] allows
+for organizing and sending API requests in Emacs buffers.
+I use it as an alternative to applications
+such as [[https://www.postman.com/][Postman]] or [[https://insomnia.rest/][Insomnia]].
+Those applications are wonderful for
+collaborating with a team on a shared collection of API requests,
+but for my own purposes, organizing them in plaintext in Emacs
+empowers me to better manage/backup requests using Org and ~git~,
+and add extensible behaviour through Elisp.
+#+begin_src emacs-lisp
+(use-package verb)
+#+end_src
+
+Verb includes support for encoding requests within Org source blocks,
+and using Babel to execute them.
+#+begin_src emacs-lisp
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((verb . t)))
+#+end_src
+For example, we can write and send a request by typing ~C-c C-c~ within a block like this:
+#+begin_src org
+,#+begin_src verb :op send
+get https://sample.api/endpoint
+,#+end_src
+#+end_src
+or alternatively, see the request that would be executed by setting ~export curl~ instead:
+#+begin_src org
+,#+begin_src verb :op export curl
+get https://sample.api/endpoint
+,#+end_src
+#+end_src
+Other options for operation (~op~) and flags are available;
+see https://github.com/federicotdn/verb?tab=readme-ov-file#babel-integration.
+
 * Programming language modes and mode-specific settings
 
 ** Language server protocol                     :programming:
