@@ -5833,14 +5833,6 @@ Taken without additional commentary for now from Musa's init.
 (setq company-backends (mapcar #'my/company-backend-with-yankpad company-backends))
 #+end_src
 
-** AI assistance
-
-#+begin_src emacs-lisp
-;; (when (libxml-available-p)
-;;   (use-package codium)
-;;   (add-to-list 'completion-at-point-functions #'codeium-completion-at-point))
-#+end_src
-
 ** Walking through undo history; undo-propose  :vc:
 
 The ~undo-propose~ package is a fairly minimal addition to

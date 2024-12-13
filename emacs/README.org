@@ -92,7 +92,6 @@ See also my
   - [[#a-completion-framework-ivy-counsel-and-swiper][A completion framework; Ivy, Counsel and Swiper]]
   - [[#completing-anything-company][COMpleting ANYthing; Company]]
   - [[#snippets][Snippets]]
-  - [[#ai-assistance][AI assistance]]
   - [[#walking-through-undo-history-undo-propose][Walking through undo history; undo-propose]]
   - [[#walking-through-backups-backup-walker][Walking through backups; backup-walker]]
   - [[#jumping-through-the-buffer-by-characters][Jumping through the buffer by characters]]
@@ -4413,14 +4412,6 @@ Taken without additional commentary for now from Musa's init.
 
 ;; Set company-backend as a secondary completion backend to all existing backends.
 (setq company-backends (mapcar #'my/company-backend-with-yankpad company-backends))
-#+end_src
-
-** AI assistance
-
-#+begin_src emacs-lisp
-;; (when (libxml-available-p)
-;;   (use-package codium)
-;;   (add-to-list 'completion-at-point-functions #'codeium-completion-at-point))
 #+end_src
 
 ** Walking through undo history; undo-propose   :vc:
