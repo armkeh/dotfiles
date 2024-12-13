@@ -4459,7 +4459,7 @@ when undoing/redoing (though I have not experienced this personally).
 For the moment, I will stick to the builtin undo behaviour,
 with ~undo-propose~ to help visualise the changes.
 
-** Walking through backups; backup-walker
+** Walking through backups; backup-walker       :vc:
 
 The ~backup-walker~ package gives us the resources
 to actually make use of the backups Emacs generates as

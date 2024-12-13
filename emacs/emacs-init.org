@@ -5654,7 +5654,7 @@ as the first suggestions when I use ~M-x~.
 (ivy-prescient-mode)
 #+end_src
 
-** COMMENT Improving search; CTRLF (control f)
+** COMMENT Improving search; CTRLF (control f) :movement:
 
 https://github.com/raxod502/ctrlf
 
@@ -5666,7 +5666,7 @@ If not, bring swiper back.
 (ctrlf-mode +1)
 #+end_src
 
-** COMMENT A completion framework; Selectrum
+** COMMENT A completion framework; Selectrum   :completion:
 
 https://github.com/raxod502/selectrum
 
@@ -5878,7 +5878,7 @@ when undoing/redoing (though I have not experienced this personally).
 For the moment, I will stick to the builtin undo behaviour,
 with ~undo-propose~ to help visualise the changes.
 
-** Walking through backups; backup-walker
+** Walking through backups; backup-walker      :vc:
 
 The ~backup-walker~ package gives us the resources
 to actually make use of the backups Emacs generates as
