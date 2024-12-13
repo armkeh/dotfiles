@@ -116,6 +116,7 @@ See also my
   - [[#magit][Magit]]
   - [[#show-uncommitted-changes-to-files-as-we-view-them][Show uncommitted changes to files as we view them]]
   - [[#minions-see-and-toggle-minor-modes][Minions; see and toggle minor modes]]
+  - [[#http-requests][HTTP requests]]
 - [[#programming-language-modes-and-mode-specific-settings][Programming language modes and mode-specific settings]]
   - [[#language-server-protocol][Language server protocol]]
   - [[#debugging][Debugging]]
