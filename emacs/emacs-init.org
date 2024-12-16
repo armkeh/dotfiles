@@ -3866,6 +3866,18 @@ and programming project helpers.
   "t" 'treemacs)
 #+end_src
 
+*** Language specific
+
+The ~java-eglot~ package, configured in the section [[Java]],
+provides functions for running code from within Emacs.
+#+begin_src emacs-lisp
+(general-create-definer general-java-define-key
+  :prefix "C-c p j"
+  :keymaps 'override)
+#+end_src
+
+The actual keybindings I define in the Java section.
+
 ** Buffer                                      :buffer:
 
 #+begin_src emacs-lisp
@@ -6731,6 +6743,14 @@ and I prefer to avoid manual installs.
 (use-package eglot-java)
 (add-hook 'java-mode-hook 'eglot-java-mode)
 #+end_src
+
+Add keybindings for running ~main~ and tests (JUnit).
+#+begin_src emacs-lisp
+(general-java-define-key
+ "r" 'eglot-java-run-main
+ "t" 'eglot-java-run-test)
+#+end_src
+
 
 ** Python                                      :programming:
 
