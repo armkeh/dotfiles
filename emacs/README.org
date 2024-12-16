@@ -5210,6 +5210,11 @@ and I prefer to avoid manual installs.
 (add-hook 'java-mode-hook 'eglot-java-mode)
 #+end_src
 
+Keep the Java LSP server up-to-date.
+#+begin_src emacs-lisp
+(eglot-java-upgrade-lsp-server)
+#+end_src
+
 Add keybindings for running ~main~ and tests (JUnit).
 #+begin_src emacs-lisp
 (general-java-define-key
