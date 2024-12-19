@@ -4609,7 +4609,8 @@ By default, the icons are monochrome. Let's turn on the colour.
 Some packages, including the ~doom-modeline~, prefer ~nerd-icons~.
 #+begin_src emacs-lisp
 (use-package nerd-icons)
-(nerd-icons-install-fonts 'no-prompt)
+(with-demoted-errors "Error installing nerd-icons during init (was the network disconnected?): %S"
+  (nerd-icons-install-fonts 'no-prompt))
 #+end_src
 
 ** Modeline styling                             :theme:
@@ -5126,7 +5127,8 @@ simplifies the process of switching should I need to do so.
 
 Ensure that Eglot is kept up-to-date:
 #+begin_src emacs-lisp
-(eglot-upgrade-eglot)
+(with-demoted-errors "Error updating eglot (or checking for update) during init (was the network disconnected?): %S"
+  (eglot-upgrade-eglot))
 #+end_src
 
 ** Debugging                                    :programming:
@@ -5212,7 +5214,8 @@ and I prefer to avoid manual installs.
 
 Keep the Java LSP server up-to-date.
 #+begin_src emacs-lisp
-(eglot-java-upgrade-lsp-server)
+(with-demoted-errors "Error updating (or checking for update of) Java LSP server during init (was the network disconnected?): %S"
+  (eglot-java-upgrade-lsp-server))
 #+end_src
 
 Add keybindings for running ~main~ and tests (JUnit).
@@ -5221,7 +5224,6 @@ Add keybindings for running ~main~ and tests (JUnit).
  "r" 'eglot-java-run-main
  "t" 'eglot-java-run-test)
 #+end_src
-
 
 ** Python                                       :programming:
 
