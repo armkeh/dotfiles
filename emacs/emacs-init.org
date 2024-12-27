@@ -874,43 +874,81 @@ particularly when working from a desk with a wide or ultra-wide monitor.
 But I don't like Emacs to make more than two columns (windows side-by-side).
 These settings prevent work to enforce those preferences on my laptop screens.
 #+begin_src emacs-lisp
-(defun my/window-split-settings:laptop ()
-"Set the window minimum width and split settings to
+(defun my/window-split-behavior:laptop ()
+  "Set the window minimum width and split behaviour to
 discourage vertical splits, and prevent more than one
 horizontal split on a laptop-sized screen."
-       (interactive)
-       (setq split-height-threshold nil) ;; Don't split vertically (above/below).
-       (setq split-width-threshold 100)  ;; Only split reasonably wide windows horizontally (left/right)...
-       (setq window-min-width 70)        ;; ... and only when the resulting windows are reasonably wide.
-       (message "Screen splitting behaviour optimized for laptops"))
-#+end_src
-
-Adopt those settings as the default.
-#+begin_src emacs-lisp
-(my/window-split-settings:laptop)
+  (interactive)
+  (setq split-height-threshold nil) ;; Don't split vertically (above/below).
+  (setq split-width-threshold 100)  ;; Only split reasonably wide windows horizontally (left/right)...
+  (setq window-min-width 70)        ;; ... and only when the resulting windows are reasonably wide.
+  (message "Screen splitting behaviour optimized for laptops")
+  nil)
 #+end_src
 
 Similarly define other configurations for larger screens.
 #+begin_src emacs-lisp
-(defun my/window-split-settings:wide ()
-"Set the window minimum width and split settings to
+(defun my/window-split-behavior:wide ()
+  "Set the window minimum width and split behaviour to
 discourage vertical splits, and prevent more than one
-horizontal split on a laptop-sized screen."
-       (interactive)
-       (setq split-height-threshold nil) ;; Don't split vertically (above/below).
-       (setq split-width-threshold 200)  ;; Only split reasonably wide windows horizontally (left/right)...
-       (setq window-min-width 125)        ;; ... and only when the resulting windows are reasonably wide.
-       (message "Screen splitting behaviour optimized for widescreen monitors"))
+horizontal split on a wide screen."
+  (interactive)
+  (setq split-height-threshold nil) ;; Don't split vertically (above/below).
+  (setq split-width-threshold 200)  ;; Only split reasonably wide windows horizontally (left/right)...
+  (setq window-min-width 125)        ;; ... and only when the resulting windows are reasonably wide.
+  (message "Screen splitting behaviour optimized for widescreen monitors")
+  nil)
 
-(defun my/window-split-settings:ultrawide ()
-"Set the window minimum width and split settings to
+(defun my/window-split-behavior:ultrawide ()
+  "Set the window minimum width and split behaviour to
 discourage vertical splits, and prevent more than one
-horizontal split on a laptop-sized screen."
-       (interactive)
-       (setq split-height-threshold nil) ;; Don't split vertically (above/below).
-       (setq split-width-threshold 250)  ;; Only split reasonably wide windows horizontally (left/right)...
-       (setq window-min-width 150)       ;; ... and only when the resulting windows are reasonably wide.
-       (message "Screen splitting behaviour optimized for ultrawide monitors"))
+horizontal split on an ultrawide screen."
+  (interactive)
+  (setq split-height-threshold nil) ;; Don't split vertically (above/below).
+  (setq split-width-threshold 250)  ;; Only split reasonably wide windows horizontally (left/right)...
+  (setq window-min-width 150)       ;; ... and only when the resulting windows are reasonably wide.
+  (message "Screen splitting behaviour optimized for ultrawide monitors")
+  nil)
+#+end_src
+
+And, in case it is needed, define a function to revert to the default behaviour.
+#+begin_src emacs-lisp
+(defun my/window-split-behavior:default ()
+  "Revert the window minimum width and split behaviour to
+their default settings."
+  (interactive)
+  (setq split-height-threshold 80)
+  (setq split-width-threshold 100)
+  (setq window-min-width 10)
+  (message "Screen splitting behaviour reverted to defaults"))
+#+end_src
+
+Now we can define a function to set one of the above behaviours based on the size of the frame.
+#+begin_src emacs-lisp
+(defun my/optimize-window-split-behavior (&optional frame)
+  "Optimize the window minimum width and split behaviour based
+on the current width of FRAME. If FRAME is omitted,
+use the width of the currently selected frame."
+  (let ((width (frame-width frame)))
+    (message (format "Automatically optimizing window split behaviour based on new frame width %d" width))
+    ;; Check for screen width limits in decreasing order, and set appropriate splitting behaviour.
+    (cond
+     ((> width 500) (my/window-split-behavior:ultrawide))
+     ((> width 400) (my/window-split-behavior:wide))
+     ((> width 200) (my/window-split-behavior:laptop))
+     (t (my/window-split-behavior:default)))))
+#+end_src
+
+And add that function to the ~window-size-change-functions~ list,
+so it will be called during redisplay when window sizes have changed.
+#+begin_src emacs-lisp
+(add-to-list 'window-size-change-functions 'my/optimize-window-split-behavior)
+#+end_src
+
+Also call the function at this point in the init,
+so we start with my desired settings based on the frame size.
+#+begin_src emacs-lisp
+(my/optimize-window-split-behavior)
 #+end_src
 
 ** Rotate windows
@@ -3978,11 +4016,15 @@ See [[Tweak window splitting]].
 (general-appearance-define-key
   "s" '(:ignore t
         :which-key "window splitting")
-  "s l" 'my/window-split-settings:laptop
+  "s a" 'my/optimize-window-split-behavior
+         :which-key "Automatically optimize based on current frame width"
+  "s d" 'my/window-split-behavior:default
+         :which-key "Revert to default behavior"
+  "s l" 'my/window-split-behavior:laptop
          :which-key "Optimize for laptop screen"
-  "s w" 'my/window-split-settings:wide
+  "s w" 'my/window-split-behavior:wide
          :which-key "Optimize for widescreen monitor"
-  "s u" 'my/window-split-settings:ultrawide
+  "s u" 'my/window-split-behavior:ultrawide
          :which-key "Optimize for ultrawide monitor")
 #+end_src
 
