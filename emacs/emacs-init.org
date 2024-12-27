@@ -941,8 +941,31 @@ use the width of the currently selected frame."
 
 And add that function to the ~window-size-change-functions~ list,
 so it will be called during redisplay when window sizes have changed.
+But we only want it to be called if the frame size has changed.
+This should be possible to enforce using ~frame-size-changed-p~, such as below:
+#+begin_example emacs-lisp
+(add-to-list
+ 'window-size-change-functions
+ (lambda (frame) (when (frame-size-changed-p frame) (my/optimize-window-split-behavior frame))))
+#+end_example
+
+However, in my testing, ~frame-size-changed-p~ always returns true,
+even immediately after the frame is resized and the ~window-size-change-functions~ have run
+(which is supposed to be when it returns ~nil~).
+So instead, we track the most recently observed frame width and check it
+before optimizing the behaviour.
 #+begin_src emacs-lisp
-(add-to-list 'window-size-change-functions 'my/optimize-window-split-behavior)
+(defvar my/observed-frame-width (frame-width)
+  "The most recently observed frame width.
+Updated when the `window-size-change-functions' are run.")
+
+(add-to-list
+ 'window-size-change-functions
+ (lambda (frame)
+   (let ((width (frame-width frame)))
+     (when (/= width my/observed-frame-width)
+       (setq my/observed-frame-width width)
+       (my/optimize-window-split-behavior frame)))))
 #+end_src
 
 Also call the function at this point in the init,
