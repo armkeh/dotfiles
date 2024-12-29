@@ -925,6 +925,13 @@ their default settings."
 
 Now we can define a function to set one of the above behaviours based on the size of the frame.
 #+begin_src emacs-lisp
+(defvar my/frame-width-threshold:ultrawide 400
+  "Threshold for applying ultrawide monitor splitting behaviour to a frame.")
+(defvar my/frame-width-threshold:wide 300
+  "Threshold for applying widescreen monitor splitting behaviour to a frame.")
+(defvar my/frame-width-threshold:laptop 200
+  "Threshold for applying laptop monitor splitting behaviour to a frame.")
+
 (defun my/optimize-window-split-behavior (&optional frame)
   "Optimize the window minimum width and split behaviour based
 on the current width of FRAME. If FRAME is omitted,
@@ -933,10 +940,10 @@ use the width of the currently selected frame."
     (message (format "Automatically optimizing window split behaviour based on new frame width %d" width))
     ;; Check for screen width limits in decreasing order, and set appropriate splitting behaviour.
     (cond
-     ((> width 500) (my/window-split-behavior:ultrawide))
-     ((> width 400) (my/window-split-behavior:wide))
-     ((> width 200) (my/window-split-behavior:laptop))
-     (t (my/window-split-behavior:default)))))
+     ((> width my/frame-width-threshold:ultrawide) (my/window-split-behavior:ultrawide))
+     ((> width my/frame-width-threshold:wide)      (my/window-split-behavior:wide))
+     ((> width my/frame-width-threshold:laptop)    (my/window-split-behavior:laptop))
+     (t                                            (my/window-split-behavior:default)))))
 #+end_src
 
 And add that function to the ~window-size-change-functions~ list,
