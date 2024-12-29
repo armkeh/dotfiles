@@ -4032,12 +4032,14 @@ Controls to adjust the automatic window resizing by ~golden-ratio~ for
 when I am using different sizes of screens.
 #+begin_src emacs-lisp
 (general-appearance-define-key
-  "r"     '(:ignore t
-            :which-key "golden ratio")
-  "r w"   'my/golden-ratio-widescreen
-           :which-key "widescreen mode"
-  "r n"   'my/golden-ratio-normal
-           :which-key "normal mode")
+  "r"   '(:ignore t
+          :which-key "golden ratio")
+  "r a" 'my/optimize-golden-ratio-behavior
+        :which-key "automatic"
+  "r w" 'my/golden-ratio:widescreen
+        :which-key "widescreen mode"
+  "r d" 'my/golden-ratio:default
+        :which-key "default mode")
 #+end_src
 
 Manually adjust the window splitting behaviour for various screen sizes.
@@ -4612,16 +4614,39 @@ I'm experimenting with settings to potentially mitigate that.
 
 On very wide monitors, we need to adjust the factor to prevent
 #+begin_src emacs-lisp
-(defun my/golden-ratio-widescreen () (interactive)
+(defun my/golden-ratio:wide () (interactive)
   (setq golden-ratio-adjust-factor 0.4)
   (message "Golden ratio window adjustments set for widescreen"))
 #+end_src
 
 Of course, we also need to be able to change it back.
 #+begin_src emacs-lisp
-(defun my/golden-ratio-normal () (interactive)
+(defun my/golden-ratio:default () (interactive)
   (setq golden-ratio-adjust-factor 1.0)
-  (message "Golden ratio window adjustments set to normal"))
+  (message "Golden ratio window adjustments set to default"))
+#+end_src
+
+Similarly to my [[Tweak window splitting][screen splitting behaviour optimization]],
+we can run these functions automatically based on the frame width
+when it changes.
+#+begin_src emacs-lisp
+(defun my/optimize-golden-ratio-behavior (&optional frame)
+  "Optimize the golden ratio window sizing behaviour based
+on the current width of FRAME. If FRAME is omitted,
+use the width of the currently selected frame."
+  (let ((width (frame-width frame)))
+    (message (format "Automatically optimizing golden ratio behaviour based on new frame width %d" width))
+    ;; Check for screen width limits in decreasing order, and set appropriate splitting behaviour.
+    (cond
+     ((> width my/frame-width-threshold:wide)      (my/golden-ratio:wide))
+     (t                                            (my/golden-ratio:default)))))
+
+(advice-add 'my/optimize-window-split-behavior :after 'my/optimize-golden-ratio-behavior)
+#+end_src
+
+Set it automatically now during init.
+#+begin_src emacs-lisp
+(my/optimize-golden-ratio-behavior)
 #+end_src
 
 ** Kill the open init buffer and reopen it     :cleanup:
