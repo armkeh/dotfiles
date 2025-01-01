@@ -988,7 +988,7 @@ horizontal split on a wide screen."
   (interactive)
   (setq split-height-threshold nil) ;; Don't split vertically (above/below).
   (setq split-width-threshold 200)  ;; Only split reasonably wide windows horizontally (left/right)...
-  (setq window-min-width 125)        ;; ... and only when the resulting windows are reasonably wide.
+  (setq window-min-width 125)       ;; ... and only when the resulting windows are reasonably wide.
   (message "Screen splitting behaviour optimized for widescreen monitors")
   nil)
 
@@ -5568,11 +5568,11 @@ whatever projects I am working on, these tabs will always be present.
 #+begin_src emacs-lisp
 (tab-rename "dotfiles")
 (tab-new)
-(tab-rename "Logs")
+(tab-rename "logs")
 (tab-new)
-(tab-rename "email")
+(tab-rename "mail")
 (tab-new)
-(tab-rename "Blog")
+(tab-rename "homepage")
 #+end_src
 
 Then, open a few “project” tabs as the rightmost.
