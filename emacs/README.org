@@ -5543,9 +5543,9 @@ and then loaded based on the identity of the machine being used.
 
 ** Personal machines
 
-*** ~let~ some directory/file paths
+*** List paths and tab names
 
-For maintainability, most files opened below are listed here.
+For maintainability, most files opened below and tab names are listed here.
 #+begin_src emacs-lisp
 (letrec ((log-dir      "~/logs/")
          (scratch-dir  "~/logs/scratch/")
@@ -5558,7 +5558,12 @@ For maintainability, most files opened below are listed here.
 
          (journal (concat log-dir "personal/journal.org"))
          (docket  (concat log-dir "personal/docket.org"))
-         (scratch (concat log-dir "personal/scratch.org")))
+         (scratch (concat log-dir "personal/scratch.org"))
+
+         (dotfiles-tab-name "dotfiles")
+         (logs-tab-name     "logs")
+         (mail-tab-name     "mail")
+         (homepage-tab-name "homepage"))
 #+end_src
 
 *** Create tabs
@@ -5566,13 +5571,13 @@ For maintainability, most files opened below are listed here.
 First, let's create some “consistent” tabs;
 whatever projects I am working on, these tabs will always be present.
 #+begin_src emacs-lisp
-(tab-rename "dotfiles")
+(tab-rename dotfiles-tab-name)
 (tab-new)
-(tab-rename "logs")
+(tab-rename logs-tab-name)
 (tab-new)
-(tab-rename "mail")
+(tab-rename mail-tab-name)
 (tab-new)
-(tab-rename "homepage")
+(tab-rename homepage-tab-name)
 #+end_src
 
 Then, open a few “project” tabs as the rightmost.
@@ -5607,7 +5612,7 @@ Here I want my Emacs init in my usual three window split
 with the messages buffer on the upper right
 and a help buffer preemptively opened in the lower right.
 #+begin_src emacs-lisp
-(tab-bar-switch-to-tab "dotfiles")
+(tab-bar-switch-to-tab dotfiles-tab-name)
 (find-file emacs-init)
 (split-window nil nil 'right)      ; Normally would use `left' to leave the right in focus, but...
 (describe-symbol 'describe-symbol) ; describe symbol will use the window not in focus.
@@ -5620,7 +5625,7 @@ and a help buffer preemptively opened in the lower right.
 The logs tab is similar, but with three of my logging files
 with different subjects.
 #+begin_src emacs-lisp
-(tab-bar-switch-to-tab "Logs")
+(tab-bar-switch-to-tab logs-tab-name)
 (find-file journal)
 (split-window nil nil 'left)
 (find-file docket)
@@ -5632,7 +5637,7 @@ with different subjects.
 The ~email~ tab has my scratch file on the left
 and my inbox on the right.
 #+begin_src emacs-lisp
-(tab-bar-switch-to-tab "email")
+(tab-bar-switch-to-tab mail-tab-name)
 (mu4e)
 (split-window nil nil 'right)
 (find-file scratch)
@@ -5642,7 +5647,7 @@ For my blog, open the homepage Org file and a magit buffer.
 #+begin_src emacs-lisp
 (let ((github-io-dir "~/projects/armkeh.github.io/"))
   (let ((github-io-main (concat github-io-dir "index.org")))
-    (tab-bar-switch-to-tab "Blog")
+    (tab-bar-switch-to-tab homepage-tab-name)
     (find-file github-io-main)
     (split-window nil nil 'right)
     (magit-status-setup-buffer)))
