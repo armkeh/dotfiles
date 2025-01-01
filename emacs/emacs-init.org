@@ -7109,11 +7109,11 @@ whatever projects I am working on, these tabs will always be present.
 #+begin_src emacs-lisp
 (tab-rename "dotfiles")
 (tab-new)
-(tab-rename "Logs")
+(tab-rename "logs")
 (tab-new)
-(tab-rename "email")
+(tab-rename "mail")
 (tab-new)
-(tab-rename "Blog")
+(tab-rename "homepage")
 #+end_src
 
 Then, open a few “project” tabs as the rightmost.
