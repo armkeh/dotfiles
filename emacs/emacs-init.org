@@ -6858,8 +6858,17 @@ Add keybindings for running ~main~ and tests (JUnit).
 
 ** Python                                      :programming:
 
+Hook in to the Python language server; usually ~pylsp~.
 #+begin_src emacs-lisp
 (add-hook 'python-mode-hook my/language-server-mode-hook)
+#+end_src
+
+:TODO: Improve the below, which gives some basic ability to browse Python docs from within Emacs.
+#+begin_src emacs-lisp
+(use-package pydoc)
+
+(cond ((executable-find "python")) ;; Leave pydoc command as default
+      ((executable-find "python3") (setq pydoc-command "python3 -m pydoc")))
 #+end_src
 
 ** Lua                                         :programming:
