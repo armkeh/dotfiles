@@ -1,0 +1,39 @@
+#+Title: Personally eveloped Emacs packages
+#+Author: Mark Armstrong
+#+Description: My collection of personally developed Emacs packages,
+#+Description: kept here as git subtrees for import into my init.
+
+* Usage
+
+For convenience, instructions are kept here for setting up, pulling from,
+and pushing too the subtrees.
+
+We use these code blocks along with ~noweb~ references to reuse the instructions
+for each repo.
+
+* Command definitions
+
+Add a subtree.
+#+name: subtree-add
+#+begin_src sh :var PREFIX="" :var REPO="" :var BRANCH="" :dir ../..
+git subtree add --prefix emacs/developed-packages/${PREFIX} ${REPO} ${BRANCH} --squash
+#+end_src
+
+Pull from a subtree.
+#+name: subtree-pull
+#+begin_src sh
+# TODO
+#+end_src
+
+Push to a subtree.
+#+name: subtree-push
+#+begin_src sh
+# TODO
+#+end_src
+
+* [[https://github.com/armkeh/consistent-window-splits][consistent-window-splits]]
+
+Set up subtree.
+#+begin_src sh :noweb yes :results none
+<<subtree-add("consistent-window-splits","https://github.com/armkeh/consistent-window-splits","main")>>
+#+end_src
