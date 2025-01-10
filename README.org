@@ -1,0 +1,71 @@
+#+Title: Consistent Window Splits
+#+Author: Mark Armstrong
+#+Description: An Emacs package to enforce consistent window splitting behavior
+#+Description: across different screen sizes.
+
+~consistent-window-splits~ is an Emacs package to enforce
+consistent window splitting behavior across different screen sizes.
+
+The enforcement this package puts on window splitting is opinionated;
+it is mainly intended to control automatic splitting of windows,
+but it can also prevent the user from making manual splits.
+This package may not be suitable if you find being prevented from
+arbitrarily splitting windows to be irritating.
+# TODO: Functions are included to toggle the enforcement and allow
+# the user to manually split the window as desired, if needed.
+
+It is primarily useful when using Emacs on a widescreen or ultrawide
+monitor in fullscreen mode, if you find that
+the default behavior of Emacs results in too many horizontal splits.
+(E.g., you prefer using 2 columns of windows, but Emacs often
+ opens a 3rd of even 4th.)
+
+* Features
+
+Emacs primarily uses two variables per dimension (horizontal/vertical)
+for deciding how to split windows:
+- ~split-width-threshold~ & ~split-height-threshold~:
+  The minimum width/height (in columns/rows) at which a window
+  may be split by the function ~split-window-sensibly~,
+  which is commonly called implicitely when a new buffer is opened by
+  a command or process (for instance, ~describe-symbol~, ~magit~, ).
+- ~window-min-width~ & ~window-min-height~:
+  The absolute minimum width/height (in columns/rows) of any window;
+  /any/ split (not just sensible splits) which would result
+  in a window becoming less than this size will not be allowed
+  (including manual splits requested by the user, e.g.,
+   with ~C-x 2~ or ~C-x 3~).
+
+~consistent-window-splits~ provides functions to override those values
+in order to prevent undesired splitting behavior,
+and also includes an option to add a function to the ~window-size-change-functions~
+which automatically update those values appropriately
+when the frame (OS window) size changes.
+
+* Installation
+
+CLone this repository and add it to your ~load-path~, or
+alternatively use [[https://github.com/dimitri/el-get][el-get]] to manage the installation.
+
+* Usage
+
+To enable automatic consistent window splitting behavior,
+add this to your init:
+#+begin_src emacs-lisp
+(consistent-window-splits-automatically-optimize)
+#+end_src
+It will add the automation to the ~window-size-change-functions~.
+
+* Related packages
+
+- [[https://github.com/daichirata/emacs-rotate][emacs-rotate.el]]: Provides functions to "rotate" windows into predefined layouts.
+  A less opinionated, but not fully automatic, approach to solving
+  annoying window splitting behavior.
+- [[https://github.com/roman/golden-ratio.el][golden-ratio.el]]: Automatically resize windows using the golden ratio.
+  Particularly useful to maximize space for the active window on smaller screens.
+
+* License
+
+Distributed under the GNU General Public License, version 3.
+
+See [[./LICENSE][LICENSE]] for more information.
