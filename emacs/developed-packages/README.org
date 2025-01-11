@@ -15,25 +15,41 @@ for each repo.
 
 Add a subtree.
 #+name: subtree-add
-#+begin_src sh :var PREFIX="" :var REPO="" :var BRANCH="" :dir ../..
+#+begin_src sh :var PREFIX="" :var REPO="" :var BRANCH="main" :dir ../..
 git subtree add --prefix emacs/developed-packages/${PREFIX} ${REPO} ${BRANCH} --squash
 #+end_src
 
 Pull from a subtree.
 #+name: subtree-pull
-#+begin_src sh
-# TODO
+#+begin_src sh :var PREFIX="" :var REPO="" :var BRANCH="main" :dir ../..
+git subtree pull --prefix emacs/developed-packages/${PREFIX} ${REPO} ${BRANCH} --squash
 #+end_src
 
-Push to a subtree.
+Push to a subtree. Note: I haven't got this fully working yet,
+because authentication with GitHub is an issue. For now, update the subtree repo directly instead.
 #+name: subtree-push
-#+begin_src sh
-# TODO
+#+begin_src sh :var PREFIX="" :var REMOTE="" :var BRANCH="main" :dir ../..
+git subtree push --prefix=emacs/developed-packages/${PREFIX} ${REMOTE} ${BRANCH}
 #+end_src
 
 * [[https://github.com/armkeh/consistent-window-splits][consistent-window-splits]]
 
-Set up subtree.
+Set up the subtree.
 #+begin_src sh :noweb yes :results none
-<<subtree-add("consistent-window-splits","https://github.com/armkeh/consistent-window-splits","main")>>
+<<subtree-add("consistent-window-splits","https://github.com/armkeh/consistent-window-splits")>>
+#+end_src
+
+Pull in changes from the repository.
+#+begin_src sh :noweb yes :results none
+<<subtree-pull("consistent-window-splits","https://github.com/armkeh/consistent-window-splits")>>
+#+end_src
+
+Add the subtree's repository as a remote in ~git~.
+#+begin_src sh
+git remote add consistent-window-splits-upstream https://github.com/armkeh/consistent-window-splits
+#+end_src
+
+Push changes from the subtree back up.
+#+begin_src sh :noweb yes :results none
+<<subtree-push("consistent-window-splits","consistent-window-splits-upstream")>>
 #+end_src
