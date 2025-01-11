@@ -28,7 +28,8 @@ See also my
   - [[#update-packages][Update packages]]
   - [[#make-sure-we-have-the-right-path][Make sure we have the right path]]
   - [[#add-directories-to-the-emacs-load-path][Add directories to the Emacs load path]]
-  - [[#set-a-custom-directory-for-non-package-manager-managed-elisp-files][Set a custom directory for non-package manager managed Elisp files]]
+  - [[#load-my-personally-developed-packages][Load my personally developed packages]]
+  - [[#load-on-package-manager-managed-elisp-files][Load on-package manager managed Elisp files]]
   - [[#elisp-utilities][Elisp utilities]]
 - [[#custom-elisp][Custom Elisp]]
   - [[#generate-my-dotfiles-readme-file][Generate my dotfiles README file]]
@@ -475,7 +476,22 @@ I only use a single profile, so no need to hunt out the correct one.
     (normal-top-level-add-subdirs-to-load-path)))
 #+end_src
 
-** Set a custom directory for non-package manager managed Elisp files
+** Load my personally developed packages
+
+This directory is for Elisp packages I develop myself
+or that I download without use of a package manager.
+#+begin_src emacs-lisp
+(setq my/developed-packages-dir "~/dotfiles/emacs/developed-packages")
+#+end_src
+
+As above, add recursively add all subdirectories of this directory
+to the load path, so that git repositories can be added here.
+#+begin_src emacs-lisp
+(let ((default-directory my/developed-packages-dir))
+  (normal-top-level-add-subdirs-to-load-path))
+#+end_src
+
+** Load on-package manager managed Elisp files
 
 This directory is for Elisp files I develop myself
 or that I download without use of a package manager.
@@ -1072,6 +1088,11 @@ Also call the function at this point in the init,
 so we start with my desired settings based on the frame size.
 #+begin_src emacs-lisp
 (my/optimize-window-split-behavior)
+#+end_src
+
+:TODO: Replace the above code with this package I am developing.
+#+begin_src emacs-lisp
+(require 'consistent-window-splits)
 #+end_src
 
 ** Rotate windows
