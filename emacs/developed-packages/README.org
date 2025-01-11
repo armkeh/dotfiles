@@ -1,4 +1,4 @@
-#+Title: Personally eveloped Emacs packages
+#+Title: Personally developed Emacs packages
 #+Author: Mark Armstrong
 #+Description: My collection of personally developed Emacs packages,
 #+Description: kept here as git subtrees for import into my init.
