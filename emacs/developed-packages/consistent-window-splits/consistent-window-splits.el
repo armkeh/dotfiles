@@ -118,4 +118,5 @@ Updated when the `window-size-change-functions' are run.")
          (setq consistent-window-splits--observed-frame-width width)
          (consistent-window-splits-optimize frame))))))
 
+(provide 'consistent-window-splits)
 ;;; consistent-window-splits.el ends here (consistent-window-splits-automatically-optimize)
