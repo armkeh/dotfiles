@@ -1,0 +1,19 @@
+#+Title: Shell scripts
+#+Author: Mark Armstrong
+#+Description: My collection of simple shell scripts.
+
+* Detect (and optionally delete) trash files
+
+Only finding implemented for now.
+:TODO: Prompt to delete the files.
+#+begin_src sh :tangle ./find-trash-files.sh :shebang "#!/bin/bash"
+find . -name "*~"
+find . -name "~#"
+#+end_src
+
+* Detect (and optionally delete) Syncthing conflict files
+
+Same state as above. Probably these should rely on a more general script.
+#+begin_src sh :tangle ./find-syncthing-conflicts.sh :shebang "#!/bin/bash"
+find . -name "*.sync-conflict-*"
+#+end_src
