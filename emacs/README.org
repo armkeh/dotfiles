@@ -985,7 +985,7 @@ So I have created a package, https://github.com/armkeh/consistent-window-splits,
 to enforce that behaviour.
 #+begin_src emacs-lisp
 (require 'consistent-window-splits)
-(consistent-window-split-automatically-optimize)
+(consistent-window-splits-automatically-optimize)
 #+end_src
 
 ** Rotate windows
