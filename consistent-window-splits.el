@@ -33,6 +33,14 @@
 
 ;;; Code:
 
+(defconst consistent-window-splits--default-split-height-threshold split-height-threshold
+  "Default minimum height for splitting windows sensibly;
+set from `split-height-threshold' at package load time.")
+
+(defconst consistent-window-splits--default-split-width-threshold split-width-threshold
+  "Default minimum width for splitting windows sensibly;
+set from `split-width-threshold' at package load time.")
+
 (defun consistent-window-splits-set (min-width min-height &optional width-threshold height-threshold)
   (when min-width (setq window-min-width min-width))
   (when min-height (setq window-min-height min-height))
@@ -41,11 +49,11 @@
 
 (defun consistent-window-splits-prevent-vertical-splits ()
   (interactive)
-  (setq split-height-threshold 0))
+  (setq split-height-threshold nil))
 
 (defun consistent-window-splits-prevent-horizontal-splits ()
   (interactive)
-  (setq split-width-threshold 0))
+  (setq split-width-threshold nil))
 
 ;; The following functions are temporary placeholders based on my own preferences.
 ;; They will be replaced by more general functions based on dividing
@@ -109,6 +117,11 @@ their default settings."
 Updated when the `window-size-change-functions' are run.")
 
 (defun consistent-window-splits-automatically-optimize ()
+
+  ;; Optimize now
+  (consistent-window-splits-optimize)
+
+  ;; And re-optimize when window size changes (if observed frame width has changed)
   (add-to-list
    'window-size-change-functions
    ;; TODO: Define this as a function, add a function to remove it from the size change functions
