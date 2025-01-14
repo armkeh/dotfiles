@@ -3083,22 +3083,21 @@ Of course, we also need to be able to change it back.
   (message "Golden ratio window adjustments set to default"))
 #+end_src
 
-Similarly to my [[Tweak window splitting][screen splitting behaviour optimization]],
-we can run these functions automatically based on the frame width
+And now, run those functions automatically based on the frame width
 when it changes.
 #+begin_src emacs-lisp
 (defun my/optimize-golden-ratio-behavior (&optional frame)
-  "Optimize the golden ratio window sizing behaviour based
-on the current width of FRAME. If FRAME is omitted,
-use the width of the currently selected frame."
-  (let ((width (frame-width frame)))
-    (message (format "Automatically optimizing golden ratio behaviour based on new frame width %d" width))
-    ;; Check for screen width limits in decreasing order, and set appropriate splitting behaviour.
-    (cond
-     ((> width my/frame-width-threshold:wide)      (my/golden-ratio:wide))
-     (t                                            (my/golden-ratio:default)))))
+  "Optimize the golden ratio window sizing behaviour when
+  the current width of FRAME is greater than 300 columns.
+  If FRAME is omitted, use the width of the currently selected frame."
+    (let ((width (frame-width frame))
+          (threshold 300))
+      (message (format "Automatically optimizing golden ratio behaviour based on new frame width %d" width))
+      (cond
+       ((> width threshold) (my/golden-ratio:wide))
+       (t                   (my/golden-ratio:default)))))
 
-(advice-add 'my/optimize-window-split-behavior :after 'my/optimize-golden-ratio-behavior)
+(advice-add 'consistent-window-splits-optimize :after 'my/optimize-golden-ratio-behavior)
 #+end_src
 
 Set it automatically now during init.
