@@ -375,7 +375,7 @@ to the load path, so that git repositories can be added here.
   (normal-top-level-add-subdirs-to-load-path))
 #+end_src
 
-** Load on-package manager managed Elisp files
+** Load non-package manager managed Elisp files
 
 This directory is for Elisp files I develop myself
 or that I download without use of a package manager.

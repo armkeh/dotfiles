@@ -29,7 +29,7 @@ See also my
   - [[#make-sure-we-have-the-right-path][Make sure we have the right path]]
   - [[#add-directories-to-the-emacs-load-path][Add directories to the Emacs load path]]
   - [[#load-my-personally-developed-packages][Load my personally developed packages]]
-  - [[#load-on-package-manager-managed-elisp-files][Load on-package manager managed Elisp files]]
+  - [[#load-non-package-manager-managed-elisp-files][Load non-package manager managed Elisp files]]
   - [[#elisp-utilities][Elisp utilities]]
 - [[#custom-elisp][Custom Elisp]]
   - [[#generate-my-dotfiles-readme-file][Generate my dotfiles README file]]
@@ -491,7 +491,7 @@ to the load path, so that git repositories can be added here.
   (normal-top-level-add-subdirs-to-load-path))
 #+end_src
 
-** Load on-package manager managed Elisp files
+** Load non-package manager managed Elisp files
 
 This directory is for Elisp files I develop myself
 or that I download without use of a package manager.
