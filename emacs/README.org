@@ -988,6 +988,11 @@ to enforce that behaviour.
 (consistent-window-splits-automatically-optimize)
 #+end_src
 
+Also, disable vertical splits.
+#+begin_src emacs-lisp
+(consistent-window-splits-prevent-vertical-splits)
+#+end_src
+
 ** Rotate windows
 
 Sometimes you find yourself with a less-than-ideal window layout,
