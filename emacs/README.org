@@ -1955,33 +1955,21 @@ Ideally, we have installed Agda and, along with it, the Agda input method.
 If this is the case, then the [[Agda mode]] section will have been tangled
 and run, so we can just ~require~ ~agda-input~.
 
-As a failsafe, we will place ~agda-input.el~ into my unmanaged elisp directory.
-To make sure that this file doesn't end up supplanting an installed version,
-we attempt to delete it before proceeding.
+As a failsafe, we can download ~agda-input.el~ into my unmanaged elisp directory.
+If that file is present, but Agda mode is installed, then delete it.
 #+begin_src emacs-lisp
-(setq my/local-agda-input (concat my/unmanaged-elisp-dir "/agda-input.el"))
-(delete-file my/local-agda-input)
+(setq-local my/local-agda-input-path (concat my/unmanaged-elisp-dir "/agda-input.el"))
+(when (and (executable-find "agda-mode") (file-exists-p my/local-agda-input-path))
+  (delete-file my/local-agda-input))
 #+end_src
 
-Now, as the first attempt at the failsafe, if the ~agda-mode~ command isn't installed,
+If the ~agda-mode~ command isn't installed, and the local version doesn't exist yet,
 try to download ~agda-input.el~ from the Agda Github repository.
-Wrap the download in ~ignore-errors~ to allow it to fail, in case we are offline.
 #+begin_src emacs-lisp
-(unless (executable-find "agda-mode")
-  (ignore-errors
+(unless (or (executable-find "agda-mode") (file-exists-p my/local-agda-input-path))
     (url-copy-file
        "https://raw.githubusercontent.com/agda/agda/master/src/data/emacs-mode/agda-input.el"
-       my/local-agda-input
-       'okay-if-already-exists)))
-#+end_src
-
-Now, in case the above failed and the local file is still missing,
-I keep a local copy (which is tangled into the ~/tmp~ directory)
-(it's not exported due to length, so check the raw file to see it).
-This version is naturally less maintained than the actual repository version.
-#+begin_src emacs-lisp
-(unless (or (executable-find "agda-mode") (file-exists-p my/local-agda-input))
-  (copy-file "/tmp/agda-input.el" my/local-agda-input))
+       my/local-agda-input-path))
 #+end_src
 
 Finally, we should be able to require ~agda-input~.
