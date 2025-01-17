@@ -1945,7 +1945,7 @@ If that file is present, but Agda mode is installed, then delete it.
 #+begin_src emacs-lisp
 (setq-local my/local-agda-input-path (concat my/unmanaged-elisp-dir "/agda-input.el"))
 (when (and (executable-find "agda-mode") (file-exists-p my/local-agda-input-path))
-  (delete-file my/local-agda-input))
+  (delete-file my/local-agda-input-path))
 #+end_src
 
 If the ~agda-mode~ command isn't installed, and the local version doesn't exist yet,
