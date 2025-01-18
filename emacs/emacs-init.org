@@ -2585,10 +2585,10 @@ Move to another frame, if one exists.
 
 Adjust the window layout to various configurations.
 #+begin_src emacs-lisp
-  "v" 'rotate:main-vertical :which-key   "Make main window vertically"
+  "v" 'rotate:main-vertical   :which-key "Make main window vertically"
   "h" 'rotate:main-horizontal :which-key "Make main window horizontally"
-  "t" 'rotate:tiled :which-key           "Tile windows"
-  "r" 'rotate :which-key                 "Rotate through window configurations"
+  "t" 'rotate:tiled           :which-key "Tile windows"
+  "r" 'rotate-layout          :which-key "Rotate through window configurations"
 #+end_src
 
 Undo and redo window layout changes.
