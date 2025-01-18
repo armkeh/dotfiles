@@ -14,7 +14,6 @@ Below are the contents of my literate Emacs initialisation file.
 See also my
 - [[file:./yankpad.org][Yankpad snippets file]]
   - (Frequently used text expansions.)
-
 * Table of contents                             :TOC_2:
 - [[#introduction][Introduction]]
   - [[#tags][Tags]]
@@ -151,6 +150,7 @@ See also my
 * Introduction
 
 [[file:./media/emacs-screenshot-06-26-2021.png]]
+
 This document is now in its second major version, having been
 started over after it previously grew unwieldly.
 
@@ -199,7 +199,6 @@ while viewing this file in Emacs.
   of elements of Emacs I either do not use at all or don't use often.
 - ~:cleanup:~; portions of the file which are just for cleanup,
   not really for adjusting settings.
-
 ** The file layout
 
 - [[How to use this file]]
@@ -285,7 +284,6 @@ while viewing this file in Emacs.
       quitting Emacs; if we reach the end of this file,
       everything has gone well and we should be ready to start work,
       so we are unlikely to want to leave Emacs anytime soon.
-
 * How to use this file
 
 I don't like to export this file to the proper Emacs init file,
@@ -305,7 +303,7 @@ then add to ~~/.config/emacs/init.el~
  for a discussion of the acceptable locations for the init file)
 these lines:
 #+name: dotemacs-expected-elisp
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle /tmp/init.el
 ;; BEGIN my edits
 
 ;; Enable editing of version controlled files through symlinks.
@@ -328,12 +326,10 @@ In [[Cleanup]] below, we check the contents of the proper Emacs init file
 against the above contents,
 to warn me if changes are made.
 Hence why the above source block is tangled to ~/tmp/init.el~.
-
 * Environment setup and package management
 
 Before we really begin, we ensure environment settings are correct
 and setup ~use-package~ as a package manager.
-
 ** Set a custom file
 
 Emacs will, by default, insert all sorts of “custom” settings
@@ -349,7 +345,6 @@ so I will be more able to notice changes to it.
 (setq custom-file "~/dotfiles/emacs/custom.el")
 (ignore-errors (load custom-file))
 #+end_src
-
 ** Basic package management
 
 ~package~ gives us the basic tools to add packages from repositories
@@ -359,7 +354,6 @@ to Emacs.
 #+end_src
 
 We will shortly setup a package manager to ease installation of packages.
-
 ** Set package repositories
 
 By default, the only package repository is the ELPA repo.
@@ -383,7 +377,6 @@ but after Org 9.5, they are no longer distributed there.
 Now Org is best available though GNU ELPA, and there is a new
 “Org-Contrib” package available through NonGNU ELPA
 (the + was dropped from the name).
-
 ** Setup use-package, a package management tool
 
 The ~use-package~ package provides an easy-to-use interface
@@ -411,7 +404,6 @@ I always want to download packages that aren't installed.
 #+begin_src emacs-lisp
 (setq use-package-always-ensure t)
 #+end_src
-
 ** Update packages
 
 For the moment, I use the ~auto-package-update~ to automatically update
@@ -426,7 +418,6 @@ packages for me.
   ;; Update installed packages at startup if there is an update pending.
   (auto-package-update-maybe))
 #+end_src
-
 ** Make sure we have the right path
 
 See https://github.com/purcell/exec-path-from-shell
@@ -435,7 +426,6 @@ See https://github.com/purcell/exec-path-from-shell
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 #+end_src
-
 ** Add directories to the Emacs load path
 
 Elisp files installed as part of a package
@@ -474,7 +464,6 @@ I only use a single profile, so no need to hunt out the correct one.
   (when (file-directory-p dir)
     (normal-top-level-add-subdirs-to-load-path)))
 #+end_src
-
 ** Load my personally developed packages
 
 This directory is for Elisp packages I develop myself
@@ -489,7 +478,6 @@ to the load path, so that git repositories can be added here.
 (let ((default-directory my/developed-packages-dir))
   (normal-top-level-add-subdirs-to-load-path))
 #+end_src
-
 ** Load non-package manager managed Elisp files
 
 This directory is for Elisp files I develop myself
@@ -507,7 +495,6 @@ But do also pick up Elisp files found at the top of the directory.
   (add-to-list 'load-path default-directory) ;; Load files at the top of the directory.
   (normal-top-level-add-subdirs-to-load-path))
 #+end_src
-
 *** Git subtrees
 
 If the Elisp we are adding to this directory is managed in a Git repository,
@@ -533,7 +520,6 @@ Though unless you have forked the project, you may wish to push to branch other 
 #+begin_example shell
 git subtree push --prefix unicode-sty https://github.com/armkeh/unicode-sty.git main
 #+end_example
-
 ** Elisp utilities
 
 These utility packages simplify many families of tasks.
@@ -547,12 +533,10 @@ These utility packages simplify many families of tasks.
 #+begin_src emacs-lisp
 (use-package f)
 #+end_src
-
 * Custom Elisp
 
 Some of this code may be moved to separate files later,
 but it's small and collected here for now.
-
 ** Generate my dotfiles README file
 
 I want my README file for this directory
@@ -563,7 +547,7 @@ Note that this by itself is not sufficient to act as the final README;
 the ~include~ command will not be honoured by GitHub's Org rendering.
 So this file is just an inbetween to allow us to export
 the final version of the ~README.org~ file.
-#+begin_src org
+#+begin_src org :tangle ~/dotfiles/emacs/private/README-intermediate.org
 ,#+Options: toc:nil tags:t timestamp:nil
 ,#+Export_file_name: README.org
 
@@ -586,7 +570,7 @@ See also my
 #+end_src
 
 Now, we define a function to automatically export the intermediate file to the final one.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results none
 (defun my/dotfiles-readme-generate ()
   "Automatically construct and tangle my Emacs init git README file"
   (interactive)
@@ -612,7 +596,6 @@ Now, we define a function to automatically export the intermediate file to the f
           (kill-buffer))))
   (message "Generated Emacs init git README file"))
 #+end_src
-
 ** Toggle themes
 
 These functions allow me to clear and toggle my themes.
@@ -647,7 +630,6 @@ These functions allow me to clear and toggle my themes.
         (load-theme my/light-theme t)
         (load-theme my/dark-theme t))))
 #+end_src
-
 ** Theme change hook
 
 [[https://www.reddit.com/r/emacs/comments/4v7tcj/][Apparently]],
@@ -660,7 +642,6 @@ This code snippet, taken from the linked reddit post, defines one I can use.
   "Run `after-load-theme-hook'."
   (run-hooks 'after-load-theme-hook))
 #+end_src
-
 ** Cascading window setup
 
 I set up my default desktop using a “cascading pattern”,
@@ -702,7 +683,6 @@ of the previous (as long as this is possible)."
 #+end_src
 
 :TODO: Create a alternate method for vertical screens, preferably also allowing on-the-fly switching between the two setups.
-
 ** Git repo window setup
 
 I commonly set up my window to have the magit status buffer open on the right
@@ -723,7 +703,6 @@ I can use this convenience function to programmatically set up this layout.
   (split-window nil nil 'right)
   (magit))
 #+end_src
-
 ** Killing a buffer when its associated process finishes
 
 When starting an asynchronous process using ~async-shell-command~,
@@ -768,7 +747,6 @@ BUFFER may be either a buffer or its name (a string)."
 #+end_src
 from Emacs wiki's [[https://www.emacswiki.org/emacs/download/misc-cmds.el][misc commands]].
 :TODO: Check out more of those commands; some may be useful.
-
 ** Add timestamps to messages
 
 This utility function, which is useful for adding timestamps to the message buffer,
@@ -791,7 +769,6 @@ Deactivate this advice with:
 
 (advice-add 'message :before 'my/timestamp-message)
 #+end_src
-
 * Simple cosmetics
 
 ** Disable the splashscreen and open this file  :basic:simplify:
@@ -805,7 +782,6 @@ right away.
 #+end_src
 This file will be closed and re-opened below, to ensure
 all cosmetic changes show correctly.
-
 ** Disable unnecessary interface elements       :basic:simplify:
 
 I don't use the menubar, toolbar (icons usually below the menu),
@@ -815,7 +791,6 @@ or scroll bars.
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 #+end_src
-
 ** Fonts                                        :font:
 
 :TODO: Check if these fonts are installed on the system first, so we don't end up with unknown font settings.
@@ -854,7 +829,6 @@ In particular, for symbols such as Emoji.
 #+begin_src emacs-lisp
 (set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
 #+end_src
-
 ** Line and column information                  :line:
 
 *** Line numbers
@@ -880,7 +854,6 @@ It wastes some screen space, but is good for my sanity.
 #+begin_src emacs-lisp
 (setq display-line-numbers-width-start t)
 #+end_src
-
 *** Display the column number as well as the line number
 
 Toggle on display of the current column number,
@@ -888,7 +861,6 @@ alongside the line number, on the modeline.
 #+begin_src emacs-lisp
 (column-number-mode)
 #+end_src
-
 *** Fill column display
 
 Traditionally, it's good style to keep lines under 80 characters wide.
@@ -909,7 +881,6 @@ Prior to Emacs 27, ~fci-mode~ could be used for this purpose,
 but I found it to cause noticable lag.
 Using ~whitespace-mode~ to highlight lines exceeding a certain number
 of characters was my preferred approach at that time.
-
 ** Themes                                       :theme:
 
 I use Protesilaos Stavrou's [[https://protesilaos.com/modus-themes/][Modus themes]], which
@@ -939,7 +910,6 @@ and leave the foreground colours as they are.
 #+begin_src emacs-lisp
 (setq modus-themes-region 'bg-only)
 #+end_src
-
 ** Highlight matching delimiters                :delimiter:theme:
 
 It's useful to highlight the matching delimiter when the cursor
@@ -965,7 +935,6 @@ of the matching delimiter black and the foreground white
                          :background "black"
                          :weight ultra-bold)))))
 #+end_example
-
 ** Tweak window splitting                       :window:
 
 Emacs has several facilities for splitting windows,
@@ -992,7 +961,6 @@ Also, disable vertical splits.
 #+begin_src emacs-lisp
 (consistent-window-splits-prevent-vertical-splits)
 #+end_src
-
 ** Rotate windows
 
 Sometimes you find yourself with a less-than-ideal window layout,
@@ -1006,7 +974,6 @@ to automate that work in a similar way to the rotation behaviour in ~tmux~.
 #+begin_src emacs-lisp
 (use-package rotate)
 #+end_src
-
 ** Kill the open init buffer and reopen it      :cleanup:
 
 To ensure all these cosmetic changes are picked up,
@@ -1015,7 +982,6 @@ kill my init buffer that we opened earlier and reopen it.
 (kill-buffer "emacs-init.org")
 (find-file my/emacs-init-file)
 #+end_src
-
 * Vital non-mode-specific settings
 
 ** User information                             :basic:
@@ -1024,7 +990,6 @@ kill my init buffer that we opened earlier and reopen it.
 (setq user-full-name "Mark Armstrong")
 (setq user-mail-address "markparmstrong@gmail.com")
 #+end_src
-
 ** Automatically revert unchanged files which change on the disk :vc:
 
 Ideally this helps us avoid conflicts, in case I edit open files elsewhere.
@@ -1038,7 +1003,6 @@ I do use automatic syncing tools and sometimes work on other systems;
 conflicts can still happen if one system is offline or the syncing
 gets behind some other way, but with automatic reverts
 it's less likely I trip over my own changes.
-
 ** Organise automatic backups                   :vc:
 
 (These settings form the basis for
@@ -1093,7 +1057,6 @@ This snippet from
 
 (add-hook 'before-save-hook  'my/force-backup-of-buffer)
 #+end_src
-
 ** Set what characters qualify as delimiters    :delimiter:
 
 *** Angle brackets are not delimiters to me
@@ -1138,7 +1101,6 @@ and evaluate
   (org-mode))
 #+end_example
 and observe your modifications are undone.
-
 *** These unicode characters are delimiters
 
 Do treat these unicode symbols as delimiters.
@@ -1167,7 +1129,6 @@ Apply those syntax entry modifications.
 (add-hook 'prog-mode-hook 'my/unicode-delimiter-syntax)
 (add-hook 'text-mode-hook 'my/unicode-delimiter-syntax)
 #+end_src
-
 ** Set the tab width                            :space:
 
 I usually use spaces instead of tabs,
@@ -1176,7 +1137,6 @@ Indentation should not take up large amounts of the screen.
 #+begin_src emacs-lisp
 (setq-default tab-width 2)
 #+end_src
-
 ** (Almost) always use spaces instead of tabs   :space:
 
 Many modes check this variable to decide whether to insert
@@ -1195,14 +1155,12 @@ if this is set to non-nil, then tabs inside ~src~ blocks
 will act according to the behaviour of the appropriate mode,
 even though Org in general seems to use spacing for indenting
 (regardless of the setting of ~indent-tabs-mode~.
-
 ** Turn off electric indent mode                :space:
 
 I don't use this or appreciate its interference.
 #+begin_src emacs-lisp
 (electric-indent-mode -1)
 #+end_src
-
 * Vital modes and vital mode-specific settings
 
 ** Org mode                                     :org:
@@ -1217,7 +1175,6 @@ of the extras included in ~org-contrib~ (previously ~org-plus-contrib~).
   :config
   (require 'ox-extra))
 #+end_src
-
 *** Literate programming
 
 **** Execution
@@ -1271,7 +1228,6 @@ PlantUML requires we set the path to the ~.jar~ file.
 #+begin_src emacs-lisp
 (use-package ob-typescript)
 #+end_src
-
 **** Editing source code
 
 When I choose to edit a source block in a separate buffer,
@@ -1310,7 +1266,6 @@ when editing code blocks in the Org buffer.
 #+begin_src emacs-lisp
 (setq org-src-fontify-natively t)
 #+end_src
-
 *** Reveal hidden elements if they are edited
 
 Folding a document raises the possibility of accidentally editing
@@ -1320,7 +1275,6 @@ so the edit can be seen.
 #+begin_src emacs-lisp
 (setq org-catch-invisible-edits 'show)
 #+end_src
-
 ** vterm                                        :programming:
 
 ~vterm~ is a great terminal editor for when I want to use a terminal
@@ -1357,7 +1311,6 @@ so I define a shortcut to create or switch to a ~vterm~ buffer based on the curr
         (pop-to-buffer current-tab-vterm-buffer-name)
       (vterm current-tab-vterm-buffer-name))))
 #+end_src
-
 ** Sending email                                :mail:
 
 Only execute this setup if we have ~mu~ installed;
@@ -1416,7 +1369,6 @@ was installed; close out that conditional now.
 #+begin_src emacs-lisp
 ) ;; End mu exists conditional
 #+end_src
-
 ** Reading email: with mu4e and isync           :mail:
 
 Only execute this setup if we have ~mu~ installed;
@@ -1443,7 +1395,6 @@ Run ~mu~ in debug mode, so if something fails we get more information.
 #+begin_src emacs-lisp
   (setq mu4e-mu-debug t)
 #+end_src
-
 *** Basic setup
 
 **** The mail directories
@@ -1469,7 +1420,6 @@ You can check the setting with
 #+begin_example emacs-lisp
   (mu4e-root-maildir)
 #+end_example
-
 **** Get mail command
 
 I use isync (whose executable is called ~mbsync~) to manage
@@ -1488,7 +1438,6 @@ it does not take an excessive amount of time when I manually run it.
     mu4e-update-interval 300 ;; 5 minutes
     mu4e-headers-auto-update t)
 #+end_src
-
 **** Index quietly
 
 Don't take over the minibuffer with a status notification
@@ -1498,7 +1447,6 @@ as a first step in the diagnosis.
 #+begin_src emacs-lisp
   (setq mu4e-hide-index-messages t)
 #+end_src
-
 **** Change file names when moving emails
 
 To work nicely with ~mbsync~, we should
@@ -1509,7 +1457,6 @@ or UIDs out of range.
 #+begin_src emacs-lisp
   (setq mu4e-change-filenames-when-moving t)
 #+end_src
-
 *** Viewing emails
 
 **** Email list
@@ -1579,10 +1526,9 @@ This list originated from a
 #+end_src
 
 Test out the above with this command
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no :wrap "src text :exports none"
 (mu4e--modeline-string)
 #+end_src
-
 **** Individual mail
 
 Show images by default, and prefer to use ~imagemagick~ to do so.
@@ -1604,7 +1550,6 @@ Show full email addresses when viewing messages.
 #+begin_src emacs-lisp
   (setq mu4e-view-show-addresses 't)
 #+end_src
-
 **** HTML support
 
 Emacs is not the ideal environment to read HTML emails;
@@ -1637,7 +1582,6 @@ See [[https://www.reddit.com/r/emacs/comments/9ep5o1/mu4e_stop_emails_setting_ba
 (setq shr-use-colors nil)
 (advice-add #'shr-colorize-region :around (defun shr-no-colourise-region (&rest ignore)))
 #+end_src
-
 *** Shortcuts to mailboxes and bookmarks
 
 #+begin_src emacs-lisp
@@ -1654,7 +1598,6 @@ and are also useful for programmatically jumping to maildirs.
 #+begin_src emacs-lisp
   (mu4e-bookmark-define "maildir:/Inbox" "Inbox" ?i)
 #+end_src
-
 *** Message composition settings
 
 I don't use a signature.
@@ -1667,7 +1610,6 @@ in the message buffer! Such settings infuriate me.
 #+begin_src emacs-lisp
   (add-hook 'mu4e-compose-mode-hook 'turn-off-auto-fill)
 #+end_src
-
 **** Contacts
 
 I've had problems where contact completion breaks.
@@ -1682,7 +1624,6 @@ so first check it is defined as a function.
 
 Note that the contacts are stored in a hash table,
 and so I am unsure of how to actually see them in Emacs.
-
 **** Flow
 
 I write emails the way I write all my documents:
@@ -1712,7 +1653,6 @@ for instance Gmail does not respect it.
 I don't have a solution for this potential problem yet,
 so I choose to do nothing,
 and potentially have my emails flow broken on mobile screens.
-
 **** HTML support (nothing to see here)
 
 Note that there is a ~org-mu4e~ package that comes with ~mu4e~,
@@ -1720,7 +1660,6 @@ which would allow for sending HTML email using ~mu4e~,
 but it is apparently depricated.
 The ~org-mime~ package above is probably the correct path
 if I ever want to send HTML emails.
-
 **** Changing the from address automatically
 
 I use my personal Gmail to collect all of my emails,
@@ -1762,14 +1701,12 @@ So we are safe to restore the original ~user-mail-address~.
     (when my/user-mail-address-backup
        (setq user-mail-address my/user-mail-address-backup))))
 #+end_src
-
 *** Miscellaneous
 
 Don't prompt me upon quitting ~mu4e~.
 #+begin_src emacs-lisp
   (setq mu4e-confirm-quit nil)
 #+end_src
-
 *** Start up mu4e so that mu is running at startup
 
 We start ~mu4e~ here in case, for instance,
@@ -1780,7 +1717,6 @@ Without this, we might get an error asking if we started ~mu4e.~
 #+begin_src emacs-lisp
   (mu4e 'background)
 #+end_src
-
 *** End reading email section
 
 At the start of this section, we checked if the ~mu~ command
@@ -1788,7 +1724,6 @@ was installed; close out that conditional now.
 #+begin_src emacs-lisp
 ) ;; End mu exists conditional
 #+end_src
-
 ** Agda mode                                    :programming:
 
 :TODO: Check for cleanup of Agda settings.
@@ -1812,7 +1747,6 @@ before any actual Agda files may be open, and
 #+begin_src emacs-lisp
   (require 'agda2-mode)
 #+end_src
-
 *** Command line arguments
 
 Dr. Wolfram Kahl has recommended customising the following settings.
@@ -1837,7 +1771,6 @@ Full documentation for the ~ghc~ runtime argumentscan be found [[https://downloa
 Additional arguments that may be useful include
 | ~-S[file]~ | Produces information about “each and every garbage collection” |
 |            | - Outputs to ~stderr~ by default                               |
-
 *** Alternative problem highlighting
 
 I find the background colouring used by Agda for reporting
@@ -1918,7 +1851,6 @@ module HighlightTesting where
   data unpositive-type : Set where
     bad : (unpositive-type → ℕ) → unpositive-type
 #+end_src
-
 *** Org Agda mode
 
 Org-Agda mode is a Polymode Musa and I created
@@ -1928,7 +1860,6 @@ for working on literate Agda documents written in Org mode.
 (use-package polymode)
 (require 'org-agda-mode)
 #+end_src
-
 *** End Agda mode section
 
 At the start of this section, we checked if the ~agda-mode~ command
@@ -1936,7 +1867,6 @@ was installed; close out that conditional now.
 #+begin_src emacs-lisp
 ) ;; End agda-mode exists conditional
 #+end_src
-
 ** Agda input method                            :completion:
 
 A particularly nice feature included with Agda is its input method,
@@ -1948,7 +1878,6 @@ use in my writing.
 
 So, regardless of whether I am actively using Agda, I want its input method
 installed and enabled in most modes.
-
 *** Install the Agda input method
 
 Ideally, we have installed Agda and, along with it, the Agda input method.
@@ -1976,7 +1905,6 @@ Now, we should be able to require ~agda-input~.
 #+begin_src emacs-lisp
 (require 'agda-input)
 #+end_src
-
 *** Add unicode characters to Agda's translations
 
 **** Punctuation and parentheses
@@ -1992,7 +1920,6 @@ Now, we should be able to require ~agda-input~.
 (add-to-list 'agda-input-user-translations '("}" "⁆"))
 (add-to-list 'agda-input-user-translations '("..." "…"))
 #+end_src
-
 **** Arrows
 
 #+begin_src emacs-lisp
@@ -2003,7 +1930,6 @@ Now, we should be able to require ~agda-input~.
 (add-to-list 'agda-input-user-translations '("=v" "⇓"))
 (add-to-list 'agda-input-user-translations '("eval" "⇓"))
 #+end_src
-
 **** Box drawing
 
 #+begin_src emacs-lisp
@@ -2013,7 +1939,6 @@ Now, we should be able to require ~agda-input~.
 (add-to-list 'agda-input-user-translations '("boxcul" "┌"))
 (add-to-list 'agda-input-user-translations '("boxcll" "└"))
 #+end_src
-
 **** Correct mistakes on subscripts/superscripts
 
 I often accidentally hold the shift key for too long when entering
@@ -2041,7 +1966,6 @@ subscripts and superscripts; these translations account for that.
 (add-to-list 'agda-input-user-translations '("_(" "₉"))
 (add-to-list 'agda-input-user-translations '("_)" "₀"))
 #+end_src
-
 **** Emoticons
 
 #+begin_src emacs-lisp
@@ -2056,7 +1980,6 @@ subscripts and superscripts; these translations account for that.
 #+end_src
 
 😀 😁 😐 🙁 😵
-
 **** Better access to prime symbols
 
 #+begin_src emacs-lisp
@@ -2064,7 +1987,6 @@ subscripts and superscripts; these translations account for that.
 (add-to-list 'agda-input-user-translations '("'''" "‴"))
 (add-to-list 'agda-input-user-translations '("''''" "⁗"))
 #+end_src
-
 **** Small, halfwidth and fullwidth math symbols
 
 These can be useful where use of the normal symbols
@@ -2092,7 +2014,6 @@ of them have special meaning.
 (add-to-list 'agda-input-user-translations '("h->" "￫"))
 (add-to-list 'agda-input-user-translations '("hd" "￬"))
 #+end_src
-
 **** Other
 
 #+begin_src emacs-lisp
@@ -2112,13 +2033,11 @@ in my tab names.
 #+begin_src emacs-lisp
 (add-to-list 'agda-input-user-translations '("git" "ꇚ"))
 #+end_src
-
 **** Activate the new additions
 
 #+begin_src emacs-lisp
 (agda-input-setup)
 #+end_src
-
 *** Activate Agda input method in most modes
 
 Agda input mode makes it extremely easy to use unicode in documents,
@@ -2141,12 +2060,10 @@ for insert and Emacs modes.
 #+begin_src emacs-lisp
 (setq evil-input-method "Agda")
 #+end_src
-
 ** System package management
 
 I currently use Nix for configuring my (new) systems; see [[file:../nix/]].
 In the past I have also used Guix, though only in a non-declarative manner.
-
 *** Nix
 
 ~nix-mode~ is for editing Nix expressions (files).
@@ -2155,14 +2072,12 @@ In the past I have also used Guix, though only in a non-declarative manner.
 #+end_src
 
 See the [[Nix LSP]] section below for settings to integrate with a language server for Nix.
-
 * Keybindings and controls
 
 I make use of ~general~ to organise keybindings.
 #+begin_src emacs-lisp
 (use-package general)
 #+end_src
-
 ** General definers
 
 You can use ~general-define-key~ directly to define shortcuts,
@@ -2212,7 +2127,6 @@ override my shortcuts.
   :prefix "C-c o"
   :keymaps 'override)
 #+end_src
-
 ** Invoke processes
 
 *** Debug Emacs commands
@@ -2225,21 +2139,18 @@ When something fails or hangs within Emacs, use these to diagnose.
   "e d e" 'toggle-debug-on-error
   "e d q" 'toggle-debug-on-quit)
 #+end_src
-
 *** imenu                                       :movement:
 
 #+begin_src emacs-lisp
 (general-main-define-key
   "i" 'counsel-imenu)
 #+end_src
-
 *** avy                                         :movement:
 
 #+begin_src emacs-lisp
 (general-main-define-key
   "j" 'avy-goto-char-timer)
 #+end_src
-
 *** yankpad                                     :completion:
 
 #+begin_src emacs-lisp
@@ -2251,7 +2162,6 @@ When something fails or hangs within Emacs, use these to diagnose.
   "y m" 'yankpad-map
   "y r" 'yankpad-reload)
 #+end_src
-
 *** dired
 
 **** Jumping to specific files
@@ -2272,7 +2182,6 @@ I open often enough to want a direct shortcut.
            (find-file "~/dotfiles/emacs/emacs-init.org"))
          :which-key "emacs init"))
 #+end_src
-
 **** Jumping to directories
 
 I use shortcuts to jump to frequently used directories in ~dired~
@@ -2336,7 +2245,6 @@ multiple ~dired~ windows open in different tabs.
           (my-dired-invocation "~/projects/agda-computability"))
         :which-key "thesis"))
 #+end_src
-
 *** Shells
 
 Use my tab-aware ~vterm~ keybinding by default.
@@ -2357,7 +2265,7 @@ These eshell keybindings are deprecated for me, since I don't actively use it.
 If I return to it, I should set up a means of assigning a unique buffer to each tab
 like I have for ~vterm~ and set a keybinding for that.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 ;; (general-shell-define-key
 ;;   "s" 'eshell)
 
@@ -2368,14 +2276,12 @@ like I have for ~vterm~ and set a keybinding for that.
 ;;           (eshell my/eshell-counter))
 ;;         :which-key "new eshell"))
 #+end_src
-
 *** magit                                       :vc:
 
 #+begin_src emacs-lisp
 (general-main-define-key
   "g" 'magit-status)
 #+end_src
-
 *** mu4e                                        :mail:
 
 #+begin_src emacs-lisp
@@ -2401,14 +2307,12 @@ See the ~kill-buffer-on-process-finish~ definition earlier in this file.
                 (message "mbsync all directories is not running, but I expected it to be!"))))
         :which-key "mbsync all directories"))
 #+end_src
-
 *** list-processes
 
 #+begin_src emacs-lisp
 (general-other-package-define-key
   "p" 'list-processes)
 #+end_src
-
 *** Personal Elisp
 
 Update my Emacs Git README file.
@@ -2416,26 +2320,22 @@ Update my Emacs Git README file.
 (general-other-package-define-key
   "e R" 'my/dotfiles-readme-generate)
 #+end_src
-
 ** Programming
 
 These keybindings deal with language server interactions
 and programming project helpers.
-
 *** Diagnostics
 
 #+begin_src emacs-lisp
 (general-project-define-key
   "d" 'flymake-show-project-diagnostics)
 #+end_src
-
 *** treemacs
 
 #+begin_src emacs-lisp
 (general-project-define-key
   "t" 'treemacs)
 #+end_src
-
 *** Language specific
 
 The ~java-eglot~ package, configured in the section [[Java]],
@@ -2447,7 +2347,6 @@ provides functions for running code from within Emacs.
 #+end_src
 
 The actual keybindings I define in the Java section.
-
 ** Buffer                                       :buffer:
 
 #+begin_src emacs-lisp
@@ -2473,7 +2372,6 @@ The actual keybindings I define in the Java section.
   "<right>" '((lambda () (interactive) (next-buffer))
               :which-key "next buffer"))
 #+end_src
-
 ** Appearance                                   :theme:
 
 #+begin_src emacs-lisp
@@ -2561,7 +2459,6 @@ See [[Tweak window splitting]].
   "s u" 'consistent-window-splits-set:ultrawide
          :which-key "Optimize for ultrawide monitor")
 #+end_src
-
 ** Window management                            :window:
 
 Move around easily with ~windmove~.
@@ -2622,7 +2519,6 @@ Manually resize the focused window. Note this will not work when using [[Automat
   "+"     '((lambda () (interactive) (enlarge-window 999))
             :which-key "maximise  window"))
 #+end_src
-
 ** Tab management                               :tab:
 
 #+begin_src emacs-lisp
@@ -2691,21 +2587,18 @@ Manually resize the focused window. Note this will not work when using [[Automat
           (tab-bar-switch-to-tab "Blog"))
           :which-key "↪ Logs"))
 #+end_src
-
 ** Counsel                                      :completion:
 
 #+begin_src emacs-lisp
 (general-main-define-key
   "y" 'counsel-yank-pop)
 #+end_src
-
 ** Company                                      :completion:
 
 #+begin_src emacs-lisp
 (general-main-define-key
   "c" 'company-manual-begin)
 #+end_src
-
 ** Other
 
 I like dad jokes, and occasionally like to torture those around me
@@ -2715,7 +2608,6 @@ without leaving me work environment 😀.
 (general-other-package-define-key
   "j" 'dad-joke)
 #+end_src
-
 ** Disable the mouse
 
 I find myself wanting to learn to use the many tools available
@@ -2738,7 +2630,6 @@ This is additionally required if using evil mode.
 ;;        evil-visual-state-map
 ;;        evil-insert-state-map))
 #+end_src
-
 * Intermediate cosmetics
 
 ** Whitespace display                           :space:
@@ -2798,7 +2689,6 @@ Here's some practice text for that visualisation:
 	   # Tab before space, space after tab
   	 # Space before tab, tab after space
 #+end_src
-
 *** Non-breaking spaces
 
 Since I use unicode regularly, I do use non-breaking spaces
@@ -2811,7 +2701,6 @@ a face for that.
  'user
  '(nobreak-space ((t (:underline t)))))
 #+end_src
-
 *** Deprecated whitespace highlighting
 
 I previously used ~whitespace-style~ to highlight
@@ -2829,7 +2718,6 @@ Note there is no way to visualise spaces only at the end of lines;
 The visualisation is done by changing the display table,
 and there is no ability to do so only in particular places.
 Otherwise I would use that rather than highlighting.
-
 ** Rainbow delimiters                           :delimiter:
 
 Above, I have settings for highlighting the delimiter
@@ -2873,7 +2761,6 @@ For an example of this, see my settings for the Org emphasis
 regular expressions, which require some commented out
 delimiters to avoid breaking all delimiter matching
 later in this file.
-
 ** Tab-bar                                      :tab:
 
 I make use of ~tab-bar-mode~.
@@ -2919,7 +2806,7 @@ In practice I've found that the right-aligned portion of the tab-bar
 tends to run off onto another line, despite my best efforts.
 This hack to the align right function will prevent that
 by offsetting it by a few pixels.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :var offset=5
 ; (eval-after-load "tab-bar"
 ;   (defun tab-bar-format-align-right ()
 ;     "Align the rest of tab bar items to the right."
@@ -2938,7 +2825,6 @@ by offsetting it by a few pixels.
 ;                                                      hpos)))))))
 ;       `((align-right menu-item ,str ignore)))))
 #+end_src
-
 ** Tab-line                                     :tab:
 
 In contrast to tab-bar mode (configured [[Tab-bar][here]]), the Emacs tab /line/ functions
@@ -2964,7 +2850,6 @@ let's only show the close button for the active tab.
 (setq tab-line-new-button-show nil)
 (setq tab-line-close-button-show 'selected)
 #+end_src
-
 ** A more noticable divider between windows     :window:
 
 One problem with a fill column ruler is that it can seem like
@@ -2975,7 +2860,6 @@ between windows. ~window-divider-mode~ provides this.
 #+begin_src emacs-lisp
 (window-divider-mode)
 #+end_src
-
 ** Dim windows when not in use                  :window:
 
 I like to emphasise the window in focus, and a convenient way to do that
@@ -3007,7 +2891,6 @@ is also affected.
 I previously used the package [[https://github.com/gonewest818/dimmer.el][dimmer]] to perform this function,
 but unfortunately it's no longer actively maintained
 and has some bugs.
-
 ** Automatically enlarge active window          :window:
 
 The ~golden-ratio~ package adds a mode which
@@ -3062,7 +2945,6 @@ Set it automatically now during init.
 #+begin_src emacs-lisp
 (my/optimize-golden-ratio-behavior)
 #+end_src
-
 ** Kill the open init buffer and reopen it      :cleanup:
 
 To ensure all these cosmetic changes are picked up,
@@ -3071,7 +2953,6 @@ kill my init buffer that we opened earlier and reopen it.
 (kill-buffer "emacs-init.org")
 (find-file my/emacs-init-file)
 #+end_src
-
 * Intermediate modes and intermediate mode-specific settings
 
 ** Org mode cosmetics                           :org:
@@ -3088,7 +2969,6 @@ based on the nesting of the heading.
 This can be overrode for particular files
 by using the ~startup~ setting ~noindent~.
 (I.e., put ~#+startup: noindent~ in the file.)
-
 **** Hide emphasis markers by default
 
 Emphasis markers, the markup syntax that
@@ -3165,7 +3045,6 @@ We run the above function after each command in an Org mode buffer.
 ;    (add-hook 'post-command-hook
 ;      'org-toggle-emphasis-markers-at-point nil t)))
 #+end_src
-
 **** Emphasis marker regexps
 
 We can change the behaviour of Org emphasis markers
@@ -3258,7 +3137,6 @@ Now we update the setting.
     org-emphasis-regexp-components))
 #+end_src
 NOTE the extra closing parenthesis to end the ~with-eval-after-load~!
-
 ***** Test it out
 
 Here are tests of all the ~pre~ and ~post~ values at time of writing.
@@ -3295,7 +3173,6 @@ Here are tests of all the ~pre~ and ~post~ values at time of writing.
 ,*test*;
 ,*test*:
 #+end_src
-
 **** Highlight math mode blocks
 
 Org mode supports some LaTeX content inline.
@@ -3307,7 +3184,6 @@ We should highlight this content to emphasis its presence.
 #+end_src
 
 :TODO: What does ~entities~ refer to here?
-
 **** Pretty bullets
 
 Replace the plain asterisk bullets preceding Org headings
@@ -3317,7 +3193,6 @@ headings at different levels have different bullets.
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode))
 #+end_src
-
 **** Replace the ellipsis
 
 By default, folded portions of the document are
@@ -3325,7 +3200,6 @@ presented by an (non-unicode) ellipsis. Let's replace that.
 #+begin_src emacs-lisp
 (setq org-ellipsis " ⮷")
 #+end_src
-
 **** Inline images
 
 We can configure Org to automatically inline linked images
@@ -3333,7 +3207,6 @@ when opening documents.
 #+begin_src emacs-lisp
 (setq org-startup-with-inline-images t)
 #+end_src
-
 **** Tag position
 
 By default (as of Org 9.1.9),
@@ -3345,7 +3218,6 @@ to ensure tags stay away from the right side of the screen.
 #+begin_src emacs-lisp
 (setq org-tags-column 48)
 #+end_src
-
 **** Adjusting image display size
 
 I like to use inline images in Org mode, but of course
@@ -3356,7 +3228,6 @@ big enough to see well, but not so large as to take the whole screen.
 #+begin_src emacs-lisp
 (setq org-image-actual-width 256)
 #+end_src
-
 **** Colour-coded source block backgrounds
 
 We can colour the background of Org source blocks
@@ -3422,7 +3293,6 @@ We may need to restart Org for the changes to take effect.
 #+begin_src emacs-lisp
 (org-mode-restart)
 #+end_src
-
 ** Org mode exportation settings                :org:
 
 *** Export in the background
@@ -3449,7 +3319,7 @@ portions of this file.
 #+end_src
 
 Some default settings.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :noweb yes :tangle ~/.config/emacs/org-async-init.el
 ;; Org export init, tangled from my Emacs init
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -3464,7 +3334,7 @@ Some default settings.
 
 :TODO: There must be a better way to generate this file.
 These settings are from this exporting section.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :noweb yes :tangle ~/.config/emacs/org-async-init.el
 (ox-extras-activate '(ignore-headlines))
 ;;;; noexport is in the list by default
 ;; (add-to-list 'org-export-exclude-tags "noexport")
@@ -3578,7 +3448,7 @@ These settings are from this exporting section.
 
 We also need code evaluation settings, as code blocks may need
 to be evaluated for export.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :noweb yes :tangle ~/.config/emacs/org-async-init.el
 (setq org-confirm-babel-evaluate nil)
 (require 'ob-shell)
 (require 'ob-haskell)
@@ -3598,7 +3468,6 @@ to be evaluated for export.
 (org-babel-shell-initialize)
 (setq org-plantuml-jar-path "/usr/share/java/plantuml.jar")
 #+end_src
-
 *** Ignoring content
 
 **** Headings
@@ -3617,14 +3486,12 @@ Alternatively, use the ~:noexport:~ tag to omit the headline
 ;;;; noexport is in the list by default
 ;; (add-to-list 'org-export-exclude-tags "noexport")
 #+end_src
-
 **** Drawers
 
 Ignore all drawers when exporting, by default.
 #+begin_src emacs-lisp
 (setq org-export-with-drawers nil)
 #+end_src
-
 *** Source code block indentation and colouring
 
 I want to preserve my indentation for source code during export.
@@ -3666,7 +3533,6 @@ Note, if I set ~HTML_HEAD_EXTRA~ in an Org file,
 then the background colour setting will be lost!
 
 :TODO: It would be nice to pick up the background colour for that particular language, rather than default; I like the differing colours the Modus theme gives me for source blocks.
-
 *** Don't change Org links to HTML
 
 By default
@@ -3682,7 +3548,6 @@ the original Org source version of notes
 #+end_src
 
 If I mean to link to the HTML file, I will do so explicitly.
-
 *** Require braces to denote sub/superscripts
 
 Sometimes I want to export the characters ~_~ or ~^~.
@@ -3697,7 +3562,6 @@ we can use a setting to /require/ that sub/superscripts be enclosed in brackets
 #+begin_src emacs-lisp
 (setq org-export-with-sub-superscripts '{})
 #+end_src
-
 *** LaTeX export settings
 
 **** Default LaTeX compiler
@@ -3715,7 +3579,6 @@ and have found no problems with it.
 #+begin_src emacs-lisp
 (setq org-latex-compiler "lualatex")
 #+end_src
-
 **** LaTeX compilation process
 
 I use ~latexmk~ to automatically run as many passes as needed
@@ -3731,7 +3594,6 @@ The flags/format specifiers are
 | ~-f~            | force continued processing past errors                           |
 | ~%f~            | stands in for the (relative) filename                            |
 | ~-shell-escape~ | necessary to use ~minted~                                        |
-
 **** Custom document classes
 
 I want a ~report~ class that begins with ~chapter~'s, rather than
@@ -3762,7 +3624,6 @@ Sometimes, for creating slides, ~beamer~ is useful.
       ("\\subsection{%s}" . "\\subsection*{%s}")
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
 #+end_src
-
 **** Use minted for code blocks
 
 First, make sure we load the ~minted~ package.
@@ -3780,7 +3641,6 @@ rather than the default ~verbatim~, for code.
 #+begin_src emacs-lisp
 (setq org-latex-listings 'minted)
 #+end_src
-
 ***** Default options for minted
 
 One reason to use ~minted~ or ~listings~ over the simple ~verbatim~ is
@@ -3794,7 +3654,6 @@ Probably there are other options I should add as well.
 (setq org-latex-minted-options
   '(("breaklines" "true")))
 #+end_src
-
 ***** Don't box unicode characters
 
 Since I primarily export Agda code, which is full of unicode characters,
@@ -3813,7 +3672,6 @@ I use this hack to disable ~fbox~'s inside ~minted~ environments.
 #+begin_src emacs-lisp
 (add-to-list 'org-latex-packages-alist '("" "etoolbox"))
 #+end_src
-
 ***** Treat Agda source as Haskell for listings
 
 Unfortunately, ~minted~ doesn't support Agda,
@@ -3821,7 +3679,6 @@ so we simply have Org tell it that it's Haskell code.
 #+begin_src emacs-lisp
 (add-to-list 'org-latex-minted-langs '(agda2 "Haskell"))
 #+end_src
-
 ***** Alternative: use listings in place of minted
 
 As a step between using ~verbatim~ blocks and
@@ -3840,7 +3697,6 @@ If the setup is desired, here is how to do it:
 (setq org-latex-listings t) ;; As opposed to 'minted
 (add-to-list 'org-latex-listings-langs '(agda2 "Haskell"))
 #+end_example
-
 **** Hyperref setup
 
 The ~LaTeX~ ~hyperref~ package gives us better links.
@@ -3864,7 +3720,6 @@ the common blue colour.
 "
 )
 #+end_src
-
 **** More flexible tables
 
 Adding the ~tabularx~ package as a dependency gives us
@@ -3875,7 +3730,6 @@ for information on how to export tables as ~tabularx~ tables.
 (add-to-list 'org-latex-packages-alist
   '("" "tabularx"))
 #+end_src
-
 **** Image handling
 
 I prefer to be explicit about how images are handled during export.
@@ -3892,7 +3746,6 @@ to include images in tables.
 #+begin_src emacs-lisp
 (setq org-latex-image-default-width nil)
 #+end_src
-
 *** HTML export settings
 
 **** Modify the postamble
@@ -3912,7 +3765,6 @@ following the ~org-html-postamble-format~, which we set.
      <p class=\"creator\">Created using %c</p>
      <p class=\"validation\">%v</p>")))
 #+end_src
-
 **** Ensure useful HTML anchors
 
 This code snippet is borrowed from Musa's
@@ -3998,7 +3850,6 @@ I have made several edits.
 (advice-add 'org-html-export-to-html :before 'my/ensure-headline-ids)
 (advice-add 'org-md-export-to-markdown :before 'my/ensure-headline-ids)
 #+end_src
-
 *** Additional export formats
 
 **** Org Reveal
@@ -4017,7 +3868,6 @@ and then point to it with the ~org-reveal-root~ variable.
 More proactively, we can include the repo as a subrepo
 of whatever project we're working on.
 :TODO: Add instructions on how to do that here.
-
 ***** Theme
 
 ~reveal.js~ comes with many themes; ~black~ is the current default
@@ -4039,7 +3889,6 @@ At the time of writing, the included themes are
 - ~simple~: White background, black text, blue links
 - ~solarized~: Cream-colored background, dark green text, blue links
 (list from the [[https://github.com/hakimel/reveal.js/#theming][~reveal.js~ github]]).
-
 ***** Title page
 
 The default title slide includes title and date, with the formatting
@@ -4060,7 +3909,6 @@ I prefer a slightly smaller title, and additionally include
    <h4>%a</h4>
    <h5>%d</h5>")
 #+end_src
-
 **** Pandoc export formats
 
 ~ox-pandoc~ is “another exporter that translates Org-mode file to various other
@@ -4073,7 +3921,6 @@ lots of options which make be useful in the future.
 #+begin_src emacs-lisp
 (use-package ox-pandoc)
 #+end_src
-
 *** Export markdown blocks as HTML
 
 If we are given some markdown we wish to place into an Org file,
@@ -4110,7 +3957,6 @@ Again, note that nothing will show up in LaTeX exports!
 (add-to-list 'org-babel-default-header-args:markdown
              '(:exports . "results"))
 #+end_src
-
 *** Letters
 
 When writing a letter, I use
@@ -4125,7 +3971,7 @@ to organise the letter.
 Here's a sample Org document to produce a simple letter.
 I have it set to tangle to [[file:/tmp/letter-template.org]],
 so I can quickly copy it when I want to write a letter.
-#+begin_src org
+#+begin_src org :tangle /tmp/letter-template.org
 ,#+Title: A title for the produced PDF, not shown on the page unless set to do so
 ,#+Author: Mark Armstrong
 ,#+Date: The date
@@ -4168,11 +4014,9 @@ Here is my awesome letter.
 
 Mark Armstrong
 #+end_src
-
 ** A completion framework; Ivy, Counsel and Swiper :completion:
 
 :TODO: Better documentation here.
-
 *** Ivy
 
 #+begin_src emacs-lisp
@@ -4199,7 +4043,6 @@ Enable minibuffer commands in the minibuffer.
 #+begin_src emacs-lisp
 )
 #+end_src
-
 *** Swiper
 
 #+begin_src emacs-lisp
@@ -4208,7 +4051,6 @@ Enable minibuffer commands in the minibuffer.
   ;; (global-set-key "\C-r" 'swiper)
   (global-set-key (kbd "C-s") 'swiper))
 #+end_src
-
 *** Counsel
 
 :TODO: Move keybindings to General settings.
@@ -4218,7 +4060,6 @@ Enable minibuffer commands in the minibuffer.
   (global-set-key (kbd "M-x") 'counsel-M-x)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file))
 #+end_src
-
 *** Prescient
 
 #+begin_quote
@@ -4235,7 +4076,6 @@ as the first suggestions when I use ~M-x~.
 (use-package ivy-prescient)
 (ivy-prescient-mode)
 #+end_src
-
 ** COMpleting ANYthing; Company                 :completion:
 
 :TODO: Review these settings, and consider reformatting to avoid open parenthese across codeblocks.
@@ -4330,7 +4170,6 @@ Add emoji support. For instance, ~:smile:~ completes to 😄.
 (use-package company-emoji
   :config (add-to-list 'company-backends 'company-emoji))
 #+end_src
-
 ** Snippets                                     :completion:
 
 I use ~yasnippets~ for text expansion, and ~yankpad~ to organise my
@@ -4371,7 +4210,6 @@ I set it to fixed because this is usually what I want; I know best, not the mode
 #+begin_src emacs-lisp
 (setq yas-indent-line 'fixed)
 #+end_src
-
 *** Interacting with Company
 
 Taken without additional commentary for now from Musa's init.
@@ -4393,7 +4231,6 @@ Taken without additional commentary for now from Musa's init.
 ;; Set company-backend as a secondary completion backend to all existing backends.
 (setq company-backends (mapcar #'my/company-backend-with-yankpad company-backends))
 #+end_src
-
 ** Walking through undo history; undo-propose   :vc:
 
 The ~undo-propose~ package is a fairly minimal addition to
@@ -4426,7 +4263,6 @@ Still, this history can be of use, and when combined with automatic backups
 and usually further an actual version control system such as Git,
 we can be reasonably assured we will not find ourselves
 wanting to recover some deleted work and being unable to.
-
 *** What about undo-tree?
 
 In the past, I have used ~undo-tree~ to visualise
@@ -4438,7 +4274,6 @@ and ~undo-tree~ has been known to cause corruptions
 when undoing/redoing (though I have not experienced this personally).
 For the moment, I will stick to the builtin undo behaviour,
 with ~undo-propose~ to help visualise the changes.
-
 ** Walking through backups; backup-walker       :vc:
 
 The ~backup-walker~ package gives us the resources
@@ -4451,7 +4286,6 @@ and move back and forth with ~n~ and ~p~.
 #+begin_src emacs-lisp
 (use-package backup-walker)
 #+end_src
-
 ** Jumping through the buffer by characters     :movement:
 
 A bit of common wisdom to avoid RSI (repetivie strain injuries)
@@ -4471,7 +4305,6 @@ We can even jump to other windows!
 #+begin_src emacs-lisp
 (use-package avy)
 #+end_src
-
 ** Viewing the working directory                :movement:
 
 A common feature for modern text editors and IDEs
@@ -4551,7 +4384,6 @@ Plus, it matches what I use with Dired.
 (use-package treemacs-all-the-icons)
 (treemacs-load-theme "all-the-icons")
 #+end_src
-
 * Final cosmetics
 
 ** Icon support
@@ -4580,7 +4412,6 @@ Some packages, including the ~doom-modeline~, prefer ~nerd-icons~.
 (with-demoted-errors "Error installing nerd-icons during init (was the network disconnected?): %S"
   (nerd-icons-install-fonts 'no-prompt))
 #+end_src
-
 ** Modeline styling                             :theme:
 
 The Emacs modeline is a line attached to the bottom of each Emacs window
@@ -4593,7 +4424,6 @@ or if using the ~tab-bar~, place its information there instead.
 And I do move some of the more “global” information to the ~tab-bar~ instead.
 But there is a lot of potential for displaying useful info in the modeline,
 especially when we take control of it with a modeline styling package.
-
 *** Add styling via Doom modeline
 
 I previously used Spaceline, the Spacemacs modeline,
@@ -4615,7 +4445,6 @@ so set its height to ~0~ to make it as short as possible.
 #+begin_src emacs-lisp
 (setq doom-modeline-height 0)
 #+end_src
-
 *** Set up my preferred modeline
 
 With ~doom-emacs~, we define a modeline in two parts,
@@ -4658,7 +4487,6 @@ We need to force them to correct it.
 #+end_src
 Note that some information, such as the current time and my unread email count,
 I display in the ~global-mode-string~ which I include in my tab bar instead of here.
-
 *** Adjust behaviour of modeline components
 
 Do display an icon indicating if the file in the buffer has changed from the disk.
@@ -4673,14 +4501,12 @@ This also disables the ~minion~ button if using that
 #+begin_src emacs-lisp
 (setq doom-modeline-minor-modes t)
 #+end_src
-
 *** Force update all existing modelines
 
 For good measure, force all modelines to update.
 #+begin_src emacs-lisp
 (force-mode-line-update 'for-all-buffers)
 #+end_src
-
 ** Flash on error
 
 The doom themes package comes with a function to make
@@ -4692,7 +4518,6 @@ the mode line flash on error.
 #+end_src
 I'd previously just used ~visible-bell~, but it's a bit nosier
 than necessary.
-
 ** Add a little scrollbar to the modeline
 
 While I disable the usual scrollbars to save space,
@@ -4708,7 +4533,6 @@ can actually be used as a scrollbar. Neat!
 (setq mlscroll-alter-percent-position 'replace)
 (mlscroll-mode 1)
 #+end_src
-
 ** Show the clock
 
 Let's display the current time, with updates every minute.
@@ -4741,7 +4565,6 @@ Note that this section must then go after custom modeline setup.
 (add-to-list 'global-mode-string "   " 'append) ;; Padding
 (add-to-list 'global-mode-string 'display-time-string 'append)
 #+end_src
-
 ** Indentation indicators/guides
 
 Historically, I used [[https://github.com/DarthFennec/highlight-indent-guides][highlight-indent-guides]] to
@@ -4754,7 +4577,6 @@ The newer [[https://github.com/jdtsmith/indent-bars][indent-bars]] solves the ae
 (use-package indent-bars)
 (add-hook 'prog-mode-hook 'indent-bars-mode)
 #+end_src
-
 ** Kill the open init buffer and reopen it      :cleanup:
 
 To ensure all these cosmetic changes are picked up,
@@ -4763,7 +4585,6 @@ kill my init buffer that we opened earlier and reopen it.
 (kill-buffer "emacs-init.org")
 (find-file my/emacs-init-file)
 #+end_src
-
 * Final (nearly) modes and final mode-specific settings
 
 ** Org mode                                     :org:
@@ -4782,7 +4603,6 @@ To see the commands available, execute
 #+begin_example emacs-lisp
 (org-speed-command-help)
 #+end_example
-
 *** Automatic tables of contents
 
 This package provides automatic maintainance of a table of contents
@@ -4792,7 +4612,6 @@ under any heading which is labelled with the ~:TOC:~ tag.
   ;; Automatically update toc when saving an Org file.
   :hook (org-mode . toc-org-mode))
 #+end_src
-
 *** Custom TODO keywords
 
 These words, when appearing at the start of a headline,
@@ -4806,7 +4625,6 @@ I've added =SOON=, =NEXT=, =WORKING=, =DELEGATED= and =CANCELLED=.
 Note the ~"|"~ entry; headlines marked with any of the states
 past that entry are considered to be completed.
 Those before the ~"|"~ are still outstanding tasks.
-
 *** Clock closing time for TODO items
 
 Record the time a TODO task entered a completed state
@@ -4817,7 +4635,6 @@ by using ~t~ on the leftmost asterisk of a heading.
 #+begin_src emacs-lisp
 (setq org-log-done 'time)
 #+end_src
-
 *** Allow alphabetical lists
 
 While not frequently that useful, it is nice to be allowed
@@ -4827,21 +4644,18 @@ used in most export formats (at least HTML and LaTeX).
 #+begin_src emacs-lisp
 (setq org-list-allow-alphabetical t)
 #+end_src
-
 *** Agenda
 
 #+begin_src emacs-lisp
 (setq org-agenda-files
   '("~/logs/personal/todo.org"))
 #+end_src
-
 ** Dired
 
 ~dired~ (for DIRectory EDitor) is Emacs builtin utility
 for browsing directories and operating on their contents.
 
 Herein are my (fairly minimal) modifications to its behaviour.
-
 *** File information
 
 ~dired~ makes use of switches for ~ls~.
@@ -4861,7 +4675,6 @@ In the past, I had also used ~-B~ to ignore entries
 ending with ~~~, in order to ignore automatic Emacs backup files.
 I now organise those files into a set directory,
 so I do want to see them if they are somehow present.
-
 *** Cosmetic
 
 Don't display whitespace information via ~whitespace-mode~ in Dired buffers.
@@ -4876,7 +4689,6 @@ the cursor is on.
 #+begin_src emacs-lisp
 (add-hook 'dired-after-readin-hook 'hl-line-mode)
 #+end_src
-
 ** Which key                                    :completion:
 
 ~which-key-mode~ is a handy minor mode that shows us
@@ -4891,7 +4703,6 @@ not the whole thing.
 It is also useful for discovery of shortcuts;
 occasionally it is enlightening to take some time
 and browse the possible completions of prefixes as you type.
-
 ** Winner mode                                  :window:
 
 ~winner-mode~ allows us to undo or redo changes to window layouts.
@@ -4899,7 +4710,6 @@ See my keybindings for this above.
 #+begin_src emacs-lisp
 (winner-mode 1)
 #+end_src
-
 ** Easier movement between windows – Windmove   :window:
 
 The package ~windmove~ lets us jump between windows in a frame.
@@ -4914,7 +4724,6 @@ The package ~windmove~ lets us jump between windows in a frame.
 while holding a key; by default, the key is ~shift~.
 That conflicts with ~org~ though, so we could use
 ~windmove-default-keybindings~ to change it.
-
 ** Window numbers – Winum                       :window:
 
 While ~windmove~ is wonderful, if we have several windows
@@ -4927,7 +4736,6 @@ The ~winum~ package facilitates this.
 (use-package winum)
 (winum-mode)
 #+end_src
-
 ** Ediff                                        :vc:
 
 By default, when using the GUI, Ediff opens a new frame for
@@ -4943,7 +4751,6 @@ rather than split vertically.
 #+begin_src emacs-lisp
 (setq ediff-split-window-function 'split-window-horizontally)
 #+end_src
-
 ** Magit                                        :vc:
 
 Explicitly install Magit; “a Git Porcelain inside Emacs”.
@@ -4963,7 +4770,6 @@ in order to keep more of my work tasks in Emacs 😄.
 (use-package forge
   :after magit)
 #+end_src
-
 *** Commit messages
 
 Commit message subjects should be short and sweet.
@@ -4989,7 +4795,6 @@ Let's go with 1.5 times the length.
 #+begin_src emacs-lisp
 (setq git-commit-summary-max-length 98)
 #+end_src
-
 ** Show uncommitted changes to files as we view them :vc:
 
 ~magit~ is awesome; aside from the fine-grained control
@@ -5009,7 +4814,6 @@ to show added and modified lines.
 And it provides controls to jump between and act on those changes,
 so for simple commits we may not even need the ~magit~ status buffer.
 :TODO: Shortcuts to jump between and act on hunks. Probably a hydra! See Musa's setup.
-
 ** Minions; see and toggle minor modes          :simplify:
 
 The ~minions~ package implements a handy pop-up menu
@@ -5023,7 +4827,6 @@ or opening a help buffer.
 (use-package minions)
 (minions-mode 1)
 #+end_src
-
 ** HTTP requests                                :programming:
 
 The package [[https://github.com/federicotdn/verb][Verb]] allows
@@ -5060,7 +4863,6 @@ get https://sample.api/endpoint
 #+end_src
 Other options for operation (~op~) and flags are available;
 see https://github.com/federicotdn/verb?tab=readme-ov-file#babel-integration.
-
 * Programming language modes and mode-specific settings
 
 ** Language server protocol                     :programming:
@@ -5090,7 +4892,6 @@ simplifies the process of switching should I need to do so.
 (setq-local my/language-server-mode-hook 'eglot-ensure)
 (setq-local my/language-server-programs-list 'eglot-server-programs)
 #+end_src
-
 *** Eglot-specific
 
 Ensure that Eglot is kept up-to-date:
@@ -5098,7 +4899,6 @@ Ensure that Eglot is kept up-to-date:
 (with-demoted-errors "Error updating eglot (or checking for update) during init (was the network disconnected?): %S"
   (eglot-upgrade-eglot))
 #+end_src
-
 ** Debugging                                    :programming:
 
 In the same way that [[Language server protocol][LSP]] establishes a common interface in order for
@@ -5108,37 +4908,31 @@ for debuggers. ~Dape~ is an adaptor client for the DAP in Emacs.
 #+begin_src emacs-lisp
 (use-package dape)
 #+end_src
-
 ** JSON                                         :programming:
 
 #+begin_src emacs-lisp
 (use-package json-mode)
 #+end_src
-
 ** Dhall configuration language                 :programming:
 
 #+begin_src emacs-lisp
 (use-package dhall-mode)
 #+end_src
-
 ** Purescript                                   :programming:
 
 #+begin_src emacs-lisp
 (use-package purescript-mode)
 #+end_src
-
 ** Elm                                          :programming:
 
 #+begin_src emacs-lisp
 (use-package elm-mode)
 #+end_src
-
 ** Haskell                                      :programming:
 
 #+begin_src emacs-lisp
 (use-package haskell-mode)
 #+end_src
-
 ** Go                                           :programming:
 
 Activate Org babel support for Go.
@@ -5167,7 +4961,6 @@ If installed, add the additional Go linter, ~golangci-lint~, to the Flycheck che
   (use-package flycheck-golangci-lint)
   (add-hook 'go-mode-hook 'flycheck-golangci-lint-setup))
 #+end_src
-
 ** Java                                         :programming:
 
 [[https://github.com/yveszoundi/eglot-java][eglot-java]] provides
@@ -5192,7 +4985,6 @@ Add keybindings for running ~main~ and tests (JUnit).
  "r" 'eglot-java-run-main
  "t" 'eglot-java-run-test)
 #+end_src
-
 ** Python                                       :programming:
 
 Hook in to the Python language server; usually ~pylsp~.
@@ -5207,13 +4999,11 @@ Hook in to the Python language server; usually ~pylsp~.
 (cond ((executable-find "python")) ;; Leave pydoc command as default
       ((executable-find "python3") (setq pydoc-command "python3 -m pydoc")))
 #+end_src
-
 ** Lua                                          :programming:
 
 #+begin_src emacs-lisp
 (use-package lua-mode)
 #+end_src
-
 ** Typescript                                   :programming:
 
 #+begin_src emacs-lisp
@@ -5228,7 +5018,6 @@ Use only two spaces per indentation level.
 #+begin_src emacs-lisp
 (add-hook 'typescript-mode-hook my/language-server-mode-hook)
 #+end_src
-
 ** YAML configuration language                  :programming:
 
 :TODO: Commentary needed.
@@ -5237,14 +5026,12 @@ Use only two spaces per indentation level.
 #+end_src
 
 :TODO: Probably some better settings could be filled in, since I actually use this at work.
-
 ** TOML configuration language                  :programming:
 
 :TODO: Commentary needed.
 #+begin_src emacs-lisp
 (use-package toml-mode)
 #+end_src
-
 ** Common Lisp                                  :programming:
 
 Org babel support for Lisp is builtin, so just ~require~ it.
@@ -5272,7 +5059,6 @@ Fill in the paths if necessary.
 ~/.guix-profile/bin/
 ~/.guix-profile/bin/
 #+end_src
-
 ** Geiser Emacs/Scheme                          :programming:
 
 Org babel support for scheme is builtin, so just ~require~ it.
@@ -5284,14 +5070,12 @@ Org babel support for scheme is builtin, so just ~require~ it.
 #+begin_src emacs-lisp
 (use-package geiser)
 #+end_src
-
 ** Geiser Guile scheme support                  :programming:
 
 :TODO: Commentary needed.
 #+begin_src emacs-lisp
 (use-package geiser-guile)
 #+end_src
-
 ** Clojure                                      :programming:
 
 Org babel support for clojure is builtin, so just ~require~ it.
@@ -5305,7 +5089,6 @@ Org babel support for clojure is builtin, so just ~require~ it.
 (use-package cider)
 (setq cider-default-repl-command "lein")
 #+end_src
-
 ** Ammonite (deprecated)                        :programming:
 ~ob-ammonite~ interacts with the ~ammonite~ REPL for ~scala~.
 Unfortunately it's been dropped off MELPA, apparently.
@@ -5336,7 +5119,6 @@ to Scala minted blocks."
 
 (add-hook 'org-export-filter-src-block-functions 'my/ammonite-src-to-scala-src)
 #+end_src
-
 ** Ditaa                                        :programming:
 
 Ditaa is a neat little tool for producing images from ASCII diagrams.
@@ -5356,7 +5138,6 @@ It should be in the path; if not we skip this setup step.
 (let ((ditaa-path (executable-find "ditaa")))
   (if ditaa-path (setq org-ditaa-jar-path ditaa-path)))
 #+end_src
-
 ** Docker
 
 #+begin_src emacs-lisp
@@ -5366,13 +5147,11 @@ It should be in the path; if not we skip this setup step.
 #+begin_src emacs-lisp
 (use-package docker)
 #+end_src
-
 ** Cucumber, Gherkin
 
 #+begin_src emacs-lisp
 (use-package feature-mode)
 #+end_src
-
 ** Nix LSP
 
 On systems using Nix, we can install [[https://github.com/oxalica/nil][nil]],
@@ -5385,7 +5164,6 @@ this will cause an error if I have somehow not installed it
   (add-hook 'nix-mode-hook my/language-server-mode-hook)
   (add-to-list my-language-server-programs-list '(nix-mode . ("nil"))))
 #+end_src
-
 * Session setup
 
 Before anything, we opened my init file earlier;
@@ -5403,9 +5181,7 @@ Also go ahead and close any windows that may have been created.
 
 The remainder of these settings are segragated,
 and then loaded based on the identity of the machine being used.
-
 ** Personal machines
-
 *** List paths and tab names
 
 For maintainability, most files opened below and tab names are listed here.
@@ -5428,7 +5204,6 @@ For maintainability, most files opened below and tab names are listed here.
          (mail-tab-name     "mail")
          (homepage-tab-name "homepage"))
 #+end_src
-
 *** Create tabs
 
 First, let's create some “consistent” tabs;
@@ -5460,7 +5235,6 @@ so it makes sense to open that directory by default.
 (find-file projects-dir)
 (tab-rename "🛠️")
 #+end_src
-
 *** Visit tabs and setup buffers
 
 Now, let us visit the tabs, and set up the windows in them.
@@ -5515,19 +5289,16 @@ For my blog, open the homepage Org file and a magit buffer.
     (split-window nil nil 'right)
     (magit-status-setup-buffer)))
 #+end_src
-
 **** Focus on the first tab
 
 #+begin_src emacs-lisp
 (tab-select 1)
 #+end_src
-
 **** Close the ~let~
 
 #+begin_src emacs-lisp
 )
 #+end_src
-
 ** Check identity of machine and load session
 
 :TODO: Commentary.
@@ -5543,7 +5314,6 @@ For my blog, open the homepage Org file and a magit buffer.
     ;; else, machine identity file doesn't exist
     (message "Init: Didn't find the machine identity file at ~/.this-machine, so don't know how to set up the session.")))
 #+end_src
-
 ** Bury warning buffers, send a message instead
 
 Warnings during startup will usually pop up a window at the bottom of the frame;
@@ -5572,7 +5342,6 @@ Warnings may occur during compilation of packages during startup.
 
 (add-hook 'window-setup-hook 'bury-compile-log-and-send-message)
 #+end_src
-
 * Cleanup
 
 ** Check the contents of the (proper/system) init file
@@ -5594,7 +5363,7 @@ to migrate them to their proper place in this file.
 Using the copy of the expected ~.emacs~ content which is tangled to ~/tmp/.emacs~ above,
 this code checks the contents of ~~/.emacs~. If it is not as expected,
 show a popup message and then displays a diff buffer to alert me to the changes.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :noweb yes :results raw
 (let* ((dotemacs-file "~/.config/emacs/init.el")
        (dotemacs-backup "/tmp/init.el")
        (dotemacs-contents
@@ -5633,7 +5402,6 @@ On startup, ensure my dotfiles README does not remain stale by regenerating it.
 #+begin_src emacs-lisp
 (my/dotfiles-readme-generate)
 #+end_src
-
 *** Why not use markdown?
 
 We could, instead of producing the ~README.org~ file,
@@ -5649,7 +5417,6 @@ changes to the README file, even if nothing had changed with
 the init file itself.
 
 So, we instead use an Org file for the README.
-
 ** Prompt before quitting Emacs
 
 It's rare that I actually want to close Emacs, so it's not an annoyance
