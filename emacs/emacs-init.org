@@ -5666,6 +5666,35 @@ For my blog, open the homepage Org file and a magit buffer.
     (message "Init: Didn't find the machine identity file at ~/.this-machine, so don't know how to set up the session.")))
 #+end_src
 
+** Bury warning buffers, send a message instead
+
+Warnings during startup will usually pop up a window at the bottom of the frame;
+I prefer to hide those popups and put a notice in the messages buffer instead.
+#+begin_src emacs-lisp
+(defun bury-buffer-and-send-message (buffer-name msg)
+  (letrec ((buffer-window (get-buffer-window buffer-name)))
+    (when buffer-window
+      (quit-window nil buffer-window)
+      (message msg))))
+#+end_src
+
+I add functions to bury specific buffers here as I encounter them during setup.
+We can add those functions to the ~window-setup-hook~, which will run them
+after the point in setup where those popups are “popped”.
+
+Warnings may occur during compilation of packages during startup.
+#+begin_src emacs-lisp
+(defun bury-compile-log-and-send-message ()
+  (bury-buffer-and-send-message
+   "*Compile-Log*"
+   (concat "!!! NOTICE: "
+           "A warning occurred during a compilation; "
+           "burying the buffer, see *Compile-Log* "
+           "!!!")))
+
+(add-hook 'window-setup-hook 'bury-compile-log-and-send-message)
+#+end_src
+
 * Cleanup
 
 ** Check the contents of the (proper/system) init file
