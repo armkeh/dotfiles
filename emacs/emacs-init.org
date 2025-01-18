@@ -503,6 +503,7 @@ Now, we define a function to automatically export the intermediate file to the f
          (readme-temporary-filepath (concat readme-directory "README.temp.org"))
          (readme-final-filepath (concat readme-directory "README.org")))
     (with-temp-buffer
+      (org-mode)
       (cd readme-directory) ;; Must move to directory to export into
       (insert-file-contents readme-template-filepath) ;; Copy in the template
       (delete-file readme-final-filepath) ;; Delete existing README (if it exists)
