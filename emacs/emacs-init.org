@@ -2692,41 +2692,6 @@ Manually resize the focused window. Note this will not work when using [[Automat
   "c" 'company-manual-begin)
 #+end_src
 
-** Hideshow
-
-#+begin_src emacs-lisp
-(general-create-definer general-hideshow-define-key
-  :prefix "C-c h"
-  :keymaps 'override)
-#+end_src
-
-#+begin_src emacs-lisp
-(general-hideshow-define-key
-  "h" '((lambda () (interactive)
-          (toggle-fold)) ;; todo why this is hard to use in Go
-        :which-key "fold code"))
-
-(general-hideshow-define-key
-  "s" '((lambda () (interactive)
-          (hs-show-block))
-        :which-key "unfold code"))
-
-(general-hideshow-define-key
-  "H" '((lambda () (interactive)
-          (hs-hide-all))
-        :which-key "fold all toplevel"))
-
-(general-hideshow-define-key
-  "S" '((lambda () (interactive)
-          (hs-show-all))
-        :which-key "unfold all"))
-
-(general-hideshow-define-key
-  "u" '((lambda () (interactive)
-          (hs-hide-level 0))
-        :which-key "fold under"))
-#+end_src
-
 ** Other
 
 I like dad jokes, and occasionally like to torture those around me
@@ -5538,23 +5503,6 @@ this will cause an error if I have somehow not installed it
 (when (executable-find "nix")
   (add-hook 'nix-mode-hook my/language-server-mode-hook)
   (add-to-list my-language-server-programs-list '(nix-mode . ("nil"))))
-#+end_src
-
-** Fold code
-
-https://www.reddit.com/r/emacs/comments/746cd0/comment/dnwi2x1/?utm_source=share&utm_medium=web2x&context=3
-#+begin_src emacs-lisp
-(defun toggle-fold ()
-  (interactive)
-  (save-excursion
-    (end-of-line)
-    (hs-toggle-hiding)))
-#+end_src
-
-Other options include origami and yafolding
-hideshow is efficient and built in
-#+begin_src emacs-lisp
-(add-hook 'prog-mode-hook 'hs-minor-mode)
 #+end_src
 
 * Session setup
