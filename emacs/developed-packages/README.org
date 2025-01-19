@@ -5,8 +5,15 @@
 
 * Usage
 
+This directory contains git subtrees for Emacs packages I have personally developed.
+I use this to import them into my Emacs setup, and keep them at the cutting edge
+so I can test their usage out.
+
 For convenience, instructions are kept here for setting up, pulling from,
-and pushing too the subtrees.
+and (perhaps eventually) pushing to the subtrees.
+I prefer this over installing them using, e.g., ~package-vc-install~,
+because I tinker with these packages within this repository
+to allow for testing within my Emacs setup.
 
 We use these code blocks along with ~noweb~ references to reuse the instructions
 for each repo.
