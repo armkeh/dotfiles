@@ -5116,6 +5116,39 @@ see https://github.com/federicotdn/verb?tab=readme-ov-file#babel-integration.
 
 * Programming language modes and mode-specific settings
 
+** COMMENT Tree-sitter (~treesit-mode~)
+
+#+begin_quote
+[[https://tree-sitter.github.io/][Tree-sitter]] is a parser generator tool and an incremental parsing library.
+#+end_quote
+
+Overall, tree-sitter provides more robust syntax parsing than
+is built in to most editors, and is also editor-agnostic.
+Since Emacs 29, tree-sitter integration is [[https://emacs-tree-sitter.github.io/][built in to Emacs]]
+via the ~treesit~ package
+(not to be confused with the external ~tree-sitter~ package on which it is based)
+(confusingly, some functions still refer to ~tree-sitter~ and ~tree-sitter-mode~).
+Activate it for all buffers where it can be turned on:
+#+begin_src emacs-lisp
+(global-tree-sitter-mode)
+#+end_src
+
+*** Install bundle of mode-language associations for tree-sitter
+
+#+begin_src emacs-lisp
+(use-package treesit-langs
+  :vc (:url "https://github.com/emacs-tree-sitter/treesit-langs"
+       :branch "main"))
+#+end_src
+
+*** Code folding
+
+#+begin_src emacs-lisp
+(use-package treesit-fold
+  :vc (:url "https://github.com/emacs-tree-sitter/treesit-fold"
+       :branch "master"))
+#+end_src
+
 ** COMMENT Language server protocol            :programming:
 
 #+begin_src emacs-lisp
