@@ -699,6 +699,36 @@ Deactivate this advice with:
 (advice-add 'message :before 'my/timestamp-message)
 #+end_src
 
+** Jumping up through single-file directories
+
+This code is based on a [[https://github.com/Fuco1/dired-hacks/issues/189#issuecomment-1032577662][function]] suggested in an issue
+in the [[https://github.com/Fuco1/dired-hacks][dired-hacks]] repository.
+Unlike that code, this function does not make the jump;
+it simply finds the appropriate directory.
+We can jump to it with a call to ~dired~.
+#+begin_src emacs-lisp
+(defun my/collapse-parent-directories ()
+  "Find the first parent directory of the current directory
+which contains more than one file.
+Stop if an unreadable path is encountered."
+  (interactive)
+  (letrec ((previous (expand-file-name default-directory))
+           (path (f-parent previous)))
+    (while (and (file-directory-p path)
+                (file-readable-p path)
+                (= 1 (length (f-entries path))))
+      (setq previous path)
+      (setq path (f-parent path)))
+    path))
+#+end_src
+
+Now define a jump function as we described.
+#+begin_src emacs-lisp
+(defun my/dired-up-collapsing-parent-directories ()
+  (interactive)
+  (dired (my/collapse-parent-directories)))
+#+end_src
+
 * Simple cosmetics
 
 ** Disable the splashscreen and open this file :basic:simplify:
@@ -2263,63 +2293,56 @@ I open often enough to want a direct shortcut.
 
 I use shortcuts to jump to frequently used directories in ~dired~
 (from any buffer, not just while in ~dired~).
-
-Some times it is convenient to use a different function to
-invoke ~dired~; in particular, in the past,
-I used ~dired-single~ with the invokation ~dired-single-magic-buffer~,
-in order to avoid having multiple ~dired~ buffers created.
-This turned out to be detrimental once I started keeping
-multiple ~dired~ windows open in different tabs.
-#+begin_src emacs-lisp
-(defun my-dired-invocation (directory)
-  "My custom dired invocation.
-   It will use my special “magic buffer” for browsing."
-  (dired directory))
-#+end_src
-
 #+begin_src emacs-lisp
 (general-dired-define-key
   "c" '((lambda () (interactive)
-          (my-dired-invocation default-directory))
+          (dired default-directory))
         :which-key "current")
+  "u" '((lambda () (interactive)
+          ;; Find next parent directory containing more than one file.
+          (dired (my/collapse-parent-directories)))
+        :which-key "up (jump)")
+  "U" '((lambda () (interactive)
+          (dired ".."))
+        :which-key "up (direct)")
   "/" '((lambda () (interactive)
-          (my-dired-invocation "/"))
+          (dired "/"))
         :which-key "root")
   "h" '((lambda () (interactive)
-          (my-dired-invocation "~"))
+          (dired "~"))
         :which-key "home")
   "~" '((lambda () (interactive)
-          (my-dired-invocation "~"))
+          (dired "~"))
         :which-key "home")
   "a" '((lambda () (interactive)
-          (my-dired-invocation "~/@"))
+          (dired "~/@"))
         :which-key "aliases")
   "@" '((lambda () (interactive)
-          (my-dired-invocation "~/@"))
+          (dired "~/@"))
         :which-key "aliases")
   "d" '((lambda () (interactive)
-          (my-dired-invocation "~/dotfiles/"))
+          (dired "~/dotfiles/"))
         :which-key "dotfiles")
   "D" '((lambda () (interactive)
-          (my-dired-invocation "~/Downloads/"))
+          (dired "~/Downloads/"))
         :which-key "downloads")
   "l" '((lambda () (interactive)
-          (my-dired-invocation "~/logs/"))
+          (dired "~/logs/"))
         :which-key "logs")
   "r" '((lambda () (interactive)
-          (my-dired-invocation "~/reading/"))
+          (dired "~/reading/"))
         :which-key "reading")
   "p" '((lambda () (interactive)
-          (my-dired-invocation "~/projects/"))
+          (dired "~/projects/"))
         :which-key "projects")
   "f" '((lambda () (interactive)
-          (my-dired-invocation "~/filing/"))
+          (dired "~/filing/"))
         :which-key "filing")
   "t" '((lambda () (interactive)
-          (my-dired-invocation "~/teaching/"))
+          (dired "~/teaching/"))
         :which-key "teaching")
   "T" '((lambda () (interactive)
-          (my-dired-invocation "~/projects/agda-computability"))
+          (dired "~/projects/agda-computability"))
         :which-key "thesis"))
 #+end_src
 
