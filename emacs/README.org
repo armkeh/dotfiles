@@ -4847,7 +4847,7 @@ Herein are my (fairly minimal) modifications to its behaviour.
 ~dired~ makes use of switches for ~ls~.
 #+begin_src emacs-lisp
 (setq dired-listing-switches
-      "--group-directories-first -aDgGhL --time-style \"+  %Y %b %d %H:%M  \"")
+      "--group-directories-first -agGhL --time-style \"+  %Y %b %d %H:%M  \"")
 #+end_src
 
 Here's a description of those single letter switches.
@@ -4875,6 +4875,13 @@ Highlighting the whole line we're on helps keep track of what file
 the cursor is on.
 #+begin_src emacs-lisp
 (add-hook 'dired-after-readin-hook 'hl-line-mode)
+#+end_src
+
+*** Collapse single-file directories
+
+#+begin_src emacs-lisp
+(use-package dired-collapse)
+(global-dired-collapse-mode)
 #+end_src
 
 ** Which key                                    :completion:
