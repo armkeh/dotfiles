@@ -4908,6 +4908,17 @@ This is common behaviour in other editors/IDEs, and now easily emulated in Emacs
 See also the section [[Jumping up through single-file directories]]
 for code to “jump up” through such single-file directory chains.
 
+*** Display READMEs
+
+The package [[https://github.com/amno1/dired-auto-readme][dired-auto-readme]] is
+a neat hack to display README files within ~dired~ buffers.
+It's not particularly necessary, but I find it's a good reminder
+that a README exists and I should refer to it and/or update it!
+#+begin_src emacs-lisp
+(use-package dired-auto-readme)
+(add-hook 'dired-mode-hook 'dired-auto-readme-mode)
+#+end_src
+
 ** Which key                                   :completion:
 
 ~which-key-mode~ is a handy minor mode that shows us
