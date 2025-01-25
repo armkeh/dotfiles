@@ -3081,7 +3081,7 @@ kill my init buffer that we opened earlier and reopen it.
 
 ** Org mode cosmetics                           :org:
 
-**** Indent text based on heading by default
+*** Indent text based on heading by default
 
 Although it wastes some space, it's generally easier to read
 Org files if the contents of a heading are indented
@@ -3094,7 +3094,7 @@ This can be overrode for particular files
 by using the ~startup~ setting ~noindent~.
 (I.e., put ~#+startup: noindent~ in the file.)
 
-**** Hide emphasis markers by default
+*** Hide emphasis markers by default
 
 Emphasis markers, the markup syntax that
 makes particular portions of the text bold, italicized, etc.,
@@ -3171,7 +3171,7 @@ We run the above function after each command in an Org mode buffer.
 ;      'org-toggle-emphasis-markers-at-point nil t)))
 #+end_src
 
-**** Emphasis marker regexps
+*** Emphasis marker regexps
 
 We can change the behaviour of Org emphasis markers
 in terms of what characters are allowed to occur around
@@ -3264,7 +3264,7 @@ Now we update the setting.
 #+end_src
 NOTE the extra closing parenthesis to end the ~with-eval-after-load~!
 
-***** Test it out
+**** Test it out
 
 Here are tests of all the ~pre~ and ~post~ values at time of writing.
 #+begin_src org
@@ -3301,7 +3301,7 @@ Here are tests of all the ~pre~ and ~post~ values at time of writing.
 ,*test*:
 #+end_src
 
-**** Highlight math mode blocks
+*** Highlight math mode blocks
 
 Org mode supports some LaTeX content inline.
 In particular, we can use math mode syntax ~$…$~ and
@@ -3313,7 +3313,7 @@ We should highlight this content to emphasis its presence.
 
 :TODO: What does ~entities~ refer to here?
 
-**** Pretty bullets
+*** Pretty bullets
 
 Replace the plain asterisk bullets preceding Org headings
 with fancier characters; a collection is used, so that
@@ -3323,7 +3323,7 @@ headings at different levels have different bullets.
   :hook (org-mode . org-bullets-mode))
 #+end_src
 
-**** Replace the ellipsis
+*** Replace the ellipsis
 
 By default, folded portions of the document are
 presented by an (non-unicode) ellipsis. Let's replace that.
@@ -3331,7 +3331,7 @@ presented by an (non-unicode) ellipsis. Let's replace that.
 (setq org-ellipsis " ⮷")
 #+end_src
 
-**** Inline images
+*** Inline images
 
 We can configure Org to automatically inline linked images
 when opening documents.
@@ -3339,7 +3339,7 @@ when opening documents.
 (setq org-startup-with-inline-images t)
 #+end_src
 
-**** Tag position
+*** Tag position
 
 By default (as of Org 9.1.9),
 tags get shifted to the 77th column.
@@ -3351,7 +3351,7 @@ to ensure tags stay away from the right side of the screen.
 (setq org-tags-column 48)
 #+end_src
 
-**** Adjusting image display size
+*** Adjusting image display size
 
 I like to use inline images in Org mode, but of course
 I don't want large images to be shown at full size!
@@ -3362,7 +3362,7 @@ big enough to see well, but not so large as to take the whole screen.
 (setq org-image-actual-width 256)
 #+end_src
 
-**** Colour-coded source block backgrounds
+*** Colour-coded source block backgrounds
 
 We can colour the background of Org source blocks
 based on the language. Neat!
