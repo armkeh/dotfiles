@@ -1351,6 +1351,33 @@ so the edit can be seen.
 (setq org-catch-invisible-edits 'show)
 #+end_src
 
+*** Use overlays for folding
+
+Org provides two options for the internal implementation detail
+used to hide holded text:
+- [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Text-Properties.html][Text properties]]
+  - (Properties belonging to character positions in a buffer/string.)
+- [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Overlays.html][Overlays]]
+  - (Buffer objects which alter the appearance of the buffer's text
+    for presentation features.)
+Overlays are faster on large files, though text properties are more
+backwards compatible with older packages.
+
+I've found in some large Org files, I encounter an issue where
+a section will refuse to unfold when requested,
+or some parts of sections will remain folded.
+Typically I've had to close the file and re-open it to escape
+this bad state.
+Using overlays for folding seems to alleviate this.
+#+begin_src emacs-lisp
+(setq org-fold-core-style 'overlays)
+#+end_src
+
+We need to restart Org for that setting to take effect.
+#+begin_src emacs-lisp
+(org-mode-restart)
+#+end_src
+
 ** vterm                                        :programming:
 
 ~vterm~ is a great terminal editor for when I want to use a terminal
