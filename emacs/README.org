@@ -2836,24 +2836,6 @@ a face for that.
  '(nobreak-space ((t (:underline t)))))
 #+end_src
 
-*** Deprecated whitespace highlighting
-
-I previously used ~whitespace-style~ to highlight
-trailing whitespace; however, I find this feature intrusive,
-so I avoid it.
-
-If it is wanted later, then I should add to the list
-#+begin_example emacs-lisp
-(face trailing)
-#+end_example
-We need to add ~face~ to the list, to enable using faces
-to highlight whitespace.
-
-Note there is no way to visualise spaces only at the end of lines;
-The visualisation is done by changing the display table,
-and there is no ability to do so only in particular places.
-Otherwise I would use that rather than highlighting.
-
 ** Rainbow delimiters                           :delimiter:
 
 Above, I have settings for highlighting the delimiter
