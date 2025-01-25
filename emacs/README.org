@@ -1362,13 +1362,7 @@ used to hide holded text:
     for presentation features.)
 Overlays are faster on large files, though text properties are more
 backwards compatible with older packages.
-
-I've found in some large Org files, I encounter an issue where
-a section will refuse to unfold when requested,
-or some parts of sections will remain folded.
-Typically I've had to close the file and re-open it to escape
-this bad state.
-Using overlays for folding seems to alleviate this.
+Let's use overlays, unless I encounter issues in the future.
 #+begin_src emacs-lisp
 (setq org-fold-core-style 'overlays)
 #+end_src
@@ -1377,6 +1371,13 @@ We need to restart Org for that setting to take effect.
 #+begin_src emacs-lisp
 (org-mode-restart)
 #+end_src
+
+For what it's worth, using overlays seems to improve compatability
+with [[https://github.com/abo-abo/swiper/][swiper]] at time of writing;
+I had been encountering [[https://github.com/abo-abo/swiper/issues/3015][this issue]]
+(or, if not exactly this, something similar) for a while
+which seems to be fixed by using overlays at time of
+writing (early 2025).
 
 ** vterm                                        :programming:
 
