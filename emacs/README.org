@@ -4893,10 +4893,20 @@ the cursor is on.
 
 *** Collapse single-file directories
 
+It is not uncommon to require a specific directory structure
+for certain languages/tools; often such enforced directory structures
+can result in long chains of single-file/sub-directory chains.
+The package ~dired-collapse~, part of the [[https://github.com/Fuco1/dired-hacks/tree/master][dired-hacks]] collection,
+reduces the tedium of navigating such directory chains by
+“collapsing” them within ~dired~ buffers.
+This is common behaviour in other editors/IDEs, and now easily emulated in Emacs.
 #+begin_src emacs-lisp
 (use-package dired-collapse)
 (global-dired-collapse-mode)
 #+end_src
+
+See also the section [[Jumping up through single-file directories]]
+for code to “jump up” through such single-file directory chains.
 
 ** Which key                                    :completion:
 
