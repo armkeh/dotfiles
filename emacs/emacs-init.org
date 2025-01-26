@@ -5072,13 +5072,21 @@ are the packages ~diff-hl~ and ~git-gutter~, which show
 the status of lines by marking the gutter area
 to show added and modified lines.
 #+begin_src emacs-lisp
-(use-package git-gutter)
-(global-git-gutter-mode)
+(use-package diff-hl)
+(global-diff-hl-mode)
 #+end_src
 
-And it provides controls to jump between and act on those changes,
-so for simple commits we may not even need the ~magit~ status buffer.
-:TODO: Shortcuts to jump between and act on hunks. Probably a hydra! See Musa's setup.
+#+begin_src emacs-lisp
+(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+#+end_src
+
+#+begin_src emacs-lisp
+(diff-hl-flydiff-mode)
+#+end_src
+
+#+begin_src emacs-lisp
+(add-hook 'dired-mode-hook (diff-hl-dired-mode))
+#+end_src
 
 ** Minions; see and toggle minor modes         :simplify:
 
