@@ -3359,15 +3359,6 @@ presented by an (non-unicode) ellipsis. Let's replace that.
 (setq org-ellipsis " ⮷")
 #+end_src
 
-:TODO:
-There is sometimes an issue with unicode ellipses displaying as a block
-(as if the unicode character were missing from our fonts).
-I've noticed this happens particularly when displaying information
-in the margin/fringe.
-This is also discussed in this Stack Exchange post, though they notice it
-depending upon newlines at the end of section contents:
-https://emacs.stackexchange.com/q/48063
-
 *** Inline images
 
 We can configure Org to automatically inline linked images
