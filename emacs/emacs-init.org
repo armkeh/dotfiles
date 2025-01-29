@@ -2996,57 +2996,6 @@ between windows. ~window-divider-mode~ provides this.
 (window-divider-mode)
 #+end_src
 
-** COMMENT Dim buffers when not in use         :buffer:
-
-The package ~dimmer~ will dim inactive windows to emphasise which
-window has focus.
-See its [[https://github.com/gonewest818/dimmer.el][Github page]].
-#+begin_src emacs-lisp
-(use-package dimmer)
-#+end_src
-
-Turn ~dimmer-mode~ on when Emacs starts.
-#+begin_src emacs-lisp
-(dimmer-mode)
-#+end_src
-
-Don't dim ~which-key~ and ~helm~ buffers.
-#+begin_src emacs-lisp
-(dimmer-configure-which-key)
-(dimmer-configure-helm)
-#+end_src
-
-We can adjust the ~:foreground~ colours, the ~:background~ colours,
-or ~:both~. With a dark theme, adjusting the background causes
-the background to become lighter in inactive buffers,
-which “looks wrong” (makes them looked like they have focus).
-So I set this to just ~:foreground~ (which is the default anyway).
-#+begin_src emacs-lisp
-(setq dimmer-adjustment-mode :foreground)
-#+end_src
-
-I find the default dimming of ~20%~ to be too faint;
-it is noticeable when changing windows, but it does not
-remain noticeable enough later (e.g. when I look away from Emacs
-then look back). Increasing that to ~30%~ seems to be sufficient,
-while maintaing the readability of unfocussed buffers.
-#+begin_src emacs-lisp
-(setq dimmer-fraction 0.3)
-#+end_src
-
-Note that by default, all windows will be dimmer when Emacs
-notices that it does not have focus in the windowing system.
-I like this behaviour; it could be changed by changing
-the variable ~dimmer-watch-frame-focus-events~.
-
-The developer of the ~modus~ themes I use recommends
-using RGB colour space with ~dimmer~;
-they say that colour space “remains faithful
-to the hueness of the colours used by the themes.”
-#+begin_src emacs-lisp
-(setq dimmer-use-colorspace :rgb)
-#+end_src
-
 ** Dim windows when not in use                 :window:
 
 I like to emphasise the window in focus, and a convenient way to do that
@@ -3057,28 +3006,73 @@ Despite the “buffer” in its name, ~auto-dim-other-buffers~ mode does this.
 (auto-dim-other-buffers-mode t)
 #+end_src
 
-The Modus themes I use have extreme backgrounds;
-absolute black for dark mode, and absolute white for light mode.
-So for dark mode, “dimming” is not a true option;
-by default the inactive windows become brighter instead!
-So I modify the dimming face to instead make the text lighter
-(or dimmer, in light mode).
-#+begin_src emacs-lisp
-(set-face-attribute
- 'auto-dim-other-buffers-face
- nil
- :background 'unspecified
- :foreground "#888")
-#+end_src
-I find this has the added benefit of affecting more of the unfocused windows;
+I previously used the package [[https://github.com/gonewest818/dimmer.el][dimmer]] to perform this function.
+I found its behaviour more to my liking,
+but unfortunately it's no longer actively maintained
+and has some bugs, so I have migrated to this package which is maintained.
+
+*** Adjust faces
+
+The default ~auto-dim-other-buffers~ mode faces try
+to dim the background of inactive windows.
+I find that distracting, especially since the modus themes I use
+use absolute black for their dark background.
+I prefer to dim the foreground instead.
+This has the added benefit of sometimes affecting more of the unfocused windows;
 because auto dim other buffer mode only affects a conservative set of faces,
 it usually doesn't touch parts of the windows with non-default background.
 With this foreground modification, any default text on those non-default backgrounds
 is also affected.
+My Org mode setup uses different backgrounds for source blocks,
+so they would not be affected by default.
+:TODO: Consider applying a stipple instead.
 
-I previously used the package [[https://github.com/gonewest818/dimmer.el][dimmer]] to perform this function,
-but unfortunately it's no longer actively maintained
-and has some bugs.
+We also need to modify the ~auto-dim-other-buffers-hide~ face,
+which is used for hidden elements, such as the implicit indentation in Org buffers
+when using ~org-indent~, because by default it will try to use
+the default “dimmer” background face. We can simply remove all settings for it.
+
+We'll use a middle-of-the-road gray colour for the foreground; ~FF / 2 = 7F~, rounded down.
+In testing, this turns out to be just a tad dimmer than the comment face
+with the modus themes.
+#+begin_src emacs-lisp
+(defconst my/dim-foreground "#7F7F7F")
+#+end_src
+
+The ~auto-dim-other-buffers~ mode code calculates and sets its faces
+whenever a theme is loaded, so we need to apply our changes
+after that. So we wrap them in a function.
+#+begin_src emacs-lisp
+(defun my/auto-dim-other-buffers-foregrounds ()
+  "Override `auto-dim-other-buffers' mode's faces
+to dim the foregrounds, rather than the backgrounds.
+The effect is that text inheriting the default foreground
+is set to a \"middle-grey\"."
+  (interactive)
+  (set-face-attribute
+   'auto-dim-other-buffers-face
+   nil
+   :background 'unspecified
+   :foreground my/dim-foreground)
+  (set-face-attribute
+   'auto-dim-other-buffers-hide
+   nil
+   :foreground 'unspecified
+   :background 'unspecified))
+
+(my/auto-dim-other-buffers-foregrounds)
+#+end_src
+
+Now add a hook to run that after theme changes.
+#+begin_src emacs-lisp
+(add-hook 'after-load-theme-hook 'my/auto-dim-other-buffers-foregrounds)
+#+end_src
+
+*** Adjust behaviour
+
+:TODO: Set auto-dim-other-buffers-never-dim-buffer-functions to exclude at least the minibuffer, helm, and which-key.
+
+:TODO: Also consider auto-dim-other-buffers-dim-on-switch-to-minibuffer, which despite its description, keeps the minibuffer/echo buffer not dimmed on switch away.
 
 ** Automatically enlarge active window         :window:
 
