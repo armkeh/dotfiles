@@ -4709,17 +4709,18 @@ For good measure, force all modelines to update.
 (force-mode-line-update 'for-all-buffers)
 #+end_src
 
-** Flash on error
+** Visualise errors instead of using an audible bell
 
-The doom themes package comes with a function to make
-the mode line flash on error.
+Rather than cause an audible ding, use a visible notification (bell)
+that an error has occurred. This way we aren't dependent on audio being on!
 #+begin_src emacs-lisp
-(use-package doom-themes)
-(require 'doom-themes-ext-visual-bell)
-(doom-themes-visual-bell-config)
+(setq visible-bell t)
 #+end_src
-I'd previously just used ~visible-bell~, but it's a bit nosier
-than necessary.
+
+I previously used the ~doom-themes~ package's ~doom-themes-visual-bell-config~,
+contained in the extra ~doom-themes-ext-visual-bell~ package,
+but reverted to the builtin ~visual-bell~ to remove a dependency.
+:TODO: Set a visible-bell-function to make the flash subtler, perhaps emulating doom-themes'.
 
 ** Add a little scrollbar to the modeline
 
