@@ -4717,10 +4717,30 @@ that an error has occurred. This way we aren't dependent on audio being on!
 (setq visible-bell t)
 #+end_src
 
-I previously used the ~doom-themes~ package's ~doom-themes-visual-bell-config~,
-contained in the extra ~doom-themes-ext-visual-bell~ package,
-but reverted to the builtin ~visual-bell~ to remove a dependency.
-:TODO: Set a visible-bell-function to make the flash subtler, perhaps emulating doom-themes'.
+I previously used the ~doom-themes-visual-bell-config~
+(contained in the extra ~doom-themes-ext-visual-bell~ sub-package of ~doom-themes~),
+which flashed part of the modeline instead.
+But I've reverted to the builtin ~visual-bell~ to remove a dependency.
+
+We can emulate the ~doom-theme~ approach by defining a custom ~ring-bell-function~.
+This not as subtle (it inverts the whole modeline's faces briefly),
+but is still subtler than the default.
+I also flash the tab bar and line for extra visibility.
+#+begin_src emacs-lisp
+(defun error-flash ()
+  "Trigger a brief (0.01s) flash of the modeline, tab-bar and tab-line,
+by inverting their colours."
+  (interactive)
+  (let ((flash '(lambda ()
+                  (invert-face 'mode-line)
+                  (invert-face 'mode-line-inactive)
+                  (invert-face 'tab-bar)
+                  (invert-face 'tab-line))))
+    (funcall flash)
+    (run-with-timer 0.01 nil '(lambda (flashfun) (funcall flashfun)) flash)))
+
+(setq ring-bell-function 'error-flash)
+#+end_src
 
 ** Add a little scrollbar to the modeline
 
