@@ -48,6 +48,9 @@
     users = {
       armkeh = import /home/armkeh/dotfiles/nix/home.nix;
     };
+
+    # Install to /etc/profiles/ rather than ~/.nix-profile; WSL looks under /etc/profiles/ for desktop files
+    useUserPackages = true;
   };  
 
   # TODO: move this service to home-manager config once it's better supported there;
