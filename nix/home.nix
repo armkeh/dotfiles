@@ -21,11 +21,13 @@
     git
     gcc
     gnumake
-    sqlite sqlite.dev   # Required by some Emacs packages
+    cmake
+    sqlite sqlite.dev
 
     zsh
     starship
     zile
+    ghostty
 
     emacs
 
@@ -38,7 +40,8 @@
 
     pandoc
     mu
-    emacsPackages.mu4e
+
+    # vscodium # (Open-source version of vscode)
 
     syncthing
 
