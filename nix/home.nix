@@ -28,13 +28,21 @@
     zile
 
     emacs
+
+    # Emacs packages; currently limited to those which would require compilation or additional installation
+    emacsPackages.mu4e
+    emacsPackages.vterm
+    emacsPackages.eglot
+    emacsPackages.eglot-java
+    emacsPackages.agda2-mode # Includes agda-input, which I use fairly generally
+
     pandoc
     mu
     emacsPackages.mu4e
 
     syncthing
 
-    agda   # TODO: consider migrating to emacsPackages.agda-input instead for this user-wide config
+    # agda
 
     iosevka
     noto-fonts
