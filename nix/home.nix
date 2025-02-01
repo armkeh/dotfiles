@@ -50,20 +50,16 @@
     # '')
   ];
 
-  # TODO: Rearrange things so my dotfiles are located within the `.config/home-manager/` folder
-  #       and I can use relative links here. Until then I have to use `--impure` with `home-manager switch`.
   home.file = {
-    ".aliases".source      = /home/armkeh/dotfiles/shell/.aliases;
-    ".aliases_ix".source   = /home/armkeh/dotfiles/shell/.aliases_ix;
-    ".bash_profile".source = /home/armkeh/dotfiles/shell/.bash_profile;
-    ".bashrc".source       = /home/armkeh/dotfiles/shell/.bashrc;
-    ".profile".source      = /home/armkeh/dotfiles/shell/.profile;
-    ".profile_ix".source   = /home/armkeh/dotfiles/shell/.profile_ix;
-    ".zprofile".source     = /home/armkeh/dotfiles/shell/.zprofile;
-    ".zshrc".source        = /home/armkeh/dotfiles/shell/.zshrc;
-    ".config/starship.toml".source = /home/armkeh/dotfiles/shell/starship.toml;
+    ".aliases".source      = ../shell/.aliases;
+    ".bash_profile".source = ../shell/.bash_profile;
+    ".bashrc".source       = ../shell/.bashrc;
+    ".profile".source      = ../shell/.profile;
+    ".zprofile".source     = ../shell/.zprofile;
+    ".zshrc".source        = ../shell/.zshrc;
+    ".config/starship.toml".source = ../shell/starship.toml;
 
-    ".config/emacs/emacs-init.org".source = /home/armkeh/dotfiles/emacs/emacs-init.org;
+    ".config/emacs/emacs-init.org".source = ../emacs/emacs-init.org;
     # TODO: add the barebones init.el as plaintext here; then home-manager will prevent changes!
 
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
