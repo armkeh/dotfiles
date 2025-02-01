@@ -5491,7 +5491,7 @@ this will cause an error if I have somehow not installed it
 #+begin_src emacs-lisp
 (when (executable-find "nix")
   (add-hook 'nix-mode-hook my/language-server-mode-hook)
-  (add-to-list my-language-server-programs-list '(nix-mode . ("nil"))))
+  (add-to-list my/language-server-programs-list '(nix-mode . ("nil"))))
 #+end_src
 
 * Session setup
