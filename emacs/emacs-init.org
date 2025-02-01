@@ -4605,8 +4605,9 @@ By default, the icons are monochrome. Let's turn on the colour.
 Some packages, including the ~doom-modeline~, prefer ~nerd-icons~.
 #+begin_src emacs-lisp
 (use-package nerd-icons)
-(with-demoted-errors "Error installing nerd-icons during init (was the network disconnected?): %S"
-  (nerd-icons-install-fonts 'no-prompt))
+(unless (executable-find "nix") ;; Skip on managed systems
+  (with-demoted-errors "Error installing nerd-icons during init (was the network disconnected?): %S"
+    (nerd-icons-install-fonts 'no-prompt)))
 #+end_src
 
 ** Modeline styling                            :theme:
@@ -5251,10 +5252,11 @@ simplifies the process of switching should I need to do so.
 
 *** Eglot-specific
 
-Ensure that Eglot is kept up-to-date:
+Ensure that Eglot is kept up-to-date, unless we're on a managed system such as Nix.
 #+begin_src emacs-lisp
-(with-demoted-errors "Error updating eglot (or checking for update) during init (was the network disconnected?): %S"
-  (eglot-upgrade-eglot))
+(unless (executable-find "nix")
+  (with-demoted-errors "Error updating eglot (or checking for update) during init (was the network disconnected?): %S"
+    (eglot-upgrade-eglot)))
 #+end_src
 
 *** COMMENT Interaction with Flycheck
@@ -5360,10 +5362,11 @@ and I prefer to avoid manual installs.
 (add-hook 'java-mode-hook 'eglot-java-mode)
 #+end_src
 
-Keep the Java LSP server up-to-date.
+Keep the Java LSP server up-to-date, unless we're on a managed system such as Nix.
 #+begin_src emacs-lisp
-(with-demoted-errors "Error updating (or checking for update of) Java LSP server during init (was the network disconnected?): %S"
-  (eglot-java-upgrade-lsp-server))
+(unless (executable-find "nix")
+  (with-demoted-errors "Error updating (or checking for update of) Java LSP server during init (was the network disconnected?): %S"
+    (eglot-java-upgrade-lsp-server)))
 #+end_src
 
 Add keybindings for running ~main~ and tests (JUnit).
