@@ -36,6 +36,9 @@
 
     agda   # TODO: consider migrating to emacsPackages.agda-input instead for this user-wide config
 
+    iosevka
+    noto-fonts
+
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
