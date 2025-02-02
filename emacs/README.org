@@ -1224,7 +1224,7 @@ Notice (elsewhere) the variable ~org-src-tab-acts-natively~;
 if this is set to non-nil, then tabs inside ~src~ blocks
 will act according to the behaviour of the appropriate mode,
 even though Org in general seems to use spacing for indenting
-(regardless of the setting of ~indent-tabs-mode~.
+(regardless of the setting of ~indent-tabs-mode~).
 
 ** Turn off electric indent mode                :space:
 
