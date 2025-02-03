@@ -5638,7 +5638,12 @@ For my blog, open the homepage Org file and a magit buffer.
 
 ** Check identity of machine and load session
 
-:TODO: Commentary.
+I use a file, ~~/.this-machine~, to identify the type of machine I am using;
+usually either “personal” or “work”, then select the session setup file
+based on its contents.
+If that file does not exist, this code will prompt the user to identify the machine,
+load the indicated session setup, and writing to that file
+to avoid needing to ask in the future.
 #+begin_src emacs-lisp
 (let ((machine-identity-file "~/.this-machine")
       (session-setup-file-map
