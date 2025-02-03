@@ -5639,27 +5639,24 @@ For my blog, open the homepage Org file and a magit buffer.
 ** Check identity of machine and load session
 
 :TODO: Commentary.
-:TODO: Be more helpful if the identity is unknown; perhaps button actions to set it properly?
-
 #+begin_src emacs-lisp
 (let ((machine-identity-file "~/.this-machine")
       (session-setup-file-map
-       '(("personal" . "~/dotfiles/emacs/personal-session.el")
-         ("work" . "path-for-work"))))
+       '(("personal" . "~/dotfiles/emacs/personal-session.el"))))
   (pcase (if (file-exists-p machine-identity-file)
              (car (assoc (f-read-text machine-identity-file) session-setup-file-map))
            'unknown)
     ((and (pred stringp) identity)
-     (message "first") (load (cdr (assoc identity session-setup-file-map))))
+     (load (cdr (assoc identity session-setup-file-map))))
     ('unknown ;; File does not exist, or contents do not match any entry in session-setup-file-map
-     (message "second")
      (let* ((use-dialog-box t)
             (read-answer-short t)
             (identity
              (read-answer (format "Machine identity file (%s) not found; please identify machine type:" machine-identity-file)
                           ;; Options are the keys of session-setup-file-map
-                          (mapcar 'car session-setup-file-map))))
+                          (mapcar (lambda (entry) `(,(car entry) ,(string-to-char (car entry)) ,(car entry))) session-setup-file-map))))
        (f-write-text identity 'utf-8 machine-identity-file)
+       (delete-other-windows) ;; In case help window was opened
        (load (cdr (assoc identity session-setup-file-map)))))))
 #+end_src
 
