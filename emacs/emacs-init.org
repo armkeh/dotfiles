@@ -1263,7 +1263,9 @@ when editing code blocks in the Org buffer.
 (setq org-src-tab-acts-natively t)
 #+end_src
 
-:TODO:
+Fontify code in code blocks (i.e., apply syntax highlighting).
+Note that without this, [[Colour-coded source block backgrounds][colour-coded source block backgrounds]] will not work.
+:TODO: Does disabling this setting locally improve behaviour in org-agda mode?
 #+begin_src emacs-lisp
 (setq org-src-fontify-natively t)
 #+end_src
@@ -3427,6 +3429,7 @@ big enough to see well, but not so large as to take the whole screen.
 
 We can colour the background of Org source blocks
 based on the language. Neat!
+(Note that this requires ~org-src-fontify-natively~ be set to non-nil).
 The nuanced colours of the Modus themes are specifically intended
 for this application.
 #+begin_src emacs-lisp
