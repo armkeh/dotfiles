@@ -127,6 +127,7 @@ See also my
   - [[#haskell][Haskell]]
   - [[#go][Go]]
   - [[#java][Java]]
+  - [[#kotlin][Kotlin]]
   - [[#python][Python]]
   - [[#lua][Lua]]
   - [[#typescript][Typescript]]
@@ -5333,6 +5334,12 @@ Add keybindings for running ~main~ and tests (JUnit).
 (general-java-define-key
  "r" 'eglot-java-run-main
  "t" 'eglot-java-run-test)
+#+end_src
+
+** Kotlin                                       :programming:
+
+#+begin_src emacs-lisp
+(use-package kotlin-mode)
 #+end_src
 
 ** Python                                       :programming:

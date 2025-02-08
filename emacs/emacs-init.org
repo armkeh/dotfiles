@@ -5379,6 +5379,12 @@ Add keybindings for running ~main~ and tests (JUnit).
  "t" 'eglot-java-run-test)
 #+end_src
 
+** Kotlin                                      :programming:
+
+#+begin_src emacs-lisp
+(use-package kotlin-mode)
+#+end_src
+
 ** Python                                      :programming:
 
 Hook in to the Python language server; usually ~pylsp~.
