@@ -45,10 +45,24 @@
 
     syncthing
 
-    # agda
-
     iosevka
     noto-fonts
+
+
+    # Programming languages and tooling ----------------------------------------
+
+    # JVM-based
+    jdk
+    kotlin
+    kotlin-language-server
+    # gradle # TODO: May not be necessary, if only using gradle packages using wrapper.
+    # gradle-completion # TODO: Check this out after some use of gradle, see if it's helpful for tab completions in shell.
+
+    # agda
+
+    exercism # Programming language practice tool; see https://exercism.org/
+
+    # --------------------------------------------------------------------------
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
