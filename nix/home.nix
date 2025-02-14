@@ -58,6 +58,8 @@
     # gradle # TODO: May not be necessary, if only using gradle packages using wrapper.
     # gradle-completion # TODO: Check this out after some use of gradle, see if it's helpful for tab completions in shell.
 
+    go
+
     # agda
 
     exercism # Programming language practice tool; see https://exercism.org/
