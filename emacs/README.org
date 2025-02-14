@@ -118,6 +118,7 @@ See also my
   - [[#minions-see-and-toggle-minor-modes][Minions; see and toggle minor modes]]
   - [[#http-requests][HTTP requests]]
 - [[#programming-language-modes-and-mode-specific-settings][Programming language modes and mode-specific settings]]
+  - [[#about-org-babel-support][About Org babel support]]
   - [[#language-server-protocol][Language server protocol]]
   - [[#debugging][Debugging]]
   - [[#json][JSON]]
@@ -5204,6 +5205,15 @@ see https://github.com/federicotdn/verb?tab=readme-ov-file#babel-integration.
 
 * Programming language modes and mode-specific settings
 
+** About Org babel support
+
+For several of these languages, we activate Org babel support using a third-party package
+(some have support built in to Org mode).
+
+It's not realistic to use literate Org files for actual development projects,
+since we cannot expect others to be using Emacs and Org.
+But it's handy to enable it for small snippets or scratch work.
+
 ** Language server protocol                     :programming:
 
 *** Basics
@@ -5283,12 +5293,6 @@ for debuggers. ~Dape~ is an adaptor client for the DAP in Emacs.
 
 ** Go                                           :programming:
 
-Activate Org babel support for Go.
-:TODO: Commentary on how to evaluate Go code nicely.
-#+begin_src emacs-lisp
-(use-package ob-go)
-#+end_src
-
 #+begin_src emacs-lisp
 (use-package go-mode)
 ;(use-package go-lint)
@@ -5308,6 +5312,51 @@ If installed, add the additional Go linter, ~golangci-lint~, to the Flycheck che
 (when (executable-find "golangci-lint")
   (use-package flycheck-golangci-lint)
   (add-hook 'go-mode-hook 'flycheck-golangci-lint-setup))
+#+end_src
+
+*** Org babel support
+
+Activate Org babel support for Go.
+#+begin_src emacs-lisp
+(use-package ob-go)
+#+end_src
+
+We can prepare our code for evaluation by declaring a ~main~ function,
+which will be executed upon evaluation.
+#+begin_src go
+package main // Optional, but cannot declare a non-main package in babel
+
+import (
+  "fmt"
+)
+
+func main() {
+	fmt.Println("Hello world!")
+}
+#+end_src
+
+Alternatively, if we do not define a ~main~ function,
+the code will be implicitely wrapped in ~func main() { ... }~.
+In this case we cannot include a ~package~ or ~import~ statements,
+so any necessary imports must be listed using the ~:imports~ header argument.
+#+begin_src go
+fmt.Println("Goodnight moon!")
+#+end_src
+
+If there are multiple imports, use an elisp list.
+#+begin_src go
+noon, err := time.Parse("15:04", "12:00")
+if err != nil {
+  log.Fatal("Error parsing constant value for noon (this should be unreachable!)")
+}
+
+now := time.Now()
+
+if now.After(noon) {
+  fmt.Println("Good day, world!")
+} else {
+	fmt.Println("Good night, moon!")
+}
 #+end_src
 
 ** Java                                         :programming:
