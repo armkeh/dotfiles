@@ -47,7 +47,7 @@
 
     iosevka
     noto-fonts
-
+    noto-fonts-color-emoji
 
     # Programming languages and tooling ----------------------------------------
 
