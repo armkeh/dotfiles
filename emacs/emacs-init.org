@@ -3452,6 +3452,7 @@ for this application.
     ("c++"        modus-themes-nuanced-green)
     ("csharp"     modus-themes-nuanced-green)
     ("java"       modus-themes-nuanced-green)
+    ("kotlin"     modus-themes-nuanced-green)
     ("javascript" modus-themes-nuanced-green)
     ("js"         modus-themes-nuanced-green)
     ("typescript" modus-themes-nuanced-green)
@@ -5440,6 +5441,20 @@ Add keybindings for running ~main~ and tests (JUnit).
 
 #+begin_src emacs-lisp
 (use-package kotlin-mode)
+#+end_src
+
+#+begin_src emacs-lisp
+(add-hook 'kotlin-mode-hook my/language-server-mode-hook)
+#+end_src
+
+*** Org babel support
+
+#+begin_src emacs-lisp
+(use-package ob-kotlin)
+#+end_src
+
+#+begin_src kotlin :tangle no
+println("Hello world")
 #+end_src
 
 ** Python                                      :programming:
