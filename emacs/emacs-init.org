@@ -5448,7 +5448,6 @@ where we can then test out our code on-the-fly.
 #+end_src
 
 Add LSP support for Kotlin.
-:TODO: Diagnose slow/inconsistent startup.
 #+begin_src emacs-lisp
 (add-hook 'kotlin-mode-hook my/language-server-mode-hook)
 #+end_src

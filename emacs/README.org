@@ -5388,20 +5388,31 @@ Add keybindings for running ~main~ and tests (JUnit).
 
 ** Kotlin                                       :programming:
 
+The ~kotlin-mode~ package adds basic editing support for Kotlin,
+and also includes functionality to interact with a Kotlin interpreter!
+For instance, use ~C-c C-b~ to send a buffer to the interpreter,
+where we can then test out our code on-the-fly.
 #+begin_src emacs-lisp
 (use-package kotlin-mode)
 #+end_src
 
+Add LSP support for Kotlin.
 #+begin_src emacs-lisp
 (add-hook 'kotlin-mode-hook my/language-server-mode-hook)
 #+end_src
 
 *** Org babel support
 
+With the Kotlin interpreter, we don't need to fall back to Org mode scratch files
+to test things out as much, but it can still be useful for documenting bits of behaviour.
+Add basic Babel support for Kotlin, which uses the Kotlin interpreter in the background.
+:TODO: This package does not seem to be maintained, and there are some obvious improvements
+:CONT: that could be added to a fork; in particular, excluding the prompt from output.
 #+begin_src emacs-lisp
 (use-package ob-kotlin)
 #+end_src
 
+Here's a sample block.
 #+begin_src kotlin
 println("Hello world")
 #+end_src
