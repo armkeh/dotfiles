@@ -5039,11 +5039,11 @@ in many ways over the CLI.
 
 “Forge allows you to work with Git forges, such as Github and Gitlab,
 from the comfort of Magit and the rest of Emacs.”
-I do not yet use this extensively, but mean to at some point,
+I do not yet use this, but mean to at some point,
 in order to keep more of my work tasks in Emacs 😄.
 #+begin_src emacs-lisp
-(use-package forge
-  :after magit)
+;; (use-package forge
+;;   :after magit)
 #+end_src
 
 *** Commit messages
