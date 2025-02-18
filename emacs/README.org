@@ -5444,12 +5444,9 @@ Use only two spaces per indentation level.
 
 ** YAML configuration language                  :programming:
 
-:TODO: Commentary needed.
 #+begin_src emacs-lisp
 (use-package yaml-mode)
 #+end_src
-
-:TODO: Probably some better settings could be filled in, since I actually use this at work.
 
 ** TOML configuration language                  :programming:
 
