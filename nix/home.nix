@@ -81,15 +81,17 @@
   ];
 
   home.file = {
-    ".aliases".source      = ../shell/.aliases;
-    ".bash_profile".source = ../shell/.bash_profile;
-    ".bashrc".source       = ../shell/.bashrc;
-    ".profile".source      = ../shell/.profile;
-    ".zprofile".source     = ../shell/.zprofile;
-    ".zshrc".source        = ../shell/.zshrc;
-    ".config/starship.toml".source = ../shell/starship.toml;
+    # Create these dotfiles as symlinks to my dotfiles repository.
+    # Using just the path would copy them, requiring home-manager to be re-initialized upon changes.
+    ".aliases".source      = config.lib.file.mkOutOfStoreSymlink "/home/armkeh/dotfiles/shell/.aliases";
+    ".bash_profile".source = config.lib.file.mkOutOfStoreSymlink "/home/armkeh/dotfiles/shell/.bash_profile";
+    ".bashrc".source       = config.lib.file.mkOutOfStoreSymlink "/home/armkeh/dotfiles/shell/.bashrc";
+    ".profile".source      = config.lib.file.mkOutOfStoreSymlink "/home/armkeh/dotfiles/shell/.profile";
+    ".zprofile".source     = config.lib.file.mkOutOfStoreSymlink "/home/armkeh/dotfiles/shell/.zprofile";
+    ".zshrc".source        = config.lib.file.mkOutOfStoreSymlink "/home/armkeh/dotfiles/shell/.zshrc";
+    ".config/starship.toml".source = config.lib.file.mkOutOfStoreSymlink "/home/armkeh/dotfiles/shell/starship.toml";
 
-    ".config/emacs/emacs-init.org".source = ../emacs/emacs-init.org;
+    ".config/emacs/emacs-init.org".source = config.lib.file.mkOutOfStoreSymlink "/home/armkeh/dotfiles/emacs/emacs-init.org";
     # TODO: add the barebones init.el as plaintext here; then home-manager will prevent changes!
 
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
