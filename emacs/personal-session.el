@@ -55,7 +55,8 @@
 (other-window 1)
 
 (tab-bar-switch-to-tab mail-tab-name)
-(mu4e)
+(with-demoted-errors "Error starting mu4e during session setup: %s"
+  (mu4e))
 (split-window nil nil 'right)
 (find-file scratch)
 

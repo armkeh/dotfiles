@@ -5745,7 +5745,8 @@ The ~email~ tab has my scratch file on the left
 and my inbox on the right.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab mail-tab-name)
-(mu4e)
+(with-demoted-errors "Error starting mu4e during session setup: %s"
+  (mu4e))
 (split-window nil nil 'right)
 (find-file scratch)
 #+end_src
