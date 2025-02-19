@@ -5252,6 +5252,15 @@ Ensure that Eglot is kept up-to-date, unless we're on a managed system such as N
     (eglot-upgrade-eglot)))
 #+end_src
 
+Increase the timeout to connect to the LSP;
+in some larger projects it can take a while for the process to start up.
+If it still doesn't seem to start, try checking
+the ~*EGLOT (project-name/(language-mode)) events*~ buffer;
+I have a shortcut for this.
+#+begin_src emacs-lisp
+(setq eglot-connect-timeout (* 4 eglot-connect-timeout))
+#+end_src
+
 ** Debugging                                    :programming:
 
 In the same way that [[Language server protocol][LSP]] establishes a common interface in order for
