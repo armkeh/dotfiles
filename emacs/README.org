@@ -2501,13 +2501,13 @@ provides functions for running code from within Emacs.
   :keymaps 'override)
 #+end_src
 
-The actual keybindings I define in the Java section.
+The actual keybindings I define in the [[Java]] section.
 
 ** Buffer                                       :buffer:
 
 #+begin_src emacs-lisp
 (general-buffer-define-key
-  "r" '((lambda () (interactive) (revert-buffer () t ()))
+  "r" '((lambda () (interactive) (revert-buffer nil t nil))
         :which-key "revert buffer")
 
   "u" '(:ignore t
@@ -2517,15 +2517,15 @@ The actual keybindings I define in the Java section.
   "u t" '((lambda () (interactive) (undo-tree-visualize))
           :which-key "undo-tree")
 
-  "t" '((lambda () (interactive) (beginning-of-buffer))
+  "t" '(beginning-of-buffer
         :which-key "buffer top")
-  "b" '((lambda () (interactive) (end-of-buffer))
+  "b" '(end-of-buffer
         :which-key "buffer bottom")
 
   ;; The effect of previous and next buffer are more easily visualised if you have tab-line mode enabled.
-  "<left>" '((lambda () (interactive) (prev-buffer))
-             :which-key "previous buffer")
-  "<right>" '((lambda () (interactive) (next-buffer))
+  "<left>"  '(switch-to-prev-buffer
+              :which-key "previous buffer")
+  "<right>" '(switch-to-next-buffer
               :which-key "next buffer"))
 #+end_src
 
