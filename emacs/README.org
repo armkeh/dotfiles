@@ -5234,8 +5234,13 @@ Emacs has two major packages for LSP support:
 - [[https://emacs-lsp.github.io/lsp-mode/][LSP mode]]
 - and [[https://joaotavora.github.io/eglot/][Eglot]], which is built in to Emacs (as of Emacs 29)
   and hence is the “default”.
+I am using Eglot.
 
-I am using Eglot, but may change my mind later;
+#+begin_src emacs-lisp
+(require 'eglot)
+#+end_src
+
+It's always possible I may want to switch to ~lsp-mode~ later;
 abstracting to these variables in all the language settings below
 simplifies the process of switching should I need to do so.
 #+begin_src emacs-lisp
