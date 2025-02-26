@@ -5012,6 +5012,27 @@ that a README exists and I should refer to it and/or update it!
 (add-hook 'dired-mode-hook 'dired-auto-readme-mode)
 #+end_src
 
+*** Display Git repository info (branch and status) in Dired
+
+~dired-git~ will show that info on Git directories (i.e., when browsing their parent directory).
+#+begin_src emacs-lisp
+(use-package dired-git)
+(add-hook 'dired-mode-hook 'dired-git-mode)
+#+end_src
+
+:TODO: I would also like to see this info /within/ Git repositories. Consider forking to add that functionality.
+
+*** Display Git file info in Dired
+
+~dired-git-info~ shows info for each file in a Git repository,
+similar to that shown in the GitHub and GitLab interfaces;
+the description of and time since the latest commit for which that file was changed.
+#+begin_src emacs-lisp
+(use-package dired-git-info)
+(setq dgi-auto-hide-details-p nil)
+(add-hook 'dired-after-readin-hook 'dired-git-info-auto-enable)
+#+end_src
+
 ** Which key                                    :completion:
 
 ~which-key-mode~ is a handy minor mode that shows us
