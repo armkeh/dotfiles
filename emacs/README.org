@@ -5022,6 +5022,11 @@ that a README exists and I should refer to it and/or update it!
 
 :TODO: I would also like to see this info /within/ Git repositories. Consider forking to add that functionality.
 
+Don't disable the mode in any buffers; by default, it is disabled in the home directory.
+#+begin_src emacs-lisp
+(setq dired-git-disable-dirs nil)
+#+end_src
+
 *** Display Git file info in Dired
 
 ~dired-git-info~ shows info for each file in a Git repository,
