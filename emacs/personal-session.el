@@ -7,9 +7,7 @@
          (emacs-init   (concat emacs-dir "emacs-init.org"))
          (yankpad-file (concat emacs-dir "yankpad.org"))
 
-         (journal (concat log-dir "personal/journal.org"))
-         (docket  (concat log-dir "personal/docket.org"))
-         (scratch (concat log-dir "personal/scratch.org"))
+         (scratch (concat log-dir "scratch/scratch.org"))
 
          (dotfiles-tab-name "dotfiles")
          (logs-tab-name     "logs")
@@ -47,9 +45,9 @@
 (other-window 1) ; Put focus on init file
 
 (tab-bar-switch-to-tab logs-tab-name)
-(find-file journal)
+(find-file log-dir)
 (split-window nil nil 'left)
-(find-file docket)
+(find-file log-dir)
 (split-window nil nil 'above)
 (find-file scratch)
 (other-window 1)

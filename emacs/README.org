@@ -5649,9 +5649,7 @@ For maintainability, most files opened below and tab names are listed here.
          (emacs-init   (concat emacs-dir "emacs-init.org"))
          (yankpad-file (concat emacs-dir "yankpad.org"))
 
-         (journal (concat log-dir "personal/journal.org"))
-         (docket  (concat log-dir "personal/docket.org"))
-         (scratch (concat log-dir "personal/scratch.org"))
+         (scratch (concat log-dir "scratch/scratch.org"))
 
          (dotfiles-tab-name "dotfiles")
          (logs-tab-name     "logs")
@@ -5715,13 +5713,15 @@ and a help buffer preemptively opened in the lower right.
 (other-window 1) ; Put focus on init file
 #+end_src
 
-The logs tab is similar, but with three of my logging files
-with different subjects.
+The logs tab has a similar window setup.
+I open a scratch buffer in the lower right,
+but don't open any files in the left or upper right windows,
+leaving that decision to be based on what tasks I am working on.
 #+begin_src emacs-lisp
 (tab-bar-switch-to-tab logs-tab-name)
-(find-file journal)
+(find-file log-dir)
 (split-window nil nil 'left)
-(find-file docket)
+(find-file log-dir)
 (split-window nil nil 'above)
 (find-file scratch)
 (other-window 1)
