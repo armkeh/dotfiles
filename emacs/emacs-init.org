@@ -4959,7 +4959,13 @@ that a README exists and I should refer to it and/or update it!
 (add-hook 'dired-mode-hook 'dired-auto-readme-mode)
 #+end_src
 
-*** Display Git repository info (branch and status) in Dired
+*** COMMENT Display Git repository info (branch and status) in Dired
+
+I have disabled this mode due to some minor irritations, namely:
+- The location of the git info column; I wish it would come after the filename column,
+  because when branch names are long it offsets the filename column annoyingly far.
+- Although I haven't fully diagnosed it, there is some slowness opening dired buffers
+  in directories with a large number of files. (This might be system specific.)
 
 ~dired-git~ will show that info on Git directories (i.e., when browsing their parent directory).
 #+begin_src emacs-lisp
