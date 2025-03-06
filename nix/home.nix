@@ -59,6 +59,7 @@
     # gradle-completion # TODO: Check this out after some use of gradle, see if it's helpful for tab completions in shell.
 
     go
+    gopls # Language server for Go
 
     # agda
 
