@@ -91,6 +91,7 @@ See also my
   - [[#org-mode-cosmetics][Org mode cosmetics]]
   - [[#org-mode-exportation-settings][Org mode exportation settings]]
   - [[#a-completion-framework-ivy-counsel-and-swiper][A completion framework; Ivy, Counsel and Swiper]]
+  - [[#annotate-completion-candidates-with-richer-information][Annotate completion candidates with richer information]]
   - [[#completing-anything-company][COMpleting ANYthing; Company]]
   - [[#snippets][Snippets]]
   - [[#walking-through-undo-history-undo-propose][Walking through undo history; undo-propose]]
@@ -4319,6 +4320,14 @@ as the first suggestions when I use ~M-x~.
 (use-package prescient)
 (use-package ivy-prescient)
 (ivy-prescient-mode)
+#+end_src
+
+** Annotate completion candidates with richer information :completion:
+
+:TODO: Document, and make compatible with Ivy/Counsel/Swiper, or change frameworks
+#+begin_src emacs-lisp
+(use-package marginalia)
+(marginalia-mode)
 #+end_src
 
 ** COMpleting ANYthing; Company                 :completion:

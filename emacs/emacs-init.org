@@ -4268,6 +4268,14 @@ https://github.com/raxod502/selectrum
 (selectrum-mode +1)
 #+end_src
 
+** Annotate completion candidates with richer information :completion:
+
+:TODO: Document, and make compatible with Ivy/Counsel/Swiper, or change frameworks
+#+begin_src emacs-lisp
+(use-package marginalia)
+(marginalia-mode)
+#+end_src
+
 ** COMpleting ANYthing; Company                :completion:
 
 :TODO: Review these settings, and consider reformatting to avoid open parenthese across codeblocks.
