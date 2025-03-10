@@ -4247,25 +4247,6 @@ as the first suggestions when I use ~M-x~.
 (ivy-prescient-mode)
 #+end_src
 
-** COMMENT Improving search; CTRLF (control f) :movement:
-
-https://github.com/raxod502/ctrlf
-
-Can I get over ~C-s~ not jumping to the minibuffer
-if a search is already running?
-If not, bring swiper back.
-#+begin_src emacs-lisp
-(use-package ctrlf)
-(ctrlf-mode +1)
-#+end_src
-
-** COMMENT A completion framework; Selectrum   :completion:
-
-https://github.com/raxod502/selectrum
-
-#+begin_src emacs-lisp
-(use-package selectrum)
-(selectrum-mode +1)
 #+end_src
 
 ** Annotate completion candidates with richer information :completion:
