@@ -41,6 +41,8 @@
     pandoc
     mu
 
+    # Alternative editors, occasionally needed
+    jetbrains.idea-community # As of early 2024, the Kotlin LSP server is not very full featured (at least the main one); so I sometimes lean on IntelliJ.
     # vscodium # (Open-source version of vscode)
 
     syncthing
