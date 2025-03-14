@@ -562,11 +562,13 @@ but it's small and collected here for now.
 I want my README file for this directory
 to be automatically kept up to date when changes are made.
 
-First, a template for the README is tangled from here.
+First, we define a template for the README with some brief preamble
+and a table of contents.
 Note that this by itself is not sufficient to act as the final README;
 the ~include~ command will not be honoured by GitHub's Org rendering.
-So this file is just an inbetween to allow us to export
+This is just an inbetween to allow us to export
 the final version of the ~README.org~ file.
+#+name: readme-template
 #+begin_src org
 ,#+Options: toc:nil tags:t timestamp:nil
 ,#+Export_file_name: README.org
@@ -590,19 +592,38 @@ See also my
 #+end_src
 
 Now, we define a function to automatically export the intermediate file to the final one.
+Upon export or tangling the code below will include the above template;
+in my actual init it is just referenced using [[https://orgmode.org/manual/Noweb-Reference-Syntax.html][noweb syntax]].
 #+begin_src emacs-lisp
 (defun my/dotfiles-readme-generate ()
   "Automatically construct and tangle my Emacs init git README file"
   (interactive)
   (message (concat "Generating Emacs init git README file"))
   (let* ((readme-directory "~/dotfiles/emacs/")
-         (readme-template-filepath (concat readme-directory "private/README-intermediate.org"))
          (readme-temporary-filepath (concat readme-directory "README.temp.org"))
          (readme-final-filepath (concat readme-directory "README.org")))
     (with-temp-buffer
       (org-mode)
       (cd readme-directory) ;; Must move to directory to export into
-      (insert-file-contents readme-template-filepath) ;; Copy in the template
+      (insert "#+Options: toc:nil tags:t timestamp:nil
+,#+Export_file_name: README.org
+
+# This file is tangled from emacs-init.org,
+# and should not be modified directly.
+
+This directory contains the files that make up my Emacs setup.
+
+Below are the contents of my literate Emacs initialisation file.
+
+See also my
+- [[./yankpad.org][Yankpad snippets file]]
+  - (Frequently used text expansions.)
+
+,* Table of contents  :TOC_2:
+
+,* The contents       :ignore:
+
+,#+include: ~/dotfiles/emacs/emacs-init.org") ;; Insert the template
       (delete-file readme-final-filepath) ;; Delete existing README (if it exists)
       (let ((inhibit-message t)) ;; Don't put messages in the minibuffer during this
         (org-org-export-to-org)) ;; Export to the final README file
