@@ -2350,7 +2350,7 @@ When something fails or hangs within Emacs, use these to diagnose.
 
 **** Jumping to specific files
 
-These are not properly ~dired~ shortcuts, but some files
+These are not properly Dired shortcuts, but some files
 I open often enough to want a direct shortcut.
 #+begin_src emacs-lisp
 (general-dired-define-key
@@ -2369,8 +2369,8 @@ I open often enough to want a direct shortcut.
 
 **** Jumping to directories
 
-I use shortcuts to jump to frequently used directories in ~dired~
-(from any buffer, not just while in ~dired~).
+I use shortcuts to jump to frequently used directories in Dired
+(from any buffer, not just while in Dired).
 #+begin_src emacs-lisp
 (general-dired-define-key
   "c" '((lambda () (interactive)
@@ -4980,14 +4980,31 @@ used in most export formats (at least HTML and LaTeX).
 
 ** Dired
 
-~dired~ (for DIRectory EDitor) is Emacs builtin utility
+Dired (for DIRectory EDitor) is Emacs builtin utility
 for browsing directories and operating on their contents.
 
 Herein are my (fairly minimal) modifications to its behaviour.
 
 *** File information
 
-~dired~ makes use of switches for ~ls~.
+The ~insert-directory-program~ is the “~ls~-like” program
+used by ~insert-directory~ and, more importantly here, ~dired-insert-directory~,
+which gets the contents to display in Dired directories.
+The MacOS ~ls~ command has different behaviour than the GNU ~ls~
+(in particular it supports different flags), and that causes issues
+(such as errors trying to open any Dired buffer
+ when the listing fails due to unsupported flags).
+For this reason I install ~gls~, the ~g~-prefixed GNU ~ls~ command, on MacOS systems.
+Let's make sure ~gls~ is used when available
+(this should be handled automatically by Emacs,
+ but I've encountered cases where it was still set to the MacOS ~ls~,
+ even though ~gls~ was the “default”).
+#+begin_src emacs-lisp
+(when (executable-find "gls")
+  (setq insert-directory-program "gls"))
+#+end_src
+
+Now that we (hopefully) know the program used, we set the switches for ~ls~.
 #+begin_src emacs-lisp
 (setq dired-listing-switches
       "--group-directories-first -agGhL --time-style \"+  %Y %b %d %H:%M  \"")
@@ -5027,7 +5044,7 @@ for certain languages/tools; often such enforced directory structures
 can result in long chains of single-file/sub-directory chains.
 The package ~dired-collapse~, part of the [[https://github.com/Fuco1/dired-hacks/tree/master][dired-hacks]] collection,
 reduces the tedium of navigating such directory chains by
-“collapsing” them within ~dired~ buffers.
+“collapsing” them within Dired buffers.
 This is common behaviour in other editors/IDEs, and now easily emulated in Emacs.
 #+begin_src emacs-lisp
 (use-package dired-collapse)
@@ -5040,7 +5057,7 @@ for code to “jump up” through such single-file directory chains.
 *** Display READMEs
 
 The package [[https://github.com/amno1/dired-auto-readme][dired-auto-readme]] is
-a neat hack to display README files within ~dired~ buffers.
+a neat hack to display README files within Dired buffers.
 It's not particularly necessary, but I find it's a good reminder
 that a README exists and I should refer to it and/or update it!
 #+begin_src emacs-lisp
