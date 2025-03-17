@@ -47,6 +47,8 @@
 
         # TODO: Migrate to home manager, and bring this and my NixOS setup into sync
         # home-manager
+
+        vlc-bin # Pre-compiled VLC binary for MacOS; vlc package is not supported on MacOS
       ];
 
       environment.variables = {
