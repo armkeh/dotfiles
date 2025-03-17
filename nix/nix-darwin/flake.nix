@@ -13,6 +13,16 @@
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages = with pkgs; [
+        git
+
+        gcc
+        cmake
+        # gnumake
+        # xcbuild # Xcode-compatible build tools
+        glibtool
+
+        coreutils-prefixed # GNU core utilities, prefixed by 'g'; especially useful on MacOS where some utils have different behaviour (such as ls not supporting all flags)
+
         starship
         zile
         # ghostty
