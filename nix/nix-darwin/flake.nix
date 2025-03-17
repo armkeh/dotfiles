@@ -59,6 +59,7 @@
         iosevka
         noto-fonts
         noto-fonts-color-emoji
+        emacs-all-the-icons-fonts
       ];
 
       # Necessary for using flakes on this system.
