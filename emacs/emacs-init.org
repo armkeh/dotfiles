@@ -756,6 +756,18 @@ or scroll bars.
 (scroll-bar-mode -1)
 #+end_src
 
+** Start maximized                             :basic:
+
+I almost exclusively use Emacs in a maximized frame (OS window),
+though not a fullscreen one.
+The distinction being that in some OSes (notably MacOS),
+fullscreen windows are assigned to their own virtual desktop;
+I have found virtual desktops don't fit in my workflow, so I them,
+and hence avoid fullscreen-ing Emacs.
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+#+end_src
+
 ** Fonts                                       :font:
 
 :TODO: Check if these fonts are installed on the system first, so we don't end up with unknown font settings.
@@ -933,7 +945,7 @@ Also, disable vertical splits.
 (consistent-window-splits-prevent-vertical-splits)
 #+end_src
 
-** Rotate windows
+** Rotate windows                              :window:
 
 Sometimes you find yourself with a less-than-ideal window layout,
 particularly when Emacs has split the window for you several times.
