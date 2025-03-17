@@ -29,7 +29,7 @@
 
         jetbrains.idea-community
 
-        jdk
+        jdk21 # See system.activationScripts for linking into /Library/Java/JavaVirtualMachines/; for the moment, stick to fixed versions
         maven
         gradle
         kotlin
@@ -54,6 +54,20 @@
 
       # Enable alternative shell support in nix-darwin.
       # programs.fish.enable = true;
+
+      # Link the JDK(s) to /Library/Java/JavaVirtualMachines/
+      #
+      # In an ideal world, this would be handled by programs.java config;
+      # but it seems that is not present in nix darwin.
+      #
+      # The below automatically creates symlinks for us, but will not clean them up,
+      # so possibly leaves artifacts.
+      # And it also relies upon a fixed JDK version.
+      #
+      # See https://samasaur1.github.io/blog/jdks-on-nix-darwin.
+      system.activationScripts.extraActivation.text = ''
+        ln -sf "${pkgs.jdk21}/zulu-21.jdk" "/Library/Java/JavaVirtualMachines/"
+      '';
 
       # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
