@@ -30,6 +30,8 @@
         jetbrains.idea-community
 
         jdk
+        maven
+        gradle
         kotlin
         kotlin-language-server
 
