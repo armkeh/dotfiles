@@ -2328,7 +2328,18 @@ I open often enough to want a direct shortcut.
          :which-key "org scratch")
   "e" '((lambda () (interactive)
            (find-file "~/dotfiles/emacs/emacs-init.org"))
-         :which-key "emacs init"))
+         :which-key "emacs init")
+  "n" '(:ignore t
+        :which-key "nix configs")
+  "nw" '((lambda () (interactive)
+           (find-file "~/dotfiles/nix/home.nix"))
+         :which-key "nix home")
+  "nw" '((lambda () (interactive)
+           (find-file "~/dotfiles/nix/configuration-wsl.nix"))
+         :which-key "nix wsl")
+  "nd" '((lambda () (interactive)
+           (find-file "~/dotfiles/nix/nix-darwin/flake.nix"))
+         :which-key "nix darwin"))
 #+end_src
 
 **** Jumping to directories
