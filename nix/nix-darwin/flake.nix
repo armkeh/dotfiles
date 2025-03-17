@@ -20,6 +20,7 @@
         emacs
 
         emacsPackages.vterm
+        # libvterm # Not supported on MacOS
         emacsPackages.eglot
         emacsPackages.eglot-java
         emacsPackages.agda2-mode
