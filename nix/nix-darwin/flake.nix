@@ -26,6 +26,10 @@
 
         coreutils-prefixed # GNU core utilities, prefixed by 'g'; especially useful on MacOS where some utils have different behaviour (such as ls not supporting all flags)
 
+        # Since docker-desktop is not available (yet; see https://github.com/NixOS/nixpkgs/issues/228972),
+        # I have installed Docker (Desktop) manually.
+        # docker
+
         starship
         zile
         # ghostty
