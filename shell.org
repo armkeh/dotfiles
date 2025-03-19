@@ -776,10 +776,8 @@ valias lsla='ls -lA'
 
 In particular, if colours are supported, make use of them
 in ~ls~, ~grep~, and related commands.
-This is taken from the default ~bash~ RC file from Debian.
 #+begin_src sh
-if [ -x /usr/bin/dircolors ]; then
-  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+if command -v dircolors 2>&1 >/dev/null || command -v gdircolors 2>&1 >/dev/null; then
   valias ls='ls --color=auto'
   valias dir='dir --color=auto'
   valias vdir='vdir --color=auto'

@@ -7,8 +7,7 @@ valias lsl='ls -l'
 valias lsa='ls -A'
 valias lsla='ls -lA'
 
-if [ -x /usr/bin/dircolors ]; then
-  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+if command -v dircolors 2>&1 >/dev/null || command -v gdircolors 2>&1 >/dev/null; then
   valias ls='ls --color=auto'
   valias dir='dir --color=auto'
   valias vdir='vdir --color=auto'
