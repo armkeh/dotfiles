@@ -162,6 +162,24 @@ fi
 
 *** Tool settings
 
+**** Basic
+
+Override ~ls~ if ~gls~ (the ~g~ prefixed GNU core utility installation) is available.
+This could be done with an alias, but I define other aliases for ~ls~ in my [[Aliases]],
+and aliases don't stack, so it's better to use a function.
+:TODO: This exposes a larger problem with my aliases; I would like them each to be independent and stackable. I should switch to functions everywhere. Aliases are too restricted.
+#+begin_src sh
+if command -v gls 2>&1 >/dev/null; then
+  ls() {
+    if command -v gls 2>&1 >/dev/null; then
+      gls "${@}"
+    else
+       ls "${@}"
+    fi
+  }
+fi
+#+end_src
+
 **** Docker
 
 Some Docker documentation I read recommended avoiding bad habits

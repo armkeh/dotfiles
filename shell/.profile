@@ -68,6 +68,16 @@ if [ -d "$HOME/.guix-profile/lib/locale" ] ; then
   export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
 fi
 
+if command -v gls 2>&1 >/dev/null; then
+  ls() {
+    if command -v gls 2>&1 >/dev/null; then
+      gls "${@}"
+    else
+       ls "${@}"
+    fi
+  }
+fi
+
 # Disable some legacy docker commands
 export DOCKER_HIDE_LEGACY_COMMANDS=true
 
