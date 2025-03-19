@@ -10,6 +10,9 @@
   outputs = inputs@{ self, nix-darwin, nixpkgs }:
   let
     configuration = { pkgs, ... }: {
+      # Enable non-free packages
+      nixpkgs.config.allowUnfree = true;
+
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages = with pkgs; [
@@ -44,6 +47,8 @@
         gradle
         kotlin
         kotlin-language-server
+
+        postman
 
         # TODO: Migrate to home manager, and bring this and my NixOS setup into sync
         # home-manager
