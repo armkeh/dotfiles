@@ -1232,7 +1232,6 @@ in the [[Programming language modes and mode-specific settings]] section.
 (require 'ob-sql)
 (require 'ob-python)
 (require 'ob-js)
-(require 'ob-typescript)
 #+end_src
 
 For shell code, we need to initialise via this function.

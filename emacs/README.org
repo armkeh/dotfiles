@@ -1326,7 +1326,6 @@ in the [[Programming language modes and mode-specific settings]] section.
 (require 'ob-sql)
 (require 'ob-python)
 (require 'ob-js)
-(require 'ob-typescript)
 #+end_src
 
 For shell code, we need to initialise via this function.
@@ -3717,7 +3716,6 @@ to be evaluated for export.
 (require 'ob-sql)
 (require 'ob-python)
 (require 'ob-js)
-(require 'ob-typescript)
 (let ((ditaa-path (executable-find "ditaa")))
   (if ditaa-path (setq org-ditaa-jar-path ditaa-path)))
 (org-babel-shell-initialize)
