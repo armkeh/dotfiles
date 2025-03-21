@@ -3573,9 +3573,11 @@ hello {
 
 ** Org mode exportation settings               :org:
 
-*** Export in the background
+*** COMMENT Export in the background
 
-:TODO: This section needs a full cleanup.
+:TODO: Disabled because I am not exporting nearly as often, especially not to LaTeX/PDF.
+:TODO: This section to be simplified if I activate export in background again.
+:TODO: Plus, it probably shouldn't assume that Emacs config lives in ~/.config/
 
 Using ~latex-mk~, the export process for LaTeX takes a bit of time.
 Tying up emacs during that time is annoying, so set the
