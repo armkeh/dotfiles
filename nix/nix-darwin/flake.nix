@@ -51,6 +51,7 @@
         gradle
         kotlin
         kotlin-language-server
+        kotlin-interactive-shell
 
         postman
 
