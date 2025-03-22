@@ -5949,7 +5949,8 @@ to avoid needing to ask in the future.
 #+begin_src emacs-lisp
 (let ((machine-identity-file "~/.this-machine")
       (session-setup-file-map
-       '(("personal" . "~/dotfiles/emacs/personal-session.el"))))
+       '(("personal" . "~/dotfiles/emacs/personal-session.el")
+         ("kubra" . "~/dotfiles/emacs/private/kubra-session.el"))))
   (pcase (if (file-exists-p machine-identity-file)
              (car (assoc (f-read-text machine-identity-file) session-setup-file-map))
            'unknown)
