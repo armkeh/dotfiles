@@ -46,6 +46,8 @@
 
         jetbrains.idea-community
 
+        nixd # Nix language server
+
         jdk21 # See system.activationScripts for linking into /Library/Java/JavaVirtualMachines/; for the moment, stick to fixed versions
         maven
         gradle
