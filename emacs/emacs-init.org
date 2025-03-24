@@ -5763,7 +5763,7 @@ It should be in the path; if not we skip this setup step.
   (if ditaa-path (setq org-ditaa-jar-path ditaa-path)))
 #+end_src
 
-** Docker
+** Docker                                      :programming:
 
 #+begin_src emacs-lisp
 (use-package dockerfile-mode)
@@ -5773,23 +5773,23 @@ It should be in the path; if not we skip this setup step.
 (use-package docker)
 #+end_src
 
-** Cucumber, Gherkin
+** Cucumber, Gherkin                           :programming:
 
 #+begin_src emacs-lisp
 (use-package feature-mode)
 #+end_src
 
-** Nix LSP
+** Nix LSP                                     :programming:
 
-On systems using Nix, we can install [[https://github.com/oxalica/nil][nil]],
-a language server for the Nix language.
-I assume here if ~nix~ is installed then so is the ~nil~ package;
-this will cause an error if I have somehow not installed it
-(it should be always installed, since it is in my Nix configuration).
+On systems using Nix, I install a Nix LSP. The two main options seem to be:
+- [[https://github.com/nix-community/nixd][nixd]], which seems to be the most full featured.
+  - Most important for my use at time of writing, it pulls documentation for packages.
+- [[https://github.com/oxalica/nil][nil]]
+I assume here if ~nix~ is installed then so is the ~nixd~ package.
 #+begin_src emacs-lisp
 (when (executable-find "nix")
   (add-hook 'nix-mode-hook my/language-server-mode-hook)
-  (add-to-list my/language-server-programs-list '(nix-mode . ("nil"))))
+  (add-to-list my/language-server-programs-list '(nix-mode . ("nixd"))))
 #+end_src
 
 * Session setup
