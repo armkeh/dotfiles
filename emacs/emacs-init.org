@@ -788,7 +788,7 @@ the heights for other fonts are relative to this.
  e.g. ~:height 1.5~.)
 
 I also install the Google Noto fonts which have better unicode coverage.
-But I find that the characters come out to large,
+But I find that the characters come out too large,
 causing extra space between lines. So scale down the Noto faces.
 #+begin_src emacs-lisp
 (add-to-list
