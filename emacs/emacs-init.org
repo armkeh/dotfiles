@@ -775,12 +775,29 @@ and hence avoid fullscreen-ing Emacs.
 I currently use the [[https://github.com/be5invis/Iosevka][Iosevka]] family of fonts,
 because of their efficient saving of horizontal space.
 Set it as the default font and the fixed-pitch font.
-Again, for space saving, I like a relatively small font;
-100 seems to be a sweet spot with this font;
-smaller makes some unicode characters hard to see.
 #+begin_src emacs-lisp
-(set-face-attribute 'default nil :family "Iosevka" :height 100)
+(set-face-attribute 'default nil :family "Iosevka")
 (set-face-attribute 'fixed-pitch nil :family "Iosevka")
+#+end_src
+
+Again, for space saving, I like a relatively small font.
+100 is usually the sweet spot.
+But some on some systems (in particular, on MacOS in my experience),
+it is a bit too small, to the point of possible eye strain;
+so I define the means to toggle between a slightly larger size,
+which are used in [[Keybindings and controls][custom keybindings below]].
+#+begin_src emacs-lisp
+(setq my/default-font-height 100)
+(setq my/default-font-height-bigger 120)
+
+(defun my/set-default-font-height (&optional height)
+  (interactive)
+  (let ((height (or height my/default-font-height)))
+    (set-face-attribute 'default nil :height height)))
+
+(defun my/set-default-font-height-bigger ()
+  (interactive)
+  (my/set-default-font-height my/default-font-height-bigger))
 #+end_src
 Notice that for the default font, we specify an explicit height;
 the heights for other fonts are relative to this.
@@ -2561,6 +2578,16 @@ The actual keybindings I define in the [[Java]] section.
 
 #+begin_src emacs-lisp
 (general-appearance-define-key
+  "f"     '(:ignore t
+            :which-key "font settings")
+  "f 0"   'my/set-default-font-height
+           :which-key "font size default"
+  "f +"   'my/set-default-font-height-bigger
+           :which-key "font size bigger")
+#+end_src
+
+#+begin_src emacs-lisp
+(general-appearance-define-key
   "o"   '(:ignore t
           :which-key "org cosmetics")
   "o i"   '(:ignore t
@@ -2593,14 +2620,14 @@ These are cosmetics relating to lines in the current buffer.
 Sometimes I need to toggle fontlocking.
 #+begin_src emacs-lisp
 (general-appearance-define-key
-  "f"     '(:ignore t
-            :which-key "font lock")
-  "f y"   '((lambda () (interactive)
-              (font-lock-mode t))
-            :which-key "yes font lock")
-  "f n"   '((lambda () (interactive)
-              (font-lock-mode 0))
-            :which-key "no font lock"))
+  "f l"     '(:ignore t
+              :which-key "font lock settings")
+  "f l y"   '((lambda () (interactive)
+                (font-lock-mode t))
+              :which-key "yes font lock")
+  "f l n"   '((lambda () (interactive)
+                (font-lock-mode 0))
+              :which-key "no font lock"))
 #+end_src
 
 Controls to adjust the automatic window resizing by ~golden-ratio~ for
