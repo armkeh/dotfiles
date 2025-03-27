@@ -2809,7 +2809,7 @@ Manually resize the focused window. Note this will not work when using [[Automat
 ** Other
 
 I like dad jokes, and occasionally like to torture those around me
-without leaving me work environment 😀.
+without leaving my work environment 😀.
 #+begin_src emacs-lisp
 (use-package dad-joke)
 (general-other-package-define-key
