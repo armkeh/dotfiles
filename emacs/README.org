@@ -2349,13 +2349,6 @@ When something fails or hangs within Emacs, use these to diagnose.
   "e d q" 'toggle-debug-on-quit)
 #+end_src
 
-*** imenu                                       :movement:
-
-#+begin_src emacs-lisp
-(general-main-define-key
-  "i" 'counsel-imenu)
-#+end_src
-
 *** avy                                         :movement:
 
 #+begin_src emacs-lisp
