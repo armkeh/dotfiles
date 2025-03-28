@@ -4895,15 +4895,22 @@ so I do want to see them if they are somehow present.
 
 Don't display whitespace information via ~whitespace-mode~ in Dired buffers.
 #+begin_src emacs-lisp
-(add-hook 'dired-mode-hook
+(add-hook 'dired-after-readin-hook
   (lambda ()
-     (setq-local whitespace-style nil)))
+    (setq-local whitespace-style nil)))
 #+end_src
 
 Highlighting the whole line we're on helps keep track of what file
 the cursor is on.
 #+begin_src emacs-lisp
 (add-hook 'dired-after-readin-hook 'hl-line-mode)
+#+end_src
+
+Don't truncate long lines.
+#+begin_src emacs-lisp
+(add-hook 'dired-after-readin-hook
+  (lambda ()
+    (toggle-truncate-lines -1)))
 #+end_src
 
 *** Collapse single-file directories
