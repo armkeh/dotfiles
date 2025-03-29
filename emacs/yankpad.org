@@ -613,20 +613,13 @@ digraph T {
 
 ** Jira links
 
-*** exp: EXP Jira ticket link                 :src:
+*** acct: ACCT Jira ticket link               :src:
 
+This snippet creates an Org link to a Jira ticket for my workplace team;
+I just have to enter the ticket number.
+It even includes a bit of Elisp to insert the brackets to close the link upon hitting tab.
 #+begin_src text
-[[https://jira.indexexchange.com/browse/EXP-$1][EXP-$1${0:$$(insert "]]")}
+[[https://kubra.jira.com/browse/ACCT-$1][ACCT-$1${0:$$(insert "]] ")}
 #+end_src
-# Unfortunately can't make paren matching happy above,
-# because of the mismatched closing brackets within the string,
-# but these ]] resolve things following this heading.
-
-*** opd: OPD Jira ticket link                 :src:
-
-#+begin_src text
-[[https://jira.indexexchange.com/browse/OPD-$1][OPD-$1${0:$$(insert "]]")}
-#+end_src
-# As in the above snippet, I can't make paren matching happy in the snippet,
-# because of the mismatched closing brackets within the string,
-# but these ]] resolve things following this heading.
+# The closing brackets above are enclosed in a string, and so ignored by Emacs;
+# these trailing brackets will satisfy paren check: ]]
