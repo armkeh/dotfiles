@@ -90,6 +90,7 @@ See also my
 - [[#intermediate-modes-and-intermediate-mode-specific-settings][Intermediate modes and intermediate mode-specific settings]]
   - [[#org-mode-cosmetics][Org mode cosmetics]]
   - [[#org-mode-exportation-settings][Org mode exportation settings]]
+  - [[#documentation-display-eldoc][Documentation display: ElDoc]]
   - [[#improved-completion][Improved completion]]
   - [[#improved-search-and-navigation][Improved search and navigation]]
   - [[#improved-completion-style][Improved completion style]]
@@ -4140,7 +4141,20 @@ Here is my awesome letter.
 
 Mark Armstrong
 #+end_src
+** Documentation display: ElDoc
 
+ElDoc is the go-to package for documentation display.
+By default, it pops documentation up in the minibuffer.
+That's a nice default, but I'm comfortable making it a bit more intrusive
+for the sake of convenience.
+[[https://github.com/casouri/eldoc-box][ElDoc box]] offers modes to display ElDoc documentations in childframes,
+either in the upper right of the frame, or just below point.
+#+begin_src emacs-lisp
+(use-package eldoc-box)
+#+end_src
+
+For modes that make use of ElDoc, such as a [[Language server protocol]] mode like Eglot,
+enable ElDoc box by adding a hook for ~'eldoc-box-hover-at-point-mode~.
 ** Improved completion                          :completion:
 
 #+begin_src emacs-lisp
@@ -5205,7 +5219,12 @@ I have a shortcut for this.
 #+begin_src emacs-lisp
 (setq eglot-connect-timeout (* 4 eglot-connect-timeout))
 #+end_src
+*** Documentation styling
 
+Display documentation in a childframe, just below the point.
+#+begin_src emacs-lisp
+(add-hook 'eglot-managed-mode-hook 'eldoc-box-hover-at-point-mode)
+#+end_src
 ** Debugging                                    :programming:
 
 In the same way that [[Language server protocol][LSP]] establishes a common interface in order for
