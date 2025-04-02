@@ -921,6 +921,11 @@ the heights for other fonts are relative to this.
 (So if their heights were to be specified, it should be as a multiplier,
  e.g. ~:height 1.5~.)
 
+Apply the default height to start.
+#+begin_src emacs-lisp
+(my/set-default-font-height)
+#+end_src
+
 I also install the Google Noto fonts which have better unicode coverage.
 But I find that the characters come out too large,
 causing extra space between lines. So scale down the Noto faces.
