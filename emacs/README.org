@@ -857,7 +857,7 @@ This way, if something goes wrong below, I am positioned to fix it
 right away.
 #+begin_src emacs-lisp
 (setq inhibit-splash-screen t)
-(setq my/emacs-init-file "~/.config/emacs/emacs-init.org")
+(setq my/emacs-init-file "~/dotfiles/emacs/emacs-init.org")
 (find-file my/emacs-init-file)
 #+end_src
 This file will be closed and re-opened below, to ensure
@@ -2826,7 +2826,7 @@ Manually resize the focused window. Note this will not work when using [[Automat
 ** Other
 
 I like dad jokes, and occasionally like to torture those around me
-without leaving me work environment 😀.
+without leaving my work environment 😀.
 #+begin_src emacs-lisp
 (use-package dad-joke)
 (general-other-package-define-key
@@ -4141,6 +4141,7 @@ Here is my awesome letter.
 
 Mark Armstrong
 #+end_src
+
 ** Documentation display: ElDoc
 
 ElDoc is the go-to package for documentation display.
@@ -4155,6 +4156,7 @@ either in the upper right of the frame, or just below point.
 
 For modes that make use of ElDoc, such as a [[Language server protocol]] mode like Eglot,
 enable ElDoc box by adding a hook for ~'eldoc-box-hover-at-point-mode~.
+
 ** Improved completion                          :completion:
 
 #+begin_src emacs-lisp
@@ -5219,12 +5221,14 @@ I have a shortcut for this.
 #+begin_src emacs-lisp
 (setq eglot-connect-timeout (* 4 eglot-connect-timeout))
 #+end_src
+
 *** Documentation styling
 
 Display documentation in a childframe, just below the point.
 #+begin_src emacs-lisp
 (add-hook 'eglot-managed-mode-hook 'eldoc-box-hover-at-point-mode)
 #+end_src
+
 ** Debugging                                    :programming:
 
 In the same way that [[Language server protocol][LSP]] establishes a common interface in order for
@@ -5703,7 +5707,8 @@ to avoid needing to ask in the future.
 #+begin_src emacs-lisp
 (let ((machine-identity-file "~/.this-machine")
       (session-setup-file-map
-       '(("personal" . "~/dotfiles/emacs/personal-session.el"))))
+       '(("personal" . "~/dotfiles/emacs/personal-session.el")
+         ("kubra" . "~/dotfiles/emacs/private/kubra-session.el"))))
   (pcase (if (file-exists-p machine-identity-file)
              (car (assoc (f-read-text machine-identity-file) session-setup-file-map))
            'unknown)
