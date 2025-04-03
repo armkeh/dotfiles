@@ -3140,7 +3140,11 @@ with a third column it tends to shrink one window
 past the point of uselessness.
 I'm experimenting with settings to potentially mitigate that.
 
-On very wide monitors, we need to adjust the factor to prevent
+*** Adjusting the adjustments
+
+On wider monitors, it's better to decrease the factor by which the windows are resized,
+because with more screen real estate making the active window too wide
+is actually a worse waste of space.
 #+begin_src emacs-lisp
 (defun my/golden-ratio:wide () (interactive)
   (setq golden-ratio-adjust-factor 0.4)
@@ -3174,6 +3178,12 @@ when it changes.
 Set it automatically now during init.
 #+begin_src emacs-lisp
 (my/optimize-golden-ratio-behavior)
+#+end_src
+
+*** Excluding buffers
+
+#+begin_src emacs-lisp
+(add-to-list 'golden-ratio-exclude-buffer-names "*Ediff Control Panel*")
 #+end_src
 
 ** Kill the open init buffer and reopen it     :cleanup:
