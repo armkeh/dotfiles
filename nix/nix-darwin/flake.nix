@@ -35,6 +35,7 @@
         # ghostty
 
         emacs
+        # emacs-macport # Emacs 29 is marked insecure; wait for update
 
         emacsPackages.vterm
         # libvterm # Not supported on MacOS
@@ -66,12 +67,14 @@
       # # Enable nix-darwin control of Homebrew taps, formulae and casks, and by extension, Mac App Store apps and Docker containers
       # # MUST INSTALL HOMEBREW (manually) BEFORE LOADING THIS FLAKE
       # # Disabled at the moment as my DisplayLink dock is not functioning anyway
-      # homebrew.enable = true;
+      homebrew.enable = true;
 
-      # homebrew.casks = [
-      #   "displaylink"
-      #   "ddpm" # Dell Display and Peripheral Manager
-      # ];
+      homebrew.casks = [
+        # "displaylink"
+        # "ddpm" # Dell Display and Peripheral Manager
+
+        "emacs" # Backup install in case of issues with Nix package, which I've encountered after system updates
+      ];
 
       environment.variables = {
         EDITOR = "zile";
