@@ -611,6 +611,43 @@ digraph T {
 `(dad-joke)`
 #+end_src
 
+** Git commit message templates
+
+These snippets speed up and ensure consistency with writing Git commit messages.
+I use [[https://www.conventionalcommits.org/en/v1.0.0/#summary][conventional commit messages]],
+so they prompt for a choice of a tag.
+One downside is that list of tags is hardcoded
+(and currently copied between each snippet), and it does not allow entering your own.
+It's a small downside though; I've never yet encountered a case where one of these tags can't apply.
+
+*** gitcissue                                 :src:
+
+:TODO: Pull issue number from branch name
+#+begin_src text
+${2:$$(yas-choose-value '("feat" "chore" "fix" "test" "build" "ci" "refactor" "docs" "perf"))}: $0 ($1)
+#+end_src
+
+*** gitcticketpre                             :src:
+
+:TODO: Pull ticket name from branch
+#+begin_src text
+[$1] ${2:$$(yas-choose-value '("feat" "chore" "fix" "test" "build" "ci" "refactor" "docs" "perf"))}: $0
+#+end_src
+
+*** gitcticketpre                             :src:
+
+:TODO: Pull ticket name from branch
+#+begin_src text
+${2:$$(yas-choose-value '("feat" "chore" "fix" "test" "build" "ci" "refactor" "docs" "perf"))}: $0 [$1]
+#+end_src
+
+*** gitctag                                   :src:
+
+:TODO: Pull choice of tags from git log
+#+begin_src text
+${2:$$(yas-choose-value '("feat" "chore" "fix" "test" "build" "ci" "refactor" "docs" "perf"))}: $0 [$1]
+#+end_src
+
 ** Jira links
 
 *** acct: ACCT Jira ticket link               :src:
