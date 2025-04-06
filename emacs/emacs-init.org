@@ -5040,6 +5040,22 @@ This is common behaviour in other editors/IDEs, and now easily emulated in Emacs
 See also the section [[Jumping up through single-file directories]]
 for code to “jump up” through such single-file directory chains.
 
+*** Toggle subdirectory expansion
+
+When browsing, it can be convenient to expand subdirectories
+rather than jumping into them.
+#+begin_src emacs-lisp
+(use-package dired-subtree)
+#+end_src
+
+Tab is most commonly used for similar expansions, such as for Org mode headings,
+so bind it to toggle expansion.
+#+begin_src emacs-lisp
+(add-hook 'dired-mode-hook
+  (lambda ()
+   (local-set-key [?\t] 'dired-subtree-toggle)))
+#+end_src
+
 *** Display READMEs
 
 The package [[https://github.com/amno1/dired-auto-readme][dired-auto-readme]] is
