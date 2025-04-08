@@ -922,12 +922,13 @@ is on its match, especially when coding in Lisps.
 (show-paren-mode 1)
 #+end_src
 
-The Modus themes give various settings for highlighting the match;
-the ~intense~ option applies a saturated background colour,
-and ~intense-bold~ is the same but it also applies the bold face.
-#+begin_src emacs-lisp
-(setq modus-themes-paren-match 'intense-bold)
-#+end_src
+# :TODO: The below seems to have no effect; investigate why.
+# The Modus themes give various settings for highlighting the match;
+# the ~intense~ option applies a saturated background colour,
+# and ~intense-bold~ is the same but it also applies the bold face.
+# #+begin_src emacs-lisp
+# (setq modus-themes-paren-match (quote (intense bold underline)))
+# #+end_src
 
 This older code achieved a similar effect by making the background
 of the matching delimiter black and the foreground white
