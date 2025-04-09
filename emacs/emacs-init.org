@@ -2292,6 +2292,10 @@ override my shortcuts.
   :prefix "C-c d"
   :keymaps 'override)
 
+(general-create-definer general-query-define-key
+  :prefix "C-c q"
+  :keymaps 'override)
+
 (general-create-definer general-shell-define-key
   :prefix "C-c s"
   :keymaps 'override)
@@ -2316,13 +2320,6 @@ When something fails or hangs within Emacs, use these to diagnose.
   "e d" '(:ignore t :which-key "elisp debug")
   "e d e" 'toggle-debug-on-error
   "e d q" 'toggle-debug-on-quit)
-#+end_src
-
-*** avy                                       :movement:
-
-#+begin_src emacs-lisp
-(general-main-define-key
-  "j" 'avy-goto-char-timer)
 #+end_src
 
 *** yankpad                                   :completion:
@@ -2426,7 +2423,7 @@ I use shortcuts to jump to frequently used directories in Dired
         :which-key "thesis"))
 #+end_src
 
-*** Shells
+*** Shells/terminals
 
 Use my tab-aware ~vterm~ keybinding by default.
 #+begin_src emacs-lisp
@@ -2504,6 +2501,23 @@ Update my Emacs Git README file.
 #+begin_src emacs-lisp
 (general-other-package-define-key
   "e R" 'my/dotfiles-readme-generate)
+#+end_src
+
+** Queries, searches
+
+*** isearch                                   :movement:
+
+#+begin_src emacs-lisp
+(general-query-define-key
+  "s" 'isearch-forward
+  "S" 'isearch-backward)
+#+end_src
+
+*** avy                                       :movement:
+
+#+begin_src emacs-lisp
+(general-query-define-key
+  "a" 'avy-goto-char-timer)
 #+end_src
 
 ** Programming
