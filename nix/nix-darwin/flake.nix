@@ -56,6 +56,8 @@
         kotlin-language-server
         kotlin-interactive-shell
 
+        circleci-cli
+
         postman
 
         # TODO: Migrate to home manager, and bring this and my NixOS setup into sync
