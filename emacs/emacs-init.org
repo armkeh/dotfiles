@@ -2292,6 +2292,10 @@ override my shortcuts.
   :prefix "C-c d"
   :keymaps 'override)
 
+(general-create-definer general-yank-define-key
+  :prefix "C-c y"
+  :keymaps 'override)
+
 (general-create-definer general-query-define-key
   :prefix "C-c q"
   :keymaps 'override)
@@ -2320,18 +2324,6 @@ When something fails or hangs within Emacs, use these to diagnose.
   "e d" '(:ignore t :which-key "elisp debug")
   "e d e" 'toggle-debug-on-error
   "e d q" 'toggle-debug-on-quit)
-#+end_src
-
-*** yankpad                                   :completion:
-
-#+begin_src emacs-lisp
-(general-main-define-key
-  "f" 'yankpad-expand)
-
-(general-other-package-define-key
-  "y i" 'yankpad-insert
-  "y m" 'yankpad-map
-  "y r" 'yankpad-reload)
 #+end_src
 
 *** dired
@@ -2503,6 +2495,25 @@ Update my Emacs Git README file.
   "e R" 'my/dotfiles-readme-generate)
 #+end_src
 
+** Yanking
+
+*** yankpad                                   :completion:
+
+#+begin_src emacs-lisp
+(general-main-define-key
+  "f" 'yankpad-expand)
+
+(general-yank-define-key
+  "p i" 'yankpad-insert
+  "p m" 'yankpad-map
+  "p r" 'yankpad-reload)
+#+end_src
+
+#+begin_src emacs-lisp
+(general-yank-define-key
+  "y p" 'consult-yank-pop) ; Replaces built-in yank-pop
+#+end_src
+
 ** Queries, searches
 
 *** isearch                                   :movement:
@@ -2511,6 +2522,18 @@ Update my Emacs Git README file.
 (general-query-define-key
   "s" 'isearch-forward
   "S" 'isearch-backward)
+#+end_src
+
+*** consult
+
+Many of these are improved versions of builtin Emacs commands.
+I make note of them in comments, in case I ever migrate away
+from [[Improved search and navigation][Consult]].
+#+begin_src emacs-lisp
+(general-query-define-key
+  "l l" 'consult-line
+  "l m" 'consult-line-multi
+  "l g" 'consult-goto-line) ; goto-line
 #+end_src
 
 *** avy                                       :movement:
