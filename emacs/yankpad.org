@@ -404,6 +404,39 @@ $0
 #+LaTeX_header: $0
 #+end_src
 
+*** standup: Daily sprint standup notes       :src:
+
+For daily journal entries during a 2 week sprint.
+Tab stop ~x~ is intended to be...
+1. the team name,
+2. the sprint name,
+3. the sprint start date,
+4. the sprint end date,
+5. the month for the daily entry,
+6. the day of the month for the daily entry.
+#+begin_src text
+,* $1 – $2 – $3 to $4
+
+,** Tuesday   – $5 ${6:$(+ 13 (string-to-number yas-text))}
+,** Monday    – $5 ${6:$(+ 12 (string-to-number yas-text))}
+,** Friday    – $5 ${6:$(+ 9 (string-to-number yas-text))}
+,** Thursday  – $5 ${6:$(+ 8 (string-to-number yas-text))}
+,** Wednesday – $5 ${6:$(+ 7 (string-to-number yas-text))}
+,** Tuesday   – $5 ${6:$(+ 6 (string-to-number yas-text))}
+,** Monday    – $5 ${6:$(+ 5 (string-to-number yas-text))}
+,** Friday    – $5 ${6:$(+ 2 (string-to-number yas-text))}
+,** Thursday  – $5 ${6:$(+ 1 (string-to-number yas-text))}
+,** Wednesday – $5 $6
+
+$0
+#+end_src
+There are several ways this could be improved upon, including:
+- Automatically rollover the month and day of the month.
+- Suggest the current month and day of the month as placeholders for (5) and (6).
+- Suggest the current date and two weeks from the current date for (3) and (4).
+- Pull suggestions for (1) from other entries in the journal.
+- Replace the hardcoded days of the week.
+
 ** HTML and XML
 
 *** Gmail filters
