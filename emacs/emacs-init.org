@@ -1158,8 +1158,15 @@ I usually use spaces instead of tabs,
 but when I do see tabs, I want them to be narrow.
 Indentation should not take up large amounts of the screen.
 #+begin_src emacs-lisp
-(setq-default tab-width 2)
+(add-hook 'prog-mode-hook
+    (lambda () (setq-local tab-width 8)))
 #+end_src
+
+Set this only for programming modes, though;
+text documents may depend upon a particular tab width,
+and the usual default is 8 (which is of course the default for ~tab-width~).
+In particular, since version 9.7 Org mode [[https://orgmode.org/Changes.html][requires]] the tab width be 8,
+to prevent inconsistent Org list semantics between users.
 
 ** (Almost) always use spaces instead of tabs  :space:
 
