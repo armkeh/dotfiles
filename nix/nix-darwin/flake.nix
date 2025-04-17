@@ -79,6 +79,8 @@
         # "ddpm" # Dell Display and Peripheral Manager
 
         "emacs" # Backup install in case of issues with Nix package, which I've encountered after system updates
+
+        "sdm" # StrongDM CLI; https://www.strongdm.com/docs
       ];
 
       environment.variables = {
