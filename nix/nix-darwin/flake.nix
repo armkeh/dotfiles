@@ -37,11 +37,12 @@
         emacs
         # emacs-macport # Emacs 29 is marked insecure; wait for update
 
-        emacsPackages.vterm
-        # libvterm # Not supported on MacOS
-        emacsPackages.eglot
-        emacsPackages.eglot-java
-        emacsPackages.agda2-mode
+        # # Disabled Emacs and its packages until https://github.com/NixOS/nixpkgs/issues/395169 is resolved.
+        # emacsPackages.vterm
+        # # libvterm # Not supported on MacOS
+        # emacsPackages.eglot
+        # emacsPackages.eglot-java
+        # emacsPackages.agda2-mode
 
         pandoc
 
