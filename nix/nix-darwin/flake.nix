@@ -61,6 +61,8 @@
 
         postman
 
+        zoom-us
+
         # TODO: Migrate to home manager, and bring this and my NixOS setup into sync
         # home-manager
 
